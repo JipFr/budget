@@ -16,8 +16,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 15px 0;
-  padding-top: 20px;
+  padding: 20px 0;
   font-family: Inter, Arial;
   font-weight: bold;
   background: var(--body);

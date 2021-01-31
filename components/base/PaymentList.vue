@@ -1,18 +1,14 @@
 <template>
   <div class="list">
-    <div v-for="entry in payments" :key="entry[0]" class="date-label">
+    <div v-for="entry in payments" :key="entry[0]" class="date-wrapper">
       <!-- Title -->
       <p class="date-label">{{ toDateString(entry[0]) }}</p>
       <!-- Each payment card -->
-      <card v-for="payment in entry[1]" :key="payment.title">
-        <div class="card-inner">
-          <subtitle>
-            <span class="bold">{{ payment.title }}</span>
-            <!-- <span class="thin">{{ payment.date }}</span> -->
-          </subtitle>
-          <money :cents="payment.cents" />
-        </div>
-      </card>
+      <payment-card
+        v-for="payment in entry[1]"
+        :key="payment.title"
+        :payment="payment"
+      />
     </div>
   </div>
 </template>
@@ -25,17 +21,6 @@
 .list {
   margin: 10px 0;
 }
-.bold {
-  font-weight: bold;
-}
-.thin {
-  color: var(--text-secondary);
-}
-
-.card-inner {
-  display: flex;
-  justify-content: space-between;
-}
 .card + .card {
   margin-top: 6px;
 }
@@ -43,9 +28,7 @@
 
 <script>
 // Import components
-import Card from '~/components/layout/Card'
-import Subtitle from '~/components/title/Subtitle'
-import Money from '~/components/title/Money'
+import PaymentCard from '~/components/base/PaymentCard'
 
 // Config
 const months = [
@@ -74,9 +57,7 @@ const days = [
 
 export default {
   components: {
-    Card,
-    Subtitle,
-    Money,
+    PaymentCard,
   },
   data() {
     const rawPayments = [
@@ -84,6 +65,7 @@ export default {
         cents: 12400,
         title: 'Groceries',
         date: '2020-01-01',
+        tags: ['groceries'],
       },
       {
         cents: 250,
@@ -164,13 +146,14 @@ export default {
         cents: 250,
         title: 'Bread',
         date: '2020-05-06',
+        tags: ['Groceries', 'Food'],
       },
       {
         cents: 15000,
         title: 'Laptop',
         date: '2020-02-05',
       },
-    ].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    ]
 
     // Map payments to dates
     const dates = {}
@@ -183,7 +166,7 @@ export default {
 
     // Map payments to dates
     const payments = Object.entries(dates).sort((a, b) => {
-      return new Date(a[0]).getTime() - new Date(b[0]).getTime()
+      return new Date(b[0]).getTime() - new Date(a[0]).getTime()
     })
 
     return {
