@@ -1,6 +1,6 @@
 <template>
   <div class="header-wrapper">
-    <header style="border-top: env(safe-area-inset-top) solid var(--theme)">
+    <header>
       <container>
         <div></div>
         <div>Overview</div>
@@ -21,6 +21,7 @@ header {
   font-family: Inter, Arial;
   font-weight: bold;
   background: var(--body);
+  border-top: env(safe-area-inset-top) solid var(--theme);
 
   .container {
     display: grid;
