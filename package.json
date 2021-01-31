@@ -8,14 +8,22 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint": "npm run lint:js"
+    "lint": "npm run lint:js",
+    "make-icon": "cordova-res ios --skip-config --copy",
+    "cap": "npm run build && npm run generate && npx cap copy && npx cap open"
   },
   "dependencies": {
+    "@capacitor/cli": "^2.4.6",
+    "@capacitor/core": "^2.4.6",
+    "@capacitor/ios": "^2.4.6",
     "@nuxt/content": "^1.9.0",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
+    "cordova-res": "^0.15.3",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "sass": "^1.32.5",
+    "sass-loader": "^10.1.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
