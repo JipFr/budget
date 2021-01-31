@@ -1,9 +1,17 @@
 <template>
   <div>
     <app-header />
-    <Nuxt />
+    <div class="page">
+      <Nuxt />
+    </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.page {
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+</style>
 
 <script>
 // Import Capacitor

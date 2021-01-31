@@ -1,8 +1,10 @@
 <template>
   <div class="header-wrapper">
     <header style="border-top: env(safe-area-inset-top) solid var(--theme)">
-      <container class="limited-width">
-        <img class="logo" src="https://starships.me/icon.png" />
+      <container>
+        <div></div>
+        <div>Overview</div>
+        <div></div>
       </container>
     </header>
   </div>
@@ -11,16 +13,32 @@
 <style lang="scss">
 header {
   width: 100%;
-  padding: 20px 0;
   position: fixed;
   top: 0;
   left: 0;
+  padding: 15px 0;
+  padding-top: 20px;
+  font-family: Inter, Arial;
+  font-weight: bold;
   background: var(--body);
 
-  .logo {
-    height: 30px;
-    border-radius: 6px;
-    display: block;
+  .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+
+    > * {
+      display: flex;
+    }
+    > * :nth-child(1) {
+      justify-content: flex-start;
+    }
+    > *:nth-child(2) {
+      justify-content: center;
+    }
+    > *:nth-child(3) {
+      justify-content: flex-end;
+    }
   }
 }
 
