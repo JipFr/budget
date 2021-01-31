@@ -68,9 +68,14 @@ export default {
         tags: ['groceries'],
       },
       {
-        cents: 250,
-        title: 'Bread',
-        date: '2020-05-06',
+        cents: 15000,
+        title: 'AirPods',
+        date: '2020-02-05',
+      },
+      {
+        cents: 12400,
+        title: 'Groceries',
+        date: '2020-01-01',
       },
       {
         cents: 15000,
@@ -83,9 +88,10 @@ export default {
         date: '2020-01-01',
       },
       {
-        cents: 250,
-        title: 'Bread',
+        cents: 10000,
+        title: 'Spotify',
         date: '2020-05-06',
+        tags: ['Entertainment', 'Music'],
       },
       {
         cents: 15000,
@@ -98,39 +104,27 @@ export default {
         date: '2020-01-01',
       },
       {
-        cents: 250,
-        title: 'Bread',
+        cents: 60000,
+        title: 'Rent',
         date: '2020-05-06',
+        tags: ['Monthly'],
       },
       {
         cents: 15000,
         title: 'AirPods',
         date: '2020-02-05',
+        tags: ['Entertainment'],
       },
       {
-        cents: 12400,
-        title: 'Groceries',
+        cents: 60000,
+        title: 'Huur',
         date: '2020-01-01',
       },
       {
-        cents: 250,
-        title: 'Bread',
+        cents: 500,
+        title: 'Monthly DigitalOcean',
         date: '2020-05-06',
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-      },
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-      },
-      {
-        cents: 250,
-        title: 'Bread',
-        date: '2020-05-06',
+        tags: ['Monthly', 'Dev'],
       },
       {
         cents: 15000,

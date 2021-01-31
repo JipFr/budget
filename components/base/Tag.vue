@@ -9,6 +9,7 @@
   display: inline-flex;
   align-items: center;
   margin-right: 3px;
+  font-size: 0.9rem;
 }
 .tag::before {
   content: '';
