@@ -45,6 +45,11 @@ header {
 .header-wrapper {
   margin-bottom: calc(60px + env(safe-area-inset-top));
 }
+@media (prefers-color-scheme: dark) {
+  header {
+    border-color: var(--content);
+  }
+}
 </style>
 
 <script>
