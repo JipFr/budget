@@ -1,21 +1,17 @@
 <template>
   <div>
+    <app-header />
     <Nuxt />
   </div>
 </template>
 
 <script>
 // Import Capacitor
-import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core'
-const { StatusBar } = Plugins
+import AppHeader from '~/components/layout/Header'
 
 export default {
-  beforeCreate() {
-    if (Capacitor.platform === 'ios') {
-      StatusBar.setStyle({
-        style: StatusBarStyle.Dark,
-      })
-    }
+  components: {
+    AppHeader,
   },
 }
 </script>
