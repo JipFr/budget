@@ -1,9 +1,11 @@
 <template>
   <div class="hero">
     <div class="hero-layout">
-      <card class="fw">
+      <card class="fw highlight">
         <subtitle>In this period...</subtitle>
-        <h1><money :cents="12050" /></h1>
+        <h1>
+          <money :cents="12050" />
+        </h1>
       </card>
       <card>
         <subtitle>Gained</subtitle>
