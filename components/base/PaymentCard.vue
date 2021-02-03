@@ -3,8 +3,8 @@
     <div class="card-core">
       <subtitle>
         <span class="bold">{{ payment.description }}</span>
-        <div v-if="payment.tags" class="tags">
-          <tag v-for="tag in payment.tags || []" :key="tag" :tag="tag" />
+        <div v-if="payment.categories" class="tags">
+          <tag v-for="tag in payment.categories || []" :key="tag" :tag="tag" />
         </div>
       </subtitle>
       <money :cents="payment.cents" />

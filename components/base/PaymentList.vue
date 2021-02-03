@@ -86,6 +86,9 @@ export default {
       this.updatePayments()
     },
   },
+  mounted() {
+    this.updatePayments()
+  },
   methods: {
     toDateString(dateString) {
       const d = new Date(dateString)
@@ -114,9 +117,6 @@ export default {
 
       this.payments = payments
     },
-  },
-  mounted() {
-    this.updatePayments()
   },
 }
 </script>
