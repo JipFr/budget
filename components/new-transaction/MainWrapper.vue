@@ -28,27 +28,6 @@
         <!-- Placeholders -->
         <hr />
         <button class="primary">Submit</button>
-
-        <button @click="reload">reload</button>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
-        <p>Hallo</p>
       </container>
     </div>
   </div>
