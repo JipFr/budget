@@ -77,7 +77,6 @@ export default {
         })
         .then(({ data }) => {
           // Check errors
-          console.log(data)
           if (data.error) {
             this.error = data.error
           } else {

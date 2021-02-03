@@ -23,7 +23,7 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content', '@nuxtjs/auth'],
   axios: {
-    baseURL: 'http://localhost',
+    baseURL: 'https://budget.jipfr.nl',
   },
   content: {},
   build: {},
