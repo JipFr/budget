@@ -7,6 +7,7 @@
   --text-secondary: #4c4c4c;
   --theme:#457461;
   --overlay-color: rgba(0, 0, 0, 0.2);
+  --negative: rgb(255, 45, 85);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,6 +17,7 @@
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
     --overlay-color: rgba(255, 255, 255, 0.2);
+    --negative: rgb(255, 69, 58);
   }
 }
 

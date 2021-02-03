@@ -1,8 +1,11 @@
 <template>
-  <span class="money">{{ getValue }}</span>
+  <span class="money" :class="cents < 0 ? 'negative' : ''">{{ getValue }}</span>
 </template>
 
 <style scoped>
+.negative {
+  color: var(--negative);
+}
 span::before {
   content: '€';
   display: inline-block;

@@ -16,6 +16,7 @@
     background: var(--theme);
     --text-secondary: #e2e2e2;
     color: white;
+    --negative: rgb(255, 255, 255);
   }
 }
 </style>
