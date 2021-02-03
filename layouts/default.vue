@@ -4,7 +4,7 @@
     <div class="page">
       <div v-if="error">
         <container class="limited-width">
-          <banner v-if="error">{{ error }}</banner>
+          <banner>⚠️ {{ error }}</banner>
         </container>
       </div>
       <Nuxt />

@@ -4,31 +4,60 @@
       <plus-circle-icon />
     </div>
     <div class="content">
-      <button @click="reload">reload</button>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
-      <p>Hallo</p>
+      <container class="limited-width"
+        ><h2>New transaction</h2>
+        <app-input
+          v-model="editingData.description"
+          label="Description"
+          placeholder="Netflix subscription"
+        />
+        <app-input v-model="editingData.date" label="Date" type="date" />
+        <app-input
+          v-model="editingData.tags"
+          label="Categories"
+          placeholder="netflix, monthly"
+        />
+        <app-input
+          v-model="editingData.euros"
+          label="Waarde"
+          placeholder="10,99"
+          prefix="€"
+          @change="(e) => cleanEuro(e)"
+        />
+
+        <!-- Placeholders -->
+        <hr />
+        <button class="primary">Submit</button>
+
+        <button @click="reload">reload</button>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+        <p>Hallo</p>
+      </container>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+h2 {
+  margin-bottom: 20px;
+}
 .new-transaction-wrapper {
   position: fixed;
   top: calc(100% - 70px - env(safe-area-inset-bottom));
@@ -77,29 +106,76 @@
   height: calc(100vh - 76px - env(safe-area-inset-top));
   max-height: calc(100vh - 76px - env(safe-area-inset-top));
   overflow-y: auto;
-  padding: 20px;
+  padding: 40px 0;
   width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background: var(--body);
 
-  p {
-    margin: 30px 0;
+  .container > * + * {
+    margin-top: 10px;
+  }
+}
+
+.auto-fr {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+}
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+button.primary {
+  padding: 12px 20px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--theme);
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+@media (prefers-color-scheme: dark) {
+  .new-transaction-wrapper.open {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  button.primary {
+    color: var(--text);
+    background: var(--content);
   }
 }
 </style>
 
 <script>
+// Import components
+import Container from '~/components/layout/Container'
+import AppInput from '~/components/base/inputs/Input'
+
 // Import icons
 import PlusCircleIcon from '~/assets/icons/plus-circle.svg?inline'
 
+// Other values
+const editingData = {
+  description: '',
+  euros: '0,00',
+  tags: '',
+  date: new Date().toISOString().split('T')[0],
+}
+
 export default {
   components: {
+    Container,
+    AppInput,
     PlusCircleIcon,
   },
   data() {
     return {
       open: false,
+      editingData: Object.assign({}, editingData),
     }
   },
   methods: {
@@ -108,6 +184,29 @@ export default {
     },
     reload() {
       location.reload()
+    },
+    cleanEuro(evt) {
+      const allowedCharacters = '0987654321,'
+
+      let newValue = evt.currentTarget.value
+        .replace(/\./g, ',') // Replace dots with commas to prevent errors
+        .split(',')
+        .slice(0, 2) // Only allow 1 comma in the whole thing
+
+      // Make sure only 2 decimal points are allowed
+      if (newValue[1]) newValue[1] = newValue[1].slice(0, 2)
+
+      // String it back together
+      newValue = newValue.join(',')
+
+      // Remove disallowed characters
+      newValue = newValue
+        .split('')
+        .filter((v) => allowedCharacters.includes(v.toString()))
+        .join('')
+
+      evt.currentTarget.value = newValue
+      this.editingData.euros = newValue
     },
   },
 }

@@ -1,13 +1,17 @@
 <template>
   <label>
     <span v-if="label">{{ label }}</span>
-    <input
-      :type="type"
-      :min="min"
-      :max="max"
-      :value="value"
-      @input="setChange"
-    />
+    <div :class="prefix ? 'auto-fr' : ''">
+      <span v-if="prefix" class="prefix">{{ prefix }}</span>
+      <input
+        :type="type"
+        :min="min"
+        :max="max"
+        :value="value"
+        :placeholder="placeholder"
+        @input="setChange"
+      />
+    </div>
   </label>
 </template>
 
@@ -28,6 +32,12 @@ input {
 }
 span {
   color: var(--text-secondary);
+}
+.auto-fr {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+  align-items: center;
 }
 </style>
 
@@ -58,10 +68,21 @@ export default {
       required: false,
       default: undefined,
     },
+    placeholder: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    prefix: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   methods: {
     setChange(evt) {
       this.$emit('input', evt.currentTarget.value)
+      this.$emit('change', evt)
     },
   },
 }
