@@ -4,6 +4,7 @@
       <plus-circle-icon />
     </div>
     <div class="content">
+      <button @click="reload">reload</button>
       <p>Hallo</p>
       <p>Hallo</p>
       <p>Hallo</p>
@@ -104,6 +105,9 @@ export default {
   methods: {
     toggleOpen() {
       this.open = !this.open
+    },
+    reload() {
+      location.reload()
     },
   },
 }

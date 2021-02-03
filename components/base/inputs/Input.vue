@@ -24,6 +24,7 @@ input {
   display: block;
   width: 100%;
   font-size: 1rem;
+  appearance: none;
 }
 span {
   color: var(--text-secondary);

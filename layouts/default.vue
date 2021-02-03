@@ -2,6 +2,11 @@
   <div>
     <app-header />
     <div class="page">
+      <div v-if="error">
+        <container class="limited-width">
+          <banner v-if="error">{{ error }}</banner>
+        </container>
+      </div>
       <Nuxt />
     </div>
   </div>
@@ -16,17 +21,31 @@
 <script>
 import { mapMutations } from 'vuex'
 import AppHeader from '~/components/layout/Header'
+import Banner from '~/components/base/Banner'
+import Container from '~/components/layout/Container'
 
 export default {
   components: {
     AppHeader,
+    Banner,
+    Container,
   },
   async fetch() {
-    const { data } = await this.$axios('/user/get')
-    const userData = data.data
-    this.setPerson(userData)
+    await this.$axios('/user/get')
+      .then(({ data }) => {
+        const userData = data.data
+        this.setPerson(userData)
+      })
+      .catch((err) => {
+        this.error = err
+      })
   },
   fetchOnServer: false,
+  data() {
+    return {
+      error: '',
+    }
+  },
   methods: {
     ...mapMutations({
       setPerson: 'user/set',
