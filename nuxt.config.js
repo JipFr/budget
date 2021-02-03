@@ -23,7 +23,7 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
   axios: {
-    baseURL: 'http://localhost/',
+    baseURL: 'https://522b4dc219a1.ngrok.io',
   },
   content: {},
   build: {},

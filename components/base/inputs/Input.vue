@@ -16,6 +16,10 @@
 </template>
 
 <style lang="scss" scoped>
+* {
+  max-width: 100%;
+  overflow: hidden;
+}
 label {
   display: grid;
 }
