@@ -31,6 +31,7 @@ export default {
     Container,
   },
   async fetch() {
+    this.setLoading(true)
     await this.$axios('/user/get')
       .then(({ data }) => {
         const userData = data.data
@@ -54,6 +55,7 @@ export default {
   methods: {
     ...mapMutations({
       setPerson: 'user/set',
+      setLoading: 'user/setLoading',
     }),
   },
 }

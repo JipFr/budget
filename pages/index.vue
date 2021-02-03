@@ -8,7 +8,10 @@
       <from-until-picker />
 
       <!-- Payment list -->
-      <h2>Payments</h2>
+      <h2>
+        <span>Payments</span>
+        <loading-icon v-if="isLoading" />
+      </h2>
       <payment-list v-if="!isLoading" :raw-payments="getPayments" />
       <div v-else class="loading-wrapper">
         <loading-icon />
@@ -21,6 +24,14 @@
 </template>
 
 <style lang="scss" scoped>
+h2 {
+  display: flex;
+  align-items: center;
+
+  > * + * {
+    margin-left: 20px;
+  }
+}
 .from-until-picker {
   margin-bottom: 40px;
 }

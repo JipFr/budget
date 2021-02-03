@@ -64,6 +64,9 @@ export const mutations = {
     state.data.loading = false
     applyFilter(state)
   },
+  setLoading(state, bool) {
+    state.data.loading = bool
+  },
   setFrom(state, newFrom) {
     state.from = newFrom
     applyFilter(state)

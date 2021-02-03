@@ -71,8 +71,7 @@ h2 {
 }
 .button {
   background: var(--content);
-  border: 2px solid var(--content);
-  // border-bottom: env(safe-area-inset-bottom) solid yellow;
+  border: 2px solid var(--body);
   box-sizing: content-box;
   padding: 20px;
   padding-bottom: calc(20px + env(safe-area-inset-bottom));

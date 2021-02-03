@@ -5,8 +5,10 @@
 </template>
 
 <style lang="scss" scoped>
-.card {
+.card:not(.no-padding) {
   padding: 15px;
+}
+.card {
   border-radius: 6px;
   background: var(--content);
   border: 1px solid transparent;
