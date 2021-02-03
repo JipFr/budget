@@ -6,7 +6,7 @@
         <p class="date-label">{{ toDateString(entry[0]) }}</p>
         <!-- Each payment card -->
         <payment-card
-          v-for="payment in entry[1]"
+          v-for="payment in entry[1].reverse()"
           :key="payment.title"
           :payment="payment"
         />

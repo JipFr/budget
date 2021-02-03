@@ -46,6 +46,11 @@ export default {
       error: '',
     }
   },
+  mounted() {
+    this.$nuxt.$on('refetch', () => {
+      this.$fetch()
+    })
+  },
   methods: {
     ...mapMutations({
       setPerson: 'user/set',

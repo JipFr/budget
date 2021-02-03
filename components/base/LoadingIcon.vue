@@ -8,7 +8,7 @@
   height: 1.5rem;
   border-radius: 50%;
   background-image: linear-gradient(
-    to right,
+    to bottom,
     transparent 49%,
     var(--theme) 51%
   );

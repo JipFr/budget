@@ -4,8 +4,14 @@
       <plus-circle-icon />
     </div>
     <div class="content">
-      <container class="limited-width"
-        ><h2>New transaction</h2>
+      <container class="limited-width">
+        <!-- Title -->
+        <h2>New transaction</h2>
+
+        <!-- Error banner -->
+        <banner v-if="error">⚠️ {{ error }}</banner>
+
+        <!-- All inputs -->
         <app-input
           v-model="editingData.description"
           label="Description"
@@ -16,10 +22,11 @@
           v-model="editingData.tags"
           label="Categories"
           placeholder="netflix, monthly"
+          @change="(e) => cleanDescription(e)"
         />
         <app-input
           v-model="editingData.euros"
-          label="Waarde"
+          label="Euros"
           placeholder="10,99"
           prefix="€"
           @change="(e) => cleanEuro(e)"
@@ -27,7 +34,7 @@
 
         <!-- Placeholders -->
         <hr />
-        <button class="primary">Submit</button>
+        <button class="primary" @click="submit">Submit</button>
       </container>
     </div>
   </div>
@@ -94,6 +101,12 @@ h2 {
   .container > * + * {
     margin-top: 10px;
   }
+  .container hr {
+    margin: 20px 0;
+    border: 0;
+    height: 1px;
+    background: var(--border);
+  }
 }
 
 .auto-fr {
@@ -101,20 +114,14 @@ h2 {
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
 }
-hr {
-  margin: 20px 0;
-  border: 0;
-  height: 1px;
-  background: var(--border);
-}
 
 button.primary {
+  font-size: 1rem;
   padding: 12px 20px;
   border-radius: 6px;
   border: 0;
   background: var(--theme);
   color: white;
-  font-weight: bold;
   text-transform: uppercase;
 }
 
@@ -123,7 +130,7 @@ button.primary {
     background: rgba(0, 0, 0, 0.6);
   }
   button.primary {
-    color: var(--text);
+    color: var(--text-secondary);
     background: var(--content);
   }
 }
@@ -133,6 +140,7 @@ button.primary {
 // Import components
 import Container from '~/components/layout/Container'
 import AppInput from '~/components/base/inputs/Input'
+import Banner from '~/components/base/Banner'
 
 // Import icons
 import PlusCircleIcon from '~/assets/icons/plus-circle.svg?inline'
@@ -150,11 +158,13 @@ export default {
     Container,
     AppInput,
     PlusCircleIcon,
+    Banner,
   },
   data() {
     return {
       open: false,
       editingData: Object.assign({}, editingData),
+      error: '',
     }
   },
   methods: {
@@ -164,8 +174,12 @@ export default {
     reload() {
       location.reload()
     },
+    cleanDescription(evt) {
+      const newValue = evt.currentTarget.value.replace(/\./g, ',')
+      this.editingData.categories = newValue
+    },
     cleanEuro(evt) {
-      const allowedCharacters = '0987654321,'
+      const allowedCharacters = '-0987654321,'
 
       let newValue = evt.currentTarget.value
         .replace(/\./g, ',') // Replace dots with commas to prevent errors
@@ -186,6 +200,36 @@ export default {
 
       evt.currentTarget.value = newValue
       this.editingData.euros = newValue
+    },
+    async submit() {
+      const submitObj = {}
+
+      // Add cents field
+      if (!this.editingData.euros.includes(',')) this.editingData.euros += ',00'
+      submitObj.cents = Number(this.editingData.euros.replace(/,/g, ''))
+
+      // Add other fields
+      submitObj.description = this.editingData.description
+      submitObj.date = this.editingData.date
+      submitObj.categories = this.editingData.tags
+
+      await this.$axios
+        .post('/transactions/insert', submitObj)
+        .then(({ data }) => {
+          if (data.status !== 200) {
+            this.error = data.error
+          } else {
+            this.open = false
+            setTimeout(() => {
+              this.editingData = Object.assign({}, editingData)
+              this.error = ''
+              this.$nuxt.$emit('refetch')
+            }, 500)
+          }
+        })
+        .catch((err) => {
+          this.error = err
+        })
     },
   },
 }
