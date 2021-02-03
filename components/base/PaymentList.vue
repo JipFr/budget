@@ -1,15 +1,18 @@
 <template>
   <div class="list">
-    <div v-for="entry in payments" :key="entry[0]" class="date-wrapper">
-      <!-- Title -->
-      <p class="date-label">{{ toDateString(entry[0]) }}</p>
-      <!-- Each payment card -->
-      <payment-card
-        v-for="payment in entry[1]"
-        :key="payment.title"
-        :payment="payment"
-      />
+    <div v-if="payments.length > 0">
+      <div v-for="entry in payments" :key="entry[0]" class="date-wrapper">
+        <!-- Title -->
+        <p class="date-label">{{ toDateString(entry[0]) }}</p>
+        <!-- Each payment card -->
+        <payment-card
+          v-for="payment in entry[1]"
+          :key="payment.title"
+          :payment="payment"
+        />
+      </div>
     </div>
+    <div v-else class="empty">This period has no transactions</div>
   </div>
 </template>
 
@@ -23,6 +26,14 @@
 }
 .card + .card {
   margin-top: 6px;
+}
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100px;
+  padding: 25px;
 }
 </style>
 
@@ -103,6 +114,9 @@ export default {
 
       this.payments = payments
     },
+  },
+  mounted() {
+    this.updatePayments()
   },
 }
 </script>

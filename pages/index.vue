@@ -9,7 +9,7 @@
 
       <!-- Payment list -->
       <h2>Payments</h2>
-      <payment-list :raw-payments="getPayments" />
+      <payment-list v-if="!isLoading" :raw-payments="getPayments" />
     </container>
   </div>
 </template>
@@ -46,10 +46,8 @@ export default {
       const user = this.$store.state.user.data
       return user.transactionsInPeriod || []
     },
-  },
-  watch: {
-    getPayments() {
-      console.log(14814819)
+    isLoading() {
+      return this.$store.state.user.data.loading
     },
   },
   mounted() {

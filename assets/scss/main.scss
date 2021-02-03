@@ -6,7 +6,7 @@
   --text: #444444;
   --text-secondary: #4c4c4c;
   --theme:#457461;
-  --border: transparent;
+  --overlay-color: rgba(0, 0, 0, 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,7 +15,7 @@
     --content: #16191f;
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
-    // --border: rgba(255, 255, 255, 0.2);
+    --overlay-color: rgba(255, 255, 255, 0.2);
   }
 }
 

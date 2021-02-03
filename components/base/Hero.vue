@@ -1,5 +1,5 @@
 <template>
-  <div class="hero">
+  <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
       <card class="fw highlight">
         <subtitle>In this period...</subtitle>
@@ -26,6 +26,11 @@
 <style lang="scss" scoped>
 .hero {
   padding: 40px 0;
+
+  &.loading .money {
+    background: var(--overlay-color);
+    color: transparent;
+  }
 }
 .hero-layout {
   display: grid;
@@ -62,6 +67,11 @@ export default {
       spent: 0,
       total: 0,
     }
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.user.data.loading
+    },
   },
   watch: {
     payments() {

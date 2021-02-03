@@ -1,5 +1,5 @@
 <template>
-  <span>{{ getValue }}</span>
+  <span class="money">{{ getValue }}</span>
 </template>
 
 <style scoped>

@@ -2,6 +2,7 @@ export const state = () => ({
   data: {
     transactions: [],
     transactionsInPeriod: [],
+    loading: true,
   },
   from: '2019-01-01',
   until: '2022-01-01',
@@ -27,6 +28,7 @@ export const mutations = {
     // We might need to add other values here later
     // Setting the entire object breaks reactivity
     state.data.transactions = data.transactions
+    state.data.loading = false
     applyFilter(state)
   },
   setFrom(state, newFrom) {

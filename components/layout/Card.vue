@@ -9,7 +9,7 @@
   padding: 15px;
   border-radius: 6px;
   background: var(--content);
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
 }
 @media (prefers-color-scheme: light) {
   .card.highlight {
