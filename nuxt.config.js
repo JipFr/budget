@@ -21,10 +21,33 @@ export default {
   plugins: [],
   components: false,
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content', '@nuxtjs/auth'],
   axios: {
     baseURL: 'http://localhost',
   },
   content: {},
   build: {},
+  // Auth
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/user/login',
+            method: 'POST',
+            propertyName: 'token',
+          },
+          user: {
+            url: '/user/get',
+            propertyName: 'data',
+          },
+          logout: {
+            url: 'logout',
+            method: 'POST',
+          },
+        },
+        tokenType: '',
+      },
+    },
+  },
 }

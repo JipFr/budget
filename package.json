@@ -17,6 +17,7 @@
     "@capacitor/core": "^2.4.6",
     "@capacitor/ios": "^2.4.6",
     "@nuxt/content": "^1.9.0",
+    "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
     "@nuxtjs/svg": "^0.1.12",

@@ -3,7 +3,7 @@
     <header>
       <container>
         <div></div>
-        <div>Overview</div>
+        <div>{{ title }}</div>
         <div></div>
       </container>
     </header>
@@ -61,6 +61,13 @@ const { StatusBar } = Plugins
 export default {
   components: {
     Container,
+  },
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: 'No title',
+    },
   },
   beforeCreate() {
     if (Capacitor.platform === 'ios') {

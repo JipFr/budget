@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header />
+    <app-header title="Overview" />
     <div class="page">
       <div v-if="error">
         <container class="limited-width">
@@ -58,5 +58,6 @@ export default {
       setLoading: 'user/setLoading',
     }),
   },
+  middleware: 'usercheck',
 }
 </script>
