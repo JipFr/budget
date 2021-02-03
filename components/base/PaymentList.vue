@@ -59,113 +59,21 @@ export default {
   components: {
     PaymentCard,
   },
+  props: {
+    rawPayments: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
-    const rawPayments = [
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-        tags: ['groceries'],
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-      },
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-      },
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-      },
-      {
-        cents: 10000,
-        title: 'Spotify',
-        date: '2020-05-06',
-        tags: ['Entertainment', 'Music'],
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-      },
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-      },
-      {
-        cents: 60000,
-        title: 'Rent',
-        date: '2020-05-06',
-        tags: ['Monthly'],
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-        tags: ['Entertainment'],
-      },
-      {
-        cents: 60000,
-        title: 'Huur',
-        date: '2020-01-01',
-      },
-      {
-        cents: 500,
-        title: 'Monthly DigitalOcean',
-        date: '2020-05-06',
-        tags: ['Monthly', 'Dev'],
-      },
-      {
-        cents: 15000,
-        title: 'AirPods',
-        date: '2020-02-05',
-      },
-      {
-        cents: 12400,
-        title: 'Groceries',
-        date: '2020-01-01',
-      },
-      {
-        cents: 250,
-        title: 'Bread',
-        date: '2020-05-06',
-        tags: ['Groceries', 'Food'],
-      },
-      {
-        cents: 15000,
-        title: 'Laptop',
-        date: '2020-02-05',
-      },
-    ]
-
-    // Map payments to dates
-    const dates = {}
-    for (const payment of rawPayments) {
-      if (!dates[payment.date]) {
-        dates[payment.date] = []
-      }
-      dates[payment.date].push(payment)
-    }
-
-    // Map payments to dates
-    const payments = Object.entries(dates).sort((a, b) => {
-      return new Date(b[0]).getTime() - new Date(a[0]).getTime()
-    })
-
     return {
-      payments,
+      payments: [],
     }
+  },
+  watch: {
+    rawPayments() {
+      this.updatePayments()
+    },
   },
   methods: {
     toDateString(dateString) {
@@ -177,6 +85,23 @@ export default {
       const year = d.getFullYear()
 
       return `${day}, ${month} ${date} ${year}`
+    },
+    updatePayments() {
+      // Map payments to dates
+      const dates = {}
+      for (const payment of this.rawPayments || []) {
+        if (!dates[payment.date]) {
+          dates[payment.date] = []
+        }
+        dates[payment.date].push(payment)
+      }
+
+      // Map payments to dates
+      const payments = Object.entries(dates).sort((a, b) => {
+        return new Date(b[0]).getTime() - new Date(a[0]).getTime()
+      })
+
+      this.payments = payments
     },
   },
 }

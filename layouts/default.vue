@@ -14,12 +14,23 @@
 </style>
 
 <script>
-// Import Capacitor
+import { mapMutations } from 'vuex'
 import AppHeader from '~/components/layout/Header'
 
 export default {
   components: {
     AppHeader,
+  },
+  async fetch() {
+    const { data } = await this.$axios('/user/get')
+    const userData = data.data
+    this.setPerson(userData)
+  },
+  fetchOnServer: false,
+  methods: {
+    ...mapMutations({
+      setPerson: 'user/set',
+    }),
   },
 }
 </script>

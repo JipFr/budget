@@ -4,19 +4,19 @@
       <card class="fw highlight">
         <subtitle>In this period...</subtitle>
         <h1>
-          <money :cents="12050" />
+          <money :cents="total" />
         </h1>
       </card>
       <card>
         <subtitle>Gained</subtitle>
         <h2>
-          <money :cents="13070" />
+          <money :cents="gained" />
         </h2>
       </card>
       <card>
         <subtitle>Spent</subtitle>
         <h2>
-          <money :cents="1020" />
+          <money :cents="spent" />
         </h2>
       </card>
     </div>
@@ -49,6 +49,42 @@ export default {
     Card,
     Subtitle,
     Money,
+  },
+  props: {
+    payments: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      gained: 0,
+      spent: 0,
+      total: 0,
+    }
+  },
+  watch: {
+    payments() {
+      this.setData()
+    },
+  },
+  methods: {
+    setData() {
+      // Re-set values
+      this.gained = 0
+      this.spent = 0
+      this.total = 0
+
+      // Now go over each transaction and add it to the relevant field
+      for (const payment of this.payments) {
+        this.total += payment.cents
+        if (payment.cents > 0) {
+          this.gained += payment.cents
+        } else {
+          this.spent += payment.cents * -1
+        }
+      }
+    },
   },
 }
 </script>

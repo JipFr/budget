@@ -2,7 +2,7 @@
   <card>
     <div class="card-core">
       <subtitle>
-        <span class="bold">{{ payment.title }}</span>
+        <span class="bold">{{ payment.description }}</span>
         <div v-if="payment.tags" class="tags">
           <tag v-for="tag in payment.tags || []" :key="tag" :tag="tag" />
         </div>
@@ -22,6 +22,7 @@
 .card-core {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .tags {
   margin-top: 5px;
