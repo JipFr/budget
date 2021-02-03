@@ -22,15 +22,6 @@
   background: var(--bg-color, rgba(0, 0, 0, 0.2));
   margin-right: 8px;
 }
-
-@media (prefers-color-scheme: dark) {
-  .tag {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  .tag::before {
-    background: rgba(255, 255, 255, 0.2);
-  }
-}
 </style>
 
 <script>

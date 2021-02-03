@@ -13,6 +13,9 @@
       <div v-else class="loading-wrapper">
         <loading-icon />
       </div>
+
+      <!-- (Fixed position) new transaction wrapper -->
+      <new-transaction-wrapper />
     </container>
   </div>
 </template>
@@ -38,6 +41,7 @@ import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoadingIcon from '~/components/base/LoadingIcon'
+import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 
 export default {
   components: {
@@ -46,6 +50,7 @@ export default {
     Hero,
     FromUntilPicker,
     LoadingIcon,
+    NewTransactionWrapper,
   },
   data() {
     return {

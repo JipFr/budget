@@ -20,7 +20,7 @@ export default {
   css: ['~assets/scss/main.scss'],
   plugins: [],
   components: false,
-  buildModules: ['@nuxtjs/eslint-module'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
   axios: {
     baseURL: 'http://localhost/',
