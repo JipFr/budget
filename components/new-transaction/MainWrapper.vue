@@ -1,7 +1,28 @@
 <template>
-  <div class="new-transaction-wrapper">
-    <div class="fixed-button">
+  <div class="new-transaction-wrapper" :class="open ? 'open' : 'closed'">
+    <div class="button" @click="toggleOpen">
       <plus-circle-icon />
+    </div>
+    <div class="content">
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
+      <p>Hallo</p>
     </div>
   </div>
 </template>
@@ -9,29 +30,57 @@
 <style lang="scss" scoped>
 .new-transaction-wrapper {
   position: fixed;
-  top: calc(100% - 60px - env(safe-area-inset-bottom));
+  top: calc(100% - 70px - env(safe-area-inset-bottom));
+  transition: top 300ms, background 300ms;
   left: 0;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
+
+  &.open {
+    top: env(safe-area-inset-top);
+    background: rgba(0, 0, 0, 0.2);
+
+    .button {
+      border-radius: 200px;
+      background: var(--body);
+    }
+    .button svg {
+      transform: rotate(135deg);
+    }
+  }
 }
-.fixed-button {
+.button {
   background: var(--content);
+  border: 2px solid var(--content);
+  border-bottom: 0;
   padding: 20px;
-  border-top-left-radius: 1000px;
-  border-top-right-radius: 1000px;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+  margin: 10px 0;
+  transition: border-radius 500ms;
   display: inline-block;
-  color: var(--theme);
+  color: var(--text-secondary);
 
   svg {
     display: block;
+    transition: transform 500ms;
   }
 }
+.content {
+  height: calc(100vh - 76px - env(safe-area-inset-top));
+  max-height: calc(100vh - 76px - env(safe-area-inset-top));
+  overflow-y: auto;
+  padding: 20px;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background: var(--body);
 
-@media (prefers-color-scheme: dark) {
-  .fixed-button {
-    color: var(--text);
+  p {
+    margin: 30px 0;
   }
 }
 </style>
@@ -43,6 +92,16 @@ import PlusCircleIcon from '~/assets/icons/plus-circle.svg?inline'
 export default {
   components: {
     PlusCircleIcon,
+  },
+  data() {
+    return {
+      open: false,
+    }
+  },
+  methods: {
+    toggleOpen() {
+      this.open = !this.open
+    },
   },
 }
 </script>
