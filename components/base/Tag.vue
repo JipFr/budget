@@ -1,14 +1,15 @@
 <template>
-  <div class="tag">{{ capitalize }}</div>
+  <div class="tag" :style="`--bg-color: ${color}`">{{ capitalize }}</div>
 </template>
 
 <style lang="scss" scoped>
 .tag {
-  padding: 3px 8px;
-  background: rgba(0, 0, 0, 0.05);
+  padding: 0;
+  // background: rgba(0, 0, 0, 0.014);
   display: inline-flex;
   align-items: center;
-  margin-right: 3px;
+  margin-right: 15px;
+  margin-top: 2px;
   font-size: 0.9rem;
   border-radius: 6px;
 }
@@ -18,8 +19,8 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.2);
-  margin-right: 5px;
+  background: var(--bg-color, rgba(0, 0, 0, 0.2));
+  margin-right: 8px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,6 +40,16 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data() {
+    // Get the tag's color, as assigned in `user.js`
+    const colors = this.$store.state.user.tagColors
+    const tagName = this.tag.toString().trim().toLowerCase()
+    const color = colors[tagName]
+    return {
+      colors,
+      color,
+    }
   },
   computed: {
     capitalize() {
