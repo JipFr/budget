@@ -10,6 +10,9 @@
       <!-- Payment list -->
       <h2>Payments</h2>
       <payment-list v-if="!isLoading" :raw-payments="getPayments" />
+      <div v-else class="loading-wrapper">
+        <loading-icon />
+      </div>
     </container>
   </div>
 </template>
@@ -17,6 +20,13 @@
 <style lang="scss" scoped>
 .from-until-picker {
   margin-bottom: 40px;
+}
+.loading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
 }
 </style>
 
@@ -27,6 +37,7 @@ import Container from '~/components/layout/Container'
 import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
+import LoadingIcon from '~/components/base/LoadingIcon'
 
 export default {
   components: {
@@ -34,6 +45,7 @@ export default {
     Container,
     Hero,
     FromUntilPicker,
+    LoadingIcon,
   },
   data() {
     return {
