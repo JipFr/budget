@@ -46,6 +46,7 @@
     .button {
       border-radius: 200px;
       background: var(--body);
+      padding-bottom: 20px;
     }
     .button svg {
       transform: rotate(135deg);
@@ -55,12 +56,14 @@
 .button {
   background: var(--content);
   border: 2px solid var(--content);
-  border-bottom: 0;
+  // border-bottom: env(safe-area-inset-bottom) solid yellow;
+  box-sizing: content-box;
   padding: 20px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
   border-top-left-radius: 200px;
   border-top-right-radius: 200px;
   margin: 10px 0;
-  transition: border-radius 500ms;
+  transition: border-radius 500ms, padding-bottom 300ms;
   display: inline-block;
   color: var(--text-secondary);
 

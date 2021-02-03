@@ -7,7 +7,11 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  background-image: linear-gradient(to right, white 49%, var(--theme) 51%);
+  background-image: linear-gradient(
+    to right,
+    transparent 49%,
+    var(--theme) 51%
+  );
   animation: spin 2s infinite;
 }
 @keyframes spin {
@@ -16,6 +20,12 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .loading {
+    --theme: var(--text);
   }
 }
 </style>
