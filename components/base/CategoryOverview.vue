@@ -115,7 +115,7 @@ export default {
     }
 
     entries = entries.sort(
-      (a, b) => b[1].spentPercentage - a[1].spentPercentage // Sort by amount of spending and gained combined; large to small
+      (a, b) => b[1].total - a[1].total // Sort by amount of spending and gained combined; large to small
     )
 
     // Get each tag's color, as assigned in `user.js`
