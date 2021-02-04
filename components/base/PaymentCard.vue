@@ -17,6 +17,9 @@
         <button class="action-button" @click="doDelete">
           <trash-icon />
         </button>
+        <button class="action-button" @click="doEdit">
+          <edit-icon />
+        </button>
       </div>
     </div>
   </card>
@@ -38,7 +41,7 @@
 }
 .action-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   height: 100%;
 
   .action-button {
@@ -93,6 +96,7 @@ import Tag from '~/components/base/Tag'
 
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
+import EditIcon from '~/assets/icons/edit.svg?inline'
 
 export default {
   components: {
@@ -101,6 +105,7 @@ export default {
     Money,
     Tag,
     TrashIcon,
+    EditIcon,
   },
   props: {
     payment: {
@@ -115,13 +120,16 @@ export default {
           .post('/transactions/delete', {
             id: this.payment.id,
           })
-          .then(({ data }) => {
+          .then(() => {
             this.$nuxt.$emit('refetch')
           })
           .catch((err) => {
             alert(err)
           })
       }
+    },
+    doEdit() {
+      this.$nuxt.$emit('edit-transaction', this.payment.id)
     },
   },
 }

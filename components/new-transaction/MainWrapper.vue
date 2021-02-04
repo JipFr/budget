@@ -6,7 +6,7 @@
     <div class="content">
       <container class="limited-width">
         <!-- Title -->
-        <h2>New transaction</h2>
+        <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
 
         <!-- Error banner -->
         <banner v-if="error">⚠️ {{ error }}</banner>
@@ -34,7 +34,9 @@
 
         <!-- Placeholders -->
         <hr />
-        <button class="primary" @click="submit">Submit</button>
+        <button class="primary" @click="submit">
+          {{ editingData.id ? 'Save' : 'Submit' }}
+        </button>
       </container>
     </div>
   </div>
@@ -166,9 +168,44 @@ export default {
       error: '',
     }
   },
+  mounted() {
+    /**
+     * On this event, open the pop-over to edit a transaction
+     */
+    this.$nuxt.$on('edit-transaction', (id) => {
+      // Get all transactions and find relevant ones
+      const allTransactions = this.$store.state.user.data.transactions
+      const relevantTransaction = allTransactions.find((t) => t.id === id)
+
+      // Convert values to values readable by editor
+
+      // Euros
+      const cents = relevantTransaction.cents.toString()
+      const euros = `${cents.slice(0, -2)},${cents.slice(-2)}`
+
+      // Other fields
+      const tags = relevantTransaction.categories.join(', ')
+      const date = relevantTransaction.date
+      const description = relevantTransaction.description
+
+      this.editingData = {
+        id: relevantTransaction.id,
+        euros,
+        tags,
+        date,
+        description,
+      }
+
+      this.open = true
+    })
+  },
   methods: {
     toggleOpen() {
       this.open = !this.open
+      if (this.open) {
+        // It was opened, reset the data so pressing the + doesn't have you edit a transaction
+        this.editingData = Object.assign({}, editingData)
+      }
     },
     reload() {
       location.reload()
@@ -176,6 +213,7 @@ export default {
     cleanDescription(evt) {
       const newValue = evt.currentTarget.value.replace(/\./g, ',')
       this.editingData.categories = newValue
+      evt.currentTarget.value = newValue
     },
     cleanEuro(evt) {
       const allowedCharacters = '-0987654321,'
@@ -211,13 +249,22 @@ export default {
       submitObj.description = this.editingData.description
       submitObj.date = this.editingData.date
       submitObj.categories = this.editingData.tags
+      if (this.editingData.id) submitObj.id = this.editingData.id
+
+      const path = submitObj.id
+        ? '/transactions/update'
+        : '/transactions/insert'
 
       await this.$axios
-        .post('/transactions/insert', submitObj)
+        .post(path, submitObj)
         .then(({ data }) => {
+          // Transaction might have been added
           if (data.status !== 200) {
+            // Error handling
             this.error = data.error
           } else {
+            // Transaction inserted!
+            // Close the modal and remove the input
             this.open = false
             setTimeout(() => {
               this.editingData = Object.assign({}, editingData)
