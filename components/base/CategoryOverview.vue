@@ -20,7 +20,9 @@
           </div>
           <div class="category-information">
             <p>Spent:</p>
-            <money class="negative" :cents="category[1].spent * -1" />
+            <money
+              :cents="category[1].spent === 0 ? 0 : category[1].spent * -1"
+            />
           </div>
           <div class="category-information">
             <p>Ratio:</p>
