@@ -1,119 +1,59 @@
 <template>
-  <div class="new-transaction-wrapper" :class="open ? 'open' : 'closed'">
-    <div class="button" @click="toggleOpen">
-      <plus-circle-icon />
+  <overlay :open="open" :show-button="false" @toggle-open="toggleOpen">
+    <div class="overlay-content">
+      <!-- Title -->
+      <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
+
+      <!-- Error banner -->
+      <banner v-if="error">⚠️ {{ error }}</banner>
+
+      <!-- All inputs -->
+      <app-input
+        v-model="editingData.description"
+        label="Description"
+        placeholder="Netflix subscription"
+      />
+      <app-input v-model="editingData.date" label="Date" type="date" />
+      <app-input
+        v-model="editingData.tags"
+        label="Categories"
+        placeholder="netflix, monthly"
+        @change="(e) => cleanDescription(e)"
+      />
+      <app-input
+        v-model="editingData.euros"
+        label="Euros"
+        placeholder="10,99"
+        prefix="€"
+        @change="(e) => cleanEuro(e)"
+      />
+
+      <!-- Placeholders -->
+      <hr />
+      <button class="primary" @click="submit">
+        {{ editingData.id ? 'Save' : 'Submit' }}
+      </button>
     </div>
-    <div class="content">
-      <container class="limited-width">
-        <!-- Title -->
-        <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
-
-        <!-- Error banner -->
-        <banner v-if="error">⚠️ {{ error }}</banner>
-
-        <!-- All inputs -->
-        <app-input
-          v-model="editingData.description"
-          label="Description"
-          placeholder="Netflix subscription"
-        />
-        <app-input v-model="editingData.date" label="Date" type="date" />
-        <app-input
-          v-model="editingData.tags"
-          label="Categories"
-          placeholder="netflix, monthly"
-          @change="(e) => cleanDescription(e)"
-        />
-        <app-input
-          v-model="editingData.euros"
-          label="Euros"
-          placeholder="10,99"
-          prefix="€"
-          @change="(e) => cleanEuro(e)"
-        />
-
-        <!-- Placeholders -->
-        <hr />
-        <button class="primary" @click="submit">
-          {{ editingData.id ? 'Save' : 'Submit' }}
-        </button>
-      </container>
-    </div>
-  </div>
+  </overlay>
 </template>
 
 <style lang="scss" scoped>
 h2 {
   margin-bottom: 20px;
 }
-.new-transaction-wrapper {
-  position: fixed;
-  top: calc(100% - 70px - env(safe-area-inset-bottom));
-  transition: top 300ms, background 300ms;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
-
-  &.open {
-    top: env(safe-area-inset-top);
-    background: rgba(0, 0, 0, 0.2);
-
-    .button {
-      border-radius: 200px;
-      background: var(--body);
-      padding-bottom: 20px;
-    }
-    .button svg {
-      transform: rotate(135deg);
-    }
-  }
-}
-.button {
-  background: var(--content);
-  border: 2px solid var(--body);
-  box-sizing: content-box;
-  padding: 20px;
-  padding-bottom: calc(20px + env(safe-area-inset-bottom));
-  border-top-left-radius: 200px;
-  border-top-right-radius: 200px;
-  margin: 10px 0;
-  transition: border-radius 500ms, padding-bottom 300ms;
-  display: inline-block;
-  color: var(--text-secondary);
-
-  svg {
-    display: block;
-    transition: transform 500ms;
-  }
-}
-.content {
-  height: calc(100vh - 76px - env(safe-area-inset-top));
-  max-height: calc(100vh - 76px - env(safe-area-inset-top));
-  overflow-y: auto;
-  padding: 40px 0;
-  width: 100%;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  background: var(--body);
-
-  .container > * + * {
-    margin-top: 10px;
-  }
-  .container hr {
-    margin: 20px 0;
-    border: 0;
-    height: 1px;
-    background: var(--border);
-  }
-}
-
 .auto-fr {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
+}
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: var(--border);
+}
+.overlay-content > * + * {
+  margin-top: 10px;
 }
 
 button.primary {
@@ -127,9 +67,6 @@ button.primary {
 }
 
 @media (prefers-color-scheme: dark) {
-  .new-transaction-wrapper.open {
-    background: rgba(0, 0, 0, 0.6);
-  }
   button.primary {
     color: var(--text-secondary);
     background: var(--content);
@@ -139,12 +76,9 @@ button.primary {
 
 <script>
 // Import components
-import Container from '~/components/layout/Container'
+import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
-
-// Import icons
-import PlusCircleIcon from '~/assets/icons/plus-circle.svg?inline'
 
 // Other values
 const editingData = {
@@ -156,10 +90,9 @@ const editingData = {
 
 export default {
   components: {
-    Container,
     AppInput,
-    PlusCircleIcon,
     Banner,
+    Overlay,
   },
   data() {
     return {
