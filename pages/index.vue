@@ -7,18 +7,31 @@
       <!-- "From" and "until" picker -->
       <from-until-picker />
 
-      <!-- Payment list -->
-      <h2>
-        <span>Payments</span>
+      <!-- Navigation -->
+      <div>
+        <nav>
+          <nuxt-link class="link" to="/">Payments</nuxt-link>
+          <nuxt-link class="link" to="/#overview">Overview</nuxt-link>
+        </nav>
         <loading-icon v-if="isLoading" />
-      </h2>
-      <payment-list v-if="!isLoading" :raw-payments="getPayments" />
+      </div>
+
+      <!-- Wrapper or loading state -->
+      <div v-if="!isLoading" class="tab-wrapper">
+        <!-- Payment list -->
+        <payment-list v-if="$route.hash === ''" :raw-payments="getPayments" />
+        <category-overview
+          v-else-if="$route.hash === '#overview'"
+          :payments="getPayments"
+        />
+        <div v-else>Unknown page.</div>
+      </div>
       <div v-else class="loading-wrapper">
         <loading-icon />
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
-      <new-transaction-wrapper />
+      <new-transaction-wrapper v-if="$route.hash === ''" />
     </container>
   </div>
 </template>
@@ -35,6 +48,9 @@ h2 {
 .from-until-picker {
   margin-bottom: 40px;
 }
+.tab-wrapper {
+  margin-top: 20px;
+}
 .loading-wrapper {
   display: flex;
   justify-content: center;
@@ -42,32 +58,42 @@ h2 {
   width: 100%;
   height: 150px;
 }
+nav a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 20px;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: normal;
+
+  &.nuxt-link-exact-active {
+    border-bottom-color: var(--text);
+  }
+}
 </style>
 
 <script>
 // Import components
-import { Capacitor } from '@capacitor/core'
 import Container from '~/components/layout/Container'
 import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
+import CategoryOverview from '~/components/base/CategoryOverview'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
-import LoadingIcon from '~/components/base/LoadingIcon'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
+
+// Import icons
+import LoadingIcon from '~/components/base/LoadingIcon'
 
 export default {
   components: {
     PaymentList,
+    CategoryOverview,
     Container,
     Hero,
     FromUntilPicker,
     LoadingIcon,
     NewTransactionWrapper,
-  },
-  data() {
-    return {
-      statusTapped: 0,
-      platform: Capacitor.platform,
-    }
   },
   computed: {
     getPayments() {
@@ -77,11 +103,6 @@ export default {
     isLoading() {
       return this.$store.state.user.data.loading
     },
-  },
-  mounted() {
-    window.addEventListener('statusTap', () => {
-      this.statusTapped++
-    })
   },
 }
 </script>

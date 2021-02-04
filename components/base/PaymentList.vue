@@ -17,8 +17,10 @@
 </template>
 
 <style lang="scss" scoped>
-.date-label {
+.date-wrapper + .date-wrapper .date-label {
   margin-top: 20px;
+}
+.date-label {
   margin-bottom: 5px;
 }
 .list {

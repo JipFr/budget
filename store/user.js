@@ -28,13 +28,11 @@ function applyFilter(state) {
 
   // Assign color for each tag
   // Get unique tags
-  const allTags = [
-    ...new Set(
-      state.data.transactions
-        .map((v) => v.categories.map((v) => v.trim().toLowerCase()))
-        .flat()
-    ),
-  ]
+  let allTags = state.data.transactions
+    .map((v) => v.categories.map((v) => v.trim().toLowerCase()))
+    .flat()
+
+  allTags = new Set([...allTags, 'other']) // Remove duplicates, also include 'other'
 
   // Fixed colors
   const colors = [
