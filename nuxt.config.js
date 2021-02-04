@@ -17,19 +17,36 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
   css: ['~assets/scss/main.scss'],
+
   plugins: [],
+
   components: false,
+
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
+
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content', '@nuxtjs/auth'],
+
   axios: {
     baseURL:
       process.env.NODE_ENV === 'production'
         ? 'https://budget.jipfr.nl'
         : 'http://localhost:8063',
   },
+
+  pwa: {
+    manifest: {
+      name: 'Budget',
+      short_name: 'Budget',
+      start_url: '/',
+    },
+  },
+
   content: {},
+
   build: {},
+
   // Auth
   auth: {
     strategies: {
