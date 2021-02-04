@@ -7,6 +7,7 @@
           <span class="do-space-x">
             <money :cents="category[1].gained" />
             <money class="negative" :cents="category[1].spent * -1" />
+            ({{ category[1].spentPercentage }}%)
           </span>
         </div>
         <div
