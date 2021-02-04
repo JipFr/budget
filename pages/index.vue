@@ -11,7 +11,7 @@
       <div>
         <nav>
           <nuxt-link class="link" to="/">Payments</nuxt-link>
-          <nuxt-link class="link" to="/#overview">Overview</nuxt-link>
+          <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
         </nav>
         <loading-icon v-if="isLoading" />
       </div>
@@ -19,9 +19,9 @@
       <!-- Wrapper or loading state -->
       <div v-if="!isLoading" class="tab-wrapper">
         <!-- Payment list -->
-        <payment-list v-if="$route.hash === ''" :raw-payments="getPayments" />
+        <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
         <category-overview
-          v-else-if="$route.hash === '#overview'"
+          v-else-if="getQuery === 'overview'"
           :payments="getPayments"
         />
         <div v-else>Unknown page.</div>
@@ -31,7 +31,7 @@
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
-      <new-transaction-wrapper v-if="$route.hash === ''" />
+      <new-transaction-wrapper v-if="getQuery === ''" />
     </container>
   </div>
 </template>
@@ -102,6 +102,9 @@ export default {
     },
     isLoading() {
       return this.$store.state.user.data.loading
+    },
+    getQuery() {
+      return Object.keys(this.$route.query).join('')
     },
   },
 }

@@ -2,7 +2,13 @@
   <div>
     <div class="category-list">
       <card v-for="category in entries" :key="category[0]">
-        <tag :tag="category[0]" />
+        <div class="card-title spread">
+          <tag :tag="category[0]" />
+          <span class="do-space-x">
+            <money :cents="category[1].gained" />
+            <money class="negative" :cents="category[1].spent * -1" />
+          </span>
+        </div>
         <div
           class="progress-bar"
           :style="`--width: ${category[1].spentPercentage}%; --tag-color: ${
@@ -19,6 +25,18 @@
 <style lang="scss" scoped>
 .card + .card {
   margin-top: 6px;
+}
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .do-space-x > * + * {
+    margin-left: 10px;
+  }
+  .money {
+    font-size: 0.9rem;
+  }
 }
 .progress-bar {
   width: 100%;
@@ -40,11 +58,13 @@
 // Import components
 import Card from '~/components/layout/Card'
 import Tag from '~/components/base/Tag'
+import Money from '~/components/title/Money'
 
 export default {
   components: {
     Card,
     Tag,
+    Money,
   },
   props: {
     payments: {
@@ -83,16 +103,19 @@ export default {
     }
 
     // Make an array of the entries
-    const entries = Object.entries(spendings).sort(
-      (a, b) => b[1].spent - a[1].spent // Sort by amount of spending; large to small
-    )
+    let entries = Object.entries(spendings)
 
     // Find largest "spent" field in categories, then compare the rest to it
-    const largestCategorySpendingAmount = entries[0][1].spent
     for (const entry of entries) {
-      entry[1].spentPercentage =
-        (entry[1].spent / largestCategorySpendingAmount) * 100
+      // Get percentage of "gained"
+      const total = entry[1].gained + entry[1].spent
+      entry[1].spentPercentage = (entry[1].gained / total) * 100
+      entry[1].total = total
     }
+
+    entries = entries.sort(
+      (a, b) => b[1].spentPercentage - a[1].spentPercentage // Sort by amount of spending and gained combined; large to small
+    )
 
     // Get each tag's color, as assigned in `user.js`
     const colors = this.$store.state.user.tagColors
