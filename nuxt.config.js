@@ -41,6 +41,9 @@ export default {
       short_name: 'Budget',
       start_url: '/',
     },
+    meta: {
+      theme_color: '#457461',
+    },
   },
 
   content: {},
