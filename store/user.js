@@ -1,3 +1,5 @@
+const month = 1e3 * 60 * 60 * 24 * 30
+
 export const state = () => ({
   data: {
     transactions: [],
@@ -5,8 +7,8 @@ export const state = () => ({
     loading: true,
   },
   tagColors: {},
-  from: '2019-01-01',
-  until: '2022-01-01',
+  from: new Date(Date.now() - month).toISOString().split('T')[0],
+  until: new Date().toISOString().split('T')[0],
 })
 
 function applyFilter(state) {

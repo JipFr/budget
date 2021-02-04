@@ -6,6 +6,9 @@
 .negative {
   color: var(--negative);
 }
+span {
+  white-space: nowrap;
+}
 span::before {
   content: '€';
   display: inline-block;

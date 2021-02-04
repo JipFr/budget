@@ -87,11 +87,13 @@ export default {
 
       // Now go over each transaction and add it to the relevant field
       for (const payment of this.payments) {
-        this.total += payment.cents
-        if (payment.cents > 0) {
-          this.gained += payment.cents
-        } else {
-          this.spent += payment.cents * -1
+        if (!payment.categories.includes('exclude')) {
+          this.total += payment.cents
+          if (payment.cents > 0) {
+            this.gained += payment.cents
+          } else {
+            this.spent += payment.cents * -1
+          }
         }
       }
     },
