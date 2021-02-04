@@ -32,7 +32,7 @@ function applyFilter(state) {
     .map((v) => v.categories.map((v) => v.trim().toLowerCase()))
     .flat()
 
-  allTags = new Set([...allTags, 'other']) // Remove duplicates, also include 'other'
+  allTags = [...new Set([...allTags, 'other'])] // Remove duplicates, also include 'other'
 
   // Fixed colors
   const colors = [
