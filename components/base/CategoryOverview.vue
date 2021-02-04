@@ -90,7 +90,6 @@ export default {
     // Find largest "spent" field in categories, then compare the rest to it
     const largestCategorySpendingAmount = entries[0][1].spent
     for (const entry of entries) {
-      console.log(entry)
       entry[1].spentPercentage =
         (entry[1].spent / largestCategorySpendingAmount) * 100
     }
