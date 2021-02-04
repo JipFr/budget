@@ -31,7 +31,8 @@
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
-      <new-transaction-wrapper v-if="getQuery === ''" />
+      {{ getQuery }}
+      <new-transaction-wrapper :show-button="getQuery === ''" />
     </container>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <overlay :open="open" :show-button="true" @toggle-open="toggleOpen">
+  <overlay :open="open" :show-button="showButton" @toggle-open="toggleOpen">
     <div class="overlay-content">
       <!-- Title -->
       <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
@@ -84,6 +84,13 @@ export default {
     AppInput,
     Banner,
     Overlay,
+  },
+  props: {
+    showButton: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
