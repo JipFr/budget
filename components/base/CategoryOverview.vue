@@ -4,11 +4,6 @@
       <card v-for="category in entries" :key="category[0]">
         <div class="card-title spread">
           <tag :tag="category[0]" />
-          <span class="do-space-x">
-            <money :cents="category[1].gained" />
-            <money class="negative" :cents="category[1].spent * -1" />
-            ({{ Math.round(category[1].spentPercentage) }}%)
-          </span>
         </div>
         <div
           class="progress-bar"
@@ -17,6 +12,24 @@
           }`"
         >
           <div class="progress-inner"></div>
+        </div>
+        <div class="cat-info">
+          <div class="category-information">
+            <p>Gained:</p>
+            <money :cents="category[1].gained" />
+          </div>
+          <div class="category-information">
+            <p>Spent:</p>
+            <money class="negative" :cents="category[1].spent * -1" />
+          </div>
+          <div class="category-information">
+            <p>Ratio:</p>
+            <span>{{ Math.round(category[1].spentPercentage) }}%</span>
+          </div>
+          <div class="category-information">
+            <p>Total:</p>
+            <money :cents="category[1].gained - category[1].spent" />
+          </div>
         </div>
       </card>
     </div>
@@ -31,12 +44,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
 
-  .do-space-x > * + * {
-    margin-left: 10px;
-  }
-  .money {
-    font-size: 0.9rem;
+.cat-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 5px;
+  margin-top: 10px;
+
+  .category-information {
+    display: grid;
+    grid-template-columns: 70px 1fr;
   }
 }
 .progress-bar {
