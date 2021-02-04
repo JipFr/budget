@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Main list of categories -->
     <div class="category-list">
       <card v-for="category in entries" :key="category[0]">
         <div class="card-title spread">
@@ -32,9 +33,27 @@
             <p>Total:</p>
             <money :cents="category[1].gained - category[1].spent" />
           </div>
+          <div class="is-link" @click="(_) => showTransactions(category[0])">
+            <p>Show transactions in period</p>
+          </div>
         </div>
       </card>
     </div>
+
+    <!-- Overlay to see all transactions -->
+    <overlay :show-button="false" :open="overlayOpen" @toggle-open="toggleOpen">
+      <!-- Description -->
+      <h2>Category overview</h2>
+      <p class="is-paragraph">
+        This is showing all transactions in your selected period for the '{{
+          categoryName
+        }}' category.
+      </p>
+      <hr />
+
+      <!-- Payment list -->
+      <payment-list :raw-payments="overlayTransactions" />
+    </overlay>
   </div>
 </template>
 
@@ -46,6 +65,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.is-link {
+  grid-column: 1 / -1;
+  color: var(--anchor);
+  margin-top: 10px;
+}
+.is-paragraph {
+  margin: 20px 0;
+  color: var(--text-secondary);
 }
 
 .cat-info {
@@ -80,12 +108,16 @@
 import Card from '~/components/layout/Card'
 import Tag from '~/components/base/Tag'
 import Money from '~/components/title/Money'
+import Overlay from '~/components/base/util/Overlay'
+import PaymentList from '~/components/base/PaymentList'
 
 export default {
   components: {
     Card,
     Tag,
     Money,
+    Overlay,
+    PaymentList,
   },
   props: {
     payments: {
@@ -145,7 +177,33 @@ export default {
       spendings,
       entries,
       colors,
+      overlayOpen: false,
+      overlayTransactions: [],
+      categoryName: '',
     }
+  },
+  methods: {
+    showTransactions(categoryName) {
+      // Now get all transactions with the category's name and display it
+
+      // get all transactions
+      const user = this.$store.state.user.data
+      const transactions = user.transactionsInPeriod || []
+
+      const relevantTransactions = transactions.filter((v) => {
+        return (
+          v.categories.includes(categoryName) ||
+          (categoryName === 'other' && v.categories.length === 0)
+        )
+      })
+
+      this.overlayTransactions = relevantTransactions
+      this.categoryName = categoryName
+      this.overlayOpen = true
+    },
+    toggleOpen() {
+      this.overlayOpen = !this.overlayOpen
+    },
   },
 }
 </script>

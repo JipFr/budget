@@ -8,7 +8,8 @@
   --theme:#457461;
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: rgb(255, 45, 85);
-  --border: rgba(0, 0, 0, 0.1)
+  --border: rgba(0, 0, 0, 0.1);
+  --anchor: #007aff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,7 +20,8 @@
     --text-secondary: #ccd0d4;
     --overlay-color: rgba(255, 255, 255, 0.05);
     --negative: rgb(255, 69, 58);
-    --border: rgba(255, 255, 255, 0.1)
+    --border: rgba(255, 255, 255, 0.1);
+    --anchor: #5ac8fa;
   }
 }
 

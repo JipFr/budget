@@ -1,5 +1,5 @@
 <template>
-  <overlay :open="open" :show-button="false" @toggle-open="toggleOpen">
+  <overlay :open="open" :show-button="true" @toggle-open="toggleOpen">
     <div class="overlay-content">
       <!-- Title -->
       <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
@@ -38,19 +38,10 @@
 </template>
 
 <style lang="scss" scoped>
-h2 {
-  margin-bottom: 20px;
-}
 .auto-fr {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
-}
-hr {
-  margin: 20px 0;
-  border: 0;
-  height: 1px;
-  background: var(--border);
 }
 .overlay-content > * + * {
   margin-top: 10px;

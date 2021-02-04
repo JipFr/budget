@@ -1,5 +1,5 @@
 <template>
-  <div class="new-transaction-wrapper" :class="getClass">
+  <div class="overlay-top-wrapper" :class="getClass">
     <div
       class="toggle-button"
       :class="showButton ? '' : 'invisible-when-closed'"
@@ -34,7 +34,8 @@
     transition: transform 500ms;
   }
 }
-.new-transaction-wrapper {
+
+.overlay-top-wrapper {
   position: fixed;
   top: calc(100% - 70px - env(safe-area-inset-bottom));
   transition: top 300ms, background 300ms;
@@ -68,6 +69,8 @@
     pointer-events: none;
   }
 }
+
+// Main "content" below the button
 .content {
   height: calc(100vh - 76px - env(safe-area-inset-top));
   max-height: calc(100vh - 76px - env(safe-area-inset-top));
@@ -80,8 +83,23 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .new-transaction-wrapper.open {
+  .overlay-top-wrapper.open {
     background: rgba(0, 0, 0, 0.6);
+  }
+}
+</style>
+
+<style lang="scss">
+.overlay-top-wrapper .content {
+  // Util
+  h2 {
+    margin-bottom: 20px;
+  }
+  hr {
+    margin: 20px 0;
+    border: 0;
+    height: 1px;
+    background: var(--border);
   }
 }
 </style>
