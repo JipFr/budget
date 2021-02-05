@@ -5,13 +5,14 @@
     </div>
     <div
       class="progress-bar"
-      :style="`--width: ${category[1].spentPercentage}%; --tag-color: ${
-        colors[category[0]]
-      }`"
+      :style="`--width: ${percentage}%; --tag-color: ${colors[category[0]]}`"
     >
       <div class="progress-inner"></div>
     </div>
-    <div class="cat-info">
+    <div
+      v-if="category[1].fields && category[1].fields.length > 0"
+      class="cat-info"
+    >
       <div
         v-for="field of category[1].fields"
         :key="field.label"
@@ -81,6 +82,10 @@ export default {
   props: {
     category: {
       type: Array,
+      required: true,
+    },
+    percentage: {
+      type: Number,
       required: true,
     },
   },

@@ -6,6 +6,7 @@
         v-for="category in entries"
         :key="category[0]"
         :category="category"
+        :percentage="category[1].budgetPercentage"
       />
     </div>
   </div>
@@ -53,7 +54,7 @@ export default {
   },
   methods: {
     getEntriesData() {
-      return getEntriesData(this.payments)
+      return getEntriesData(this.payments, 'budget')
     },
   },
 }

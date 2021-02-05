@@ -1,4 +1,4 @@
-export function getEntriesData(payments) {
+export function getEntriesData(payments, type) {
   // Map all payments into an object that shows how much money each category has spent
   const spendings = {}
 
@@ -41,31 +41,65 @@ export function getEntriesData(payments) {
     // Make all fields to be displayed on the progress card
     entry[1].fields = []
 
-    entry[1].fields.push({
-      label: 'Gained',
-      type: 'money',
-      value: entry[1].gained,
-    })
-    entry[1].fields.push({
-      label: 'Spent',
-      type: 'money',
-      value: entry[1].spent,
-    })
-    entry[1].fields.push({
-      label: 'Ratio',
-      type: 'percentage',
-      value: Math.round(entry[1].spentPercentage),
-    })
-    entry[1].fields.push({
-      label: 'Total',
-      type: 'money',
-      value: entry[1].gained - entry[1].spent,
-    })
+    if (type === 'category') {
+      entry[1].fields.push({
+        label: 'Gained',
+        type: 'money',
+        value: entry[1].gained,
+      })
+      entry[1].fields.push({
+        label: 'Spent',
+        type: 'money',
+        value: entry[1].spent,
+      })
+      entry[1].fields.push({
+        label: 'Ratio',
+        type: 'percentage',
+        value: Math.round(entry[1].spentPercentage),
+      })
+      entry[1].fields.push({
+        label: 'Total',
+        type: 'money',
+        value: entry[1].gained - entry[1].spent,
+      })
+    } else {
+      const maxLimitCents = 600e2
+      const remaining = maxLimitCents - entry[1].spent
+      const spentPercentage = Math.round((entry[1].spent / maxLimitCents) * 100)
+      entry[1].budgetPercentage = spentPercentage
+
+      entry[1].fields.push({
+        label: 'Max',
+        type: 'money',
+        value: maxLimitCents,
+      })
+      entry[1].fields.push({
+        label: 'Spent',
+        type: 'money',
+        value: entry[1].spent,
+      })
+      entry[1].fields.push({
+        label: 'Left',
+        type: 'money',
+        value: remaining,
+      })
+      entry[1].fields.push({
+        label: 'Left (%)',
+        type: 'percentage',
+        value: 100 - spentPercentage,
+      })
+    }
   }
 
   entries = entries.sort(
     (a, b) => b[1].total - a[1].total // Sort by amount of spending and gained combined; large to small
   )
+
+  if (type === 'budget') {
+    entries = entries.sort(
+      (a, b) => b[1].budgetPercentage - a[1].budgetPercentage
+    )
+  }
 
   return {
     spendings,

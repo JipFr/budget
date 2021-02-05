@@ -6,6 +6,7 @@
         v-for="category in entries"
         :key="category[0]"
         :category="category"
+        :percentage="category.spentPercentage"
       >
         <div class="is-link" @click="(_) => showTransactions(category[0])">
           <p>Show transactions in period</p>
@@ -97,7 +98,7 @@ export default {
   },
   methods: {
     getEntriesData() {
-      return getEntriesData(this.payments)
+      return getEntriesData(this.payments, 'category')
     },
     showTransactions(categoryName) {
       // Now get all transactions with the category's name and display it
