@@ -178,7 +178,6 @@ export default {
 
     // Find existing pop-up
     const existingName = this.$store.state.user.viewingCat
-    console.log(existingName)
 
     const categoryData = existingName
       ? this.showTransactions(existingName)
