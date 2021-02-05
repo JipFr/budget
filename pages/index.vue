@@ -12,6 +12,7 @@
         <nav>
           <nuxt-link class="link" to="/">Payments</nuxt-link>
           <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
+          <nuxt-link class="link" to="/?budget">Budget</nuxt-link>
         </nav>
         <loading-icon v-if="isLoading" />
       </div>
@@ -22,6 +23,10 @@
         <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
         <category-overview
           v-else-if="getQuery === 'overview'"
+          :payments="getPayments"
+        />
+        <budget-overview
+          v-else-if="getQuery === 'budget'"
           :payments="getPayments"
         />
         <div v-else>Unknown page.</div>
@@ -79,6 +84,7 @@ import Container from '~/components/layout/Container'
 import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryOverview from '~/components/base/CategoryOverview'
+import BudgetOverview from '~/components/base/BudgetOverview'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 
@@ -89,6 +95,7 @@ export default {
   components: {
     PaymentList,
     CategoryOverview,
+    BudgetOverview,
     Container,
     Hero,
     FromUntilPicker,

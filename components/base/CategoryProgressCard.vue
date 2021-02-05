@@ -12,25 +12,18 @@
       <div class="progress-inner"></div>
     </div>
     <div class="cat-info">
-      <div class="category-information">
-        <p>Gained:</p>
-        <money :cents="category[1].gained" />
+      <div
+        v-for="field of category[1].fields"
+        :key="field.label"
+        class="category-information"
+      >
+        <p>{{ field.label }}:</p>
+        <money v-if="field.type === 'money'" :cents="field.value" />
+        <span v-else-if="field.type === 'percentage'">{{ field.value }}%</span>
+        <span v-else>{{ field.value }}</span>
       </div>
-      <div class="category-information">
-        <p>Spent:</p>
-        <money :cents="category[1].spent === 0 ? 0 : category[1].spent * -1" />
-      </div>
-      <div class="category-information">
-        <p>Ratio:</p>
-        <span>{{ Math.round(category[1].spentPercentage) }}%</span>
-      </div>
-      <div class="category-information">
-        <p>Total:</p>
-        <money :cents="category[1].gained - category[1].spent" />
-      </div>
-      <div class="is-link" @click="(_) => showTransactions(category[0])">
-        <p>Show transactions in period</p>
-      </div>
+
+      <slot />
     </div>
   </card>
 </template>
@@ -40,12 +33,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.is-link {
-  grid-column: 1 / -1;
-  color: var(--anchor);
-  margin-top: 10px;
-  cursor: pointer;
 }
 .is-paragraph {
   margin: 20px 0;

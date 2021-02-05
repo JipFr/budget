@@ -6,7 +6,11 @@
         v-for="category in entries"
         :key="category[0]"
         :category="category"
-      />
+      >
+        <div class="is-link" @click="(_) => showTransactions(category[0])">
+          <p>Show transactions in period</p>
+        </div>
+      </category-progress-card>
     </div>
 
     <!-- Overlay to see all transactions -->
@@ -30,6 +34,12 @@
 .card + .card {
   margin-top: 6px;
 }
+.is-link {
+  grid-column: 1 / -1;
+  color: var(--anchor);
+  margin-top: 10px;
+  cursor: pointer;
+}
 </style>
 
 <script>
@@ -40,6 +50,9 @@ import { mapMutations } from 'vuex'
 import Overlay from '~/components/base/util/Overlay'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryProgressCard from '~/components/base/CategoryProgressCard'
+
+// Import helpers
+import { getEntriesData } from '~/util/entries'
 
 export default {
   components: {
@@ -84,54 +97,7 @@ export default {
   },
   methods: {
     getEntriesData() {
-      // Map all payments into an object that shows how much money each category has spent
-      const spendings = {}
-
-      for (const payment of this.payments) {
-        // If there are no categories, add 'other' so it gets added to that
-        if (payment.categories.length === 0) {
-          payment.categories.push('other')
-        }
-
-        for (let tag of payment.categories) {
-          tag = tag.toLowerCase().trim()
-          if (tag === 'exclude') continue
-
-          // Ensure spendings has a field for it
-          if (!spendings[tag]) {
-            spendings[tag] = {
-              gained: 0,
-              spent: 0,
-            }
-          }
-
-          if (payment.cents > 0) {
-            spendings[tag].gained += payment.cents
-          } else {
-            spendings[tag].spent += payment.cents * -1
-          }
-        }
-      }
-
-      // Make an array of the entries
-      let entries = Object.entries(spendings)
-
-      // Find largest "spent" field in categories, then compare the rest to it
-      for (const entry of entries) {
-        // Get percentage of "gained"
-        const total = entry[1].gained + entry[1].spent
-        entry[1].spentPercentage = (entry[1].gained / total) * 100
-        entry[1].total = total
-      }
-
-      entries = entries.sort(
-        (a, b) => b[1].total - a[1].total // Sort by amount of spending and gained combined; large to small
-      )
-
-      return {
-        spendings,
-        entries,
-      }
+      return getEntriesData(this.payments)
     },
     showTransactions(categoryName) {
       // Now get all transactions with the category's name and display it
