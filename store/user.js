@@ -9,6 +9,7 @@ export const state = () => ({
   tagColors: {},
   from: new Date(Date.now() - month).toISOString().split('T')[0],
   until: new Date().toISOString().split('T')[0],
+  viewingCat: '',
 })
 
 function applyFilter(state) {
@@ -74,5 +75,8 @@ export const mutations = {
   setUntil(state, newUntil) {
     state.until = newUntil
     applyFilter(state)
+  },
+  setViewing(state, catName) {
+    state.viewingCat = catName
   },
 }

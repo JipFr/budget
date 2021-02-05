@@ -31,7 +31,6 @@
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
-      {{ getQuery }}
       <new-transaction-wrapper :show-button="getQuery === ''" />
     </container>
   </div>

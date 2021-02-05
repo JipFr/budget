@@ -104,6 +104,9 @@
 </style>
 
 <script>
+// Import vuex
+import { mapMutations } from 'vuex'
+
 // Import components
 import Card from '~/components/layout/Card'
 import Tag from '~/components/base/Tag'
@@ -173,13 +176,23 @@ export default {
     // Get each tag's color, as assigned in `user.js`
     const colors = this.$store.state.user.tagColors
 
+    // Find existing pop-up
+    const existingName = this.$store.state.user.viewingCat
+    console.log(existingName)
+
+    const categoryData = existingName
+      ? this.showTransactions(existingName)
+      : {
+          overlayOpen: false,
+          overlayTransactions: [],
+          categoryName: '',
+        }
+
     return {
       spendings,
       entries,
       colors,
-      overlayOpen: false,
-      overlayTransactions: [],
-      categoryName: '',
+      ...categoryData,
     }
   },
   methods: {
@@ -200,10 +213,25 @@ export default {
       this.overlayTransactions = relevantTransactions
       this.categoryName = categoryName
       this.overlayOpen = true
+      this.setViewing(categoryName)
+      return {
+        overlayTransactions: relevantTransactions,
+        categoryName,
+        overlayOpen: true,
+      }
     },
     toggleOpen() {
       this.overlayOpen = !this.overlayOpen
+      if (!this.overlayOpen) {
+        setTimeout(() => {
+          this.categoryName = ''
+          this.setViewing('')
+        }, 500)
+      }
     },
+    ...mapMutations({
+      setViewing: 'user/setViewing',
+    }),
   },
 }
 </script>
