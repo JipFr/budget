@@ -6,7 +6,7 @@
         v-for="category in entries"
         :key="category[0]"
         :category="category"
-        :percentage="category.spentPercentage"
+        :percentage="category[1].spentPercentage"
       >
         <div class="is-link" @click="(_) => showTransactions(category[0])">
           <p>Show transactions in period</p>
