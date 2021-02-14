@@ -1,4 +1,5 @@
-const month = 1e3 * 60 * 60 * 24 * 30
+const day = 1e3 * 60 * 60 * 24
+const d = new Date()
 
 export const state = () => ({
   data: {
@@ -7,7 +8,11 @@ export const state = () => ({
     loading: true,
   },
   tagColors: {},
-  from: new Date(Date.now() - month).toISOString().split('T')[0],
+  // Get day 2 days before the start of the current month
+  // Not great code, but oh well....
+  from: new Date(new Date(d.getFullYear(), d.getMonth()).getTime() - day * 2)
+    .toISOString()
+    .split('T')[0],
   until: new Date().toISOString().split('T')[0],
   viewingCat: '',
 })
