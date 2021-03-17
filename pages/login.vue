@@ -11,12 +11,14 @@
           label="Gebruikersnaam"
           type="text"
           placeholder="j.doe"
+          do-alt-bg
           required
         />
         <app-input
           v-model="password"
           label="Wachtwoord"
           type="password"
+          do-alt-bg
           placeholder="•••••••••••"
           required
         />
@@ -41,6 +43,14 @@ form {
   display: grid;
   grid-template-columns: 100%;
   grid-gap: 20px;
+}
+button {
+  font-size: 1rem;
+  background: var(--theme);
+  color: white;
+  border: 0;
+  padding: 8px 32px;
+  border-radius: 6px;
 }
 </style>
 

@@ -9,6 +9,7 @@
         :max="max"
         :value="value"
         :placeholder="placeholder"
+        :class="doAltBg ? 'do-alt-bg' : ''"
         @input="setChange"
       />
     </div>
@@ -33,6 +34,11 @@ input {
   width: 100%;
   font-size: 1rem;
   appearance: none;
+
+  &.do-alt-bg {
+    background: var(--body);
+    border: 1px solid var(--border);
+  }
 }
 span {
   color: var(--text-secondary);
@@ -81,6 +87,11 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+    doAltBg: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   methods: {
