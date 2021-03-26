@@ -1,6 +1,19 @@
 const day = 1e3 * 60 * 60 * 24
 const d = new Date()
 
+// Find last month's "23rd" and this month's "23rd"
+// We're treating the 23rd as the start of the month — that's when I get paid.
+const currentMonth23rd = new Date(d)
+currentMonth23rd.setDate(23)
+
+const lastMonth23rd = new Date(
+  new Date(d.getFullYear(), d.getMonth()).getTime() - day * 0.75 // This is a bit whack, but TIMEZONES!
+)
+lastMonth23rd.setDate(23)
+
+const fromDate =
+  Date.now() > currentMonth23rd.getTime() ? currentMonth23rd : lastMonth23rd
+
 export const state = () => ({
   data: {
     transactions: [],
@@ -10,9 +23,7 @@ export const state = () => ({
   tagColors: {},
   // Get day 2 days before the start of the current month
   // Not great code, but oh well....
-  from: new Date(new Date(d.getFullYear(), d.getMonth()).getTime() - day * 2)
-    .toISOString()
-    .split('T')[0],
+  from: fromDate.toISOString().split('T')[0],
   until: new Date().toISOString().split('T')[0],
   viewingCat: '',
 })
