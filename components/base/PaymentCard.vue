@@ -1,8 +1,28 @@
 <template>
   <card class="no-padding">
     <div class="card-core card-sect">
-      <subtitle>
-        <span class="bold">{{ payment.description }}</span>
+      <subtitle class="is-subtitle">
+        <div v-if="entries.length > 0" class="sum-calculated">
+          <div
+            v-for="entry in entries"
+            :key="entry.id"
+            class="spread payment-row"
+          >
+            <span class="bold">{{ entry.description }}</span>
+            <div>
+              <span v-if="entry.itemCount > 1">{{ entry.itemCount }} x</span>
+              <money :cents="entry.centsPerEntry" />
+            </div>
+          </div>
+          <hr />
+          <div class="spread">
+            <span></span>
+            <money :cents="entriesTotalCents" />
+          </div>
+        </div>
+        <span v-else class="bold">
+          {{ payment.description }}
+        </span>
         <div
           v-if="payment.categories && payment.categories.length > 0"
           class="tags"
@@ -38,7 +58,37 @@
     min-width: 100%;
     scroll-snap-align: start;
   }
+
+  .is-subtitle {
+    width: 100%;
+    margin-right: 10px;
+  }
 }
+
+.sum-calculated {
+  .payment-row {
+    width: calc(100% + 6px);
+    padding: 3px;
+    margin-left: -3px;
+    border-radius: 4px;
+
+    &.payment-row {
+      margin-top: 3px;
+    }
+  }
+  .payment-row:nth-child(even) {
+    background: var(--body);
+  }
+
+  hr {
+    margin: 10px 0;
+    border: 0;
+    background: var(--border);
+    width: 100%;
+    height: 1px;
+  }
+}
+
 .action-wrapper {
   display: flex;
   flex-wrap: nowrap;
@@ -85,6 +135,11 @@
 .tags {
   margin-top: 5px;
 }
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>
 
 <script>
@@ -97,6 +152,11 @@ import Tag from '~/components/base/Tag'
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
 import EditIcon from '~/assets/icons/edit.svg?inline'
+
+// Functions
+function toCents(euroVal) {
+  return Number(euroVal.replace(/\.|€/g, ''))
+}
 
 export default {
   components: {
@@ -112,6 +172,49 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    const description = this.payment.description
+    const entries = []
+
+    // See if description is grocery-like
+    if (description.match(/.+ €\d/g)) {
+      const descriptionArray = description.split(',').map((item) => item.trim())
+
+      for (const [i, entry] of Object.entries(descriptionArray)) {
+        // Find item count
+        const countRegex = /(?:x ?(\d+))|(?:(\d+) ?x)/
+        const countMatch = entry.match(countRegex) || []
+        const itemCount = Number(countMatch[1] || countMatch[2] || 1)
+
+        // Find money totals
+        const moneyRegex = /€(\d+\.\d+)/
+        const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
+        const centArray = euroArray.map(toCents)
+        const totalCents = centArray.reduce((a, b) => a + b, 0)
+
+        // Get item name without fields we already have
+        const newDescription = entry
+          .replace(new RegExp(countRegex, 'g'), '')
+          .trim()
+          .replace(/ +/g, ' ')
+
+        // Add to entries
+        entries.push({
+          description:
+            newDescription.slice(0, 1).toUpperCase() + newDescription.slice(1),
+          cents: totalCents,
+          centsPerEntry: totalCents / itemCount,
+          original: entry,
+          id: i,
+          itemCount,
+        })
+      }
+    }
+
+    return {
+      entries,
+    }
   },
   methods: {
     doDelete() {
@@ -130,6 +233,12 @@ export default {
     },
     doEdit() {
       this.$nuxt.$emit('edit-transaction', this.payment.id)
+    },
+  },
+  computed: {
+    entriesTotalCents() {
+      console.log(this.entries[0].cents)
+      return this.entries.reduce((a, b) => a + b.cents, 0)
     },
   },
 }
