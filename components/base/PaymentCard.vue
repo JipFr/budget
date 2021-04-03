@@ -9,7 +9,7 @@
             class="spread payment-row"
           >
             <span class="bold">{{ entry.description }}</span>
-            <div>
+            <div class="no-break money-counter">
               <span v-if="entry.itemCount > 1">{{ entry.itemCount }} x</span>
               <money :cents="entry.centsPerEntry" />
             </div>
@@ -127,18 +127,25 @@
 .thin {
   color: var(--text-secondary);
 }
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.no-break {
+  white-space: nowrap;
+}
+
 .card-core {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+.money-counter {
+  margin-left: 10px;
+}
 .tags {
   margin-top: 5px;
-}
-.spread {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 </style>
 
@@ -196,6 +203,8 @@ export default {
         // Get item name without fields we already have
         const newDescription = entry
           .replace(new RegExp(countRegex, 'g'), '')
+          // .replace(/€(\d+\.\d+)(?: \+ )+/g, '')
+          // .replace(new RegExp(moneyRegex, 'g'), '')
           .trim()
           .replace(/ +/g, ' ')
 
