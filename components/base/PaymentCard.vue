@@ -216,6 +216,11 @@ export default {
       entries,
     }
   },
+  computed: {
+    entriesTotalCents() {
+      return this.entries.reduce((a, b) => a + b.cents, 0)
+    },
+  },
   methods: {
     doDelete() {
       if (confirm(`Delete transaction '${this.payment.description}'?`)) {
@@ -233,12 +238,6 @@ export default {
     },
     doEdit() {
       this.$nuxt.$emit('edit-transaction', this.payment.id)
-    },
-  },
-  computed: {
-    entriesTotalCents() {
-      console.log(this.entries[0].cents)
-      return this.entries.reduce((a, b) => a + b.cents, 0)
     },
   },
 }
