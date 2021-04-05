@@ -162,7 +162,10 @@ import EditIcon from '~/assets/icons/edit.svg?inline'
 
 // Functions
 function toCents(euroVal) {
-  return Number(euroVal.replace(/\.|€/g, ''))
+  const euroArray = euroVal.replace(/€/g, '').split('.')
+  const eurosInCents = euroArray[0] * 100
+  const cents = euroArray[1]
+  return (Number(eurosInCents) || 0) + (Number(cents) || 0)
 }
 
 export default {
@@ -195,7 +198,7 @@ export default {
         const itemCount = Number(countMatch[1] || countMatch[2] || 1)
 
         // Find money totals
-        const moneyRegex = /€(\d+\.\d+)/
+        const moneyRegex = /€(\d+(?:\.\d+)?)/
         const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
         const centArray = euroArray.map(toCents)
         const totalCents = centArray.reduce((a, b) => a + b, 0)
