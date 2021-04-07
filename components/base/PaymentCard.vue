@@ -11,7 +11,10 @@
             <span class="bold">{{ entry.description }}</span>
             <div class="no-break money-counter">
               <span v-if="entry.itemCount > 1">{{ entry.itemCount }} x</span>
-              <money :cents="entry.centsPerEntry" />
+              <money
+                v-if="entry.centsPerEntry !== 0"
+                :cents="entry.centsPerEntry"
+              />
             </div>
           </div>
           <hr />
@@ -200,7 +203,7 @@ export default {
         // Find money totals
         const moneyRegex = /€(\d+(?:\.\d+)?)/
         const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
-        const centArray = euroArray.map(toCents)
+        const centArray = (euroArray || []).map(toCents)
         const totalCents = centArray.reduce((a, b) => a + b, 0)
 
         // Get item name without fields we already have
