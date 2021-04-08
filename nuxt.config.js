@@ -29,10 +29,10 @@ export default {
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content', '@nuxtjs/auth'],
 
   axios: {
-    baseURL:
-      process.env.NODE_ENV === 'production'
-        ? 'https://budget.jipfr.nl'
-        : 'http://localhost:8063',
+    baseURL: 'https://budget.jipfr.nl',
+    // process.env.NODE_ENV === 'production'
+    //   ? 'https://budget.jipfr.nl'
+    //   : 'http://localhost:8063',
   },
 
   pwa: {

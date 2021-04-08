@@ -4,7 +4,13 @@
       <card class="fw highlight">
         <subtitle>In this period...</subtitle>
         <h1>
-          <money :cents="total" />
+          <money :cents="regularTotal" />
+        </h1>
+      </card>
+      <card class="fw">
+        <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
+        <h1>
+          <money :cents="foodTotal - foodSpent" />
         </h1>
       </card>
       <card>
@@ -65,7 +71,9 @@ export default {
     return {
       gained: 0,
       spent: 0,
-      total: 0,
+      regularTotal: 0,
+      foodTotal: 0,
+      foodSpent: 0,
     }
   },
   computed: {
@@ -83,12 +91,28 @@ export default {
       // Re-set values
       this.gained = 0
       this.spent = 0
-      this.total = 0
+      this.regularTotal = 0
+      this.foodTotal = 0
+      this.foodSpent = 0
 
       // Now go over each transaction and add it to the relevant field
       for (const payment of this.payments) {
         if (!payment.categories.includes('exclude')) {
-          this.total += payment.cents
+          // If it's food, keep a seperate "food total"
+          // Otherwise add it to the normal total
+          if (
+            payment.categories.includes('eten') ||
+            payment.categories.includes('food')
+          ) {
+            if (payment.cents > 0) {
+              this.foodTotal += payment.cents
+            } else {
+              this.foodSpent += payment.cents * -1
+            }
+          } else {
+            this.regularTotal += payment.cents
+          }
+
           if (payment.cents > 0) {
             this.gained += payment.cents
           } else {
