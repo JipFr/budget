@@ -1,3 +1,9 @@
+const budgetList = ['eten', 'food', 'entertainment', 'eigen', 'other']
+const budgetOverride = {
+  other: 100e2, // 100 euros
+  eigen: 100e2,
+}
+
 export function getEntriesData(payments, type) {
   // Map all payments into an object that shows how much money each category has spent
   const spendings = {}
@@ -63,7 +69,11 @@ export function getEntriesData(payments, type) {
         value: entry[1].gained - entry[1].spent,
       })
     } else {
-      const maxLimitCents = 600e2
+      let maxLimitCents = entry[1].gained
+      if (budgetOverride[entry[0]]) {
+        maxLimitCents = budgetOverride[entry[0]]
+      }
+
       const remaining = maxLimitCents - entry[1].spent
       const spentPercentage = Math.round((entry[1].spent / maxLimitCents) * 100)
       entry[1].budgetPercentage = spentPercentage
@@ -96,9 +106,9 @@ export function getEntriesData(payments, type) {
   )
 
   if (type === 'budget') {
-    entries = entries.sort(
-      (a, b) => b[1].budgetPercentage - a[1].budgetPercentage
-    )
+    entries = entries
+      .sort((a, b) => b[1].budgetPercentage - a[1].budgetPercentage)
+      .filter((v) => budgetList.includes(v[0]))
   }
 
   return {
