@@ -1,38 +1,43 @@
 <template>
   <div>
-    <container class="limited-width">
-      <!-- Hero -->
-      <hero :payments="getPayments" />
+    <container class="limited-width is-main-wrapper">
+      <div class="core-info">
+        <div class="info-content">
+          <!-- Hero -->
+          <hero :payments="getPayments" />
 
-      <!-- "From" and "until" picker -->
-      <from-until-picker />
-
-      <!-- Navigation -->
-      <div>
-        <nav>
-          <nuxt-link class="link" to="/">Payments</nuxt-link>
-          <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
-          <nuxt-link class="link" to="/?budget">Budget</nuxt-link>
-        </nav>
-        <loading-icon v-if="isLoading" />
+          <!-- "From" and "until" picker -->
+          <from-until-picker />
+        </div>
       </div>
 
-      <!-- Wrapper or loading state -->
-      <div v-if="!isLoading" class="tab-wrapper">
-        <!-- Payment list -->
-        <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
-        <category-overview
-          v-else-if="getQuery === 'overview'"
-          :payments="getPayments"
-        />
-        <budget-overview
-          v-else-if="getQuery === 'budget'"
-          :payments="getPayments"
-        />
-        <div v-else>Unknown page.</div>
-      </div>
-      <div v-else class="loading-wrapper">
-        <loading-icon />
+      <div class="main">
+        <!-- Navigation -->
+        <div class="nav">
+          <nav>
+            <nuxt-link class="link" to="/">Payments</nuxt-link>
+            <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
+            <nuxt-link class="link" to="/?budget">Budget</nuxt-link>
+          </nav>
+        </div>
+
+        <!-- Wrapper or loading state -->
+        <div v-if="!isLoading" class="tab-wrapper">
+          <!-- Payment list -->
+          <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
+          <category-overview
+            v-else-if="getQuery === 'overview'"
+            :payments="getPayments"
+          />
+          <budget-overview
+            v-else-if="getQuery === 'budget'"
+            :payments="getPayments"
+          />
+          <div v-else>Unknown page.</div>
+        </div>
+        <div v-else class="loading-wrapper">
+          <loading-icon />
+        </div>
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
@@ -48,6 +53,18 @@ h2 {
 
   > * + * {
     margin-left: 20px;
+  }
+}
+.is-main-wrapper {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-areas: 'info' 'main';
+
+  .core-info {
+    grid-area: info;
+  }
+  .main {
+    grid-area: main;
   }
 }
 .from-until-picker {
@@ -74,6 +91,23 @@ nav a {
 
   &.nuxt-link-exact-active {
     border-bottom-color: var(--text);
+  }
+}
+
+@media (min-width: 800px) {
+  .is-main-wrapper {
+    max-width: 1300px;
+    grid-template-columns: 350px 1fr 350px;
+    grid-gap: 40px;
+    grid-template-areas: 'info main';
+  }
+  .info-content {
+    position: sticky;
+    top: 60px;
+  }
+  nav {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

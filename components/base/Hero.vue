@@ -7,7 +7,7 @@
           <money :cents="regularTotal" />
         </h1>
       </card>
-      <card class="fw">
+      <card v-if="foodTotal > 0 || isLoading" class="fw">
         <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
         <h1>
           <money :cents="foodTotal - foodSpent" />

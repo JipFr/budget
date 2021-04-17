@@ -87,6 +87,28 @@
     background: rgba(0, 0, 0, 0.6);
   }
 }
+
+@media (min-width: 800px) {
+  .overlay-top-wrapper.open {
+    background: transparent;
+  }
+  div.overlay-top-wrapper:not(.invisible-when-closed) {
+    position: initial;
+    display: block;
+
+    .toggle-button {
+      display: none;
+    }
+    .content {
+      padding: 40px 0;
+      height: auto;
+      max-height: initial;
+    }
+    .limited-width {
+      width: 100%;
+    }
+  }
+}
 </style>
 
 <style lang="scss">

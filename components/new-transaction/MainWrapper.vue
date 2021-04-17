@@ -30,9 +30,14 @@
 
       <!-- Placeholders -->
       <hr />
-      <button class="primary" @click="submit">
-        {{ editingData.id ? 'Save' : 'Submit' }}
-      </button>
+      <div class="buttons">
+        <button class="primary" @click="submit">
+          {{ editingData.id ? 'Save' : 'Submit' }}
+        </button>
+        <button v-if="editingData.id" class="primary" @click="cancel">
+          Cancel
+        </button>
+      </div>
     </div>
   </overlay>
 </template>
@@ -207,6 +212,13 @@ export default {
         .catch((err) => {
           this.error = err
         })
+    },
+    cancel() {
+      // The "cancel" button was clicked. Only shows up on desktop
+      // Close the modal and remove the input
+      this.open = false
+      this.editingData = Object.assign({}, editingData)
+      this.error = ''
     },
   },
 }
