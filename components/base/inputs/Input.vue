@@ -56,6 +56,10 @@ textarea {
 }
 textarea {
   height: 100px;
+  min-height: 50px;
+  max-height: 250px;
+  overflow-y: auto;
+  resize: vertical;
 }
 span {
   color: var(--text-secondary);
