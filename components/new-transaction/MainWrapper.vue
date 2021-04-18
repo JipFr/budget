@@ -11,6 +11,7 @@
       <app-input
         v-model="editingData.description"
         label="Description"
+        type="textarea"
         placeholder="Netflix subscription"
       />
       <app-input v-model="editingData.date" label="Date" type="date" />

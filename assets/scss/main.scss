@@ -5,7 +5,7 @@
   --content: #f8f9fa;
   --text: #444444;
   --text-secondary: #4c4c4c;
-  --theme:#457461;
+  --theme: #457461;
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: rgb(255, 45, 85);
   --border: rgba(0, 0, 0, 0.1);
@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --body: #23272D;
+    --body: #23272d;
     --content: #16191f;
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
@@ -30,8 +30,10 @@ body {
   color: var(--text);
 }
 
-html, input {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+html,
+input {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 html {
   font-size: 16px;
@@ -43,7 +45,8 @@ html {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   min-height: calc(100vh - env(safe-area-inset-bottom) - 70px);
 }
 

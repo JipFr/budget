@@ -24,7 +24,7 @@
           </div>
         </div>
         <span v-else class="bold">
-          {{ payment.description }}
+          {{ description }}
         </span>
         <div
           v-if="payment.categories && payment.categories.length > 0"
@@ -188,6 +188,9 @@ export default {
   },
   data() {
     const description = this.payment.description
+      .replace(/\n\n/g, '\n')
+      .trim()
+      .replace(/\n/g, ', ')
     const entries = []
 
     // See if description is grocery-like
@@ -229,6 +232,7 @@ export default {
 
     return {
       entries,
+      description,
     }
   },
   computed: {

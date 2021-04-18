@@ -3,7 +3,18 @@
     <span v-if="label">{{ label }}</span>
     <div :class="prefix ? 'auto-fr' : ''">
       <span v-if="prefix" class="prefix">{{ prefix }}</span>
+      <textarea
+        v-if="type === 'textarea'"
+        :type="type"
+        :min="min"
+        :max="max"
+        :value="value"
+        :placeholder="placeholder"
+        :class="doAltBg ? 'do-alt-bg' : ''"
+        @input="setChange"
+      />
       <input
+        v-else
         :type="type"
         :min="min"
         :max="max"
@@ -24,7 +35,8 @@
 label {
   display: grid;
 }
-input {
+input,
+textarea {
   border: 0;
   padding: 8px;
   border-radius: 6px;
@@ -34,11 +46,16 @@ input {
   width: 100%;
   font-size: 1rem;
   appearance: none;
+  font-family: inherit;
+  resize: none;
 
   &.do-alt-bg {
     background: var(--body);
     border: 1px solid var(--border);
   }
+}
+textarea {
+  height: 100px;
 }
 span {
   color: var(--text-secondary);
