@@ -31,7 +31,13 @@ export default {
     },
   },
   data() {
-    const now = new Date()
+    let now = new Date()
+    now = new Date(
+      `${now.getFullYear()}-${(now.getMonth() + 2)
+        .toString()
+        .padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`
+    )
+
     const recurringTransactions = this.allPayments
       .filter((payment) => {
         // Filter by it being in the last "month"
@@ -52,14 +58,16 @@ export default {
         const date = new Date(payment.date)
         const expectedMonth = date.getMonth() + 1
         let newDate = new Date(
-          `${date.getFullYear()}-${date.getMonth() + 2}-${date.getDate()}`
+          `${date.getFullYear()}-${(date.getMonth() + 2)
+            .toString()
+            .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
         )
 
         while (newDate.getMonth() > expectedMonth) {
           newDate = new Date(newDate.getTime() - 1e3 * 60 * 60 * 24)
         }
 
-        const diff = newDate.getTime() - Date.now()
+        const diff = newDate.getTime() - now.getDate()
         const inXDays = Math.round(diff / (1e3 * 60 * 60 * 24))
 
         return {
