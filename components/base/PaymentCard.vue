@@ -27,7 +27,7 @@
           {{ description }}
         </span>
         <span v-if="payment.inXDays" class="in-x-days">
-          in {{ payment.inXDays }} days
+          in {{ payment.inXDays }} {{ payment.inXDays == 1 ? 'day' : 'days' }}
         </span>
         <div
           v-if="payment.categories && payment.categories.length > 0"

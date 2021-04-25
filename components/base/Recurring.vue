@@ -33,7 +33,7 @@ export default {
   data() {
     let now = new Date()
     now = new Date(
-      `${now.getFullYear()}-${(now.getMonth() + 2)
+      `${now.getFullYear()}-${(now.getMonth() + 1)
         .toString()
         .padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`
     )
@@ -67,7 +67,7 @@ export default {
           newDate = new Date(newDate.getTime() - 1e3 * 60 * 60 * 24)
         }
 
-        const diff = newDate.getTime() - now.getDate()
+        const diff = newDate.getTime() - now.getTime()
         const inXDays = Math.round(diff / (1e3 * 60 * 60 * 24))
 
         return {
