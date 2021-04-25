@@ -99,6 +99,24 @@ nav a {
   }
 }
 
+@media (max-width: 799px) {
+  nav {
+    margin-left: -5vw;
+    padding-left: 5vw;
+    margin-right: -5vw;
+    padding-right: 5vw;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    &::after {
+      content: '';
+      display: block;
+      min-width: 5vw;
+      height: 1px;
+    }
+  }
+}
 @media (min-width: 800px) {
   .is-main-wrapper {
     max-width: 1300px;
