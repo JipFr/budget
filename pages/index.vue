@@ -18,6 +18,7 @@
             <nuxt-link class="link" to="/">Payments</nuxt-link>
             <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
             <nuxt-link class="link" to="/?budget">Budget</nuxt-link>
+            <nuxt-link class="link" to="/?recurring">Recurring</nuxt-link>
           </nav>
         </div>
 
@@ -32,6 +33,10 @@
           <budget-overview
             v-else-if="getQuery === 'budget'"
             :payments="getPayments"
+          />
+          <recurring
+            v-else-if="getQuery === 'recurring'"
+            :all-payments="getAllPayments"
           />
           <div v-else>Unknown page.</div>
         </div>
@@ -118,6 +123,7 @@ import Container from '~/components/layout/Container'
 import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryOverview from '~/components/base/CategoryOverview'
+import Recurring from '~/components/base/Recurring'
 import BudgetOverview from '~/components/base/BudgetOverview'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
@@ -130,6 +136,7 @@ export default {
     PaymentList,
     CategoryOverview,
     BudgetOverview,
+    Recurring,
     Container,
     Hero,
     FromUntilPicker,
@@ -140,6 +147,10 @@ export default {
     getPayments() {
       const user = this.$store.state.user.data
       return user.transactionsInPeriod || []
+    },
+    getAllPayments() {
+      const user = this.$store.state.user.data
+      return user.transactions || []
     },
     isLoading() {
       return this.$store.state.user.data.loading

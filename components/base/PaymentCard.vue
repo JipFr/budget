@@ -23,8 +23,11 @@
             <money :cents="entriesTotalCents" />
           </div>
         </div>
-        <span v-else class="bold">
+        <span v-else class="bold usual-description">
           {{ description }}
+        </span>
+        <span v-if="payment.inXDays" class="in-x-days">
+          in {{ payment.inXDays }} days
         </span>
         <div
           v-if="payment.categories && payment.categories.length > 0"
@@ -35,7 +38,11 @@
       </subtitle>
       <money :cents="payment.cents" />
     </div>
-    <div class="card-actions card-sect dec-margin">
+    <!--
+      Only show this section if it's a past transaction.
+      Otherwise it's an "in X days" card, without actions
+     -->
+    <div v-if="!payment.inXDays" class="card-actions card-sect dec-margin">
       <div class="action-wrapper">
         <button class="action-button" @click="doDelete">
           <trash-icon />
@@ -66,6 +73,13 @@
     width: 100%;
     margin-right: 10px;
   }
+}
+
+.usual-description {
+  margin-right: 10px;
+}
+.in-x-days {
+  white-space: nowrap;
 }
 
 .sum-calculated {

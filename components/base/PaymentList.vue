@@ -17,26 +17,7 @@
 </template>
 
 <style lang="scss" scoped>
-.date-wrapper + .date-wrapper .date-label {
-  margin-top: 20px;
-}
-.date-label {
-  margin-bottom: 5px;
-}
-.list {
-  margin: 10px 0;
-}
-.card + .card {
-  margin-top: 6px;
-}
-.empty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100px;
-  padding: 25px;
-}
+@import '../../assets/scss/paymentlist.scss';
 </style>
 
 <script>
