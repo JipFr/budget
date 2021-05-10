@@ -48,9 +48,8 @@ export default {
       .filter((payment) => {
         // Filter it by being a monthly transaction
         return (
-          (payment.categories.includes('maandelijks') ||
-            payment.categories.includes('monthly')) &&
-          !payment.categories.includes('exclude')
+          payment.categories.includes('maandelijks') ||
+          payment.categories.includes('monthly')
         )
       })
       .map((payment) => {

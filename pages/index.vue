@@ -17,7 +17,6 @@
           <nav>
             <nuxt-link class="link" to="/">Payments</nuxt-link>
             <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
-            <nuxt-link class="link" to="/?budget">Budget</nuxt-link>
             <nuxt-link class="link" to="/?recurring">Recurring</nuxt-link>
           </nav>
         </div>
@@ -28,10 +27,6 @@
           <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
           <category-overview
             v-else-if="getQuery === 'overview'"
-            :payments="getPayments"
-          />
-          <budget-overview
-            v-else-if="getQuery === 'budget'"
             :payments="getPayments"
           />
           <recurring
@@ -142,7 +137,6 @@ import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryOverview from '~/components/base/CategoryOverview'
 import Recurring from '~/components/base/Recurring'
-import BudgetOverview from '~/components/base/BudgetOverview'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 
@@ -153,7 +147,6 @@ export default {
   components: {
     PaymentList,
     CategoryOverview,
-    BudgetOverview,
     Recurring,
     Container,
     Hero,
