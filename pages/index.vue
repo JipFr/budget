@@ -94,7 +94,7 @@ nav a {
   }
 }
 
-@media (max-width: 799px) {
+@media (max-width: 1149px) {
   nav {
     margin-left: -5vw;
     padding-left: 5vw;
@@ -112,10 +112,10 @@ nav a {
     }
   }
 }
-@media (min-width: 800px) {
+@media (min-width: 1149px) {
   .is-main-wrapper {
     max-width: 1300px;
-    grid-template-columns: 350px 1fr 350px;
+    grid-template-columns: 1fr 1.5fr 1fr;
     grid-gap: 40px;
     grid-template-areas: 'info main';
   }

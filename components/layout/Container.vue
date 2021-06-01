@@ -10,10 +10,10 @@
   margin: 0 auto;
   max-width: 500px;
   &.limited-width {
-    width: 90%;
+    width: calc(100% - 40px);
   }
 }
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 1150px) {
   .container {
     width: 90%;
   }

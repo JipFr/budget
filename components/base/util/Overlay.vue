@@ -88,7 +88,7 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1150px) {
   .overlay-top-wrapper.open {
     background: transparent;
   }
