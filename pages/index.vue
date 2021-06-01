@@ -41,7 +41,11 @@
       </div>
 
       <!-- (Fixed position) new transaction wrapper -->
-      <new-transaction-wrapper :show-button="getQuery === ''" />
+      <div class="new-transaction-wrapper">
+        <div class="new-transaction-content">
+          <new-transaction-wrapper :show-button="getQuery === ''" />
+        </div>
+      </div>
     </container>
   </div>
 </template>
@@ -119,7 +123,8 @@ nav a {
     grid-gap: 40px;
     grid-template-areas: 'info main';
   }
-  .info-content {
+  .info-content,
+  .new-transaction-content {
     position: sticky;
     top: 60px;
   }
