@@ -35,6 +35,10 @@ export default {
     //   : 'http://localhost:8063',
   },
 
+  server: {
+    host: '0',
+  },
+
   pwa: {
     manifest: {
       name: 'Budget',
