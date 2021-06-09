@@ -35,7 +35,7 @@
         <button class="primary" @click="submit">
           {{ editingData.id ? 'Save' : 'Submit' }}
         </button>
-        <button v-if="editingData.id" class="primary" @click="cancel">
+        <button v-if="editingData.id" class="secondary" @click="cancel">
           Cancel
         </button>
       </div>
@@ -53,14 +53,25 @@
   margin-top: 10px;
 }
 
-button.primary {
+button {
   font-size: 1rem;
-  padding: 12px 20px;
+  padding: 12px 22px;
   border-radius: 6px;
   border: 0;
-  background: var(--theme);
-  color: white;
   text-transform: uppercase;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+
+  &.primary {
+    background: var(--theme);
+    color: white;
+    font-weight: bold;
+    border-color: transparent;
+  }
+  &.secondary {
+    background: transparent;
+    color: var(--text);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
