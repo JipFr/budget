@@ -43,7 +43,10 @@
       <!-- (Fixed position) new transaction wrapper -->
       <div class="new-transaction-wrapper">
         <div class="new-transaction-content">
-          <new-transaction-wrapper :show-button="getQuery === ''" />
+          <new-transaction-wrapper
+            class="no-desktop-bg"
+            :show-button="getQuery === ''"
+          />
         </div>
       </div>
     </container>
