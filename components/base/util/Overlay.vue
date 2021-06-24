@@ -89,7 +89,7 @@
 }
 
 @media (min-width: 1150px) {
-  .overlay-top-wrapper.open {
+  .overlay-top-wrapper.no-desktop-bg.open {
     background: transparent;
   }
   div.overlay-top-wrapper:not(.invisible-when-closed) {

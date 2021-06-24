@@ -16,8 +16,9 @@
         <div class="nav">
           <nav>
             <nuxt-link class="link" to="/">Payments</nuxt-link>
-            <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
+            <nuxt-link class="link" to="/?categories">Categories</nuxt-link>
             <nuxt-link class="link" to="/?recurring">Recurring</nuxt-link>
+            <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
           </nav>
         </div>
 
@@ -26,12 +27,16 @@
           <!-- Payment list -->
           <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
           <category-overview
-            v-else-if="getQuery === 'overview'"
+            v-else-if="getQuery === 'categories'"
             :payments="getPayments"
           />
           <recurring
             v-else-if="getQuery === 'recurring'"
             :all-payments="getAllPayments"
+          />
+          <total-overview
+            v-else-if="getQuery === 'overview'"
+            :payments="getAllPayments"
           />
           <div v-else>Unknown page.</div>
         </div>
@@ -42,8 +47,17 @@
 
       <!-- (Fixed position) new transaction wrapper -->
       <div class="new-transaction-wrapper">
+        <portal-target name="right-side">
+          <!--
+  This component can be located anywhere in your App.
+  The slot content of the above portal component will be rendered here.
+  -->
+        </portal-target>
         <div class="new-transaction-content">
-          <new-transaction-wrapper :show-button="getQuery === ''" />
+          <new-transaction-wrapper
+            class="no-desktop-bg"
+            :show-button="getQuery === ''"
+          />
         </div>
       </div>
     </container>
@@ -137,11 +151,13 @@ nav a {
 
 <script>
 // Import components
+import { PortalTarget } from 'portal-vue'
 import Container from '~/components/layout/Container'
 import Hero from '~/components/base/Hero'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryOverview from '~/components/base/CategoryOverview'
 import Recurring from '~/components/base/Recurring'
+import TotalOverview from '~/components/base/TotalOverview'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 
@@ -153,11 +169,13 @@ export default {
     PaymentList,
     CategoryOverview,
     Recurring,
+    TotalOverview,
     Container,
     Hero,
     FromUntilPicker,
     LoadingIcon,
     NewTransactionWrapper,
+    PortalTarget,
   },
   computed: {
     getPayments() {

@@ -26,7 +26,13 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content', '@nuxtjs/auth'],
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
+    '@nuxt/content',
+    '@nuxtjs/auth',
+    'portal-vue/nuxt',
+  ],
 
   axios: {
     baseURL: 'https://budget.jipfr.nl',
