@@ -21,11 +21,14 @@
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
     "@nuxtjs/svg": "^0.1.12",
+    "chart.js": "^2.9.4",
     "cordova-res": "^0.15.3",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
+    "portal-vue": "^2.1.7",
     "sass": "^1.32.5",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "^10.1.1",
+    "vue-chartjs": "^3.5.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

@@ -1,5 +1,11 @@
 <template>
-  <div class="tag" :style="`--bg-color: ${color}`">{{ capitalize }}</div>
+  <div class="tag" :style="`--bg-color: ${color}`">
+    {{ capitalize }}
+    <span v-if="cents !== null" class="amount">
+      <!-- eslint-disable-next-line no-irregular-whitespace -->
+      — <money :cents="cents" />
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -22,14 +28,28 @@
   background: var(--bg-color, var(--theme));
   margin-right: 8px;
 }
+.amount {
+  margin-left: 10px;
+  color: var(--text-secondary);
+}
 </style>
 
 <script>
+import Money from '~/components/title/Money'
+
 export default {
+  components: {
+    Money,
+  },
   props: {
     tag: {
       type: String,
       required: true,
+    },
+    cents: {
+      type: Number,
+      required: false,
+      default: null,
     },
   },
   data() {
