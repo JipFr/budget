@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>Hoi</p>
     <chart v-if="chartLoaded" :chartdata="chartData" />
 
     <portal to="right-side">
