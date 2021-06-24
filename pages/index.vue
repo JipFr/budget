@@ -16,7 +16,7 @@
         <div class="nav">
           <nav>
             <nuxt-link class="link" to="/">Payments</nuxt-link>
-            <nuxt-link class="link" to="/?overview">Overview</nuxt-link>
+            <nuxt-link class="link" to="/?categories">Categories</nuxt-link>
             <nuxt-link class="link" to="/?recurring">Recurring</nuxt-link>
           </nav>
         </div>
@@ -26,7 +26,7 @@
           <!-- Payment list -->
           <payment-list v-if="getQuery === ''" :raw-payments="getPayments" />
           <category-overview
-            v-else-if="getQuery === 'overview'"
+            v-else-if="getQuery === 'categories'"
             :payments="getPayments"
           />
           <recurring
