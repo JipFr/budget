@@ -40,12 +40,6 @@ export default {
 
     const recurringTransactions = this.allPayments
       .filter((payment) => {
-        // Filter by it being in the last "month"
-        const paymentDate = new Date(payment.date)
-        const diff = now - paymentDate.getTime()
-        return diff < 1e3 * 60 * 60 * 24 * 31
-      })
-      .filter((payment) => {
         // Filter it by being a monthly transaction
         return (
           payment.categories.includes('maandelijks') ||
@@ -74,6 +68,7 @@ export default {
           inXDays,
         }
       })
+      .filter((payment) => payment.inXDays >= 0)
       .sort((paymentA, paymentB) => {
         // Sort payments by amount of days left
         return paymentA.inXDays - paymentB.inXDays

@@ -26,8 +26,12 @@
         <span v-else class="bold usual-description">
           {{ description }}
         </span>
-        <span v-if="payment.inXDays" class="in-x-days">
-          in {{ payment.inXDays }} {{ payment.inXDays == 1 ? 'day' : 'days' }}
+        <span v-if="typeof payment.inXDays !== 'undefined'" class="in-x-days">
+          <span v-if="payment.inXDays === 0"> Today </span>
+          <span v-else-if="payment.inXDays === 1"> Tomorrow </span>
+          <span v-else>
+            in {{ payment.inXDays }} {{ payment.inXDays == 1 ? 'day' : 'days' }}
+          </span>
         </span>
         <div
           v-if="payment.categories && payment.categories.length > 0"
