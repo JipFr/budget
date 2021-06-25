@@ -77,7 +77,8 @@ export default {
 
     // Generate set of all categories
     for (const payment of this.payments) {
-      this.allCategories.push(...payment.categories)
+      if (!payment.categories.includes('exclude'))
+        this.allCategories.push(...payment.categories)
     }
     this.allCategories = [...new Set(this.allCategories)]
     this.enabledCategories = this.allCategories.filter((v) => {
@@ -95,10 +96,12 @@ export default {
         }
       }
     }
-    this.enabledCategories = this.enabledCategories.sort(
-      (a, b) =>
-        Math.abs(this.categoriesTotal[b]) - Math.abs(this.categoriesTotal[a])
-    )
+    this.enabledCategories = this.enabledCategories
+      .filter((cat) => cat !== 'exclude')
+      .sort(
+        (a, b) =>
+          Math.abs(this.categoriesTotal[b]) - Math.abs(this.categoriesTotal[a])
+      )
 
     // Generate field for each month in each year that has a transaction
     let monthLabels = []
@@ -136,6 +139,7 @@ export default {
         const dateString = `${d.getFullYear()}-${(d.getMonth() + 1)
           .toString()
           .padStart(2, 0)}`
+
         if (dateString === monthData.label) {
           if (!payment.categories.includes('exclude')) {
             // Add to total count if it's not "excluded"
