@@ -87,9 +87,12 @@ export default {
     // Count total
     this.categoriesTotal = {}
     for (const payment of this.payments) {
-      for (const category of payment.categories) {
-        if (!this.categoriesTotal[category]) this.categoriesTotal[category] = 0
-        this.categoriesTotal[category] += payment.cents / 100
+      if (!payment.categories.includes('exclude')) {
+        for (const category of payment.categories) {
+          if (!this.categoriesTotal[category])
+            this.categoriesTotal[category] = 0
+          this.categoriesTotal[category] += payment.cents / 100
+        }
       }
     }
     this.enabledCategories = this.enabledCategories.sort(
@@ -134,14 +137,17 @@ export default {
           .toString()
           .padStart(2, 0)}`
         if (dateString === monthData.label) {
-          const euros = payment.cents / 100
-          for (const category of payment.categories) {
-            if (this.enabledCategories.includes(category)) {
-              monthData.categories[category].total += euros
-              if (euros > 0) {
-                monthData.categories[category].gained += euros
-              } else {
-                monthData.categories[category].spent += Math.abs(euros)
+          if (!payment.categories.includes('exclude')) {
+            // Add to total count if it's not "excluded"
+            const euros = payment.cents / 100
+            for (const category of payment.categories) {
+              if (this.enabledCategories.includes(category)) {
+                monthData.categories[category].total += euros
+                if (euros > 0) {
+                  monthData.categories[category].gained += euros
+                } else {
+                  monthData.categories[category].spent += Math.abs(euros)
+                }
               }
             }
           }
