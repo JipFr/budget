@@ -81,9 +81,6 @@ export default {
         this.allCategories.push(...payment.categories)
     }
     this.allCategories = [...new Set(this.allCategories)]
-    this.enabledCategories = this.allCategories.filter((v) => {
-      return !this.disabledCategories.includes(v)
-    })
 
     // Count total
     this.categoriesTotal = {}
@@ -96,12 +93,22 @@ export default {
         }
       }
     }
-    this.enabledCategories = this.enabledCategories
-      .filter((cat) => cat !== 'exclude')
-      .sort(
-        (a, b) =>
-          Math.abs(this.categoriesTotal[b]) - Math.abs(this.categoriesTotal[a])
-      )
+
+    // Update category list values
+    this.enabledCategories = this.allCategories.filter((v) => {
+      return !this.disabledCategories.includes(v)
+    })
+    this.allCategories = this.allCategories.sort(
+      (a, b) =>
+        Math.abs(this.categoriesTotal[b]) - Math.abs(this.categoriesTotal[a])
+    )
+
+    this.enabledCategories = this.enabledCategories.filter(
+      (cat) => cat !== 'exclude'
+    )
+    this.disabledCategories = this.disabledCategories.sort(
+      (a, b) => this.allCategories.indexOf(a) - this.allCategories.indexOf(b)
+    )
 
     // Generate field for each month in each year that has a transaction
     let monthLabels = []
