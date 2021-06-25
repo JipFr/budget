@@ -33,15 +33,14 @@ export default {
       },
     },
   },
-  mounted() {
-    this.render()
-  },
   watch: {
     chartdata() {
-      console.log('refreshed')
       this.$data._chart.update()
       this.render()
     },
+  },
+  mounted() {
+    this.render()
   },
   methods: {
     render() {
