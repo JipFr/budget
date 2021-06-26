@@ -95,13 +95,13 @@ export default {
     }
 
     // Update category list values
-    this.enabledCategories = this.allCategories.filter((v) => {
-      return !this.disabledCategories.includes(v)
-    })
     this.allCategories = this.allCategories.sort(
       (a, b) =>
         Math.abs(this.categoriesTotal[b]) - Math.abs(this.categoriesTotal[a])
     )
+    this.enabledCategories = this.allCategories.filter((v) => {
+      return !this.disabledCategories.includes(v)
+    })
 
     this.enabledCategories = this.enabledCategories.filter(
       (cat) => cat !== 'exclude'
