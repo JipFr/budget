@@ -195,6 +195,7 @@ export default {
         ),
         borderColor: 'transparent',
         borderWidth: 0,
+        pointHitRadius: 25,
       }
     })
 
