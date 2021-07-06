@@ -1,13 +1,19 @@
 <template>
-  <span class="money" :class="cents < 0 ? 'negative' : ''">{{ getValue }}</span>
+  <span class="money" :class="classes" @click="toggleBlur">{{ getValue }}</span>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .negative {
   color: var(--negative);
 }
 span {
   white-space: nowrap;
+  cursor: pointer;
+
+  &.blurred {
+    color: transparent;
+    background: var(--border);
+  }
 }
 span::before {
   content: '€';
@@ -24,6 +30,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      blurred: false,
+    }
+  },
   computed: {
     getValue() {
       const formatter = new Intl.NumberFormat('nl-NL', {
@@ -35,6 +46,19 @@ export default {
         .format(this.cents / 100)
         .replace(/€/g, '')
         .trim()
+    },
+    classes() {
+      const classes = []
+
+      if (this.cents < 0) classes.push('negative')
+      if (this.blurred) classes.push('blurred')
+
+      return classes
+    },
+  },
+  methods: {
+    toggleBlur() {
+      this.blurred = !this.blurred
     },
   },
 }
