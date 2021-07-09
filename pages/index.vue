@@ -47,12 +47,7 @@
 
       <!-- (Fixed position) new transaction wrapper -->
       <div class="new-transaction-wrapper">
-        <portal-target name="right-side">
-          <!--
-  This component can be located anywhere in your App.
-  The slot content of the above portal component will be rendered here.
-  -->
-        </portal-target>
+        <portal-target name="right-side"></portal-target>
         <div class="new-transaction-content">
           <new-transaction-wrapper
             class="no-desktop-bg"

@@ -6,6 +6,8 @@
 
       <!-- Error banner -->
       <banner v-if="error">⚠️ {{ error }}</banner>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <banner v-if="message" type="message" v-html="message" />
 
       <!-- All inputs -->
       <app-input
@@ -31,13 +33,18 @@
 
       <!-- Placeholders -->
       <hr />
-      <div class="buttons">
-        <button class="primary" @click="submit">
-          {{ editingData.id ? 'Save' : 'Submit' }}
-        </button>
-        <button v-if="editingData.id" class="secondary" @click="cancel">
-          Cancel
-        </button>
+      <div class="spread">
+        <div class="buttons">
+          <button class="primary" @click="submit">
+            {{ editingData.id ? 'Save' : 'Submit' }}
+          </button>
+          <button v-if="editingData.id" class="secondary" @click="cancel">
+            Cancel
+          </button>
+        </div>
+        <div class="buttons">
+          <button class="primary" @click="copyCurrency">€</button>
+        </div>
       </div>
     </div>
   </overlay>
@@ -52,6 +59,11 @@
 .overlay-content > * + * {
   margin-top: 10px;
 }
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 button {
   font-size: 1rem;
@@ -61,6 +73,7 @@ button {
   text-transform: uppercase;
   box-sizing: border-box;
   border: 1px solid var(--border);
+  cursor: pointer;
 
   &.primary {
     background: var(--theme);
@@ -71,6 +84,13 @@ button {
   &.secondary {
     background: transparent;
     color: var(--text);
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+  &:active {
+    opacity: 0.8;
   }
 }
 
@@ -114,6 +134,7 @@ export default {
       open: false,
       editingData: Object.assign({}, editingData),
       error: '',
+      message: '',
     }
   },
   mounted() {
@@ -217,6 +238,7 @@ export default {
             setTimeout(() => {
               this.editingData = Object.assign({}, editingData)
               this.error = ''
+              this.message = ''
               this.$nuxt.$emit('refetch')
             }, 500)
           }
@@ -231,6 +253,11 @@ export default {
       this.open = false
       this.editingData = Object.assign({}, editingData)
       this.error = ''
+      this.message = ''
+    },
+    copyCurrency() {
+      navigator.clipboard.writeText('€')
+      this.message = 'Copied <strong>€</strong> to your clipboard'
     },
   },
 }
