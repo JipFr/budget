@@ -48,6 +48,7 @@ textarea {
   appearance: none;
   font-family: inherit;
   resize: none;
+  text-align: left;
 
   &.do-alt-bg {
     background: var(--body);
