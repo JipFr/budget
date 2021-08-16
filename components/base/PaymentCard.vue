@@ -222,7 +222,7 @@ export default {
         const itemCount = Number(countMatch[1] || countMatch[2] || 1)
 
         // Find money totals
-        const moneyRegex = /€(\d+(?:\.\d+)?)/
+        const moneyRegex = /€(-?\d+(?:\.\d+)?)/
         const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
         const centArray = (euroArray || []).map(toCents)
         const totalCents = centArray.reduce((a, b) => a + b, 0)
