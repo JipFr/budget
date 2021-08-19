@@ -184,9 +184,11 @@ import EditIcon from '~/assets/icons/edit.svg?inline'
 // Functions
 function toCents(euroVal) {
   const euroArray = euroVal.replace(/€/g, '').split('.')
-  const eurosInCents = euroArray[0] * 100
+  const isNegative = Number(euroVal.replace(/€/g, '')) < 0
+  const eurosInCents = Math.abs(euroArray[0] * 100)
   const cents = euroArray[1]
-  return (Number(eurosInCents) || 0) + (Number(cents) || 0)
+  const total = (Number(eurosInCents) || 0) + (Number(cents) || 0)
+  return isNegative ? -total : total
 }
 
 export default {
@@ -226,6 +228,7 @@ export default {
         const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
         const centArray = (euroArray || []).map(toCents)
         const totalCents = centArray.reduce((a, b) => a + b, 0)
+        console.log(euroArray, centArray, totalCents)
 
         // Get item name without fields we already have
         const newDescription = entry
