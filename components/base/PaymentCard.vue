@@ -228,7 +228,6 @@ export default {
         const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
         const centArray = (euroArray || []).map(toCents)
         const totalCents = centArray.reduce((a, b) => a + b, 0)
-        console.log(euroArray, centArray, totalCents)
 
         // Get item name without fields we already have
         const newDescription = entry
