@@ -1,24 +1,15 @@
 <template>
   <div>
-    <payment-list :raw-payments="getPayments" />
-    <portal to="right-side">
-      <div class="new-transaction-content">
-        <new-transaction-wrapper class="no-desktop-bg" />
-      </div>
-    </portal>
+    <recurring :all-payments="getAllPayments" />
   </div>
 </template>
 
 <script>
-import { Portal } from 'portal-vue'
-import PaymentList from '~/components/base/PaymentList'
-import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
+import Recurring from '~/components/base/Recurring'
 
 export default {
   components: {
-    Portal,
-    PaymentList,
-    NewTransactionWrapper,
+    Recurring,
   },
 
   computed: {

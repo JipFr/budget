@@ -1,24 +1,15 @@
 <template>
   <div>
-    <payment-list :raw-payments="getPayments" />
-    <portal to="right-side">
-      <div class="new-transaction-content">
-        <new-transaction-wrapper class="no-desktop-bg" />
-      </div>
-    </portal>
+    <total-overview :payments="getAllPayments" />
   </div>
 </template>
 
 <script>
-import { Portal } from 'portal-vue'
-import PaymentList from '~/components/base/PaymentList'
-import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
+import TotalOverview from '~/components/base/TotalOverview'
 
 export default {
   components: {
-    Portal,
-    PaymentList,
-    NewTransactionWrapper,
+    TotalOverview,
   },
 
   computed: {
