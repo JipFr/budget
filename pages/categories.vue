@@ -11,7 +11,6 @@ export default {
   components: {
     CategoryOverview,
   },
-
   computed: {
     getPayments() {
       const user = this.$store.state.user.data

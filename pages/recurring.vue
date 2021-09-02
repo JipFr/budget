@@ -11,7 +11,6 @@ export default {
   components: {
     Recurring,
   },
-
   computed: {
     getAllPayments() {
       const user = this.$store.state.user.data

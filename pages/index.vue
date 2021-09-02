@@ -20,7 +20,6 @@ export default {
     PaymentList,
     NewTransactionWrapper,
   },
-
   computed: {
     getPayments() {
       const user = this.$store.state.user.data
