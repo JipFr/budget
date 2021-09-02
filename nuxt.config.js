@@ -1,7 +1,7 @@
 export default {
   target: 'static',
   head: {
-    title: 'Budget',
+    title: 'BudgetDuck',
     meta: [
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: '' },
@@ -47,8 +47,8 @@ export default {
 
   pwa: {
     manifest: {
-      name: 'Budget',
-      short_name: 'Budget',
+      name: 'BudgetDuck',
+      short_name: 'BudgetDuck',
       start_url: '/',
     },
     meta: {

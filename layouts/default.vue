@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header title="Budget" />
+    <app-header title="BudgetDuck" />
     <div class="page">
       <div v-if="error">
         <container class="limited-width">
