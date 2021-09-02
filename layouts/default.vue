@@ -23,10 +23,22 @@
             <!-- Navigation -->
             <div class="nav">
               <nav>
-                <nuxt-link class="link" to="/">Payments</nuxt-link>
-                <nuxt-link class="link" to="/categories">Categories</nuxt-link>
-                <nuxt-link class="link" to="/recurring">Recurring</nuxt-link>
-                <nuxt-link class="link" to="/overview">Overview</nuxt-link>
+                <nuxt-link
+                  class="link"
+                  to="/"
+                  :class="
+                    financePaths.includes(path) ? 'nuxt-link-exact-active' : ''
+                  "
+                >
+                  Finances
+                </nuxt-link>
+                <nuxt-link class="link" to="/settings"> Settings </nuxt-link>
+              </nav>
+              <nav v-if="financePaths.includes(path)" class="with-badges">
+                <nuxt-link class="badge" to="/">Payments</nuxt-link>
+                <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
+                <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
+                <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
               </nav>
             </div>
 
@@ -37,23 +49,6 @@
 
             <div v-else class="loading-wrapper">
               <loading-icon />
-            </div>
-
-            <div v-if="false" class="tab-wrapper">
-              <!-- Payment list -->
-              <category-overview
-                v-if="getQuery === 'categories'"
-                :payments="getPayments"
-              />
-              <recurring
-                v-else-if="getQuery === 'recurring'"
-                :all-payments="getAllPayments"
-              />
-              <total-overview
-                v-else-if="getQuery === 'overview'"
-                :payments="getAllPayments"
-              />
-              <div v-else>Unknown page.</div>
             </div>
           </div>
 
@@ -105,7 +100,33 @@ h2 {
   width: 100%;
   height: 150px;
 }
-nav a {
+
+nav {
+  margin-left: -5vw;
+  padding-left: 5vw;
+  margin-right: -5vw;
+  padding-right: 5vw;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  &::after {
+    content: '';
+    display: block;
+    min-width: 5vw;
+    height: 1px;
+  }
+
+  &.with-badges {
+    margin-left: calc(-5vw - 3px);
+  }
+
+  & + nav {
+    margin-top: 10px;
+  }
+}
+
+nav .link {
   color: inherit;
   text-decoration: none;
   display: inline-block;
@@ -119,24 +140,24 @@ nav a {
   }
 }
 
-@media (max-width: 1149px) {
-  nav {
-    margin-left: -5vw;
-    padding-left: 5vw;
-    margin-right: -5vw;
-    padding-right: 5vw;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+nav .badge {
+  padding: 8px 15px;
+  background: var(--content);
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  margin: 3px;
 
-    &::after {
-      content: '';
-      display: block;
-      min-width: 5vw;
-      height: 1px;
-    }
+  &:hover {
+    background: var(--border);
+  }
+
+  &.nuxt-link-exact-active {
+    background: var(--theme);
+    color: white;
   }
 }
+
 @media (min-width: 1149px) {
   .is-main-wrapper {
     max-width: 1300px;
@@ -148,10 +169,6 @@ nav a {
   .new-transaction-content {
     position: sticky;
     top: 60px;
-  }
-  nav {
-    display: flex;
-    justify-content: center;
   }
 }
 </style>
@@ -166,7 +183,6 @@ import Banner from '~/components/base/Banner'
 import AppHeader from '~/components/layout/Header'
 import Container from '~/components/layout/Container'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
-import CategoryOverview from '~/components/base/CategoryOverview'
 
 // Import icons
 import LoadingIcon from '~/components/base/LoadingIcon'
@@ -176,7 +192,6 @@ export default {
     AppHeader,
     Banner,
     Container,
-    CategoryOverview,
     Hero,
     FromUntilPicker,
     LoadingIcon,
@@ -197,6 +212,7 @@ export default {
   data() {
     return {
       error: '',
+      financePaths: ['/', '/categories', '/recurring', '/overview'],
     }
   },
   computed: {
@@ -213,6 +229,9 @@ export default {
     },
     getQuery() {
       return Object.keys(this.$route.query).join('')
+    },
+    path() {
+      return this.$route.path
     },
   },
   mounted() {
