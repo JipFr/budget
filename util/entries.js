@@ -10,11 +10,10 @@ export function getEntriesData(payments, type) {
 
   for (const payment of payments) {
     // If there are no categories, add 'other' so it gets added to that
-    if (payment.categories.length === 0) {
-      payment.categories.push('other')
-    }
 
-    for (let tag of payment.categories) {
+    const cats = payment.categories.length === 0 ? [] : payment.categories
+
+    for (let tag of cats) {
       tag = tag.toLowerCase().trim()
       if (tag === 'exclude') continue
 
