@@ -11,7 +11,8 @@ export function getEntriesData(payments, type) {
   for (const payment of payments) {
     // If there are no categories, add 'other' so it gets added to that
 
-    const cats = payment.categories.length === 0 ? [] : payment.categories
+    const cats =
+      payment.categories.length === 0 ? ['Other'] : payment.categories
 
     for (let tag of cats) {
       tag = tag.toLowerCase().trim()
