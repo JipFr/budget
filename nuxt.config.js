@@ -35,10 +35,11 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://budget.jipfr.nl',
-    // process.env.NODE_ENV === 'production'
-    //   ? 'https://budget.jipfr.nl'
-    //   : 'http://localhost:8063',
+    // baseURL: 'https://budget.jipfr.nl',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? 'https://budget.jipfr.nl'
+        : 'http://localhost:8063',
   },
 
   server: {
