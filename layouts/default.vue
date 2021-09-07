@@ -40,6 +40,12 @@
                 <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
                 <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
               </nav>
+
+              <nav v-if="path.startsWith('/settings')" class="with-badges">
+                <nuxt-link class="badge" to="/settings/">
+                  Period start date
+                </nuxt-link>
+              </nav>
             </div>
 
             <!-- Wrapper or loading state -->
