@@ -214,7 +214,7 @@ export default {
     const entries = []
 
     // See if description is grocery-like
-    if (description.match(/.+ €\d/g)) {
+    if (description.includes(',')) {
       const descriptionArray = description.split(',').map((item) => item.trim())
 
       for (const [i, entry] of Object.entries(descriptionArray)) {
