@@ -223,9 +223,6 @@ export default {
         const itemCount = (countMatch || [])
           .map((n) => Number(n.replace(/[^\d.?]/g, '')))
           .reduce((a, b) => a * b, 1)
-        // console.log(countMatch, entry, countMatch || [], itemCount)
-
-        // const itemCount = Number(countMatch[1] || countMatch[2] || 1)
 
         // Find money totals
         const moneyRegex = /€(-?\d+(?:\.\d+)?)/
@@ -234,12 +231,7 @@ export default {
         const totalCents = centArray.reduce((a, b) => a + b, 0)
 
         // Get item name without fields we already have
-        const newDescription = entry
-          // .replace(new RegExp(countRegex, 'g'), '')
-          // .replace(/€(\d+\.\d+)(?: \+ )+/g, '')
-          // .replace(new RegExp(moneyRegex, 'g'), '')
-          .trim()
-          .replace(/ +/g, ' ')
+        const newDescription = entry.trim().replace(/ +/g, ' ')
 
         // Add to entries
         entries.push({
