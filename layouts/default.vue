@@ -170,7 +170,7 @@ nav .badge {
   }
 }
 
-@media (min-width: 0px) and (max-width: 1349px) {
+@media (min-width: 950px) and (max-width: 1349px) {
   .is-main-wrapper {
     max-width: 930px;
     grid-template-columns: 1fr 1.5fr;
