@@ -164,7 +164,22 @@ nav .badge {
   }
 }
 
-@media (min-width: 1149px) {
+@media (prefers-color-scheme: dark) {
+  nav .badge.nuxt-link-exact-active {
+    background: var(--border);
+  }
+}
+
+@media (min-width: 0px) and (max-width: 1349px) {
+  .is-main-wrapper {
+    max-width: 930px;
+    grid-template-columns: 1fr 1.5fr;
+    grid-gap: 40px;
+    grid-template-areas: 'info main';
+  }
+}
+
+@media (min-width: 1350px) {
   .is-main-wrapper {
     max-width: 1300px;
     grid-template-columns: 1fr 1.5fr 1fr;

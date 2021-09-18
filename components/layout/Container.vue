@@ -14,7 +14,7 @@
     width: 90%;
   }
 }
-@media screen and (min-width: 1150px) {
+@media screen and (min-width: 1350px) {
   .container {
     width: calc(100% - 40px);
   }
