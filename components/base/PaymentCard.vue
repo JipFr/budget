@@ -231,7 +231,11 @@ export default {
         const totalCents = centArray.reduce((a, b) => a + b, 0)
 
         // Get item name without fields we already have
-        const newDescription = entry.trim().replace(/ +/g, ' ')
+        const newDescription = entry
+          .trim()
+          .replace(/ +/g, ' ')
+          .replace(countRegex, '')
+          .trim()
 
         // Add to entries
         entries.push({
