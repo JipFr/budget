@@ -26,7 +26,7 @@
         <span v-else class="bold usual-description">
           {{ description }}
         </span>
-        <span v-if="typeof payment.inXDays !== 'undefined'" class="in-x-days">
+        <span v-if="isInXDays(payment)" class="in-x-days">
           <span v-if="payment.inXDays === 0"> Today </span>
           <span v-else-if="payment.inXDays === 1"> Tomorrow </span>
           <span v-else>
@@ -277,6 +277,9 @@ export default {
     },
     doEdit() {
       this.$nuxt.$emit('edit-transaction', this.payment.id)
+    },
+    isInXDays(payment) {
+      return typeof payment.inXDays !== 'undefined'
     },
   },
 }
