@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 @import 'paymentlist';
 
-:root  {
+:root {
   --body: white;
   --content: #f8f9fa;
+  --alt-content: rgba(0, 0, 0, 0.1);
   --text: #444444;
   --text-secondary: #4c4c4c;
   --theme: #457461;
@@ -17,6 +18,7 @@
   :root {
     --body: #23272d;
     --content: #16191f;
+    --alt-content: rgba(255, 255, 255, 0.05);
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
     --overlay-color: rgba(255, 255, 255, 0.05);

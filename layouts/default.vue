@@ -155,7 +155,7 @@ nav .badge {
   margin: 3px;
 
   &:hover {
-    background: var(--border);
+    background: var(--alt-content);
   }
 
   &.nuxt-link-exact-active {
@@ -166,7 +166,7 @@ nav .badge {
 
 @media (prefers-color-scheme: dark) {
   nav .badge.nuxt-link-exact-active {
-    background: var(--border);
+    background: var(--alt-content);
   }
 }
 

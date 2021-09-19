@@ -1,47 +1,62 @@
 <template>
   <div>
-    <chart v-if="chartLoaded" :chartdata="chartData" />
+    <div class="legend">
+      <card>
+        <subtitle>Total balance per category...</subtitle>
+        <div v-if="enabledCategories.length > 0" class="tag-list">
+          <div
+            v-for="category in enabledCategories"
+            :key="category"
+            class="can-click"
+            @click="toggleCategory(category)"
+          >
+            <tag :tag="category" :cents="categoriesTotal[category] * 100">
+              {{ category }}
+            </tag>
+          </div>
+        </div>
+        <div v-if="disabledCategories.length > 0" class="tag-list">
+          <div
+            v-for="category in disabledCategories"
+            :key="category"
+            class="can-click"
+            @click="toggleCategory(category)"
+          >
+            <tag :tag="category" :cents="categoriesTotal[category] * 100">
+              {{ category }}
+            </tag>
+          </div>
+        </div>
+      </card>
+    </div>
 
-    <portal to="right-side">
-      <div class="legend">
-        <card>
-          <subtitle>Total balance per category...</subtitle>
-          <div class="tag-list">
-            <div
-              v-for="category in enabledCategories"
-              :key="category"
-              class="can-click"
-              @click="toggleCategory(category)"
-            >
-              <tag :tag="category" :cents="categoriesTotal[category] * 100">
-                {{ category }}
-              </tag>
-            </div>
-          </div>
-          <div class="tag-list">
-            <div
-              v-for="category in disabledCategories"
-              :key="category"
-              class="can-click"
-              @click="toggleCategory(category)"
-            >
-              <tag :tag="category" :cents="categoriesTotal[category] * 100">
-                {{ category }}
-              </tag>
-            </div>
-          </div>
-        </card>
-      </div>
-    </portal>
+    <chart v-if="chartLoaded" :chartdata="chartData" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .legend {
-  padding: 40px 0;
+  margin-bottom: 40px;
 }
 .tag-list {
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-gap: 10px;
+
+  &::v-deep .tag {
+    display: flex;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: var(--alt-content);
+    margin-top: 0;
+    margin-right: 0;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--border);
+    }
+  }
 }
 .tag-list + .tag-list {
   margin-top: 30px;
@@ -49,7 +64,6 @@
 </style>
 
 <script>
-import { Portal } from 'portal-vue'
 import Chart from '~/components/base/util/Chart'
 import Tag from '~/components/base/Tag'
 import Card from '~/components/layout/Card'
@@ -61,7 +75,6 @@ export default {
     Card,
     Tag,
     Subtitle,
-    Portal,
   },
   props: {
     payments: {
