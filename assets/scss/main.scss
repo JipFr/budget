@@ -4,7 +4,7 @@
 :root {
   --body: white;
   --content: #f8f9fa;
-  --alt-content: rgba(0, 0, 0, 0.1);
+  --alt-content: var(--body);
   --text: #444444;
   --text-secondary: #4c4c4c;
   --theme: #457461;
