@@ -1,5 +1,6 @@
 <template>
   <div>
+    <chart v-if="chartLoaded" :chartdata="chartData" />
     <div class="legend">
       <card>
         <subtitle>Total balance per category...</subtitle>
@@ -29,14 +30,12 @@
         </div>
       </card>
     </div>
-
-    <chart v-if="chartLoaded" :chartdata="chartData" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .legend {
-  margin-bottom: 40px;
+  margin-top: 40px;
 }
 .tag-list {
   margin-top: 10px;
