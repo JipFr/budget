@@ -13,31 +13,31 @@
     "cap": "npm run build && npm run generate && npx cap copy && npx cap open"
   },
   "dependencies": {
-    "@capacitor/cli": "^2.4.6",
-    "@capacitor/core": "^2.4.6",
-    "@capacitor/ios": "^2.4.6",
+    "@capacitor/cli": "^2.5.0",
+    "@capacitor/core": "^2.5.0",
+    "@capacitor/ios": "^2.5.0",
     "@nuxt/content": "^1.9.0",
     "@nuxtjs/auth": "^4.9.1",
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.0.2",
     "@nuxtjs/svg": "^0.1.12",
     "chart.js": "^2.9.4",
     "cordova-res": "^0.15.3",
-    "core-js": "^3.6.5",
-    "nuxt": "^2.14.6",
+    "core-js": "^3.18.0",
+    "nuxt": "^2.15.8",
     "portal-vue": "^2.1.7",
-    "sass": "^1.32.5",
-    "sass-loader": "^10.1.1",
+    "sass": "^1.42.1",
+    "sass-loader": "^10.2.0",
     "vue-chartjs": "^3.5.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.10.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-nuxt": "^1.0.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.2"
+    "eslint-plugin-prettier": "^3.4.1",
+    "prettier": "^2.4.1"
   }
 }
