@@ -115,6 +115,7 @@ nav {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
+  word-break: normal;
 
   &::after {
     content: '';
