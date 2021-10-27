@@ -46,6 +46,16 @@
 .hero {
   padding: 40px 0;
 
+  h1,
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
   &.loading .money {
     background: var(--overlay-color);
     color: transparent;
