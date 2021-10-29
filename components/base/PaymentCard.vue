@@ -181,6 +181,9 @@ import Tag from '~/components/base/Tag'
 import TrashIcon from '~/assets/icons/trash.svg?inline'
 import EditIcon from '~/assets/icons/edit.svg?inline'
 
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
+
 // Functions
 function toCents(euroVal) {
   const euroArray = euroVal.replace(/€/g, '').split('.')
@@ -261,18 +264,19 @@ export default {
     },
   },
   methods: {
-    doDelete() {
+    async doDelete() {
       if (confirm(`Delete transaction '${this.payment.description}'?`)) {
-        this.$axios
-          .post('/transactions/delete', {
+        const { error } = await SupabaseClient.from('transactions')
+          .delete()
+          .match({
             id: this.payment.id,
           })
-          .then(() => {
-            this.$nuxt.$emit('refetch')
-          })
-          .catch((err) => {
-            alert(err)
-          })
+
+        if (error) {
+          alert(error.message)
+        } else {
+          this.$nuxt.$emit('refetch')
+        }
       }
     },
     doEdit() {

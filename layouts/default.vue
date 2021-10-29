@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <login-wrapper>
     <app-header title="BudgetDuck" />
     <div class="page">
       <div v-if="error">
@@ -65,7 +65,7 @@
         </container>
       </div>
     </div>
-  </div>
+  </login-wrapper>
 </template>
 
 <style lang="scss" scoped>
@@ -173,7 +173,6 @@ nav .badge {
 
 @media (min-width: 950px) and (max-width: 1349px) {
   .is-main-wrapper {
-    max-width: 930px;
     grid-template-columns: 1fr 1.5fr;
     grid-gap: 40px;
     grid-template-areas: 'info main';
@@ -182,7 +181,6 @@ nav .badge {
 
 @media (min-width: 1350px) {
   .is-main-wrapper {
-    max-width: 1300px;
     grid-template-columns: 1fr 1.5fr 1fr;
     grid-gap: 40px;
     grid-template-areas: 'info main';
@@ -205,9 +203,13 @@ import Banner from '~/components/base/Banner'
 import AppHeader from '~/components/layout/Header'
 import Container from '~/components/layout/Container'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
+import LoginWrapper from '~/components/LoginWrapper'
 
 // Import icons
 import LoadingIcon from '~/components/base/LoadingIcon'
+
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
@@ -217,18 +219,25 @@ export default {
     Hero,
     FromUntilPicker,
     LoadingIcon,
+    LoginWrapper,
     PortalTarget,
   },
   async fetch() {
     this.setLoading(true)
-    await this.$axios('/user/get')
-      .then(({ data }) => {
-        const userData = data.data
-        this.setPerson(userData)
-      })
-      .catch((err) => {
-        this.error = err
-      })
+
+    const data = await SupabaseClient.from('transactions').select()
+
+    console.log(data, SupabaseClient.auth.user())
+
+    if (data.errors) {
+      this.error = data.errors.join('\n')
+    }
+
+    this.setPerson({
+      transactions: data.data,
+    })
+
+    this.setLoading(false)
   },
   fetchOnServer: false,
   data() {
@@ -257,6 +266,19 @@ export default {
     },
   },
   mounted() {
+    const mySubscription = SupabaseClient.from('transactions')
+      .on('*', (payload) => {
+        const user = this.$store.state.user.data
+        const transactions = Object.assign([], user.transactions) || []
+        transactions.push(payload.new)
+        this.setPerson({
+          transactions,
+        })
+      })
+      .subscribe()
+
+    console.log(mySubscription)
+
     this.$nuxt.$on('refetch', () => {
       this.$fetch()
     })
@@ -267,6 +289,5 @@ export default {
       setLoading: 'user/setLoading',
     }),
   },
-  middleware: 'usercheck',
 }
 </script>

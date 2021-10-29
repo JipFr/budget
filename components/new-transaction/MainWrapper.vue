@@ -112,6 +112,9 @@ import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
 
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
+
 // Other values
 const editingData = {
   description: '',
@@ -222,34 +225,37 @@ export default {
       submitObj.description = this.editingData.description
       submitObj.date = this.editingData.date
       submitObj.categories = this.editingData.tags
+        .split(', ')
+        .map((v) => v.trim())
+        .filter(Boolean)
       if (this.editingData.id) submitObj.id = this.editingData.id
 
-      const path = submitObj.id
-        ? '/transactions/update'
-        : '/transactions/insert'
+      submitObj.user_id = SupabaseClient.auth.user().id
 
-      await this.$axios
-        .post(path, submitObj)
-        .then(({ data }) => {
-          // Transaction might have been added
-          if (data.status !== 200) {
-            // Error handling
-            this.error = data.error
-          } else {
-            // Transaction inserted!
-            // Close the modal and remove the input
-            this.open = false
-            setTimeout(() => {
-              this.editingData = Object.assign({}, editingData)
-              this.error = ''
-              this.message = ''
-              this.$nuxt.$emit('refetch')
-            }, 500)
-          }
-        })
-        .catch((err) => {
-          this.error = err
-        })
+      if (submitObj.id) {
+        // Update transaction
+        const { error } = await SupabaseClient.from('transactions')
+          .update(submitObj)
+          .match({
+            id: submitObj.id,
+          })
+
+        if (error) {
+          this.error = error
+        } else {
+          this.close()
+        }
+      } else {
+        // Insert transaction
+        const { error } = await SupabaseClient.from('transactions').insert([
+          submitObj,
+        ])
+        if (error) {
+          this.error = error.message
+        } else {
+          this.close()
+        }
+      }
     },
     cancel() {
       // The "cancel" button was clicked. Only shows up on desktop
@@ -262,6 +268,15 @@ export default {
     copyCurrency() {
       navigator.clipboard.writeText('€')
       this.message = 'Copied <strong>€</strong> to your clipboard'
+    },
+    close() {
+      this.open = false
+      setTimeout(() => {
+        this.editingData = Object.assign({}, editingData)
+        this.error = ''
+        this.message = ''
+        this.$nuxt.$emit('refetch')
+      }, 500)
     },
   },
 }

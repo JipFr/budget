@@ -77,25 +77,6 @@ export default {
   methods: {
     submit(evt) {
       evt.preventDefault()
-
-      this.$auth
-        .loginWith('local', {
-          data: {
-            username: this.username,
-            password: this.password,
-          },
-        })
-        .then(({ data }) => {
-          // Check errors
-          if (data.error) {
-            this.error = data.error
-          } else {
-            location.href = '/'
-          }
-        })
-        .catch((err) => {
-          alert(err)
-        })
     },
   },
 }
