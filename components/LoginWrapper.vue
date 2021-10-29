@@ -34,6 +34,16 @@ export default {
       user: null,
     }
   },
+  mounted() {
+    SupabaseClient.auth.onAuthStateChange(() => {
+      this.user = SupabaseClient.auth.user()
+      this.$nuxt.$emit('refetch')
+      setTimeout(() => {
+        // Oh well
+        this.$nuxt.$emit('refetch')
+      }, 500)
+    })
+  },
   methods: {
     async login(provider) {
       await SupabaseClient.auth.signIn({
