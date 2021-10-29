@@ -272,6 +272,8 @@ export default {
 
         if (error) {
           alert(error.message)
+        } else {
+          this.$nuxt.$emit('refetch')
         }
       }
     },

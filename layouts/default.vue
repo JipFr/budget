@@ -264,41 +264,42 @@ export default {
     },
   },
   mounted() {
-    SupabaseClient.from('transactions')
-      .on('*', (payload) => {
-        const user = this.$store.state.user.data
-        let transactions = Object.assign([], user.transactions) || []
+    this.$nuxt.$on('refetch', () => {
+      this.$fetch()
+    })
 
-        switch (payload.eventType) {
-          case 'INSERT': {
-            transactions.push(payload.new)
-            break
-          }
-          case 'UPDATE': {
-            for (let i = 0; i < transactions.length; i++) {
-              if (transactions[i].id === payload.new.id) {
-                // This is dumb.
-                transactions[i] = payload.new
-                break
-              }
-            }
-            break
-          }
-          case 'DELETE': {
-            transactions = transactions.filter((t) => t.id !== payload.old.id)
-            break
-          }
-        }
-
-        this.setPerson({
-          transactions,
-        })
-
-        document.querySelectorAll('.card').forEach((card) => {
-          card.scrollTo(0, 0)
-        })
-      })
-      .subscribe()
+    // SupabaseClient.from('transactions')
+    //   .on('*', (payload) => {
+    //     const user = this.$store.state.user.data
+    //     let transactions = Object.assign([], user.transactions) || []
+    //     switch (payload.eventType) {
+    //       case 'INSERT': {
+    //         transactions.push(payload.new)
+    //         break
+    //       }
+    //       case 'UPDATE': {
+    //         for (let i = 0; i < transactions.length; i++) {
+    //           if (transactions[i].id === payload.new.id) {
+    //             // This is dumb.
+    //             transactions[i] = payload.new
+    //             break
+    //           }
+    //         }
+    //         break
+    //       }
+    //       case 'DELETE': {
+    //         transactions = transactions.filter((t) => t.id !== payload.old.id)
+    //         break
+    //       }
+    //     }
+    //     this.setPerson({
+    //       transactions,
+    //     })
+    //     document.querySelectorAll('.card').forEach((card) => {
+    //       card.scrollTo(0, 0)
+    //     })
+    //   })
+    //   .subscribe()
   },
   methods: {
     ...mapMutations({

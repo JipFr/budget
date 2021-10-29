@@ -244,6 +244,7 @@ export default {
           this.error = error
         } else {
           this.close()
+          this.$nuxt.$emit('refetch')
         }
       } else {
         // Insert transaction
@@ -254,6 +255,7 @@ export default {
           this.error = error.message
         } else {
           this.close()
+          this.$nuxt.$emit('refetch')
         }
       }
     },
