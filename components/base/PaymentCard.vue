@@ -23,9 +23,7 @@
             <money :cents="entriesTotalCents" />
           </div>
         </div>
-        <span v-else class="bold usual-description">
-          {{ description }}
-        </span>
+        <span v-else class="bold usual-description">{{ description }} </span>
         <span v-if="isInXDays(payment)" class="in-x-days">
           <span v-if="payment.inXDays === 0"> Today </span>
           <span v-else-if="payment.inXDays === 1"> Tomorrow </span>
@@ -209,58 +207,58 @@ export default {
       required: true,
     },
   },
-  data() {
-    const description = this.payment.description.replace(/\n\n/g, '\n').trim()
-    const entries = []
-
-    // See if description is grocery-like
-    if (description.includes('\n')) {
-      const descriptionArray = description
-        .split('\n')
-        .map((item) => item.trim())
-
-      for (const [i, entry] of Object.entries(descriptionArray)) {
-        // Find item count
-        const countRegex = /[\d.]+ ?x|x ?[\d.]+/g
-        const countMatch = entry.match(countRegex) || []
-        const itemCount = (countMatch || [])
-          .map((n) => Number(n.replace(/[^\d.?]/g, '')))
-          .reduce((a, b) => a * b, 1)
-
-        // Find money totals
-        const moneyRegex = /€(-?\d+(?:\.\d+)?)/
-        const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
-        const centArray = (euroArray || []).map(toCents)
-        const totalCents = centArray.reduce((a, b) => a + b, 0)
-
-        // Get item name without fields we already have
-        const newDescription = entry
-          .trim()
-          .replace(/ +/g, ' ')
-          .replace(countRegex, '')
-          .trim()
-
-        // Add to entries
-        entries.push({
-          description:
-            newDescription.slice(0, 1).toUpperCase() + newDescription.slice(1),
-          cents: totalCents,
-          centsPerEntry: totalCents / itemCount,
-          original: entry,
-          id: i,
-          itemCount,
-        })
-      }
-    }
-
-    return {
-      entries,
-      description,
-    }
-  },
   computed: {
     entriesTotalCents() {
       return this.entries.reduce((a, b) => a + b.cents, 0)
+    },
+    description() {
+      return this.payment.description.replace(/\n\n/g, '\n').trim()
+    },
+    entries() {
+      const entries = []
+
+      // See if description is grocery-like
+      if (this.description.includes('\n')) {
+        const descriptionArray = this.description
+          .split('\n')
+          .map((item) => item.trim())
+
+        for (const [i, entry] of Object.entries(descriptionArray)) {
+          // Find item count
+          const countRegex = /[\d.]+ ?x|x ?[\d.]+/g
+          const countMatch = entry.match(countRegex) || []
+          const itemCount = (countMatch || [])
+            .map((n) => Number(n.replace(/[^\d.?]/g, '')))
+            .reduce((a, b) => a * b, 1)
+
+          // Find money totals
+          const moneyRegex = /€(-?\d+(?:\.\d+)?)/
+          const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
+          const centArray = (euroArray || []).map(toCents)
+          const totalCents = centArray.reduce((a, b) => a + b, 0)
+
+          // Get item name without fields we already have
+          const newDescription = entry
+            .trim()
+            .replace(/ +/g, ' ')
+            .replace(countRegex, '')
+            .trim()
+
+          // Add to entries
+          entries.push({
+            description:
+              newDescription.slice(0, 1).toUpperCase() +
+              newDescription.slice(1),
+            cents: totalCents,
+            centsPerEntry: totalCents / itemCount,
+            original: entry,
+            id: i,
+            itemCount,
+          })
+        }
+      }
+
+      return entries
     },
   },
   methods: {
@@ -274,8 +272,6 @@ export default {
 
         if (error) {
           alert(error.message)
-        } else {
-          this.$nuxt.$emit('refetch')
         }
       }
     },

@@ -46,7 +46,7 @@ function applyFilter(state) {
   // Assign color for each tag
   // Get unique tags
   let allTags = state.data.transactions
-    .map((v) => v.categories.map((v) => v.trim().toLowerCase()))
+    .map((v) => v.categories.map((v) => v.toString().trim().toLowerCase()))
     .flat()
 
   allTags = [...new Set([...allTags, 'other'])] // Remove duplicates, also include 'other'

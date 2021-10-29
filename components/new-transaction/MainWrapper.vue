@@ -275,7 +275,6 @@ export default {
         this.editingData = Object.assign({}, editingData)
         this.error = ''
         this.message = ''
-        this.$nuxt.$emit('refetch')
       }, 500)
     },
   },
