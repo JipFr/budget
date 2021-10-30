@@ -1,60 +1,61 @@
 <template>
   <div>
-    <h2>Period start</h2>
-    <p>This is the default starting date for each period. Default: 23</p>
-    <hr />
-    <div class="selectable-days">
-      <div
-        v-for="[i] of Object.entries(Array(28).fill(0))"
-        :key="i"
-        class="day"
-        :class="Number(i) + 1 === 23 ? 'selected-day' : ''"
-      >
-        <div class="label">{{ Number(i) + 1 }}</div>
+    <div class="profile">
+      <img
+        class="profile-picture"
+        :src="user.user_metadata.avatar_url"
+        alt="Logged in user's profile picture"
+      />
+      <div class="profile-info">
+        <h2 class="profile-name">{{ user.user_metadata.full_name }}</h2>
+        <p class="profile-email">
+          {{ user.email }}
+          <span class="secondary">
+            <!-- eslint-disable-next-line no-irregular-whitespace -->
+            — signed in through
+            {{ capitalise(user.app_metadata.provider) }}</span
+          >
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-p {
-  color: var(--text-secondary);
-  margin: 20px 0;
-}
-hr {
-  margin: 20px 0;
-  border: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--border);
-}
-.selectable-days {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-  grid-gap: 5px;
-}
-.day {
-  width: 100%;
-  padding-bottom: 100%;
-  background: var(--content);
-  border-radius: 4px;
-  position: relative;
-
-  &.selected-day {
-    background: var(--theme);
-    color: white;
+.profile {
+  .profile-email {
+    margin-top: 10px;
   }
 
-  &:not(.selected-day) {
-    cursor: pointer;
+  .secondary {
+    color: var(--text-secondary);
   }
 
-  .label {
+  .profile-picture {
     display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 5rem;
+    height: 5rem;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
   }
 }
 </style>
+
+<script>
+import SupabaseClient from '~/util/supabase'
+
+export default {
+  computed: {
+    user() {
+      return SupabaseClient.auth.user()
+    },
+  },
+  methods: {
+    capitalise(str) {
+      str = str.toString()
+      return str.slice(0, 1).toUpperCase() + str.slice(1)
+    },
+  },
+}
+</script>
