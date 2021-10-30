@@ -88,7 +88,7 @@
   }
 }
 
-@media (min-width: 1150px) {
+@media (min-width: 1350px) {
   .overlay-top-wrapper.no-desktop-bg.open {
     background: transparent;
   }

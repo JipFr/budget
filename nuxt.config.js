@@ -1,7 +1,7 @@
 export default {
   target: 'static',
   head: {
-    title: 'Budget',
+    title: 'BudgetDuck',
     meta: [
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: '' },
@@ -35,10 +35,11 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://budget.jipfr.nl',
-    // process.env.NODE_ENV === 'production'
-    //   ? 'https://budget.jipfr.nl'
-    //   : 'http://localhost:8063',
+    // baseURL: 'https://budget.jipfr.nl',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? 'https://budget.jipfr.nl'
+        : 'http://localhost:8063',
   },
 
   server: {
@@ -47,8 +48,8 @@ export default {
 
   pwa: {
     manifest: {
-      name: 'Budget',
-      short_name: 'Budget',
+      name: 'BudgetDuck',
+      short_name: 'BudgetDuck',
       start_url: '/',
     },
     meta: {

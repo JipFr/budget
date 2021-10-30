@@ -1,47 +1,61 @@
 <template>
   <div>
     <chart v-if="chartLoaded" :chartdata="chartData" />
-
-    <portal to="right-side">
-      <div class="legend">
-        <card>
-          <subtitle>Total balance per category...</subtitle>
-          <div class="tag-list">
-            <div
-              v-for="category in enabledCategories"
-              :key="category"
-              class="can-click"
-              @click="toggleCategory(category)"
-            >
-              <tag :tag="category" :cents="categoriesTotal[category] * 100">
-                {{ category }}
-              </tag>
-            </div>
+    <div class="legend">
+      <card>
+        <subtitle>Total balance per category...</subtitle>
+        <div v-if="enabledCategories.length > 0" class="tag-list">
+          <div
+            v-for="category in enabledCategories"
+            :key="category"
+            class="can-click"
+            @click="toggleCategory(category)"
+          >
+            <tag :tag="category" :cents="categoriesTotal[category] * 100">
+              {{ category }}
+            </tag>
           </div>
-          <div class="tag-list">
-            <div
-              v-for="category in disabledCategories"
-              :key="category"
-              class="can-click"
-              @click="toggleCategory(category)"
-            >
-              <tag :tag="category" :cents="categoriesTotal[category] * 100">
-                {{ category }}
-              </tag>
-            </div>
+        </div>
+        <div v-if="disabledCategories.length > 0" class="tag-list">
+          <div
+            v-for="category in disabledCategories"
+            :key="category"
+            class="can-click"
+            @click="toggleCategory(category)"
+          >
+            <tag :tag="category" :cents="categoriesTotal[category] * 100">
+              {{ category }}
+            </tag>
           </div>
-        </card>
-      </div>
-    </portal>
+        </div>
+      </card>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .legend {
-  padding: 40px 0;
+  margin-top: 40px;
 }
 .tag-list {
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-gap: 10px;
+
+  &::v-deep .tag {
+    display: flex;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: var(--alt-content);
+    margin-top: 0;
+    margin-right: 0;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--border);
+    }
+  }
 }
 .tag-list + .tag-list {
   margin-top: 30px;
@@ -49,7 +63,6 @@
 </style>
 
 <script>
-import { Portal } from 'portal-vue'
 import Chart from '~/components/base/util/Chart'
 import Tag from '~/components/base/Tag'
 import Card from '~/components/layout/Card'
@@ -61,7 +74,6 @@ export default {
     Card,
     Tag,
     Subtitle,
-    Portal,
   },
   props: {
     payments: {
@@ -80,19 +92,25 @@ export default {
       if (!payment.categories.includes('exclude'))
         this.allCategories.push(...payment.categories)
     }
-    this.allCategories = [...new Set(this.allCategories)]
 
     // Count total
     this.categoriesTotal = {}
     for (const payment of this.payments) {
       if (!payment.categories.includes('exclude')) {
-        for (const category of payment.categories) {
+        const cats =
+          payment.categories.length === 0 ? ['other'] : payment.categories
+        for (const category of cats) {
           if (!this.categoriesTotal[category])
             this.categoriesTotal[category] = 0
           this.categoriesTotal[category] += payment.cents / 100
         }
       }
     }
+
+    if (this.categoriesTotal.other) {
+      this.allCategories.push('other')
+    }
+    this.allCategories = [...new Set(this.allCategories)]
 
     // Update category list values
     this.allCategories = this.allCategories.sort(
@@ -148,10 +166,12 @@ export default {
           .padStart(2, 0)}`
 
         if (dateString === monthData.label) {
-          if (!payment.categories.includes('exclude')) {
+          const cats =
+            payment.categories.length === 0 ? ['other'] : payment.categories
+          if (!cats.includes('exclude')) {
             // Add to total count if it's not "excluded"
             const euros = payment.cents / 100
-            for (const category of payment.categories) {
+            for (const category of cats) {
               if (this.enabledCategories.includes(category)) {
                 monthData.categories[category].total += euros
                 if (euros > 0) {

@@ -1,25 +1,38 @@
 <template>
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
-      <card class="fw highlight">
+      <card
+        class="highlight"
+        :class="foodTotal === 0 && foodSpent === 0 ? 'fw' : ''"
+      >
         <subtitle>In this period...</subtitle>
-        <h1>
+        <h2 v-if="foodTotal !== 0 || foodSpent !== 0">
+          <money :cents="regularTotal" />
+        </h2>
+        <h1 v-else>
           <money :cents="regularTotal" />
         </h1>
       </card>
-      <card v-if="foodTotal > 0 || isLoading" class="fw">
-        <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
-        <h1>
-          <money :cents="foodTotal - foodSpent" />
-        </h1>
+      <card v-if="foodTotal !== 0 || foodSpent !== 0">
+        <subtitle>Total in period</subtitle>
+        <h2>
+          <money :cents="gained - spent" />
+        </h2>
       </card>
-      <card>
+      <card v-if="foodTotal !== 0 || foodSpent !== 0" class="fw">
+        <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
+        <h2>
+          <money :cents="foodTotal - foodSpent" />
+        </h2>
+      </card>
+
+      <card v-if="foodTotal === 0 && foodSpent === 0">
         <subtitle>Gained</subtitle>
         <h2>
           <money :cents="gained" />
         </h2>
       </card>
-      <card>
+      <card v-if="foodTotal === 0 && foodSpent === 0">
         <subtitle>Spent</subtitle>
         <h2>
           <money :cents="spent" />
@@ -32,6 +45,16 @@
 <style lang="scss" scoped>
 .hero {
   padding: 40px 0;
+
+  h1,
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
 
   &.loading .money {
     background: var(--overlay-color);
@@ -67,6 +90,10 @@ export default {
       required: true,
     },
   },
+  fetch() {
+    this.setData()
+  },
+  fetchOnServer: false,
   data() {
     return {
       gained: 0,

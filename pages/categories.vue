@@ -1,9 +1,9 @@
 <template>
   <div>
-    <payment-list :raw-payments="getPayments" />
+    <category-overview :payments="getPayments" />
     <portal to="right-side">
       <div class="new-transaction-content">
-        <new-transaction-wrapper class="no-desktop-bg" />
+        <new-transaction-wrapper :show-button="false" class="no-desktop-bg" />
       </div>
     </portal>
   </div>
@@ -11,13 +11,13 @@
 
 <script>
 import { Portal } from 'portal-vue'
-import PaymentList from '~/components/base/PaymentList'
+import CategoryOverview from '~/components/base/CategoryOverview'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 
 export default {
   components: {
+    CategoryOverview,
     Portal,
-    PaymentList,
     NewTransactionWrapper,
   },
   computed: {

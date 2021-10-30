@@ -7,7 +7,7 @@
 .list {
   margin: 10px 0;
 }
-.card + .card {
+.list .card + .card {
   margin-top: 6px;
 }
 .empty {

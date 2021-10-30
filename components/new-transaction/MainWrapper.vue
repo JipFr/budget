@@ -43,7 +43,7 @@
           </button>
         </div>
         <div class="buttons">
-          <button class="primary" @click="copyCurrency">€</button>
+          <button class="secondary" @click="copyCurrency">€</button>
         </div>
       </div>
     </div>
@@ -84,6 +84,10 @@ button {
   &.secondary {
     background: transparent;
     color: var(--text);
+
+    &:hover {
+      background: var(--border);
+    }
   }
 
   &:hover {

@@ -12,10 +12,6 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-@import '../../assets/scss/paymentlist.scss';
-</style>
-
 <script>
 // Import components
 import PaymentCard from '~/components/base/PaymentCard'

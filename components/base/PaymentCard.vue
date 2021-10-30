@@ -26,7 +26,7 @@
         <span v-else class="bold usual-description">
           {{ description }}
         </span>
-        <span v-if="typeof payment.inXDays !== 'undefined'" class="in-x-days">
+        <span v-if="isInXDays(payment)" class="in-x-days">
           <span v-if="payment.inXDays === 0"> Today </span>
           <span v-else-if="payment.inXDays === 1"> Tomorrow </span>
           <span v-else>
@@ -207,21 +207,22 @@ export default {
     },
   },
   data() {
-    const description = this.payment.description
-      .replace(/\n\n/g, '\n')
-      .trim()
-      .replace(/\n/g, ', ')
+    const description = this.payment.description.replace(/\n\n/g, '\n').trim()
     const entries = []
 
     // See if description is grocery-like
-    if (description.match(/.+ €\d/g)) {
-      const descriptionArray = description.split(',').map((item) => item.trim())
+    if (description.includes('\n')) {
+      const descriptionArray = description
+        .split('\n')
+        .map((item) => item.trim())
 
       for (const [i, entry] of Object.entries(descriptionArray)) {
         // Find item count
-        const countRegex = /(?:x ?(\d+))|(?:(\d+) ?x)/
+        const countRegex = /[\d.]+ ?x|x ?[\d.]+/g
         const countMatch = entry.match(countRegex) || []
-        const itemCount = Number(countMatch[1] || countMatch[2] || 1)
+        const itemCount = (countMatch || [])
+          .map((n) => Number(n.replace(/[^\d.?]/g, '')))
+          .reduce((a, b) => a * b, 1)
 
         // Find money totals
         const moneyRegex = /€(-?\d+(?:\.\d+)?)/
@@ -231,11 +232,10 @@ export default {
 
         // Get item name without fields we already have
         const newDescription = entry
-          .replace(new RegExp(countRegex, 'g'), '')
-          // .replace(/€(\d+\.\d+)(?: \+ )+/g, '')
-          // .replace(new RegExp(moneyRegex, 'g'), '')
           .trim()
           .replace(/ +/g, ' ')
+          .replace(countRegex, '')
+          .trim()
 
         // Add to entries
         entries.push({
@@ -277,6 +277,9 @@ export default {
     },
     doEdit() {
       this.$nuxt.$emit('edit-transaction', this.payment.id)
+    },
+    isInXDays(payment) {
+      return typeof payment.inXDays !== 'undefined'
     },
   },
 }
