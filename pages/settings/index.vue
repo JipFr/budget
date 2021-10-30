@@ -18,6 +18,8 @@
         </p>
       </div>
     </div>
+
+    <app-button class="secondary" @click="logout">Log out</app-button>
   </div>
 </template>
 
@@ -40,12 +42,23 @@
     border: 1px solid var(--border);
   }
 }
+
+.button {
+  margin-top: 2rem;
+}
 </style>
 
 <script>
+// Import components
+import AppButton from '~/components/util/Button'
+
+// Import Supabase
 import SupabaseClient from '~/util/supabase'
 
 export default {
+  components: {
+    AppButton,
+  },
   computed: {
     user() {
       return SupabaseClient.auth.user()
@@ -55,6 +68,9 @@ export default {
     capitalise(str) {
       str = str.toString()
       return str.slice(0, 1).toUpperCase() + str.slice(1)
+    },
+    async logout() {
+      await SupabaseClient.auth.signOut()
     },
   },
 }
