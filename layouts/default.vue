@@ -32,7 +32,6 @@
                 >
                   Finances
                 </nuxt-link>
-                <nuxt-link class="link" to="/settings"> Settings </nuxt-link>
               </nav>
               <nav v-if="financePaths.includes(path)" class="with-badges">
                 <nuxt-link class="badge" to="/">Payments</nuxt-link>
