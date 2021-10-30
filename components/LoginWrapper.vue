@@ -37,6 +37,7 @@
 .container.login {
   max-width: 500px;
   margin: 80px auto;
+  margin-bottom: 20px;
 }
 
 h1 {
