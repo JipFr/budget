@@ -35,15 +35,15 @@
       <hr />
       <div class="spread">
         <div class="buttons">
-          <button class="primary" @click="submit">
+          <app-button class="primary" @click="submit">
             {{ editingData.id ? 'Save' : 'Submit' }}
-          </button>
-          <button v-if="editingData.id" class="secondary" @click="cancel">
+          </app-button>
+          <app-button v-if="editingData.id" class="secondary" @click="cancel">
             Cancel
-          </button>
+          </app-button>
         </div>
         <div class="buttons">
-          <button class="secondary" @click="copyCurrency">€</button>
+          <app-button class="secondary" @click="copyCurrency">€</app-button>
         </div>
       </div>
     </div>
@@ -65,39 +65,6 @@
   align-items: center;
 }
 
-button {
-  font-size: 1rem;
-  padding: 12px 22px;
-  border-radius: 6px;
-  border: 0;
-  text-transform: uppercase;
-  box-sizing: border-box;
-  border: 1px solid var(--border);
-  cursor: pointer;
-
-  &.primary {
-    background: var(--theme);
-    color: white;
-    font-weight: bold;
-    border-color: transparent;
-  }
-  &.secondary {
-    background: transparent;
-    color: var(--text);
-
-    &:hover {
-      background: var(--border);
-    }
-  }
-
-  &:hover {
-    opacity: 0.9;
-  }
-  &:active {
-    opacity: 0.8;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   button.primary {
     color: var(--text-secondary);
@@ -111,6 +78,7 @@ button {
 import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
+import AppButton from '~/components/util/Button'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -128,6 +96,7 @@ export default {
     AppInput,
     Banner,
     Overlay,
+    AppButton,
   },
   props: {
     showButton: {
