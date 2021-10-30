@@ -5,13 +5,17 @@
   </div>
   <div v-else>
     <app-header title="Log in" />
-    <container class="limited-width">
+    <container class="limited-width login">
       <h1>BudgetDuck</h1>
       <p>
         This would be a good place to put a fantastic tag line, or description.
         Who knows what I'll come up with.
       </p>
       <hr />
+
+      <h2>Log in</h2>
+      <p>You can log in with one of the following services:</p>
+
       <div class="logos">
         <button data-link="github" @click="login('github')">
           <github-logo />
@@ -25,18 +29,23 @@
 </template>
 
 <style lang="scss" scoped>
-.container {
+.container.login {
   max-width: 500px;
   margin: 80px auto;
 }
 
 h1 {
   font-size: 1.5rem;
-  margin-bottom: 0.5em;
+}
+
+h2 {
+  color: var(--text-secondary);
 }
 
 p {
   color: var(--text-secondary);
+  margin: 1rem 0;
+  margin-bottom: 30px;
 }
 
 hr {
@@ -59,6 +68,7 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;
@@ -123,9 +133,17 @@ export default {
   },
   methods: {
     async login(provider) {
-      await SupabaseClient.auth.signIn({
-        provider,
-      })
+      await SupabaseClient.auth.signIn(
+        {
+          provider,
+        },
+        {
+          redirectTo:
+            process.env.NODE_ENV === 'production'
+              ? 'https://dev-supabase--jip-budget.netlify.app/'
+              : 'http://localhost:3000',
+        }
+      )
     },
   },
 }
