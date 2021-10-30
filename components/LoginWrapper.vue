@@ -13,6 +13,8 @@
       </p>
       <hr />
 
+      <banner v-if="error">{{ error }}</banner>
+
       <h2>Log in</h2>
       <p>You can log in with one of the following services:</p>
 
@@ -22,6 +24,9 @@
         </button>
         <button data-link="discord" @click="login('discord')">
           <discord-logo />
+        </button>
+        <button data-link="facebook" @click="login('facebook')">
+          <facebook-logo />
         </button>
       </div>
     </container>
@@ -51,6 +56,10 @@ p {
 hr {
   margin: 30px 0;
   border-color: var(--border);
+}
+
+.banner {
+  margin-bottom: 30px;
 }
 
 .logos {
@@ -89,6 +98,16 @@ hr {
       background: #5865f2;
       color: white;
     }
+
+    &[data-link='facebook'] {
+      background: #4267b2;
+      color: white;
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+      }
+    }
   }
 }
 </style>
@@ -97,10 +116,12 @@ hr {
 // Import components
 import AppHeader from '~/components/layout/Header'
 import Container from '~/components/layout/Container'
+import Banner from '~/components/base/Banner'
 
 // Import logo SVGs (for login buttons)
 import GithubLogo from '~/assets/logos/github.svg?inline'
 import DiscordLogo from '~/assets/logos/discord.svg?inline'
+import FacebookLogo from '~/assets/logos/facebook.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -109,8 +130,10 @@ export default {
   components: {
     AppHeader,
     Container,
+    Banner,
     GithubLogo,
     DiscordLogo,
+    FacebookLogo,
   },
   fetch() {
     this.user = SupabaseClient.auth.user()
@@ -119,6 +142,7 @@ export default {
   data() {
     return {
       user: null,
+      error: '',
     }
   },
   mounted() {
@@ -130,6 +154,12 @@ export default {
         this.$nuxt.$emit('refetch')
       }, 500)
     })
+
+    // Parse query parameters
+    const query = this.$route.query
+    if (query.error_description) {
+      this.error = query.error_description
+    }
   },
   methods: {
     async login(provider) {
