@@ -1,27 +1,20 @@
 <template>
   <div>
-    <app-header title="Login" />
-    <container>
+    <app-header title="BudgetDuck" />
+    <container class="app">
       <Nuxt />
     </container>
   </div>
 </template>
 
-<style>
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-</style>
+<style lang="scss">
+.container.app {
+  margin-top: 120px;
+  max-width: 520px;
 
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 80px 0;
+  p {
+    margin: 20px 0;
+  }
 }
 </style>
 
