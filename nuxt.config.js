@@ -14,6 +14,12 @@ export default {
         name: 'apple-mobile-web-app-status-bar-style',
         content: 'black-translucent',
       },
+      // <meta name="theme-color" content="#872e4e" media="(prefers-color-scheme: dark)">
+      {
+        name: 'theme-color',
+        content: '#000000',
+        media: '(prefers-color-scheme: dark)',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
