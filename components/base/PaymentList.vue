@@ -7,7 +7,7 @@
         <!-- Each payment card -->
         <payment-card
           v-for="payment in entry[1]"
-          :key="payment.title"
+          :key="payment.id"
           :payment="payment"
         />
       </div>

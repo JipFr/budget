@@ -26,21 +26,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
 
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    '@nuxt/content',
-    '@nuxtjs/auth',
-    'portal-vue/nuxt',
-  ],
-
-  axios: {
-    // baseURL: 'https://budget.jipfr.nl',
-    baseURL:
-      process.env.NODE_ENV === 'production'
-        ? 'https://budget.jipfr.nl'
-        : 'http://localhost:8063',
-  },
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
 
   server: {
     host: '0',
@@ -60,28 +46,4 @@ export default {
   content: {},
 
   build: {},
-
-  // Auth
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: '/user/login',
-            method: 'POST',
-            propertyName: 'token',
-          },
-          user: {
-            url: '/user/get',
-            propertyName: 'data',
-          },
-          logout: {
-            url: 'logout',
-            method: 'POST',
-          },
-        },
-        tokenType: '',
-      },
-    },
-  },
 }

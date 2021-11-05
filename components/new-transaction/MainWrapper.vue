@@ -35,15 +35,15 @@
       <hr />
       <div class="spread">
         <div class="buttons">
-          <button class="primary" @click="submit">
+          <app-button class="primary" @click="submit">
             {{ editingData.id ? 'Save' : 'Submit' }}
-          </button>
-          <button v-if="editingData.id" class="secondary" @click="cancel">
+          </app-button>
+          <app-button v-if="editingData.id" class="secondary" @click="cancel">
             Cancel
-          </button>
+          </app-button>
         </div>
         <div class="buttons">
-          <button class="secondary" @click="copyCurrency">€</button>
+          <app-button class="secondary" @click="copyCurrency">€</app-button>
         </div>
       </div>
     </div>
@@ -65,39 +65,6 @@
   align-items: center;
 }
 
-button {
-  font-size: 1rem;
-  padding: 12px 22px;
-  border-radius: 6px;
-  border: 0;
-  text-transform: uppercase;
-  box-sizing: border-box;
-  border: 1px solid var(--border);
-  cursor: pointer;
-
-  &.primary {
-    background: var(--theme);
-    color: white;
-    font-weight: bold;
-    border-color: transparent;
-  }
-  &.secondary {
-    background: transparent;
-    color: var(--text);
-
-    &:hover {
-      background: var(--border);
-    }
-  }
-
-  &:hover {
-    opacity: 0.9;
-  }
-  &:active {
-    opacity: 0.8;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   button.primary {
     color: var(--text-secondary);
@@ -111,6 +78,10 @@ button {
 import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
+import AppButton from '~/components/util/Button'
+
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
 
 // Other values
 const editingData = {
@@ -125,6 +96,7 @@ export default {
     AppInput,
     Banner,
     Overlay,
+    AppButton,
   },
   props: {
     showButton: {
@@ -222,34 +194,39 @@ export default {
       submitObj.description = this.editingData.description
       submitObj.date = this.editingData.date
       submitObj.categories = this.editingData.tags
+        .split(', ')
+        .map((v) => v.trim())
+        .filter(Boolean)
       if (this.editingData.id) submitObj.id = this.editingData.id
 
-      const path = submitObj.id
-        ? '/transactions/update'
-        : '/transactions/insert'
+      submitObj.user_id = SupabaseClient.auth.user().id
 
-      await this.$axios
-        .post(path, submitObj)
-        .then(({ data }) => {
-          // Transaction might have been added
-          if (data.status !== 200) {
-            // Error handling
-            this.error = data.error
-          } else {
-            // Transaction inserted!
-            // Close the modal and remove the input
-            this.open = false
-            setTimeout(() => {
-              this.editingData = Object.assign({}, editingData)
-              this.error = ''
-              this.message = ''
-              this.$nuxt.$emit('refetch')
-            }, 500)
-          }
-        })
-        .catch((err) => {
-          this.error = err
-        })
+      if (submitObj.id) {
+        // Update transaction
+        const { error } = await SupabaseClient.from('transactions')
+          .update(submitObj)
+          .match({
+            id: submitObj.id,
+          })
+
+        if (error) {
+          this.error = error
+        } else {
+          this.close()
+          this.$nuxt.$emit('refetch')
+        }
+      } else {
+        // Insert transaction
+        const { error } = await SupabaseClient.from('transactions').insert([
+          submitObj,
+        ])
+        if (error) {
+          this.error = error.message
+        } else {
+          this.close()
+          this.$nuxt.$emit('refetch')
+        }
+      }
     },
     cancel() {
       // The "cancel" button was clicked. Only shows up on desktop
@@ -262,6 +239,14 @@ export default {
     copyCurrency() {
       navigator.clipboard.writeText('€')
       this.message = 'Copied <strong>€</strong> to your clipboard'
+    },
+    close() {
+      this.open = false
+      setTimeout(() => {
+        this.editingData = Object.assign({}, editingData)
+        this.error = ''
+        this.message = ''
+      }, 500)
     },
   },
 }
