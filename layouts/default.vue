@@ -27,10 +27,21 @@
                   class="link"
                   to="/"
                   :class="
-                    financePaths.includes(path) ? 'nuxt-link-exact-active' : ''
+                    !path.startsWith('/settings')
+                      ? 'nuxt-link-exact-active'
+                      : ''
                   "
                 >
                   Finances
+                </nuxt-link>
+                <nuxt-link
+                  class="link"
+                  to="/settings"
+                  :class="
+                    path.startsWith('/settings') ? 'nuxt-link-exact-active' : ''
+                  "
+                >
+                  Settings
                 </nuxt-link>
               </nav>
               <nav v-if="financePaths.includes(path)" class="with-badges">
@@ -42,9 +53,6 @@
 
               <nav v-if="path.startsWith('/settings')" class="with-badges">
                 <nuxt-link class="badge" to="/settings/"> Profile </nuxt-link>
-                <!-- <nuxt-link class="badge" to="/settings/start-date">
-                  Period start date
-                </nuxt-link> -->
               </nav>
             </div>
 

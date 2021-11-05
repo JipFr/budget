@@ -11,6 +11,7 @@
         This would be a good place to put a fantastic tag line, or description.
         Who knows what I'll come up with.
       </p>
+
       <hr />
 
       <banner v-if="error">{{ error }}</banner>
@@ -171,7 +172,7 @@ export default {
         {
           redirectTo:
             process.env.NODE_ENV === 'production'
-              ? 'https://dev-supabase--jip-budget.netlify.app/'
+              ? 'https://jip-budget.netlify.app/'
               : 'http://localhost:3000',
         }
       )
