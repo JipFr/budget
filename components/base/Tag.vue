@@ -43,7 +43,7 @@ export default {
   },
   props: {
     tag: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     cents: {
@@ -64,7 +64,10 @@ export default {
   },
   computed: {
     capitalize() {
-      return this.tag.slice(0, 1).toUpperCase() + this.tag.slice(1)
+      return (
+        this.tag.toString().slice(0, 1).toUpperCase() +
+        this.tag.toString().slice(1)
+      )
     },
   },
 }

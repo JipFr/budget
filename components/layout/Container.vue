@@ -19,4 +19,15 @@
     width: calc(100% - 40px);
   }
 }
+@media (min-width: 950px) and (max-width: 1349px) {
+  .container {
+    max-width: 930px;
+  }
+}
+
+@media (min-width: 1350px) {
+  .container {
+    max-width: 1300px;
+  }
+}
 </style>
