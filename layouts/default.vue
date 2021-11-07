@@ -233,6 +233,8 @@ export default {
   async fetch() {
     this.setLoading(true)
 
+    this.setUntil(new Date().toISOString().split('T')[0])
+
     const data = await SupabaseClient.from('transactions').select()
 
     if (data.errors) {
@@ -280,6 +282,7 @@ export default {
     ...mapMutations({
       setPerson: 'user/set',
       setLoading: 'user/setLoading',
+      setUntil: 'user/setUntil',
     }),
   },
 }

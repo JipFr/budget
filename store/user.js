@@ -24,7 +24,7 @@ export const state = () => ({
   // Get day 2 days before the start of the current month
   // Not great code, but oh well....
   from: fromDate.toISOString().split('T')[0],
-  until: new Date().toISOString().split('T')[0],
+  until: '2000-01-01',
   viewingCat: '',
 })
 
