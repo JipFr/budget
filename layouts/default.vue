@@ -231,9 +231,11 @@ export default {
     PortalTarget,
   },
   async fetch() {
-    this.setLoading(true)
+    if (!this.hasFetched) {
+      this.setUntil(new Date().toISOString().split('T')[0])
+    }
 
-    this.setUntil(new Date().toISOString().split('T')[0])
+    this.setLoading(true)
 
     const data = await SupabaseClient.from('transactions').select()
 
@@ -245,6 +247,8 @@ export default {
       transactions: data.data,
     })
 
+    this.hasFetched = true
+
     this.setLoading(false)
   },
   fetchOnServer: false,
@@ -252,6 +256,7 @@ export default {
     return {
       error: '',
       financePaths: ['/', '/categories', '/recurring', '/overview'],
+      hasFetched: false,
     }
   },
   computed: {
