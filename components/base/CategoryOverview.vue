@@ -109,7 +109,9 @@ export default {
 
       const relevantTransactions = transactions.filter((v) => {
         return (
-          v.categories.includes(categoryName) ||
+          v.categories
+            .map((e) => e.toLowerCase())
+            .includes(categoryName.toLowerCase()) ||
           (categoryName === 'other' && v.categories.length === 0)
         )
       })
