@@ -49,6 +49,7 @@
                 <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
                 <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
                 <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
+                <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
               </nav>
 
               <nav v-if="path.startsWith('/settings')" class="with-badges">
@@ -92,13 +93,16 @@ h2 {
 .is-main-wrapper {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-areas: 'info' 'main';
+  grid-template-areas: 'info' 'main' 'right';
 
   .core-info {
     grid-area: info;
   }
   .main {
     grid-area: main;
+  }
+  > *:nth-child(3) {
+    grid-area: right;
   }
 }
 .from-until-picker {
@@ -179,11 +183,21 @@ nav .badge {
   }
 }
 
+@media screen and (min-width: 950px) {
+  nav {
+    // Wrap on desktop to stop annoying layout issues
+    flex-wrap: wrap;
+  }
+  nav::after {
+    display: none;
+  }
+}
+
 @media (min-width: 950px) and (max-width: 1349px) {
   .is-main-wrapper {
     grid-template-columns: 1fr 1.5fr;
     grid-gap: 40px;
-    grid-template-areas: 'info main';
+    grid-template-areas: 'info main' 'info right';
   }
 }
 
@@ -191,7 +205,7 @@ nav .badge {
   .is-main-wrapper {
     grid-template-columns: 1fr 1.5fr 1fr;
     grid-gap: 40px;
-    grid-template-areas: 'info main';
+    grid-template-areas: 'info main right';
   }
   .info-content,
   .new-transaction-content {
@@ -255,7 +269,7 @@ export default {
   data() {
     return {
       error: '',
-      financePaths: ['/', '/categories', '/recurring', '/overview'],
+      financePaths: ['/', '/categories', '/recurring', '/overview', '/prices'],
       hasFetched: false,
     }
   },

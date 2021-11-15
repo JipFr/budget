@@ -182,15 +182,8 @@ import EditIcon from '~/assets/icons/edit.svg?inline'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-// Functions
-function toCents(euroVal) {
-  const euroArray = euroVal.replace(/€/g, '').split('.')
-  const isNegative = Number(euroVal.replace(/€/g, '')) < 0
-  const eurosInCents = Math.abs(euroArray[0] * 100)
-  const cents = euroArray[1]
-  const total = (Number(eurosInCents) || 0) + (Number(cents) || 0)
-  return isNegative ? -total : total
-}
+// Import other
+import getTransactionItemList from '~/util/getList'
 
 export default {
   components: {
@@ -215,49 +208,7 @@ export default {
       return this.payment.description.replace(/\n\n/g, '\n').trim()
     },
     entries() {
-      const entries = []
-
-      // See if description is grocery-like
-      if (this.description.includes('\n')) {
-        const descriptionArray = this.description
-          .split('\n')
-          .map((item) => item.trim())
-
-        for (const [i, entry] of Object.entries(descriptionArray)) {
-          // Find item count
-          const countRegex = /[\d.]+ ?x|x ?[\d.]+/g
-          const countMatch = entry.match(countRegex) || []
-          const itemCount = (countMatch || [])
-            .map((n) => Number(n.replace(/[^\d.?]/g, '')))
-            .reduce((a, b) => a * b, 1)
-
-          // Find money totals
-          const moneyRegex = /€(-?\d+(?:\.\d+)?)/
-          const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
-          const centArray = (euroArray || []).map(toCents)
-          const totalCents = centArray.reduce((a, b) => a + b, 0)
-
-          // Get item name without fields we already have
-          const newDescription = entry
-            .trim()
-            .replace(/ +/g, ' ')
-            .replace(countRegex, '')
-            .trim()
-
-          // Add to entries
-          entries.push({
-            description:
-              newDescription.slice(0, 1).toUpperCase() +
-              newDescription.slice(1),
-            cents: totalCents,
-            centsPerEntry: totalCents / itemCount,
-            original: entry,
-            id: i,
-            itemCount,
-          })
-        }
-      }
-
+      const entries = getTransactionItemList(this.description)
       return entries
     },
   },
