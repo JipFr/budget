@@ -180,6 +180,16 @@ nav .badge {
   }
 }
 
+@media screen and (min-width: 950px) {
+  nav {
+    // Wrap on desktop to stop annoying layout issues
+    flex-wrap: wrap;
+  }
+  nav::after {
+    display: none;
+  }
+}
+
 @media (min-width: 950px) and (max-width: 1349px) {
   .is-main-wrapper {
     grid-template-columns: 1fr 1.5fr;
