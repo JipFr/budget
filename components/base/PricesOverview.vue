@@ -2,47 +2,49 @@
   <div>
     <chart v-if="storesLoaded" :chartdata="chartData" />
     <div class="legend">
-      <card>
-        <select @change="setSelectedStore">
-          <option
-            v-for="[storeKey, storeValue] in Object.entries(stores).sort(
-              (a, b) => b[1].total - a[1].total
-            )"
-            :key="storeKey"
-            :value="storeKey"
-            :selected="selectedStore === storeKey"
-          >
-            {{ storeValue.name }}
-            <money :raw-string="true" :cents="storeValue.total" />
-          </option>
-        </select>
+      <portal to="right-side">
+        <card>
+          <select @change="setSelectedStore">
+            <option
+              v-for="[storeKey, storeValue] in Object.entries(stores).sort(
+                (a, b) => b[1].total - a[1].total
+              )"
+              :key="storeKey"
+              :value="storeKey"
+              :selected="selectedStore === storeKey"
+            >
+              {{ storeValue.name }}
+              <money :raw-string="true" :cents="storeValue.total" />
+            </option>
+          </select>
 
-        <subtitle>Items you've purchased...</subtitle>
+          <subtitle>Items you've purchased...</subtitle>
 
-        <div
-          v-if="
-            stores[selectedStore] &&
-            Object.keys(stores[selectedStore].items).length > 0
-          "
-          class="tag-list"
-        >
           <div
-            v-for="[key, item] of Object.entries(
-              stores[selectedStore].items
-            ).sort((a, b) => b[1].totalSpent - a[1].totalSpent)"
-            :key="key"
-            class="can-click"
-            @click="toggleItem(key)"
+            v-if="
+              stores[selectedStore] &&
+              Object.keys(stores[selectedStore].items).length > 0
+            "
+            class="tag-list"
           >
-            <tag
-              :tag="`${item.count} x ${item.display}`"
-              :color-override="item.color"
-              :cents="item.totalSpent"
-              :disabled="!enabledItems.includes(key)"
-            />
+            <div
+              v-for="[key, item] of Object.entries(
+                stores[selectedStore].items
+              ).sort((a, b) => b[1].totalSpent - a[1].totalSpent)"
+              :key="key"
+              class="can-click"
+              @click="toggleItem(key)"
+            >
+              <tag
+                :tag="`${item.count} x ${item.display}`"
+                :color-override="item.color"
+                :cents="item.totalSpent"
+                :disabled="!enabledItems.includes(key)"
+              />
+            </div>
           </div>
-        </div>
-      </card>
+        </card>
+      </portal>
     </div>
   </div>
 </template>
@@ -87,10 +89,18 @@ select {
 .tag-list + .tag-list {
   margin-top: 30px;
 }
+
+@media (min-width: 1350px) {
+  .tag-list {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+}
 </style>
 
 <script>
 // Import components
+import { Portal } from 'portal-vue'
 import Chart from '~/components/base/util/ScatterChart'
 import Tag from '~/components/base/Tag'
 import Card from '~/components/layout/Card'
@@ -108,6 +118,7 @@ export default {
     Tag,
     Subtitle,
     Money,
+    Portal,
   },
   props: {
     payments: {
