@@ -202,8 +202,6 @@ export default {
     chartData() {
       const storeKey = this.selectedStore
       const store = this.stores[storeKey]
-      console.log(Object.keys(this.stores), storeKey)
-      console.log(store)
 
       return {
         datasets: Object.keys(store.items)
