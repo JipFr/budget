@@ -49,6 +49,7 @@
                 <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
                 <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
                 <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
+                <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
               </nav>
 
               <nav v-if="path.startsWith('/settings')" class="with-badges">
@@ -255,7 +256,7 @@ export default {
   data() {
     return {
       error: '',
-      financePaths: ['/', '/categories', '/recurring', '/overview'],
+      financePaths: ['/', '/categories', '/recurring', '/overview', '/prices'],
       hasFetched: false,
     }
   },

@@ -1,6 +1,19 @@
 const day = 1e3 * 60 * 60 * 24
 const d = new Date()
 
+// Fixed colors
+export const colors = [
+  'rgb(0, 122, 255)',
+  'rgb(52, 199, 89)',
+  'rgb(255, 149, 0)',
+  'rgb(88, 86, 214)',
+  'rgb(255, 45, 85)',
+  'rgb(175, 82, 222)',
+  'rgb(255, 59, 48)',
+  'rgb(90, 200, 250)',
+  'rgb(255, 204, 0)',
+]
+
 // Find last month's "23rd" and this month's "23rd"
 // We're treating the 23rd as the start of the month — that's when I get paid.
 const currentMonth23rd = new Date(d)
@@ -50,19 +63,6 @@ function applyFilter(state) {
     .flat()
 
   allTags = [...new Set([...allTags, 'other'])] // Remove duplicates, also include 'other'
-
-  // Fixed colors
-  const colors = [
-    'rgb(0, 122, 255)',
-    'rgb(52, 199, 89)',
-    'rgb(255, 149, 0)',
-    'rgb(88, 86, 214)',
-    'rgb(255, 45, 85)',
-    'rgb(175, 82, 222)',
-    'rgb(255, 59, 48)',
-    'rgb(90, 200, 250)',
-    'rgb(255, 204, 0)',
-  ]
 
   // Assign color to each tag
   // const fullRange = 360

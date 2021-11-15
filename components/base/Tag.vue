@@ -1,5 +1,5 @@
 <template>
-  <div class="tag" :style="`--bg-color: ${color}`">
+  <div class="tag" :style="`--bg-color: ${color}`" :disabled="disabled">
     {{ capitalize }}
     <span v-if="cents !== null" class="amount">
       <!-- eslint-disable-next-line no-irregular-whitespace -->
@@ -18,6 +18,10 @@
   margin-top: 2px;
   font-size: 0.9rem;
   border-radius: 6px;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 .tag::before {
   content: '';
@@ -51,6 +55,16 @@ export default {
       required: false,
       default: null,
     },
+    colorOverride: {
+      type: [String, null],
+      required: false,
+      default: null,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     // Get the tag's color, as assigned in `user.js`
@@ -59,7 +73,7 @@ export default {
     const color = colors[tagName]
     return {
       colors,
-      color,
+      color: this.colorOverride || color,
     }
   },
   computed: {
