@@ -124,12 +124,16 @@ export default {
 
       // Now go over each transaction and add it to the relevant field
       for (const payment of this.payments) {
-        if (!payment.categories.includes('exclude')) {
+        const lowercaseCategories = payment.categories.map((category) =>
+          category.toLowerCase()
+        )
+
+        if (!lowercaseCategories.includes('exclude')) {
           // If it's food, keep a seperate "food total"
           // Otherwise add it to the normal total
           if (
-            payment.categories.includes('eten') ||
-            payment.categories.includes('food')
+            lowercaseCategories.includes('eten') ||
+            lowercaseCategories.includes('food')
           ) {
             if (payment.cents > 0) {
               this.foodTotal += payment.cents
