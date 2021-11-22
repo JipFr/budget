@@ -37,9 +37,14 @@ export default {
     const recurringTransactions = this.allPayments
       .filter((payment) => {
         // Filter it by being a monthly transaction
+
+        const lowercaseCategories = payment.categories.map((category) =>
+          category.toLowerCase()
+        )
+
         return (
-          payment.categories.includes('maandelijks') ||
-          payment.categories.includes('monthly')
+          lowercaseCategories.includes('maandelijks') ||
+          lowercaseCategories.includes('monthly')
         )
       })
       .map((payment) => {
