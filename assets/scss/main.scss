@@ -4,7 +4,8 @@
 :root {
   --body: white;
   --content: #f8f9fa;
-  --alt-content: var(--body);
+  --alt-content: rgba(0, 0, 0, 0.05);
+  --disabled-content: var(--body);
   --text: #444444;
   --text-secondary: #4c4c4c;
   --theme: #457461;
@@ -19,6 +20,7 @@
     --body: #23272d;
     --content: #16191f;
     --alt-content: rgba(255, 255, 255, 0.05);
+    --disabled-content: rgba(255, 255, 255, 0.01);
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
     --overlay-color: rgba(255, 255, 255, 0.05);
