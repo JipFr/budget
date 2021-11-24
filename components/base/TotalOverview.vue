@@ -94,7 +94,9 @@ export default {
         category.toLowerCase()
       )
       if (!lowercaseCategories.includes('exclude'))
-        this.allCategories.push(...payment.categories)
+        this.allCategories.push(
+          ...payment.categories.map((v) => v.toLowerCase())
+        )
     }
 
     // Count total
@@ -180,6 +182,7 @@ export default {
 
           const cats =
             lowercaseCategories.length === 0 ? ['other'] : lowercaseCategories
+
           if (!cats.includes('exclude')) {
             // Add to total count if it's not "excluded"
             const euros = payment.cents / 100
