@@ -18,11 +18,12 @@
   margin-top: 2px;
   font-size: 0.9rem;
   border-radius: 6px;
-
-  &[disabled] {
-    opacity: 0.5;
-  }
 }
+
+div.tag[disabled] {
+  background: var(--disabled-content);
+}
+
 .tag::before {
   content: '';
   display: inline-block;
