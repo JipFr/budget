@@ -212,6 +212,18 @@ nav .badge {
     position: sticky;
     top: 60px;
   }
+  .new-transaction-wrapper > div {
+    height: 100%;
+  }
+}
+</style>
+
+<style lang="scss">
+@media (min-width: 1350px) {
+  .new-transaction-content {
+    position: sticky !important;
+    top: 60px;
+  }
 }
 </style>
 
