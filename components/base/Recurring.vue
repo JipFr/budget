@@ -50,16 +50,13 @@ export default {
       .map((payment) => {
         // Map it into a usable format
         const date = new Date(payment.date)
-        const expectedMonth = date.getMonth() + 1
-        let newDate = new Date(
-          `${date.getFullYear()}-${(date.getMonth() + 2)
-            .toString()
-            .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
-        )
 
-        while (newDate.getMonth() > expectedMonth) {
+        const expectedMonth = (date.getMonth() + 1) % 12
+
+        let newDate = date
+        newDate.setMonth(newDate.getMonth() + 1)
+        while (newDate.getMonth() > expectedMonth)
           newDate = new Date(newDate.getTime() - 1e3 * 60 * 60 * 24)
-        }
 
         const diff = newDate.getTime() - now.getTime()
         const inXDays = Math.round(diff / (1e3 * 60 * 60 * 24))
