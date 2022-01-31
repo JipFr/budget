@@ -31,7 +31,7 @@
               v-for="[key, item] of Object.entries(
                 stores[selectedStore].items
               ).sort((a, b) => b[1].totalSpent - a[1].totalSpent)"
-              :key="key"
+              :key="`${key}-${item.totalSpent}-${item.display}`"
               class="can-click"
               @click="toggleItem(key)"
             >
@@ -199,6 +199,8 @@ export default {
 
     this.stores = stores
     this.storesLoaded = true
+
+    this.setChartData()
   },
   data() {
     return {
@@ -206,43 +208,17 @@ export default {
       stores: {},
       storesLoaded: false,
       enabledItems: [],
+      chartData: {
+        datasets: [],
+      },
     }
   },
   fetchOnServer: false,
-  computed: {
-    chartData() {
-      const storeKey = this.selectedStore
-      const store = this.stores[storeKey]
-
-      return {
-        datasets: Object.keys(store.items)
-          .map((key, i) => {
-            const item = store.items[key]
-            item.color = colors[i % colors.length]
-            // console.log(item.occurances[0])
-            return {
-              key,
-              label: item.display,
-              backgroundColor: item.color,
-              borderColor: 'transparent',
-              borderWidth: 0,
-              pointHitRadius: 25,
-              data: item.occurances.map((v) => {
-                return {
-                  x: new Date(v.on).getTime(),
-                  y: Math.round(v.centsPerEntry) / 100,
-                }
-              }),
-            }
-          })
-          .filter(({ key }) => this.enabledItems.includes(key)),
-      }
-    },
-  },
   methods: {
     setSelectedStore(v) {
       this.selectedStore = v.currentTarget.value
       this.enabledItems = []
+      this.setChartData()
     },
     toggleItem(key) {
       if (this.enabledItems.includes(key)) {
@@ -250,6 +226,7 @@ export default {
       } else {
         this.enabledItems.push(key)
       }
+      this.setChartData()
     },
     getStoreTotal(stores, storeKey) {
       if (!stores[storeKey]) return null
@@ -260,6 +237,42 @@ export default {
       }
 
       return total
+    },
+    mounted() {
+      this.setChartData()
+    },
+    setChartData() {
+      const storeKey = this.selectedStore
+      const store = this.stores[storeKey]
+
+      for (const [i, key] of Object.entries(Object.keys(store.items))) {
+        store.items[key].color = colors[i % colors.length]
+      }
+
+      const datasets = Object.keys(store.items)
+        .filter((key) => this.enabledItems.includes(key))
+        .map((key, i) => {
+          const item = store.items[key]
+
+          return {
+            key,
+            label: item.display,
+            backgroundColor: item.color,
+            borderColor: 'transparent',
+            borderWidth: 0,
+            pointHitRadius: 25,
+            data: item.occurances.map((v) => {
+              return {
+                x: new Date(v.on).getTime(),
+                y: Math.round(v.centsPerEntry) / 100,
+              }
+            }),
+          }
+        })
+
+      this.chartData = {
+        datasets,
+      }
     },
   },
 }
