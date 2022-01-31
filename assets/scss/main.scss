@@ -4,8 +4,8 @@
 :root {
   --body: white;
   --content: #f8f9fa;
-  --alt-content: rgba(0, 0, 0, 0.05);
-  --disabled-content: var(--body);
+  --alt-content: var(--body);
+  --disabled-content: rgba(0, 0, 0, 0.05);
   --text: #444444;
   --text-secondary: #4c4c4c;
   --theme: #457461;
