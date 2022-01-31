@@ -82,7 +82,7 @@ select {
     cursor: pointer;
 
     &:hover {
-      background: var(--border);
+      opacity: 0.8;
     }
   }
 }
