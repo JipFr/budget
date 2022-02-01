@@ -44,7 +44,10 @@
       Only show this section if it's a past transaction.
       Otherwise it's an "in X days" card, without actions
      -->
-    <div v-if="!payment.inXDays" class="card-actions card-sect dec-margin">
+    <div
+      v-if="!payment.inXDays && !disableActions"
+      class="card-actions card-sect dec-margin"
+    >
       <div class="action-wrapper">
         <button class="action-button" @click="doDelete">
           <trash-icon />
@@ -198,6 +201,10 @@ export default {
     payment: {
       type: Object,
       required: true,
+    },
+    disableActions: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

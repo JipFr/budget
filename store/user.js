@@ -46,7 +46,7 @@ function applyFilter(state) {
     .map((v) => v.categories.map((v) => v.toString().trim().toLowerCase()))
     .flat()
 
-  allTags = [...new Set([...allTags, 'other'])] // Remove duplicates, also include 'other'
+  allTags = [...new Set([...allTags, 'other', 'groceries', 'food'])] // Remove duplicates, also include 'other'
 
   // Assign color to each tag
   // const fullRange = 360

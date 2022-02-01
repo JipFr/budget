@@ -27,9 +27,7 @@
                   class="link"
                   to="/"
                   :class="
-                    !path.startsWith('/settings')
-                      ? 'nuxt-link-exact-active'
-                      : ''
+                    !path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
                   "
                 >
                   Finances
@@ -38,7 +36,7 @@
                   class="link"
                   to="/settings"
                   :class="
-                    path.startsWith('/settings') ? 'nuxt-link-exact-active' : ''
+                    path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
                   "
                 >
                   Settings
@@ -52,8 +50,8 @@
                 <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
               </nav>
 
-              <nav v-if="path.startsWith('/settings')" class="with-badges">
-                <nuxt-link class="badge" to="/settings/"> Profile </nuxt-link>
+              <nav v-if="path.startsWith('/about')" class="with-badges">
+                <nuxt-link class="badge" to="/about/"> Profile </nuxt-link>
               </nav>
             </div>
 
