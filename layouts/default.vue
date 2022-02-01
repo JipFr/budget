@@ -34,12 +34,12 @@
                 </nuxt-link>
                 <nuxt-link
                   class="link"
-                  to="/settings"
+                  to="/about"
                   :class="
                     path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
                   "
                 >
-                  Settings
+                  About
                 </nuxt-link>
               </nav>
               <nav v-if="financePaths.includes(path)" class="with-badges">
@@ -52,6 +52,7 @@
 
               <nav v-if="path.startsWith('/about')" class="with-badges">
                 <nuxt-link class="badge" to="/about/"> Profile </nuxt-link>
+                <nuxt-link class="badge" to="/about/faq"> FAQ </nuxt-link>
               </nav>
             </div>
 
