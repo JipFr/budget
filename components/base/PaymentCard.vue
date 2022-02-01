@@ -1,5 +1,5 @@
 <template>
-  <card class="no-padding">
+  <card class="no-padding payment-card">
     <div class="card-core card-sect">
       <subtitle class="is-subtitle">
         <div v-if="entries.length > 0" class="sum-calculated">

@@ -60,7 +60,7 @@
         23rd at some point, but I don't know when.
       </p>
     </collapsible>
-    <collapsible title="How to do the categories work?">
+    <collapsible title="How do the categories work?">
       <p>You can manually add a list of categories and divide by a comma.</p>
       <p>
         There are various utility categories you can use to make the app behave
@@ -75,6 +75,12 @@
         <li>
           <strong>"exclude"</strong>: exclude transaction from period total,
           overview, the prices page, etc.
+        </li>
+        <li>
+          <strong>"monthly" or "maandelijks"</strong>: this will take the
+          current date (say, the 22nd) and create a countdown to that date next
+          month in the "recurring" tab, like so:
+          <payment-card :payment="recurringPayment" disable-actions />
         </li>
       </ul>
     </collapsible>
@@ -120,6 +126,11 @@ code {
   background: var(--disabled-content);
   margin: 20px 0;
 }
+
+li,
+.payment-card {
+  margin: 10px 0;
+}
 </style>
 
 <script>
@@ -137,6 +148,12 @@ export default {
         cents: 100,
         categories: ['Groceries', 'food'],
         description: `My Local store\nItem one €5.50\n2x Item two €11\nItem three x 5 €11`,
+      },
+      recurringPayment: {
+        cents: 1499,
+        categories: ['Monthly', 'entertainment'],
+        description: 'Netflix',
+        inXDays: 10,
       },
     }
   },
