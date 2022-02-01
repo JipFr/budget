@@ -145,12 +145,12 @@ export default {
   data() {
     return {
       examplePayment: {
-        cents: 100,
+        cents: -100,
         categories: ['Groceries', 'food'],
         description: `My Local store\nItem one €5.50\n2x Item two €11\nItem three x 5 €11`,
       },
       recurringPayment: {
-        cents: 1499,
+        cents: -1499,
         categories: ['Monthly', 'entertainment'],
         description: 'Netflix',
         inXDays: 10,
