@@ -30,6 +30,10 @@
           <facebook-logo />
         </button>
       </div>
+
+      <hr />
+
+      <faq />
     </container>
   </div>
 </template>
@@ -119,6 +123,7 @@ hr {
 import AppHeader from '~/components/layout/Header'
 import Container from '~/components/layout/Container'
 import Banner from '~/components/base/Banner'
+import Faq from '~/components/base/Faq'
 
 // Import logo SVGs (for login buttons)
 import GithubLogo from '~/assets/logos/github.svg?inline'
@@ -133,6 +138,7 @@ export default {
     AppHeader,
     Container,
     Banner,
+    Faq,
     GithubLogo,
     DiscordLogo,
     FacebookLogo,
