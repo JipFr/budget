@@ -54,6 +54,8 @@ function applyFilter(state) {
       'food',
       'monthly',
       'entertainment',
+      'lunch',
+      'avondeten',
     ]),
   ] // Remove duplicates, also include 'other'
 

@@ -27,10 +27,21 @@
                   class="link"
                   to="/"
                   :class="
-                    !path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
+                    !path.startsWith('/about') && !path.startsWith('/util')
+                      ? 'nuxt-link-exact-active'
+                      : ''
                   "
                 >
                   Finances
+                </nuxt-link>
+                <nuxt-link
+                  class="link"
+                  to="/util"
+                  :class="
+                    path.startsWith('/util') ? 'nuxt-link-exact-active' : ''
+                  "
+                >
+                  Utility
                 </nuxt-link>
                 <nuxt-link
                   class="link"
@@ -42,6 +53,7 @@
                   About
                 </nuxt-link>
               </nav>
+
               <nav v-if="financePaths.includes(path)" class="with-badges">
                 <nuxt-link class="badge" to="/">Payments</nuxt-link>
                 <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
@@ -53,6 +65,10 @@
               <nav v-if="path.startsWith('/about')" class="with-badges">
                 <nuxt-link class="badge" to="/about/"> Profile </nuxt-link>
                 <nuxt-link class="badge" to="/about/faq"> FAQ </nuxt-link>
+              </nav>
+
+              <nav v-if="path.startsWith('/util')" class="with-badges">
+                <nuxt-link class="badge" to="/util"> Recipes </nuxt-link>
               </nav>
             </div>
 
