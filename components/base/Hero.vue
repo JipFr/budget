@@ -6,12 +6,9 @@
         :class="foodTotal === 0 && foodSpent === 0 ? 'fw' : ''"
       >
         <subtitle>In this period...</subtitle>
-        <h2 v-if="foodTotal !== 0 || foodSpent !== 0">
+        <h2>
           <money :cents="regularTotal" />
         </h2>
-        <h1 v-else>
-          <money :cents="regularTotal" />
-        </h1>
       </card>
       <card v-if="foodTotal !== 0 || foodSpent !== 0">
         <subtitle>Total in period</subtitle>
