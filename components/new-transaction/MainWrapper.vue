@@ -21,6 +21,7 @@
         v-model="editingData.tags"
         label="Categories"
         placeholder="netflix, monthly"
+        type="list"
         @change="(e) => cleanDescription(e)"
       />
       <app-input
