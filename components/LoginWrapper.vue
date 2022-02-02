@@ -156,10 +156,10 @@ export default {
   mounted() {
     SupabaseClient.auth.onAuthStateChange(() => {
       this.user = SupabaseClient.auth.user()
-      this.$nuxt.$emit('refetch')
+      this.$nuxt.$emit('refetch-really')
       setTimeout(() => {
         // Oh well
-        this.$nuxt.$emit('refetch')
+        this.$nuxt.$emit('refetch-really')
       }, 500)
     })
 

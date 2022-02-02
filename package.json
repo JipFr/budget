@@ -20,7 +20,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.0.2",
     "@nuxtjs/svg": "^0.1.12",
-    "@supabase/supabase-js": "^1.25.2",
+    "@supabase/supabase-js": "^1.29.4",
     "chart.js": "^2.9.4",
     "cordova-res": "^0.15.3",
     "core-js": "^3.18.0",
