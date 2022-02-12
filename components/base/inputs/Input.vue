@@ -221,20 +221,9 @@ export default {
       this.$emit('change', evt)
     },
     listInputEvent(evt) {
-      const currentList = this.value
-        .split(', ')
-        .map((v) => v.trim())
-        .filter(Boolean)
-
       if (evt.key === 'Enter' || evt.key === ',') {
-        currentList.push(this.otherValue.replace(/,/g, ''))
-        this.otherValue = ''
+        this.addTag()
       }
-
-      const newValue = [...new Set(currentList)]
-        .map((v) => v.toLowerCase().trim())
-        .join(', ')
-      if (newValue !== this.value) this.$emit('input', newValue)
     },
     doFocus() {
       this.isFocused = true
@@ -246,6 +235,20 @@ export default {
     setInputWidth() {
       const input = this.$refs['adjustable-input']
       if (input) input.style.width = Math.max(input.value.length, 16) + 'ch'
+    },
+    addTag() {
+      const currentList = this.value
+        .split(', ')
+        .map((v) => v.trim())
+        .filter(Boolean)
+
+      currentList.push(this.otherValue.replace(/,/g, ''))
+      this.otherValue = ''
+
+      const newValue = [...new Set(currentList)]
+        .map((v) => v.toLowerCase().trim())
+        .join(', ')
+      if (newValue !== this.value) this.$emit('input', newValue)
     },
     removeTag(tag) {
       const currentList = this.value
