@@ -8,9 +8,9 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint": "npm run lint:js",
+    "lint": "yarn lint:js",
     "make-icon": "cordova-res ios --skip-config --copy",
-    "cap": "npm run build && npm run generate && npx cap copy && npx cap open"
+    "cap": "yarn build && yarn generate && npx cap copy && npx cap open"
   },
   "dependencies": {
     "@capacitor/cli": "^2.5.0",
