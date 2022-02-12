@@ -36,7 +36,8 @@
           :min="min"
           :max="max"
           :placeholder="placeholder"
-          @keyup="listInputEvent"
+          @keyup="listKeyUpEvent"
+          @keydown="listKeyDownEvent"
           @focus="doFocus"
           @blur="doBlur"
           @input="setInputWidth"
@@ -220,7 +221,12 @@ export default {
       this.$emit('input', evt.currentTarget.value)
       this.$emit('change', evt)
     },
-    listInputEvent(evt) {
+    listKeyDownEvent(evt) {
+      if (evt.key === 'Backspace' && this.otherValue === '') {
+        this.removeTag(this.tagList[this.tagList.length - 1])
+      }
+    },
+    listKeyUpEvent(evt) {
       if (evt.key === 'Enter' || evt.key === ',') {
         this.addTag()
       }
