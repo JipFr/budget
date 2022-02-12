@@ -231,6 +231,10 @@ export default {
     },
     doBlur() {
       this.isFocused = false
+
+      if (this.type === 'list') {
+        this.addTag()
+      }
     },
     setInputWidth() {
       const input = this.$refs['adjustable-input']
