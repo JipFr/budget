@@ -179,7 +179,7 @@ export default {
           redirectTo:
             process.env.NODE_ENV === 'production'
               ? 'https://jip-budget.netlify.app/'
-              : 'http://localhost:3000',
+              : process.env.REDIRECT_URL,
         }
       )
     },

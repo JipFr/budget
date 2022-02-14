@@ -52,4 +52,8 @@ export default {
   content: {},
 
   build: {},
+
+  env: {
+    REDIRECT_URL: process.env.REDIRECT_URL || 'http://localhost:3000',
+  },
 }
