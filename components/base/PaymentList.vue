@@ -103,8 +103,6 @@ export default {
         })
       }
 
-      console.log(payments)
-
       this.payments = payments
     },
   },
