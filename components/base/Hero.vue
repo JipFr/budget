@@ -147,10 +147,17 @@ export default {
             this.regularTotal += payment.cents
           }
 
-          if (payment.cents > 0) {
-            this.gained += payment.cents
-          } else {
-            this.spent += payment.cents * -1
+          if (
+            !(
+              lowercaseCategories.includes('eten aanpassen') ||
+              lowercaseCategories.includes('adjust food')
+            )
+          ) {
+            if (payment.cents > 0) {
+              this.gained += payment.cents
+            } else {
+              this.spent += payment.cents * -1
+            }
           }
         }
       }
