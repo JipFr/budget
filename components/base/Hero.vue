@@ -137,6 +137,12 @@ export default {
             } else {
               this.foodSpent += payment.cents * -1
             }
+          } else if (
+            lowercaseCategories.includes('eten aanpassen') ||
+            lowercaseCategories.includes('adjust food')
+          ) {
+            this.regularTotal -= payment.cents
+            this.foodTotal += payment.cents
           } else {
             this.regularTotal += payment.cents
           }
