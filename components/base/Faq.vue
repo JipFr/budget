@@ -74,8 +74,7 @@
         </li>
         <li>
           <strong>"adjust food" or "eten aanpassen"</strong>: moves some money
-          from the food budget into the regular budget, or the other way
-          around.
+          from the food budget into the regular budget, or the other way around.
         </li>
         <li>
           <strong>"exclude"</strong>: exclude transaction from period total,
