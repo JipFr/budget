@@ -131,7 +131,9 @@ export default {
 
     // For all non-excluded transactions, filter into ones that have lists and add the store
     const transactions = this.payments
-      .filter((transaction) => !transaction.categories.includes('exclude'))
+      .filter(
+        (transaction) => !transaction.categories.includes('exclude pricing')
+      )
       .map((transaction) => {
         return {
           ...transaction,
