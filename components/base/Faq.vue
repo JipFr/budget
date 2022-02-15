@@ -73,8 +73,18 @@
           way you can budget your food each period.
         </li>
         <li>
+          <strong>"adjust food" or "eten aanpassen"</strong>: moves some money
+          from the food budget into the regular budget, or the other way
+          around.
+        </li>
+        <li>
           <strong>"exclude"</strong>: exclude transaction from period total,
           overview, the prices page, etc.
+        </li>
+        <li>
+          <strong>"exclude pricing"</strong>: using "exclude" does not keep the
+          transaction from being counted for a store's pricing of an item. This
+          tag does.
         </li>
         <li>
           <strong>"monthly" or "maandelijks"</strong>: this will take the
