@@ -94,6 +94,17 @@ export default {
         return new Date(b[0]).getTime() - new Date(a[0]).getTime()
       })
 
+      // Sort by creation date inside existing dates
+      for (const date of payments) {
+        date[1] = date[1].sort((a, b) => {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          )
+        })
+      }
+
+      console.log(payments)
+
       this.payments = payments
     },
   },
