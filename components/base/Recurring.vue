@@ -1,11 +1,10 @@
 <template>
   <div class="list">
     <div v-if="recurringTransactions.length > 0">
-      <!-- Each payment card -->
-      <payment-card
-        v-for="payment of recurringTransactions"
-        :key="payment.title"
-        :payment="payment"
+      <payment-list
+        :raw-payments="recurringTransactions"
+        disable-actions
+        :reversed="false"
       />
     </div>
     <div v-else class="empty">No upcoming transactions</div>
@@ -14,11 +13,11 @@
 
 <script>
 // Import components
-import PaymentCard from '~/components/base/PaymentCard'
+import PaymentList from '~/components/base/PaymentList'
 
 export default {
   components: {
-    PaymentCard,
+    PaymentList,
   },
   props: {
     allPayments: {
@@ -49,7 +48,8 @@ export default {
       })
       .map((payment) => {
         // Map it into a usable format
-        const date = new Date(payment.date)
+        const p = Object.assign({}, payment)
+        const date = new Date(p.date)
 
         const expectedMonth = (date.getMonth() + 1) % 12
 
@@ -61,15 +61,17 @@ export default {
         const diff = newDate.getTime() - now.getTime()
         const inXDays = Math.round(diff / (1e3 * 60 * 60 * 24))
 
+        p.date = newDate
+
         return {
-          ...payment,
+          ...p,
           inXDays,
         }
       })
       .filter((payment) => payment.inXDays >= 0)
       .sort((paymentA, paymentB) => {
         // Sort payments by amount of days left
-        return paymentA.inXDays - paymentB.inXDays
+        return paymentB.inXDays - paymentA.inXDays
       })
     return {
       recurringTransactions,
