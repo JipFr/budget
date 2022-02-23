@@ -9,6 +9,7 @@
           v-for="payment in entry[1]"
           :key="payment.id"
           :payment="payment"
+          :disable-actions="disableActions"
         />
       </div>
     </div>
@@ -54,6 +55,14 @@ export default {
       type: Array,
       required: true,
     },
+    disableActions: {
+      type: Boolean,
+      default: false,
+    },
+    reversed: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -90,9 +99,10 @@ export default {
       }
 
       // Map payments to dates
-      const payments = Object.entries(dates).sort((a, b) => {
-        return new Date(b[0]).getTime() - new Date(a[0]).getTime()
+      let payments = Object.entries(dates).sort((a, b) => {
+        return new Date(a[0]).getTime() - new Date(b[0]).getTime()
       })
+      if (this.reversed) payments = payments.reverse()
 
       // Sort by creation date inside existing dates
       for (const date of payments) {
