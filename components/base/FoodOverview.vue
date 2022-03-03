@@ -235,7 +235,7 @@ export default {
         data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
       },
       {
-        label: 'Food',
+        label: 'Real usage',
         backgroundColor: 'rgba(100, 100, 100, 0.05)',
         borderWidth: 1,
         borderColor: '#457461',
