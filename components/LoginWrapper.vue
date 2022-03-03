@@ -29,6 +29,9 @@
         <button data-link="facebook" @click="login('facebook')">
           <facebook-logo />
         </button>
+        <button data-link="google" @click="login('google')">
+          <google-logo />
+        </button>
       </div>
 
       <hr />
@@ -105,6 +108,11 @@ hr {
       color: white;
     }
 
+    &[data-link='google'] {
+      background: white;
+      color: white;
+    }
+
     &[data-link='facebook'] {
       background: #4267b2;
       color: white;
@@ -129,6 +137,7 @@ import Faq from '~/components/base/Faq'
 import GithubLogo from '~/assets/logos/github.svg?inline'
 import DiscordLogo from '~/assets/logos/discord.svg?inline'
 import FacebookLogo from '~/assets/logos/facebook.svg?inline'
+import GoogleLogo from '~/assets/logos/google.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -142,6 +151,7 @@ export default {
     GithubLogo,
     DiscordLogo,
     FacebookLogo,
+    GoogleLogo,
   },
   fetch() {
     this.user = SupabaseClient.auth.user()
