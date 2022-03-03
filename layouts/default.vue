@@ -48,6 +48,9 @@
                 <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
                 <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
                 <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
+                <nuxt-link v-if="hasFoodTransactions" class="badge" to="/food">
+                  Food
+                </nuxt-link>
               </nav>
 
               <nav v-if="path.startsWith('/about')" class="with-badges">
@@ -301,7 +304,14 @@ export default {
   data() {
     return {
       error: '',
-      financePaths: ['/', '/categories', '/recurring', '/overview', '/prices'],
+      financePaths: [
+        '/',
+        '/categories',
+        '/recurring',
+        '/overview',
+        '/prices',
+        '/food',
+      ],
       hasFetched: false,
     }
   },
@@ -322,6 +332,15 @@ export default {
     },
     path() {
       return this.$route.path
+    },
+    hasFoodTransactions() {
+      const transactions = this.getPayments
+      return (
+        transactions.filter((v) => {
+          const categories = v.categories.join(', ').toLowerCase()
+          return categories.includes('food') || categories.includes('eten')
+        }).length > 0
+      )
     },
   },
   mounted() {
