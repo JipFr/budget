@@ -230,15 +230,16 @@ export default {
     this.chartData.datasets = [
       {
         label: 'Expected',
-        backgroundColor: 'rgba(100, 100, 100, 0.02)',
+        backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: 'gray',
         pointRadius: 0,
+        borderDash: [3, 3],
         data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
       },
       {
         label: 'Real usage',
-        backgroundColor: 'rgba(100, 100, 100, 0.02)',
+        backgroundColor: 'transparent',
         borderWidth: 2.5,
         pointRadius: 3,
         borderColor: '#457461',
