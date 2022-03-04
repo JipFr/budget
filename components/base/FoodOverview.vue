@@ -220,7 +220,9 @@ export default {
     // Remove excesive data from real
     const lastFoodTransaction = foodTransactions[foodTransactions.length - 1]
     foodRealTotals = foodRealTotals.filter(
-      (t) => t.date.getTime() <= new Date(lastFoodTransaction.date).getTime()
+      (t) =>
+        t.date.getTime() <= new Date(lastFoodTransaction.date).getTime() ||
+        t.date.getTime() < Date.now()
     )
 
     // Set to chart
@@ -228,7 +230,7 @@ export default {
     this.chartData.datasets = [
       {
         label: 'Expected',
-        backgroundColor: 'rgba(100, 100, 100, 0.05)',
+        backgroundColor: 'rgba(100, 100, 100, 0.02)',
         borderWidth: 1,
         borderColor: 'gray',
         pointRadius: 0,
@@ -236,9 +238,11 @@ export default {
       },
       {
         label: 'Real usage',
-        backgroundColor: 'rgba(100, 100, 100, 0.05)',
-        borderWidth: 1,
+        backgroundColor: 'rgba(100, 100, 100, 0.02)',
+        borderWidth: 2.5,
+        pointRadius: 3,
         borderColor: '#457461',
+        pointBackgroundColor: '#457461',
         data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
       },
     ]
