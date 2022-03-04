@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 p {
   color: var(--text-secondary);
   margin-bottom: 40px;
