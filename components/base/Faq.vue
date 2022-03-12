@@ -91,6 +91,14 @@
           month in the "recurring" tab, like so:
           <payment-card :payment="recurringPayment" disable-actions />
         </li>
+        <li>
+          <strong>"quarterly" or "driemaandelijks"</strong>: show on recurring
+          page, 3 months from now
+        </li>
+        <li>
+          <strong>"yearly" or "jaarlijks"</strong>: show on recurring page, this
+          date next year
+        </li>
       </ul>
     </collapsible>
     <collapsible title="Can I use a currency that isn't euros?">
