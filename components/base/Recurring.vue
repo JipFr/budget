@@ -43,7 +43,12 @@ export default {
 
         return (
           lowercaseCategories.includes('maandelijks') ||
-          lowercaseCategories.includes('monthly')
+          lowercaseCategories.includes('monthly') ||
+          lowercaseCategories.includes('yearly') ||
+          lowercaseCategories.includes('anually') ||
+          lowercaseCategories.includes('jaarlijks') ||
+          lowercaseCategories.includes('quarterly') ||
+          lowercaseCategories.includes('driemaandelijks')
         )
       })
       .map((payment) => {
@@ -51,10 +56,28 @@ export default {
         const p = Object.assign({}, payment)
         const date = new Date(p.date)
 
-        const expectedMonth = (date.getMonth() + 1) % 12
+        const lowercaseCategories = payment.categories.map((category) =>
+          category.toLowerCase()
+        )
+
+        let monthsIntoFuture = 1
+        if (
+          lowercaseCategories.includes('yearly') ||
+          lowercaseCategories.includes('anually') ||
+          lowercaseCategories.includes('jaarlijks')
+        ) {
+          monthsIntoFuture = 12
+        } else if (
+          lowercaseCategories.includes('quarterly') ||
+          lowercaseCategories.includes('driemaandelijks')
+        ) {
+          monthsIntoFuture = 3
+        }
+
+        const expectedMonth = (date.getMonth() + monthsIntoFuture) % 12
 
         let newDate = date
-        newDate.setMonth(newDate.getMonth() + 1)
+        newDate.setMonth(newDate.getMonth() + monthsIntoFuture)
         while (newDate.getMonth() > expectedMonth)
           newDate = new Date(newDate.getTime() - 1e3 * 60 * 60 * 24)
 
