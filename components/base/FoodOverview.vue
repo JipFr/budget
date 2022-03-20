@@ -26,6 +26,18 @@
         tooltips: {
           mode: 'index',
           intersect: false,
+          callbacks: {
+            afterBody: (ctx) => {
+              if (ctx.length > 1) {
+                const cents = (ctx[0].yLabel - ctx[1].yLabel) * 100
+                return `\nTotal: ${Math.floor(cents) / 100}`
+              }
+              return ''
+            },
+          },
+        },
+        plugins: {
+          tooltip: {},
         },
       }"
     />
@@ -227,26 +239,41 @@ export default {
 
     // Set to chart
     this.chartData.labels = foodPredictedTotals.map((v) => toDateString(v.date))
-    this.chartData.datasets = [
-      {
-        label: 'Expected',
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: 'gray',
-        pointRadius: 0,
-        borderDash: [3, 3],
-        data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
-      },
-      {
-        label: 'Real usage',
-        backgroundColor: 'transparent',
-        borderWidth: 2.5,
-        pointRadius: 3,
-        borderColor: '#457461',
-        pointBackgroundColor: '#457461',
-        data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
-      },
-    ]
+
+    const expectedUsage = {
+      label: 'Expected',
+      backgroundColor: 'transparent',
+      borderWidth: 1,
+      borderColor: 'gray',
+      pointRadius: 0,
+      borderDash: [3, 3],
+      data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
+    }
+
+    const realUsage = {
+      label: 'Real usage',
+      backgroundColor: 'transparent',
+      borderWidth: 2.5,
+      pointRadius: 3,
+      borderColor: '#457461',
+      pointBackgroundColor: '#457461',
+      data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
+    }
+
+    // const totalUsage = {
+    //   label: 'Real usage',
+    //   backgroundColor: 'transparent',
+    //   borderWidth: 0,
+    //   pointRadius: 0,
+    //   borderColor: 'transparent',
+    //   pointBackgroundColor: 'transparent',
+    //   data: foodRealTotals.map(
+    //     (v, i) => realUsage.data[i] - expectedUsage.data[i]
+    //   ),
+    //   hidden: true,
+    // }
+
+    this.chartData.datasets = [realUsage, expectedUsage]
   },
   data() {
     return {
@@ -254,6 +281,7 @@ export default {
         labels: [],
         datasets: [],
       },
+      console,
     }
   },
   watch: {
