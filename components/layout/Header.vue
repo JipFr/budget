@@ -3,7 +3,10 @@
     <header>
       <container>
         <div></div>
-        <div>{{ title }}</div>
+        <div>
+          <crab-icon />
+          {{ title }}
+        </div>
         <div></div>
       </container>
     </header>
@@ -42,6 +45,13 @@ header {
   }
 }
 
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: var(--text);
+  margin-right: 10px;
+}
+
 .header-wrapper {
   margin-bottom: calc(60px + env(safe-area-inset-top));
 }
@@ -56,11 +66,16 @@ header {
 // Import Capacitor
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core'
 import Container from '~/components/layout/Container'
+
+// Import icons
+import CrabIcon from '~/assets/logos/crab.svg?inline'
+
 const { StatusBar } = Plugins
 
 export default {
   components: {
     Container,
+    CrabIcon,
   },
   props: {
     title: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header title="BudgetDuck" />
+    <app-header title="Krab Bij Kas" />
     <container class="app">
       <Nuxt />
     </container>

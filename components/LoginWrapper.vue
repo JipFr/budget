@@ -6,7 +6,7 @@
   <div v-else>
     <app-header title="Log in" />
     <container class="limited-width login">
-      <h1>BudgetDuck</h1>
+      <h1>Krab Bij Kas</h1>
       <p>
         This would be a good place to put a fantastic tag line, or description.
         Who knows what I'll come up with.

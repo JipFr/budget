@@ -1,7 +1,7 @@
 export default {
   target: 'static',
   head: {
-    title: 'BudgetDuck',
+    title: 'Krab Bij Kas',
     meta: [
       { charset: 'utf-8' },
       { hid: 'description', name: 'description', content: '' },
@@ -40,8 +40,8 @@ export default {
 
   pwa: {
     manifest: {
-      name: 'BudgetDuck',
-      short_name: 'BudgetDuck',
+      name: 'Krab Bij Kas',
+      short_name: 'KBK',
       start_url: '/',
     },
     meta: {
