@@ -50,7 +50,7 @@
       <div class="action-wrapper">
         <button class="action-button" @click="reAdd">
           <refresh-icon />
-          <span>Re-add on this date</span>
+          <span>Add transaction to date</span>
         </button>
       </div>
     </div>
