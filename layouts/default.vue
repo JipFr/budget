@@ -1,6 +1,6 @@
 <template>
   <login-wrapper>
-    <app-header title="BudgetDuck" />
+    <app-header title="Krab Bij Kas" />
     <div class="page">
       <div v-if="error">
         <container class="limited-width">
