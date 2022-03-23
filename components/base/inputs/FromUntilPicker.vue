@@ -28,12 +28,26 @@ export default {
       until: store.until,
     }
   },
+  computed: {
+    stateFrom() {
+      return this.$store.state.user.from
+    },
+    stateUntil() {
+      return this.$store.state.user.until
+    },
+  },
   watch: {
     from() {
       this.setFrom(this.from)
     },
     until() {
       this.setUntil(this.until)
+    },
+    stateFrom(newFrom) {
+      this.from = newFrom
+    },
+    stateUntil(newUntil) {
+      this.until = newUntil
     },
   },
   methods: {

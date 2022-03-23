@@ -4,6 +4,7 @@
       <payment-list
         :raw-payments="recurringTransactions"
         disable-actions
+        show-readd-button
         :reversed="false"
       />
     </div>
