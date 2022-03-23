@@ -43,13 +43,13 @@ header {
       justify-content: flex-end;
     }
   }
-}
 
-svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  fill: var(--text);
-  margin-right: 10px;
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--text);
+    margin-right: 10px;
+  }
 }
 
 .header-wrapper {
