@@ -10,6 +10,7 @@
           :key="payment.id"
           :payment="payment"
           :disable-actions="disableActions"
+          :show-readd-button="showReaddButton"
         />
       </div>
     </div>
@@ -56,6 +57,10 @@ export default {
       required: true,
     },
     disableActions: {
+      type: Boolean,
+      default: false,
+    },
+    showReaddButton: {
       type: Boolean,
       default: false,
     },

@@ -46,6 +46,14 @@
       </subtitle>
       <money :cents="payment.cents" />
     </div>
+    <div v-if="showReaddButton" class="card-actions card-sect dec-margin">
+      <div class="action-wrapper">
+        <button class="action-button" @click="reAdd">
+          <refresh-icon />
+          <span>Re-add on this date</span>
+        </button>
+      </div>
+    </div>
     <!--
       Only show this section if it's a past transaction.
       Otherwise it's an "in X days" card, without actions
@@ -129,6 +137,10 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+
+    svg + * {
+      margin-left: 1rem;
+    }
   }
 
   svg {
@@ -175,6 +187,8 @@
 </style>
 
 <script>
+import { mapMutations } from 'vuex'
+
 // Import components
 import Card from '~/components/layout/Card'
 import Subtitle from '~/components/title/Subtitle'
@@ -184,6 +198,7 @@ import Tag from '~/components/base/Tag'
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
 import EditIcon from '~/assets/icons/edit.svg?inline'
+import RefreshIcon from '~/assets/icons/refresh.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -199,6 +214,7 @@ export default {
     Tag,
     TrashIcon,
     EditIcon,
+    RefreshIcon,
   },
   props: {
     payment: {
@@ -206,6 +222,10 @@ export default {
       required: true,
     },
     disableActions: {
+      type: Boolean,
+      default: false,
+    },
+    showReaddButton: {
       type: Boolean,
       default: false,
     },
@@ -241,9 +261,35 @@ export default {
     doEdit() {
       this.$nuxt.$emit('edit-transaction', this.payment.id)
     },
+    async reAdd() {
+      const submitObj = {
+        user_id: SupabaseClient.auth.user().id,
+        description: this.payment.description,
+        cents: this.payment.cents,
+        categories: this.payment.categories,
+        date: this.payment.date,
+      }
+
+      // Insert transaction
+      const { error } = await SupabaseClient.from('transactions').insert([
+        submitObj,
+      ])
+
+      if (error) {
+        alert(error.message)
+      } else {
+        this.setUntil(submitObj.date.toISOString().split('T')[0])
+        window.scrollTo(0, 0)
+        this.$nuxt.$emit('refetch')
+        this.$router.push({ path: '/' })
+      }
+    },
     isInXDays(payment) {
       return typeof payment.inXDays !== 'undefined'
     },
+    ...mapMutations({
+      setUntil: 'user/setUntil',
+    }),
   },
 }
 </script>
