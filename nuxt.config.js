@@ -41,7 +41,7 @@ export default {
   pwa: {
     manifest: {
       name: 'Krab Bij Kas',
-      short_name: 'KBK',
+      short_name: 'Krab',
       start_url: '/',
     },
     meta: {
