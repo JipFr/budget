@@ -35,7 +35,13 @@
           v-if="payment.categories && payment.categories.length > 0"
           class="tags"
         >
-          <tag v-for="tag in payment.categories || []" :key="tag" :tag="tag" />
+          <tag
+            v-for="tag in Object.assign([], payment.categories || []).sort(
+              (a, b) => a.localeCompare(b)
+            )"
+            :key="tag"
+            :tag="tag"
+          />
         </div>
       </subtitle>
       <money :cents="payment.cents" />
