@@ -126,10 +126,11 @@ export default {
           category.toLowerCase()
         )
         return (
-          categories.includes('food') ||
-          categories.includes('eten') ||
-          categories.includes('eten aanpassen') ||
-          categories.includes('adjust food')
+          (categories.includes('food') ||
+            categories.includes('eten') ||
+            categories.includes('eten aanpassen') ||
+            categories.includes('adjust food')) &&
+          !categories.includes('exclude')
         )
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -220,6 +221,7 @@ export default {
       for (const transaction of dateTransactions) {
         todayBase += transaction.cents
       }
+      console.log(dateTransactions, todayBase)
 
       foodRealTotals.push({
         cents: todayBase,
