@@ -112,6 +112,9 @@ h2 {
 }
 .tab-wrapper {
   margin-top: 20px;
+  min-height: calc(
+    100vh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+  );
 }
 .loading-wrapper {
   display: flex;
