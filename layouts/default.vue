@@ -27,11 +27,22 @@
                   class="link"
                   to="/"
                   :class="
-                    !path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
+                    financePaths.includes(path) ? 'nuxt-link-exact-active' : ''
                   "
                 >
                   Finances
                 </nuxt-link>
+
+                <nuxt-link
+                  class="link"
+                  to="/prices"
+                  :class="
+                    chartPaths.includes(path) ? 'nuxt-link-exact-active' : ''
+                  "
+                >
+                  Analysis
+                </nuxt-link>
+
                 <nuxt-link
                   class="link"
                   to="/about"
@@ -46,11 +57,14 @@
                 <nuxt-link class="badge" to="/">Payments</nuxt-link>
                 <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
                 <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
-                <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
+              </nav>
+
+              <nav v-if="chartPaths.includes(path)" class="with-badges">
                 <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
                 <nuxt-link v-if="hasFoodTransactions" class="badge" to="/food">
                   Food
                 </nuxt-link>
+                <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
               </nav>
 
               <nav v-if="path.startsWith('/about')" class="with-badges">
@@ -250,6 +264,12 @@ import LoadingIcon from '~/components/base/LoadingIcon'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
+function addTrailingSlash(arr) {
+  return arr.flatMap((path) =>
+    [path, !path.endsWith('/') ? path + '/' : null].filter(Boolean)
+  )
+}
+
 export default {
   components: {
     AppHeader,
@@ -307,14 +327,8 @@ export default {
   data() {
     return {
       error: '',
-      financePaths: [
-        '/',
-        '/categories',
-        '/recurring',
-        '/overview',
-        '/prices',
-        '/food',
-      ],
+      financePaths: addTrailingSlash(['/', '/categories', '/recurring']),
+      chartPaths: addTrailingSlash(['/overview', '/prices', '/food']),
       hasFetched: false,
     }
   },
