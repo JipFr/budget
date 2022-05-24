@@ -31,6 +31,13 @@ function applyFilter(state) {
   const untilDate = new Date(state.until)
   const hour = 1e3 * 60 * 60
 
+  state.data.transactions = state.data.transactions.map((t) => {
+    // Sometimes browsers act stupid, and because of that we need to get rid of stupidness.
+    // This is a very specific scenario I've only run into once, but I refuse to run into it again!
+    t.description = t.description.replace(/’/g, "'")
+    return t
+  })
+
   // Filter transactions by date
   state.data.transactionsInPeriod = state.data.transactions.filter((v) => {
     const d = new Date(v.date)
