@@ -247,10 +247,6 @@ export default {
       const storeKey = this.selectedStore
       const store = this.stores[storeKey]
 
-      for (const [i, key] of Object.entries(Object.keys(store.items))) {
-        store.items[key].color = colors[i % colors.length]
-      }
-
       const datasets = Object.keys(store.items)
         .filter((key) => this.enabledItems.includes(key))
         .map((key, i) => {
@@ -271,6 +267,16 @@ export default {
             }),
           }
         })
+
+      // Assign colors to products
+      const sortedEntries = Object.entries(store.items).sort(
+        (a, b) => b[1].totalSpent - a[1].totalSpent
+      )
+
+      for (let i = 0; i < sortedEntries.length; i++) {
+        const item = sortedEntries[i][1]
+        item.color = colors[i % colors.length]
+      }
 
       this.chartData = {
         datasets,
