@@ -2,12 +2,10 @@
   <div class="header-wrapper">
     <header>
       <container>
-        <div></div>
         <div>
           <crab-icon />
           {{ title }}
         </div>
-        <div></div>
       </container>
     </header>
   </div>
@@ -27,7 +25,7 @@ header {
 
   .container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
     grid-gap: 10px;
 
     > * {
