@@ -11,9 +11,7 @@
             class="can-click"
             @click="toggleCategory(category)"
           >
-            <tag :tag="category" :cents="categoriesTotal[category] * 100">
-              {{ category }}
-            </tag>
+            <tag :tag="category" :cents="categoriesTotal[category] * 100" />
           </div>
         </div>
         <div v-if="disabledCategories.length > 0" class="tag-list">
@@ -23,9 +21,7 @@
             class="can-click"
             @click="toggleCategory(category)"
           >
-            <tag :tag="category" :cents="categoriesTotal[category] * 100">
-              {{ category }}
-            </tag>
+            <tag :tag="category" :cents="categoriesTotal[category] * 100" />
           </div>
         </div>
       </card>
@@ -37,6 +33,7 @@
 .legend {
   margin-top: 40px;
 }
+
 .tag-list {
   margin-top: 10px;
   display: grid;
@@ -57,6 +54,7 @@
     }
   }
 }
+
 .tag-list + .tag-list {
   margin-top: 30px;
 }
