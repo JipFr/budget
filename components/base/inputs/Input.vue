@@ -5,6 +5,7 @@
       <span v-if="prefix" class="prefix">{{ prefix }}</span>
       <textarea
         v-if="type === 'textarea'"
+        ref="textarea"
         :type="type"
         :min="min"
         :max="max"
@@ -110,11 +111,10 @@ label {
 }
 
 textarea {
-  height: 100px;
-  min-height: 50px;
-  max-height: 250px;
+  min-height: 100px;
+  max-height: calc(100vh - 600px);
   overflow-y: auto;
-  resize: vertical;
+  resize: none;
 }
 span {
   color: var(--text-secondary);
@@ -152,6 +152,7 @@ span {
 
 <script>
 // Import icons
+import { nextTick } from 'process'
 import TrashIcon from '~/assets/icons/trash.svg?inline'
 
 // Import colors
@@ -216,6 +217,20 @@ export default {
         .filter(Boolean)
     },
   },
+  watch: {
+    value() {
+      if (this.type === 'textarea') {
+        nextTick(() => {
+          this.updateTextareaHeight()
+        })
+      }
+    },
+  },
+  mounted() {
+    if (this.type === 'textarea') {
+      this.updateTextareaHeight()
+    }
+  },
   methods: {
     setChange(evt) {
       this.$emit('input', evt.currentTarget.value)
@@ -277,6 +292,13 @@ export default {
         colors[tag.length % colors.length]
 
       return `color: ${color};`
+    },
+    updateTextareaHeight() {
+      const textarea = this.$refs.textarea
+      if (textarea) {
+        textarea.style.height = 'auto'
+        textarea.style.height = `${textarea.scrollHeight}px`
+      }
     },
   },
 }
