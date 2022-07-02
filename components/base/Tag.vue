@@ -1,9 +1,11 @@
 <template>
   <div class="tag" :style="`--bg-color: ${color}`" :disabled="disabled">
-    {{ capitalize }}
+    <span class="add-dot">
+      {{ capitalize }}
+    </span>
     <span v-if="cents !== null" class="amount">
       <!-- eslint-disable-next-line no-irregular-whitespace -->
-      — <money :cents="cents" />
+      <money :cents="cents" />
     </span>
   </div>
 </template>
@@ -13,6 +15,7 @@
   padding: 0;
   // background: rgba(0, 0, 0, 0.014);
   display: inline-flex;
+  justify-content: space-between;
   align-items: center;
   margin-right: 15px;
   margin-top: 2px;
@@ -24,7 +27,7 @@ div.tag[disabled] {
   background: var(--disabled-content);
 }
 
-.tag::before {
+.add-dot::before {
   content: '';
   display: inline-block;
   width: 0.5rem;
@@ -33,6 +36,7 @@ div.tag[disabled] {
   background: var(--bg-color, var(--theme));
   margin-right: 8px;
 }
+
 .amount {
   margin-left: 10px;
   color: var(--text-secondary);
