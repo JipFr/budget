@@ -154,36 +154,60 @@ export default {
     for (const transaction of transactions) {
       const store = transaction.store || 'Other'
       const storeKey = store.trim().toLowerCase()
+      const allFoodStore = 'all food'
+      const allStores = 'all stores'
+      const storeKeys = [storeKey, allStores]
+
+      if (
+        transaction.categories.includes('eten') ||
+        transaction.categories.includes('food')
+      ) {
+        storeKeys.push(allFoodStore)
+      }
 
       for (const item of transaction.entries) {
         if (item.cents > 0) {
-          // Make store if store doesn't exist yet
-          if (!stores[storeKey])
-            stores[storeKey] = {
-              name: store,
-              items: {},
-            }
-
-          // Make item if item doesn't exist yet
           const desc = item.description.trim().toLowerCase()
-          if (!stores[storeKey].items[desc]) {
-            stores[storeKey].items[desc] = {
-              display: item.description,
-              timesBought: 0,
-              count: 0,
-              totalSpent: 0,
-              occurances: [],
+          for (const storeKey of storeKeys) {
+            const storeNameOverrides = {
+              [storeKey]: store,
+              [allFoodStore]: 'All Food',
+              [allStores]: 'All Stores',
             }
-          }
 
-          // Add to item
-          stores[storeKey].items[desc].timesBought++
-          stores[storeKey].items[desc].count += item.itemCount
-          stores[storeKey].items[desc].totalSpent += item.cents
-          stores[storeKey].items[desc].occurances.push({
-            ...item,
-            on: transaction.date,
-          })
+            // Make store if store doesn't exist yet
+            if (!stores[storeKey]) {
+              stores[storeKey] = {
+                name: storeNameOverrides[storeKey],
+                items: {},
+              }
+            }
+
+            // Make item if item doesn't exist yet
+            if (!stores[storeKey].items[desc]) {
+              stores[storeKey].items[desc] = {
+                display: item.description,
+                timesBought: 0,
+                count: 0,
+                totalSpent: 0,
+                occurances: [],
+              }
+            }
+
+            // Add to item
+            stores[storeKey].items[desc].timesBought++
+            stores[storeKey].items[desc].count += item.itemCount
+            stores[storeKey].items[desc].totalSpent += item.cents
+
+            stores[storeKey].items[desc].count = Math.round(
+              stores[storeKey].items[desc].count
+            )
+
+            stores[storeKey].items[desc].occurances.push({
+              ...item,
+              on: transaction.date,
+            })
+          }
         }
       }
     }
