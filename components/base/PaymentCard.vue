@@ -10,7 +10,9 @@
           >
             <span class="bold">{{ entry.description }}</span>
             <div class="no-break money-counter">
-              <span v-if="entry.itemCount > 1">{{ entry.itemCount }} x</span>
+              <span v-if="entry.itemCount > 0 && entry.itemCount !== 1">
+                {{ entry.itemCount }} x
+              </span>
               <money
                 v-if="entry.centsPerEntry !== 0"
                 :cents="entry.centsPerEntry"
