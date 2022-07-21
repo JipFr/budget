@@ -221,7 +221,6 @@ export default {
       for (const transaction of dateTransactions) {
         todayBase += transaction.cents
       }
-      console.log(dateTransactions, todayBase)
 
       foodRealTotals.push({
         cents: todayBase,
@@ -253,7 +252,7 @@ export default {
     }
 
     const realUsage = {
-      label: 'Real usage',
+      label: 'Remaining',
       backgroundColor: 'transparent',
       borderWidth: 2.5,
       pointRadius: 3,
