@@ -261,19 +261,6 @@ export default {
       data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
     }
 
-    // const totalUsage = {
-    //   label: 'Real usage',
-    //   backgroundColor: 'transparent',
-    //   borderWidth: 0,
-    //   pointRadius: 0,
-    //   borderColor: 'transparent',
-    //   pointBackgroundColor: 'transparent',
-    //   data: foodRealTotals.map(
-    //     (v, i) => realUsage.data[i] - expectedUsage.data[i]
-    //   ),
-    //   hidden: true,
-    // }
-
     this.chartData.datasets = [realUsage, expectedUsage]
   },
   data() {

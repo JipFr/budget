@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="no-min-height">
     <total-overview :payments="getAllPayments" />
   </div>
 </template>
