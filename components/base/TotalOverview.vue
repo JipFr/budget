@@ -1,31 +1,27 @@
 <template>
   <div>
     <chart v-if="chartLoaded" :chartdata="chartData" />
-    <div class="legend">
-      <card>
-        <subtitle>Total balance per category...</subtitle>
-        <div v-if="enabledCategories.length > 0" class="tag-list">
-          <div
-            v-for="category in enabledCategories"
-            :key="category"
-            class="can-click"
-            @click="toggleCategory(category)"
-          >
-            <tag :tag="category" :cents="categoriesTotal[category] * 100" />
+    <portal to="right-side">
+      <div class="legend">
+        <card>
+          <subtitle>Total balance per category...</subtitle>
+          <div v-if="allCategories.length > 0" class="tag-list">
+            <div
+              v-for="category in allCategories"
+              :key="category"
+              class="can-click"
+              @click="toggleCategory(category)"
+            >
+              <tag
+                :tag="category"
+                :cents="categoriesTotal[category] * 100"
+                :disabled="disabledCategories.includes(category)"
+              />
+            </div>
           </div>
-        </div>
-        <div v-if="disabledCategories.length > 0" class="tag-list">
-          <div
-            v-for="category in disabledCategories"
-            :key="category"
-            class="can-click"
-            @click="toggleCategory(category)"
-          >
-            <tag :tag="category" :cents="categoriesTotal[category] * 100" />
-          </div>
-        </div>
-      </card>
-    </div>
+        </card>
+      </div>
+    </portal>
   </div>
 </template>
 
@@ -39,6 +35,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   grid-gap: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
 
   &::v-deep .tag {
     display: flex;
@@ -61,6 +59,8 @@
 </style>
 
 <script>
+import { Portal } from 'portal-vue'
+
 import Chart from '~/components/base/util/Chart'
 import Tag from '~/components/base/Tag'
 import Card from '~/components/layout/Card'
@@ -72,6 +72,7 @@ export default {
     Card,
     Tag,
     Subtitle,
+    Portal,
   },
   props: {
     payments: {

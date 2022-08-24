@@ -85,7 +85,7 @@
 
           <!-- (Fixed position) new transaction wrapper -->
           <div class="new-transaction-wrapper">
-            <portal-target name="right-side"></portal-target>
+            <portal-target name="right-side" />
           </div>
         </container>
       </div>
@@ -198,6 +198,10 @@ nav .badge {
   }
 }
 
+.new-transaction-wrapper {
+  margin-top: 4px;
+}
+
 @media (prefers-color-scheme: dark) {
   nav .badge.nuxt-link-exact-active {
     background: var(--alt-content);
@@ -217,7 +221,7 @@ nav .badge {
 @media (min-width: 950px) and (max-width: 1349px) {
   .is-main-wrapper {
     grid-template-columns: 1fr 1.5fr;
-    grid-gap: 40px;
+    grid-gap: 0 40px;
     grid-template-areas: 'info main' 'info right';
   }
 }
