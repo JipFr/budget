@@ -315,14 +315,39 @@ export default {
 
     this.setLoading(true)
 
-    const data = await SupabaseClient.from('transactions').select()
+    const getPagination = (page, size) => {
+      const limit = size ? +size : 3
+      const from = page ? page * limit : 0
+      const to = page ? from + size - 1 : size - 1
+
+      return { from, to }
+    }
+
+    const transactions = []
+    let page = 0
+    let data = {
+      data: [],
+      count: Infinity,
+    }
+
+    while (transactions.length < data.count) {
+      const { from, to } = getPagination(page, 1e3)
+
+      data = await SupabaseClient.from('transactions')
+        .select('*', { count: 'exact' })
+        .order('id', { ascending: true })
+        .range(from, to)
+
+      transactions.push(...data.data)
+      page++
+    }
 
     if (data.errors) {
       this.error = data.errors.join('\n')
     }
 
     this.setPerson({
-      transactions: data.data,
+      transactions,
     })
 
     this.hasFetched = true
