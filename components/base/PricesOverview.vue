@@ -206,6 +206,7 @@ export default {
             stores[storeKey].items[desc].occurances.push({
               ...item,
               on: transaction.date,
+              store,
             })
           }
         }
@@ -273,24 +274,42 @@ export default {
 
       const datasets = Object.keys(store.items)
         .filter((key) => this.enabledItems.includes(key))
-        .map((key, i) => {
+        .flatMap((key, i) => {
           const item = store.items[key]
 
-          return {
-            key,
-            label: item.display,
-            backgroundColor: item.color,
-            borderColor: 'transparent',
-            borderWidth: 0,
-            pointHitRadius: 25,
-            data: item.occurances.map((v) => {
-              return {
-                x: new Date(v.on).getTime(),
-                y: Math.round(v.centsPerEntry) / 100,
-              }
-            }),
-          }
+          // Map all occurances into its own store
+          const itemsPerStore = item.occurances.reduce((acc, t) => {
+            if (!acc[t.store]) acc[t.store] = []
+            acc[t.store].push({
+              ...t,
+              ...item,
+            })
+            return acc
+          }, {})
+
+          return Object.entries(itemsPerStore).map(([store, items]) => {
+            return {
+              key,
+              label: `${
+                storeKey === 'all stores' || storeKey === 'all food'
+                  ? `${store}: `
+                  : ''
+              }${items[0].display}`,
+              backgroundColor: items[0].color,
+              borderColor: 'transparent',
+              borderWidth: 0,
+              pointHitRadius: 25,
+              data: items.map((v) => {
+                return {
+                  x: new Date(v.on).getTime(),
+                  y: Math.round(v.centsPerEntry) / 100,
+                }
+              }),
+            }
+          })
         })
+
+      console.log(datasets)
 
       // Assign colors to products
       const sortedEntries = Object.entries(store.items).sort(
