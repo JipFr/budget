@@ -309,8 +309,6 @@ export default {
           })
         })
 
-      console.log(datasets)
-
       // Assign colors to products
       const sortedEntries = Object.entries(store.items).sort(
         (a, b) => b[1].totalSpent - a[1].totalSpent
