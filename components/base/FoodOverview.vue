@@ -246,7 +246,7 @@ export default {
       backgroundColor: 'transparent',
       borderWidth: 1,
       borderColor: 'gray',
-      pointRadius: 0,
+      pointRadius: Infinity,
       borderDash: [3, 3],
       data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
     }
@@ -256,6 +256,7 @@ export default {
       backgroundColor: 'transparent',
       borderWidth: 2.5,
       pointRadius: 3,
+      hoverPointRadius: 3,
       borderColor: '#457461',
       pointBackgroundColor: '#457461',
       data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
