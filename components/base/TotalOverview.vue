@@ -38,7 +38,7 @@
   max-height: 80vh;
   overflow-y: auto;
 
-  &::v-deep .tag {
+  &:deep(.tag) {
     display: flex;
     padding: 5px 10px;
     border-radius: 4px;
