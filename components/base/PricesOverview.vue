@@ -72,7 +72,7 @@ select {
   grid-template-columns: 100%;
   grid-gap: 10px;
 
-  &::v-deep .tag {
+  &:deep(.tag) {
     display: flex;
     padding: 5px 10px;
     border-radius: 4px;
