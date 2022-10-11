@@ -288,7 +288,9 @@ export default {
     PortalTarget,
   },
   async fetch() {
+    console.log('Called fetch', this.hasFetched)
     if (!this.hasFetched) {
+      console.log('yup')
       const day = 1e3 * 60 * 60 * 24
       const d = new Date()
 
@@ -393,7 +395,7 @@ export default {
   },
   mounted() {
     this.$nuxt.$on('refetch-really', () => {
-      this.$fetch()
+      if ((this.getAllPayments || []).length === 0) this.$fetch()
     })
 
     SupabaseClient.from('transactions')
