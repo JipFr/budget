@@ -11,19 +11,22 @@ export const colors = [
   'rgb(255, 204, 0)',
 ]
 
-export const state = () => ({
-  data: {
-    transactions: [],
-    transactionsInPeriod: [],
-    loading: true,
-  },
-  tagColors: {},
-  // Get day 2 days before the start of the current month
-  // Not great code, but oh well....
-  from: '2000-01-01',
-  until: '2000-01-01',
-  viewingCat: '',
-})
+export const state = () => {
+  console.log('hyep')
+  return {
+    data: {
+      transactions: [],
+      transactionsInPeriod: [],
+      loading: true,
+    },
+    tagColors: {},
+    // Get day 2 days before the start of the current month
+    // Not great code, but oh well....
+    from: '2000-01-01',
+    until: '2000-01-01',
+    viewingCat: '',
+  }
+}
 
 function applyFilter(state) {
   // Get "from" and "until" and make it so every transaction date under it
