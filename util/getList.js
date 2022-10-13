@@ -10,6 +10,7 @@ function toCents(euroVal) {
 
 export default function getTransactionItemList(
   description,
+  removeCount = false,
   removeEuroString = false
 ) {
   const entries = []
@@ -36,8 +37,13 @@ export default function getTransactionItemList(
       let newDescription = entry
         .trim()
         .replace(/ +/g, ' ') // Remove double spaces
-        .replace(countRegex, '')
         .trim()
+
+      if (removeCount) {
+        newDescription = newDescription
+          .replace(new RegExp(countRegex, 'gi'), '')
+          .trim()
+      }
 
       if (removeEuroString) {
         newDescription = newDescription

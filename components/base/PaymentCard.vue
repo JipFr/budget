@@ -10,6 +10,9 @@
           >
             <span class="bold">
               {{ entry.description }}
+              <span v-if="entry.itemCount > 0 && entry.itemCount !== 1">
+                x {{ entry.itemCount }}
+              </span>
               <span
                 v-if="entry.cents !== 0 && entry.cents !== entry.centsPerEntry"
                 class="highlight"
@@ -255,7 +258,7 @@ export default {
       return this.payment.description.replace(/\n\n/g, '\n').trim()
     },
     entries() {
-      const entries = getTransactionItemList(this.description, true)
+      const entries = getTransactionItemList(this.description, true, true)
       return entries
     },
   },
