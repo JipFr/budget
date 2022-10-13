@@ -137,7 +137,7 @@ export default {
       .map((transaction) => {
         return {
           ...transaction,
-          entries: getTransactionItemList(transaction.description, true),
+          entries: getTransactionItemList(transaction.description, true, true),
         }
       })
       .filter((v) => v.entries.filter((item) => item.cents > 0).length > 0)
