@@ -10,7 +10,7 @@ function toCents(euroVal) {
 
 export default function getTransactionItemList(
   description,
-  removeCount = false,
+  removeCount = true,
   removeEuroString = false
 ) {
   const entries = []
