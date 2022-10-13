@@ -12,7 +12,6 @@ export const colors = [
 ]
 
 export const state = () => {
-  console.log('hyep')
   return {
     data: {
       transactions: [],
