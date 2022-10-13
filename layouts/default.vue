@@ -288,9 +288,7 @@ export default {
     PortalTarget,
   },
   async fetch() {
-    console.log('Called fetch', this.hasFetched)
     if (!this.hasFetched) {
-      console.log('yup')
       const day = 1e3 * 60 * 60 * 24
       const d = new Date()
 
