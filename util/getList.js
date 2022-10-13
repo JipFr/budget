@@ -20,7 +20,7 @@ export default function getTransactionItemList(
 
     for (const [i, entry] of Object.entries(descriptionArray)) {
       // Find item count
-      const countRegex = /[\d.]+ ?x|x ?[\d.]+/g
+      const countRegex = /[\d.]+ ?x|x ?[\d.]+[ +]+?/g
       const countMatch = entry.match(countRegex) || []
       const itemCount = (countMatch || [])
         .map((n) => Number(n.replace(/[^\d.?]/g, '')))
@@ -35,7 +35,7 @@ export default function getTransactionItemList(
       // Get item name without fields we already have
       let newDescription = entry
         .trim()
-        .replace(/ +/g, ' ')
+        .replace(/ +/g, ' ') // Remove double spaces
         .replace(countRegex, '')
         .trim()
 

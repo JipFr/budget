@@ -8,7 +8,15 @@
             :key="entry.id"
             class="spread payment-row"
           >
-            <span class="bold">{{ entry.description }}</span>
+            <span class="bold">
+              {{ entry.description }}
+              <span
+                v-if="entry.cents !== 0 && entry.cents !== entry.centsPerEntry"
+                class="highlight"
+              >
+                <money :cents="entry.cents" />
+              </span>
+            </span>
             <div class="no-break money-counter">
               <span v-if="entry.itemCount > 0 && entry.itemCount !== 1">
                 {{ entry.itemCount }} x
@@ -111,6 +119,13 @@
       margin-top: 3px;
     }
   }
+
+  .highlight {
+    background: var(--border);
+    padding: 1px 2px;
+    border-radius: 4px;
+  }
+
   .payment-row:nth-child(even) {
     background: var(--body);
   }
@@ -240,7 +255,7 @@ export default {
       return this.payment.description.replace(/\n\n/g, '\n').trim()
     },
     entries() {
-      const entries = getTransactionItemList(this.description)
+      const entries = getTransactionItemList(this.description, true)
       return entries
     },
   },
