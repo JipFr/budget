@@ -12,7 +12,7 @@
   </details>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 details {
   position: relative;
   z-index: 0;
