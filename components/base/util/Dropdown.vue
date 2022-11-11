@@ -46,6 +46,7 @@ details > summary::-webkit-details-marker {
 .dropdown {
   width: 200px;
   position: absolute;
+  z-index: 0;
   top: calc(100% + 15px);
   right: 0;
   background: var(--content);

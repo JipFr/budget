@@ -18,6 +18,7 @@ header {
   top: 0;
   left: 0;
   padding: 20px 0;
+  z-index: 10;
   font-family: Inter, Arial;
   font-weight: bold;
   background: var(--body);
