@@ -45,6 +45,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
+  z-index: 15;
 
   &.open {
     top: env(safe-area-inset-top);
