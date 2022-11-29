@@ -66,3 +66,21 @@ body {
   box-sizing: border-box;
   margin: 0;
 }
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--body);
+  padding: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
