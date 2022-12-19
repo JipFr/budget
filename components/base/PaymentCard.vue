@@ -1,5 +1,9 @@
 <template>
-  <card class="no-padding payment-card">
+  <card
+    ref="card"
+    class="no-padding payment-card"
+    :class="active && 'card-active'"
+  >
     <div class="card-core card-sect">
       <subtitle class="is-subtitle">
         <div v-if="entries.length > 0" class="sum-calculated">
@@ -91,6 +95,11 @@
   // align-items: center;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  transition: box-shadow 1s;
+
+  &.card-active {
+    box-shadow: 0 0 8px var(--theme);
+  }
 
   > * {
     width: 100%;
@@ -249,6 +258,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    active: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     entriesTotalCents() {
@@ -260,6 +273,38 @@ export default {
     entries() {
       const entries = getTransactionItemList(this.description, true, true)
       return entries
+    },
+  },
+  watch: {
+    active() {
+      const el = this.$refs.card.$el
+      const isDesktop = window.innerWidth >= 1350
+      let delay = 300
+      if (isDesktop) {
+        delay = 0
+      }
+      setTimeout(() => {
+        if (this.active) {
+          el.scrollTo({
+            left: 0,
+          })
+
+          setTimeout(() => {
+            // Do it again, just in case; Chrome sometimes doesn't do it
+            el.scrollTo({
+              left: 0,
+            })
+          }, 300)
+
+          if (isDesktop) {
+            // Only scroll the card to the top on desktop, not mobile
+            el.scrollIntoView()
+            window.scrollTo({
+              top: window.pageYOffset - 100,
+            })
+          }
+        }
+      }, delay)
     },
   },
   methods: {

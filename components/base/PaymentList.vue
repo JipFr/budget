@@ -11,6 +11,7 @@
           :payment="payment"
           :disable-actions="disableActions"
           :show-readd-button="showReaddButton"
+          :active="editingPayment === payment.id"
         />
       </div>
     </div>
@@ -72,6 +73,7 @@ export default {
   data() {
     return {
       payments: [],
+      editingPayment: null,
     }
   },
   watch: {
@@ -81,6 +83,14 @@ export default {
   },
   mounted() {
     this.updatePayments()
+
+    this.$nuxt.$on('edit-transaction', (id) => {
+      this.editingPayment = id
+    })
+
+    this.$nuxt.$on('cancel-transaction-edit', () => {
+      this.editingPayment = null
+    })
   },
   methods: {
     toDateString(dateString) {
