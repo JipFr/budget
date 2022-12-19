@@ -236,6 +236,7 @@ export default {
       this.editingData = Object.assign({}, editingData)
       this.error = ''
       this.message = ''
+      this.$nuxt.$emit('cancel-transaction-edit')
     },
     copyCurrency() {
       navigator.clipboard.writeText('€')
@@ -243,6 +244,7 @@ export default {
     },
     close() {
       this.open = false
+      this.$nuxt.$emit('cancel-transaction-edit')
       setTimeout(() => {
         this.editingData = Object.assign({}, editingData)
         this.error = ''
