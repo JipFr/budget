@@ -1,5 +1,20 @@
 <template>
   <div>
+    <div class="chart">
+      <apexchart
+        type="treemap"
+        height="350"
+        :options="chartOptionsSpent"
+        :series="seriesSpent"
+      />
+      <apexchart
+        type="treemap"
+        height="350"
+        :options="chartOptionsGained"
+        :series="seriesGained"
+      />
+    </div>
+
     <!-- Main list of categories -->
     <div class="category-list">
       <category-progress-card
@@ -32,6 +47,11 @@
 </template>
 
 <style lang="scss" scoped>
+.category-list {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
 .card + .card {
   margin-top: 6px;
 }
@@ -40,6 +60,12 @@
   color: var(--anchor);
   margin-top: 10px;
   cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .category-list {
+    grid-template-columns: 100%;
+  }
 }
 </style>
 
@@ -81,9 +107,66 @@ export default {
           categoryName: '',
         }
 
+    // Create treemap data
+    const colors = this.$store.state.user.tagColors
+    const mostSpent = [...entriesData.entries]
+      .sort((a, b) => b[1].spent - a[1].spent)
+      .slice(0, 15)
+    const mostGained = [...entriesData.entries]
+      .sort((a, b) => b[1].gained - a[1].gained)
+      .slice(0, 15)
+
+    const chartOpts = {
+      legend: {
+        show: false,
+      },
+      chart: {
+        height: 350,
+        type: 'treemap',
+      },
+      plotOptions: {
+        treemap: {
+          distributed: true,
+          enableShades: false,
+        },
+      },
+    }
+
     return {
       ...entriesData,
       ...categoryData,
+      seriesSpent: [
+        {
+          data: mostSpent.map((t) => ({
+            x: t[0].slice(0, 1).toUpperCase() + t[0].slice(1),
+            y: t[1].spent / 100,
+          })),
+        },
+      ],
+      seriesGained: [
+        {
+          data: mostGained.map((t) => ({
+            x: t[0].slice(0, 1).toUpperCase() + t[0].slice(1),
+            y: t[1].gained / 100,
+          })),
+        },
+      ],
+      chartOptionsSpent: {
+        colors: mostSpent.map((t) => colors[t[0]]),
+        ...chartOpts,
+        title: {
+          text: 'Most spent',
+          align: 'center',
+        },
+      },
+      chartOptionsGained: {
+        colors: mostGained.map((t) => colors[t[0]]),
+        ...chartOpts,
+        title: {
+          text: 'Most gained',
+          align: 'center',
+        },
+      },
     }
   },
   watch: {
