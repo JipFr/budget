@@ -4,7 +4,11 @@ export default {
     title: 'Krab Bij Kas',
     meta: [
       { charset: 'utf-8' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: "A finance tracker that's not just for the bank.",
+      },
       {
         name: 'viewport',
         content:
