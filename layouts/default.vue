@@ -23,83 +23,6 @@
             </div>
           </container>
         </div>
-
-        <!-- <container class="limited-width is-main-wrapper">
-          <div class="core-info">
-            <div class="info-content">
-              <hero :payments="getPayments" />
-
-
-              <from-until-picker />
-            </div>
-          </div>
-
-          <div class="main">
-            <div class="nav">
-              <nav>
-                <nuxt-link
-                  class="link"
-                  to="/"
-                  :class="
-                    financePaths.includes(path) ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  Finances
-                </nuxt-link>
-
-                <nuxt-link
-                  class="link"
-                  to="/prices"
-                  :class="
-                    chartPaths.includes(path) ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  Analysis
-                </nuxt-link>
-
-                <nuxt-link
-                  class="link"
-                  to="/about"
-                  :class="
-                    path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  About
-                </nuxt-link>
-              </nav>
-              <nav v-if="financePaths.includes(path)" class="with-badges">
-                <nuxt-link class="badge" to="/">Payments</nuxt-link>
-                <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
-                <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
-              </nav>
-
-              <nav v-if="chartPaths.includes(path)" class="with-badges">
-                <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
-                <nuxt-link v-if="hasFoodTransactions" class="badge" to="/food">
-                  Food
-                </nuxt-link>
-                <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
-              </nav>
-
-              <nav v-if="path.startsWith('/about')" class="with-badges">
-                <nuxt-link class="badge" to="/about/"> Profile </nuxt-link>
-                <nuxt-link class="badge" to="/about/faq"> FAQ </nuxt-link>
-              </nav>
-            </div>
-
-            <div v-if="!isLoading" class="tab-wrapper">
-              <Nuxt />
-            </div>
-
-            <div v-else class="loading-wrapper">
-              <loading-icon />
-            </div>
-          </div>
-
-          <div class="new-transaction-wrapper">
-            <portal-target name="right-side" />
-          </div>
-        </container> -->
       </div>
     </div>
   </login-wrapper>
@@ -109,11 +32,26 @@
 .main {
   display: grid;
   grid-template-columns: 300px 1fr;
+}
 
+.main-content {
+  border-top: 5px solid transparent;
+}
+.main-content-layout {
+  padding: 50px 0;
+}
+
+@media (min-width: 1200px) {
   .main-content-layout {
     display: grid;
     grid-template-columns: 1fr 316px;
     grid-gap: 50px;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .main-content {
+    border-top-color: var(--theme);
   }
 }
 </style>

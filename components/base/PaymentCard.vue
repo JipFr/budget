@@ -4,40 +4,41 @@
     class="no-padding payment-card"
     :class="active && 'card-active'"
   >
-    <div class="card-core card-sect">
-      <subtitle class="is-subtitle">
+    <div
+      class="card-core card-sect"
+      :class="
+        (!payment.categories || payment.categories.length === 0) &&
+        'no-categories'
+      "
+    >
+      <subtitle class="is-subtitle transaction-content">
         <div v-if="entries.length > 0" class="sum-calculated">
-          <div
-            v-for="entry in entries"
-            :key="entry.id"
-            class="spread payment-row"
-          >
-            <span class="bold">
-              {{ entry.description }}
-              <span v-if="entry.itemCount > 0 && entry.itemCount !== 1">
-                x {{ entry.itemCount }}
-              </span>
-              <span
-                v-if="entry.cents !== 0 && entry.cents !== entry.centsPerEntry"
-                class="highlight"
-              >
-                <money :cents="entry.cents" />
-              </span>
-            </span>
-            <div class="no-break money-counter">
-              <span v-if="entry.itemCount > 0 && entry.itemCount !== 1">
-                {{ entry.itemCount }} x
-              </span>
-              <money
-                v-if="entry.centsPerEntry !== 0"
-                :cents="entry.centsPerEntry"
-              />
+          <div>
+            <div
+              v-for="(entry, i) in entries"
+              :key="entry.id"
+              class="payment-row"
+              :class="i === 0 && entry.cents === 0 && 'is-store'"
+            >
+              <div v-if="entry.cents !== 0 || i !== 0">
+                <span v-if="entry.cents !== 0" class="badge">
+                  {{ entry.itemCount }}
+                  <span v-if="entry.centsPerEntry !== entry.cents">
+                    &nbsp;x
+                    <money :cents="entry.centsPerEntry" />
+                  </span>
+                </span>
+              </div>
+              <span>{{ entry.description }}</span>
+              <money v-if="entry.cents !== 0" :cents="entry.cents" />
             </div>
           </div>
-          <hr />
-          <div class="spread">
-            <span></span>
-            <money :cents="entriesTotalCents" />
+          <div>
+            <hr />
+            <div class="spread">
+              <span></span>
+              <money :cents="entriesTotalCents" />
+            </div>
           </div>
         </div>
         <span v-else class="bold usual-description">{{ description }} </span>
@@ -48,10 +49,13 @@
             in {{ payment.inXDays }} {{ payment.inXDays == 1 ? 'day' : 'days' }}
           </span>
         </span>
-        <div
-          v-if="payment.categories && payment.categories.length > 0"
-          class="tags"
-        >
+      </subtitle>
+      <div
+        v-if="payment.categories && payment.categories.length > 0"
+        class="categories"
+      >
+        <span class="card-title">Categories</span>
+        <div class="tags">
           <tag
             v-for="tag in Object.assign([], payment.categories || []).sort(
               (a, b) => a.localeCompare(b)
@@ -60,8 +64,11 @@
             :tag="tag"
           />
         </div>
-      </subtitle>
-      <money :cents="payment.cents" />
+      </div>
+      <div class="total-price">
+        <span class="card-title">Price</span>
+        <money :cents="payment.cents" />
+      </div>
     </div>
     <div v-if="showReaddButton" class="card-actions card-sect dec-margin">
       <div class="action-wrapper">
@@ -92,7 +99,6 @@
 .card {
   display: flex;
   flex-wrap: nowrap;
-  // align-items: center;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   transition: box-shadow 1s;
@@ -113,25 +119,51 @@
   }
 }
 
-.usual-description {
-  margin-right: 10px;
+@mixin cardTitle {
+  font-weight: 500;
+  color: var(--text-secondary);
 }
+
+.card-title {
+  @include cardTitle;
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  grid-gap: 10px;
+  align-items: center;
+  margin: 5px 0;
+  font-weight: 500;
+
+  &.is-store {
+    margin-bottom: 15px;
+
+    > * {
+      @include cardTitle;
+      grid-column: 1 / -1;
+    }
+  }
+
+  .badge {
+    min-width: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    border: 1px solid var(--content-lighter);
+    border-radius: 10px;
+  }
+}
+
 .in-x-days {
   white-space: nowrap;
 }
 
 .sum-calculated {
-  .payment-row {
-    width: calc(100% + 6px);
-    padding: 6px 3px;
-    margin-left: -3px;
-  }
-
-  .highlight {
-    background: var(--border);
-    padding: 1px 2px;
-    border-radius: 4px;
-  }
+  display: grid;
+  height: 100%;
+  grid-template-rows: 1fr auto;
 
   hr {
     margin: 10px 0;
@@ -189,20 +221,94 @@
   justify-content: space-between;
   align-items: center;
 }
-.no-break {
-  white-space: nowrap;
-}
-
 .card-core {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.money-counter {
-  margin-left: 10px;
-}
 .tags {
   margin-top: 5px;
+}
+
+.card-core {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'content price' 'categories price';
+  grid-gap: 0 10px;
+
+  &:not(.no-categories) {
+    grid-template-rows: 1fr auto;
+  }
+
+  .transaction-content {
+    grid-area: content;
+  }
+
+  .categories {
+    grid-area: categories;
+    height: 100%;
+
+    .card-title {
+      display: none;
+    }
+  }
+
+  .total-price {
+    grid-area: price;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .card-title {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: 950px) {
+  .card .card-sect:not(:first-child) {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-core {
+    grid-gap: 10px 50px;
+    grid-template-columns: 1fr 200px;
+    grid-template-areas: 'content categories' 'content price';
+
+    &.no-categories {
+      grid-template-areas: 'content price';
+    }
+
+    .transaction-content {
+      height: 100%;
+    }
+
+    &:not(.no-categories) .total-price {
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .tags {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .total-price,
+    .categories {
+      .card-title {
+        display: initial;
+      }
+    }
+  }
+}
+
+@media (max-width: 1350px) {
+  .payment-row {
+    grid-template-columns: auto 1fr auto;
+  }
 }
 </style>
 
