@@ -111,10 +111,10 @@ export default {
     const colors = this.$store.state.user.tagColors
     const mostSpent = [...entriesData.entries]
       .sort((a, b) => b[1].spent - a[1].spent)
-      .slice(0, 15)
+      .slice(0, 10)
     const mostGained = [...entriesData.entries]
       .sort((a, b) => b[1].gained - a[1].gained)
-      .slice(0, 15)
+      .slice(0, 10)
 
     const chartOpts = {
       legend: {
@@ -129,6 +129,9 @@ export default {
           distributed: true,
           enableShades: false,
         },
+      },
+      tooltip: {
+        theme: 'dark',
       },
     }
 
