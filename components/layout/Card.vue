@@ -11,7 +11,7 @@
 .card {
   border-radius: 6px;
   background: var(--content);
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
 }
 @media (prefers-color-scheme: light) {
   .card.highlight {

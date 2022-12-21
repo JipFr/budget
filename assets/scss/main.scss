@@ -17,15 +17,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --body: #23272d;
-    --content: #16191f;
+    --body: #16161a;
+    --content: #1f1e24;
+    --content-darker: #1d1c22;
     --alt-content: rgba(255, 255, 255, 0.05);
     --disabled-content: rgba(255, 255, 255, 0.01);
     --text: #e9ecef;
     --text-secondary: #ccd0d4;
     --overlay-color: rgba(255, 255, 255, 0.05);
     --negative: rgb(255, 69, 58);
-    --border: rgba(255, 255, 255, 0.1);
+    --border: #2e2d32;
     --anchor: #5ac8fa;
   }
 

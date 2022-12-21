@@ -123,23 +123,14 @@
 .sum-calculated {
   .payment-row {
     width: calc(100% + 6px);
-    padding: 3px;
+    padding: 6px 3px;
     margin-left: -3px;
-    border-radius: 4px;
-
-    &.payment-row {
-      margin-top: 3px;
-    }
   }
 
   .highlight {
     background: var(--border);
     padding: 1px 2px;
     border-radius: 4px;
-  }
-
-  .payment-row:nth-child(even) {
-    background: var(--body);
   }
 
   hr {
