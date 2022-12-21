@@ -6,7 +6,7 @@
 
 <style lang="scss" scoped>
 h3 {
-  color: var(--text-secondary);
+  color: var(--text);
   margin: 0;
   font-size: 1rem;
   font-weight: normal;

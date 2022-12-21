@@ -1,26 +1,40 @@
 <template>
   <login-wrapper>
-    <app-header title="Krab Bij Kas" />
     <div class="page">
       <div v-if="error">
         <container class="limited-width">
           <banner>⚠️ {{ error }}</banner>
         </container>
       </div>
-      <div>
-        <container class="limited-width is-main-wrapper">
+      <div class="main">
+        <sidebar>
+          <hero :payments="getPayments" />
+        </sidebar>
+
+        <div class="main-content">
+          <container>
+            <div class="main-content-layout">
+              <div v-if="!isLoading" class="tab-wrapper">
+                <Nuxt />
+              </div>
+              <div class="new-transaction-wrapper">
+                <portal-target name="right-side" />
+              </div>
+            </div>
+          </container>
+        </div>
+
+        <!-- <container class="limited-width is-main-wrapper">
           <div class="core-info">
             <div class="info-content">
-              <!-- Hero -->
               <hero :payments="getPayments" />
 
-              <!-- "From" and "until" picker -->
+
               <from-until-picker />
             </div>
           </div>
 
           <div class="main">
-            <!-- Navigation -->
             <div class="nav">
               <nav>
                 <nuxt-link
@@ -73,7 +87,6 @@
               </nav>
             </div>
 
-            <!-- Wrapper or loading state -->
             <div v-if="!isLoading" class="tab-wrapper">
               <Nuxt />
             </div>
@@ -83,162 +96,24 @@
             </div>
           </div>
 
-          <!-- (Fixed position) new transaction wrapper -->
           <div class="new-transaction-wrapper">
             <portal-target name="right-side" />
           </div>
-        </container>
+        </container> -->
       </div>
     </div>
   </login-wrapper>
 </template>
 
 <style lang="scss" scoped>
-.page {
-  padding-bottom: calc(100px + env(safe-area-inset-bottom));
-}
-
-h2 {
-  display: flex;
-  align-items: center;
-
-  > * + * {
-    margin-left: 20px;
-  }
-}
-.is-main-wrapper {
+.main {
   display: grid;
-  grid-template-columns: 100%;
-  grid-template-areas: 'info' 'main' 'right';
+  grid-template-columns: 300px 1fr;
 
-  .core-info {
-    grid-area: info;
-  }
-  .main {
-    grid-area: main;
-  }
-  > *:nth-child(3) {
-    grid-area: right;
-  }
-}
-.from-until-picker {
-  margin-bottom: 40px;
-}
-.tab-wrapper {
-  margin-top: 20px;
-}
-.tab-wrapper > *:not(.no-min-height) {
-  min-height: calc(
-    100vh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-  );
-}
-.loading-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 150px;
-}
-
-nav {
-  margin-left: -5vw;
-  padding-left: 5vw;
-  margin-right: -5vw;
-  padding-right: 5vw;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  word-break: normal;
-
-  &::after {
-    content: '';
-    display: block;
-    min-width: 5vw;
-    height: 1px;
-  }
-
-  &.with-badges {
-    margin-left: calc(-5vw - 3px);
-  }
-
-  & + nav {
-    margin-top: 10px;
-  }
-}
-
-nav .link {
-  color: inherit;
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 20px;
-  border-bottom: 3px solid transparent;
-  font-size: 1rem;
-  font-weight: normal;
-
-  &.nuxt-link-exact-active {
-    border-bottom-color: var(--text);
-  }
-}
-
-nav .badge {
-  padding: 8px 15px;
-  background: var(--content);
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 6px;
-  margin: 3px;
-
-  &:hover {
-    background: var(--alt-content);
-  }
-
-  &.nuxt-link-exact-active {
-    background: var(--theme);
-    color: white;
-  }
-}
-
-.new-transaction-wrapper {
-  margin-top: 4px;
-}
-
-@media (prefers-color-scheme: dark) {
-  nav .badge.nuxt-link-exact-active {
-    background: var(--alt-content);
-  }
-}
-
-@media screen and (min-width: 950px) {
-  nav {
-    // Wrap on desktop to stop annoying layout issues
-    flex-wrap: wrap;
-  }
-  nav::after {
-    display: none;
-  }
-}
-
-@media (min-width: 950px) and (max-width: 1349px) {
-  .is-main-wrapper {
-    grid-template-columns: 1fr 1.5fr;
-    grid-gap: 0 40px;
-    grid-template-areas: 'info main' 'info right';
-  }
-}
-
-@media (min-width: 1350px) {
-  .is-main-wrapper {
-    grid-template-columns: 1fr 1.5fr 1fr;
-    grid-gap: 40px;
-    grid-template-areas: 'info main right';
-  }
-  .info-content,
-  .new-transaction-content {
-    position: sticky;
-    top: 60px;
-  }
-  .new-transaction-wrapper > div {
-    height: 100%;
+  .main-content-layout {
+    display: grid;
+    grid-template-columns: 1fr 316px;
+    grid-gap: 50px;
   }
 }
 </style>
@@ -259,14 +134,11 @@ import { getDefaultDates } from '~/util/dates'
 
 // Import components
 import Hero from '~/components/base/Hero'
+import Sidebar from '~/components/layout/Sidebar'
 import Banner from '~/components/base/Banner'
-import AppHeader from '~/components/layout/Header'
 import Container from '~/components/layout/Container'
-import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
+// import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoginWrapper from '~/components/LoginWrapper'
-
-// Import icons
-import LoadingIcon from '~/components/base/LoadingIcon'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -279,12 +151,11 @@ function addTrailingSlash(arr) {
 
 export default {
   components: {
-    AppHeader,
     Banner,
+    Sidebar,
     Container,
     Hero,
-    FromUntilPicker,
-    LoadingIcon,
+    // FromUntilPicker,
     LoginWrapper,
     PortalTarget,
   },

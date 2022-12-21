@@ -1,83 +1,61 @@
 <template>
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
-      <card
-        class="highlight"
-        :class="foodTotal === 0 && foodSpent === 0 ? 'fw' : ''"
-      >
-        <subtitle>In this period...</subtitle>
+      <div class="padded">
+        <subtitle>Your balance this period</subtitle>
         <h2>
           <money :cents="regularTotal" />
         </h2>
-      </card>
-      <card v-if="foodTotal !== 0 || foodSpent !== 0">
+      </div>
+      <div v-if="foodTotal !== 0 || foodSpent !== 0" class="padded">
         <subtitle>Total in period</subtitle>
         <h2>
           <money :cents="gained - spent" />
         </h2>
-      </card>
-      <card v-if="foodTotal !== 0 || foodSpent !== 0" class="fw">
+      </div>
+      <div v-if="foodTotal !== 0 || foodSpent !== 0" class="padded">
         <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
         <h2>
           <money :cents="foodTotal - foodSpent" />
         </h2>
-      </card>
+      </div>
 
-      <card v-if="foodTotal === 0 && foodSpent === 0">
+      <div v-if="foodTotal === 0 && foodSpent === 0" class="padded">
         <subtitle>Gained</subtitle>
         <h2>
           <money :cents="gained" />
         </h2>
-      </card>
-      <card v-if="foodTotal === 0 && foodSpent === 0">
+      </div>
+      <div v-if="foodTotal === 0 && foodSpent === 0" class="padded">
         <subtitle>Spent</subtitle>
         <h2>
           <money :cents="spent" />
         </h2>
-      </card>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.hero {
-  padding: 40px 0;
-
-  h1,
+.hero-layout > div {
   h2 {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 28px;
+    margin-top: 10px;
   }
 
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  &.loading .money {
-    background: var(--overlay-color);
-    color: transparent;
-  }
-}
-.hero-layout {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-
-  .fw {
-    grid-column: 1 / -1;
+  & + div {
+    border-top: 1px solid var(--border);
   }
 }
 </style>
 
 <script>
 // Import components
-import Card from '~/components/layout/Card'
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
 
 export default {
   components: {
-    Card,
     Subtitle,
     Money,
   },
