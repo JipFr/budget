@@ -30,7 +30,7 @@ export default {
 
   css: ['~assets/scss/main.scss'],
 
-  plugins: [{ src: '~/plugins/vue-apexchart.js', ssr: false }],
+  plugins: [],
 
   components: false,
 
