@@ -18,10 +18,23 @@
               v-for="(entry, i) in entries"
               :key="entry.id"
               class="payment-row"
-              :class="i === 0 && entry.cents === 0 && 'is-store'"
+              :class="[
+                i === 0 && entry.cents === 0 && 'is-store',
+                entry.itemCount === 1 &&
+                  entry.centsPerEntry === entry.cents &&
+                  'just-one-badge',
+              ]"
             >
-              <div v-if="entry.cents !== 0 || i !== 0">
-                <span v-if="entry.cents !== 0" class="badge">
+              <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
+                <span
+                  v-if="entry.cents !== 0"
+                  class="badge"
+                  :class="
+                    entry.itemCount === 1 &&
+                    entry.centsPerEntry === entry.cents &&
+                    'just-one'
+                  "
+                >
                   {{ entry.itemCount }}
                   <span v-if="entry.centsPerEntry !== entry.cents">
                     &nbsp;x
@@ -306,8 +319,19 @@
 }
 
 @media (max-width: 1350px) {
+  .payment-row .just-one {
+    display: none;
+  }
   .payment-row {
     grid-template-columns: auto 1fr auto;
+
+    &.just-one-badge {
+      .badge-wrapper {
+        display: none;
+      }
+
+      grid-template-columns: 1fr auto;
+    }
   }
 }
 </style>
