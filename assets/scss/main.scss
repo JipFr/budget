@@ -90,19 +90,3 @@ body {
   width: 8px;
   height: 8px;
 }
-
-.apexcharts-menu,
-.apexcharts-tooltip,
-.apexcharts-tooltip-title {
-  background: var(--content) !important;
-  border-color: var(--border) !important;
-  color: var(--text);
-}
-
-.apexcharts-tooltip-title {
-  font-weight: bold;
-}
-
-[stroke='#e0e0e0'] {
-  stroke: var(--border);
-}
