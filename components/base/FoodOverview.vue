@@ -4,11 +4,42 @@
       This page shows your predicted usage of the food budget. The green line
       shows the accurate statistics, gray is predicted.
     </p>
-    <apexchart
-      type="line"
-      height="350"
-      :options="chartOptions"
-      :series="series"
+    <chart
+      :chartdata="chartData"
+      :options="{
+        legend: {
+          display: false,
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                // Include a dollar sign in the ticks
+                callback: (v) => `€ ${v}`,
+              },
+            },
+          ],
+        },
+        animation: {
+          duration: 0,
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            afterBody: (ctx) => {
+              if (ctx.length > 1) {
+                const cents = (ctx[0].yLabel - ctx[1].yLabel) * 100
+                return `\nTotal: ${Math.floor(cents) / 100}`
+              }
+              return ''
+            },
+          },
+        },
+        plugins: {
+          tooltip: {},
+        },
+      }"
     />
   </div>
 </template>
@@ -21,6 +52,9 @@ p {
 </style>
 
 <script>
+/* eslint-disable no-unused-vars */
+import Chart from '~/components/base/util/Chart'
+
 function thisDateNextMonth(d) {
   const date = new Date(d)
 
@@ -71,6 +105,9 @@ function toDateString(v) {
 }
 
 export default {
+  components: {
+    Chart,
+  },
   props: {
     payments: {
       type: Array,
@@ -202,9 +239,7 @@ export default {
     )
 
     // Set to chart
-    this.chartOptions.xaxis.categories = foodPredictedTotals.map((v) =>
-      toDateString(v.date)
-    )
+    this.chartData.labels = foodPredictedTotals.map((v) => toDateString(v.date))
 
     const expectedUsage = {
       label: 'Expected',
@@ -228,17 +263,6 @@ export default {
     }
 
     this.chartData.datasets = [realUsage, expectedUsage]
-
-    this.series = [
-      {
-        name: 'Predicted',
-        data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
-      },
-      {
-        name: 'Remaining',
-        data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
-      },
-    ]
   },
   data() {
     return {
@@ -246,35 +270,6 @@ export default {
         labels: [],
         datasets: [],
       },
-      chartOptions: {
-        chart: {
-          height: 350,
-          type: 'line',
-          zoom: {
-            enabled: false,
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'straight',
-        },
-        xaxis: {
-          categories: [],
-        },
-        tooltip: {
-          shared: true,
-        },
-        shared: true,
-        intersect: false,
-      },
-      series: [
-        {
-          name: 'Desktops',
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-        },
-      ],
       console,
     }
   },
