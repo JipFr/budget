@@ -188,7 +188,7 @@ export default {
         {
           redirectTo:
             process.env.NODE_ENV === 'production'
-              ? 'https://krabbijkas.nl/'
+              ? 'https://dev--jip-budget.netlify.app/'
               : process.env.REDIRECT_URL,
         }
       )
