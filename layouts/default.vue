@@ -58,6 +58,9 @@ hr {
     grid-template-columns: 1fr 316px;
     grid-gap: 50px;
   }
+  .vue-portal-target {
+    height: 100%;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -71,7 +74,11 @@ hr {
 @media (min-width: 1350px) {
   .new-transaction-content {
     position: sticky !important;
-    top: 60px;
+    top: 4rem;
+
+    .content {
+      padding: 0 !important;
+    }
   }
 }
 </style>
