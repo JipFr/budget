@@ -32,6 +32,10 @@
 </template>
 
 <style lang="scss" scoped>
+.category-list {
+  display: grid;
+  grid-gap: 10px;
+}
 .card + .card {
   margin-top: 6px;
 }
