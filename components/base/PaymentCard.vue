@@ -13,6 +13,27 @@
         'no-categories'
       "
     >
+      <!-- Actions -->
+      <dropdown v-if="!disableActions || showReaddButton">
+        <dropdown-item
+          v-if="!disableActions"
+          :icon="TrashIcon"
+          @click="doDelete"
+        >
+          Delete
+        </dropdown-item>
+        <dropdown-item v-if="!disableActions" :icon="EditIcon" @click="doEdit">
+          Edit
+        </dropdown-item>
+        <dropdown-item
+          v-if="showReaddButton"
+          :icon="RefreshIcon"
+          @click="reAdd"
+        >
+          Add transaction to date
+        </dropdown-item>
+      </dropdown>
+      <!-- List / title -->
       <subtitle class="is-subtitle transaction-content">
         <div v-if="entries.length > 0" class="sum-calculated">
           <div>
@@ -114,12 +135,25 @@
 .card {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: auto;
   scroll-snap-type: x mandatory;
   transition: box-shadow 1s;
+  position: relative;
+
+  details {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  &:hover details {
+    opacity: 1;
+  }
 
   &.card-active {
-    box-shadow: 0 0 8px var(--theme);
+    box-shadow: 0 0 8px var(--content-light);
   }
 
   > * {
@@ -301,12 +335,6 @@
   @include minimal;
 }
 
-@media (min-width: 950px) {
-  .card .card-sect:not(:first-child) {
-    display: none;
-  }
-}
-
 @media (min-width: 1200px) {
   .card-core:not([minimal]) {
     grid-gap: 10px 50px;
@@ -346,6 +374,22 @@
     @include minimal;
   }
 }
+
+@media (max-width: 700px) {
+  .card {
+    overflow-x: auto;
+
+    details {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: 701px) {
+  .card > .card-sect:not(:first-child) {
+    display: none;
+  }
+}
 </style>
 
 <script>
@@ -356,6 +400,8 @@ import Card from '~/components/layout/Card'
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
 import Tag from '~/components/base/Tag'
+import Dropdown from '~/components/base/util/Dropdown'
+import DropdownItem from '~/components/base/util/DropdownItem'
 
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
@@ -377,6 +423,8 @@ export default {
     TrashIcon,
     EditIcon,
     RefreshIcon,
+    Dropdown,
+    DropdownItem,
   },
   props: {
     payment: {
@@ -399,6 +447,13 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      TrashIcon,
+      EditIcon,
+      RefreshIcon,
+    }
   },
   computed: {
     entriesTotalCents() {

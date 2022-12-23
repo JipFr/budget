@@ -1,5 +1,5 @@
 <template>
-  <details ref="details">
+  <details ref="details" @click="onElementClick">
     <summary>
       <div class="toggle-button">
         <more-vertical-icon />
@@ -93,6 +93,7 @@ details:not([open]) .toggle-button:hover {
 
 <script>
 // Import icons
+import { nextTick } from 'process'
 import MoreVerticalIcon from '~/assets/icons/more-vertical.svg?inline'
 
 export default {
@@ -108,6 +109,10 @@ export default {
   methods: {
     onClick() {
       this.$refs.details.removeAttribute('open')
+    },
+    onElementClick() {
+      if (this.$refs.details.getAttribute('open') !== null)
+        nextTick(this.onClick)
     },
   },
 }

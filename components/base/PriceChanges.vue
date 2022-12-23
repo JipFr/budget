@@ -24,11 +24,13 @@
             <payment-list
               :raw-payments="[difference.data.previousTransaction]"
               minimal
+              disable-actions
             />
             <arrow-right-icon />
             <payment-list
               :raw-payments="[difference.data.currentTransaction]"
               minimal
+              disable-actions
             />
           </div>
         </div>
