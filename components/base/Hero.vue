@@ -8,12 +8,6 @@
         </h2>
       </div>
       <div v-if="foodTotal !== 0 || foodSpent !== 0" class="padded">
-        <subtitle>Total in period</subtitle>
-        <h2>
-          <money :cents="gained - spent" />
-        </h2>
-      </div>
-      <div v-if="foodTotal !== 0 || foodSpent !== 0" class="padded">
         <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
         <h2>
           <money :cents="foodTotal - foodSpent" />
