@@ -13,6 +13,11 @@
         'no-categories'
       "
     >
+      <!-- Active indicator -->
+      <div v-if="active" class="active-indicator">
+        <arrow-right-icon />
+        Editing...
+      </div>
       <!-- Actions -->
       <dropdown v-if="!disableActions || showReaddButton">
         <dropdown-item
@@ -139,6 +144,29 @@
   transition: box-shadow 1s;
   position: relative;
 
+  .active-indicator {
+    position: absolute;
+    left: 15px;
+    top: 0;
+    padding: 5px;
+    padding-right: 15px;
+    border-radius: 6px;
+    background: var(--content);
+    border: 1px solid var(--border);
+    animation: bob 3s infinite ease-in-out;
+    box-shadow: 0 0 8px var(--text);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    transform: translateY(-150%);
+
+    svg {
+      display: block;
+      transform: rotate(0.25turn);
+    }
+  }
+
   details {
     position: absolute;
     top: 0;
@@ -150,10 +178,6 @@
 
   &:hover details {
     opacity: 1;
-  }
-
-  &.card-active {
-    box-shadow: 0 0 8px var(--content-light);
   }
 
   > * {
@@ -392,6 +416,20 @@
 }
 </style>
 
+<style lang="scss">
+@keyframes bob {
+  0% {
+    transform: translateY(-120%);
+  }
+  50% {
+    transform: translateY(-160%);
+  }
+  100% {
+    transform: translateY(-120%);
+  }
+}
+</style>
+
 <script>
 import { mapMutations } from 'vuex'
 
@@ -407,6 +445,7 @@ import DropdownItem from '~/components/base/util/DropdownItem'
 import TrashIcon from '~/assets/icons/trash.svg?inline'
 import EditIcon from '~/assets/icons/edit.svg?inline'
 import RefreshIcon from '~/assets/icons/refresh.svg?inline'
+import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -425,6 +464,7 @@ export default {
     RefreshIcon,
     Dropdown,
     DropdownItem,
+    ArrowRightIcon,
   },
   props: {
     payment: {
@@ -487,14 +527,6 @@ export default {
               left: 0,
             })
           }, 300)
-
-          if (isDesktop) {
-            // Only scroll the card to the top on desktop, not mobile
-            el.scrollIntoView()
-            window.scrollTo({
-              top: window.pageYOffset - 100,
-            })
-          }
         }
       }, delay)
     },
