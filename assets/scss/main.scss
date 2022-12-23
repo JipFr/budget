@@ -82,6 +82,10 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar, var(--content-lighter));
+
+  &:active {
+    background-color: var(--content-lighter);
+  }
 }
 
 ::-webkit-scrollbar-thumb {
