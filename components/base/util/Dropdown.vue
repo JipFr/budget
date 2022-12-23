@@ -24,17 +24,27 @@ details > summary::-webkit-details-marker {
   display: none;
 }
 
+[open] .toggle-button {
+  background: var(--content-darker);
+}
+
+details:not([open]) .toggle-button:hover {
+  background: var(--content-light);
+}
+
 .toggle-button {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 39.5px;
+  height: 39.5px;
   margin: 0;
   border: 0;
   border-radius: 6px;
   background: var(--content);
   color: var(--text-secondary);
+  border: 1px solid var(--border);
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   svg {
     width: 1.4rem;
@@ -50,6 +60,7 @@ details > summary::-webkit-details-marker {
   top: calc(100% + 15px);
   right: 0;
   background: var(--content);
+  border: 1px solid var(--border);
   border-radius: 6px;
 
   &::after {
@@ -62,6 +73,8 @@ details > summary::-webkit-details-marker {
     width: 12px;
     height: 12px;
     background: var(--content);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     z-index: -1;
     border-top-left-radius: 4px;
   }

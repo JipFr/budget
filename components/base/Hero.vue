@@ -13,19 +13,6 @@
           <money :cents="foodTotal - foodSpent" />
         </h2>
       </div>
-
-      <div v-if="foodTotal === 0 && foodSpent === 0" class="padded">
-        <subtitle>Gained</subtitle>
-        <h2>
-          <money :cents="gained" />
-        </h2>
-      </div>
-      <div v-if="foodTotal === 0 && foodSpent === 0" class="padded">
-        <subtitle>Spent</subtitle>
-        <h2>
-          <money :cents="spent" />
-        </h2>
-      </div>
     </div>
   </div>
 </template>

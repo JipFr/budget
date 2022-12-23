@@ -9,6 +9,10 @@
       <div class="main">
         <sidebar>
           <hero :payments="getPayments" />
+          <div class="from-until">
+            <hr />
+            <from-until-picker class="padded padded-right" />
+          </div>
         </sidebar>
 
         <div class="main-content">
@@ -39,6 +43,13 @@
 }
 .main-content-layout {
   padding: 50px 0;
+}
+
+hr {
+  border: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
 }
 
 @media (min-width: 1200px) {
@@ -75,7 +86,7 @@ import Hero from '~/components/base/Hero'
 import Sidebar from '~/components/layout/Sidebar'
 import Banner from '~/components/base/Banner'
 import Container from '~/components/layout/Container'
-// import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
+import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoginWrapper from '~/components/LoginWrapper'
 
 // Import Supabase
@@ -93,7 +104,7 @@ export default {
     Sidebar,
     Container,
     Hero,
-    // FromUntilPicker,
+    FromUntilPicker,
     LoginWrapper,
     PortalTarget,
   },

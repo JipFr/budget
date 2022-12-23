@@ -35,7 +35,7 @@ aside {
   background: var(--content);
   border-right: 1px solid var(--border);
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
   position: sticky;
   top: 0;
 
@@ -46,7 +46,10 @@ aside {
 
   .padded {
     padding: 24px 38px;
-    padding-right: 0px;
+
+    &:not(.padded-right) {
+      padding-right: 0px;
+    }
   }
 }
 

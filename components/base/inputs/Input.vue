@@ -76,6 +76,7 @@ label {
   padding: 8px;
   border-radius: 6px;
   background: var(--content);
+  border: 1px solid var(--border);
   color: var(--text);
   display: block;
   width: 100%;

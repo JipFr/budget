@@ -19,9 +19,13 @@
 <style lang="scss" scoped>
 .two-cols {
   display: grid;
-  grid-template-columns: repeat(2, 1fr) auto;
+  grid-template-columns: 1fr auto;
   align-items: flex-end;
   grid-gap: 10px;
+
+  > :first-child {
+    grid-column: 1/-1;
+  }
 }
 </style>
 
