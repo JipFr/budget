@@ -3,9 +3,11 @@
     ref="card"
     class="no-padding payment-card"
     :class="active && 'card-active'"
+    :minimal="minimal"
   >
     <div
       class="card-core card-sect"
+      :minimal="minimal"
       :class="
         (!payment.categories || payment.categories.length === 0) &&
         'no-categories'
@@ -278,6 +280,27 @@
   }
 }
 
+@mixin minimal {
+  .payment-row .just-one {
+    display: none;
+  }
+  .payment-row {
+    grid-template-columns: auto 1fr auto;
+
+    &.just-one-badge {
+      .badge-wrapper {
+        display: none;
+      }
+
+      grid-template-columns: 1fr auto;
+    }
+  }
+}
+
+[minimal] {
+  @include minimal;
+}
+
 @media (min-width: 950px) {
   .card .card-sect:not(:first-child) {
     display: none;
@@ -285,7 +308,7 @@
 }
 
 @media (min-width: 1200px) {
-  .card-core {
+  .card-core:not([minimal]) {
     grid-gap: 10px 50px;
     grid-template-columns: 1fr 200px;
     grid-template-areas: 'content categories' 'content price';
@@ -319,19 +342,8 @@
 }
 
 @media (max-width: 1350px) {
-  .payment-row .just-one {
-    display: none;
-  }
-  .payment-row {
-    grid-template-columns: auto 1fr auto;
-
-    &.just-one-badge {
-      .badge-wrapper {
-        display: none;
-      }
-
-      grid-template-columns: 1fr auto;
-    }
+  .card {
+    @include minimal;
   }
 }
 </style>
@@ -380,6 +392,10 @@ export default {
       default: false,
     },
     active: {
+      type: Boolean,
+      default: false,
+    },
+    minimal: {
       type: Boolean,
       default: false,
     },

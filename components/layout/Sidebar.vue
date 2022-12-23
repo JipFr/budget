@@ -136,6 +136,10 @@ export default {
               to: '/',
             },
             {
+              title: 'Price differences',
+              to: '/differences',
+            },
+            {
               title: 'Categories',
               to: '/categories',
             },

@@ -12,6 +12,7 @@
           :disable-actions="disableActions"
           :show-readd-button="showReaddButton"
           :active="editingPayment === payment.id"
+          :minimal="minimal"
         />
       </div>
     </div>
@@ -68,6 +69,10 @@ export default {
     reversed: {
       type: Boolean,
       default: true,
+    },
+    minimal: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
