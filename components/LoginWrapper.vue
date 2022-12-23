@@ -186,10 +186,10 @@ export default {
           provider,
         },
         {
-          redirectTo: 'https://dev--jip-budget.netlify.app/',
-          // process.env.NODE_ENV === 'production'
-          //   ? 'https://krabbijkas.nl/'
-          //   : process.env.REDIRECT_URL,
+          redirectTo:
+            process.env.NODE_ENV === 'production'
+              ? 'https://krabbijkas.nl/'
+              : process.env.REDIRECT_URL,
         }
       )
     },

@@ -57,8 +57,16 @@ hr {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   grid-gap: 10px;
-  --content: var(--body);
   align-items: center;
+  --content: var(--body);
+
+  > *:not(svg) {
+    height: 100%;
+  }
+
+  .list {
+    margin: 0;
+  }
 
   svg {
     border-radius: 50%;
@@ -109,6 +117,21 @@ hr {
     svg {
       display: block;
       color: var(--text-secondary);
+    }
+  }
+}
+
+@media (max-width: 1400px) {
+  .comparison {
+    grid-template-columns: 100%;
+    justify-items: center;
+
+    .list {
+      width: 100%;
+    }
+
+    svg {
+      transform: rotate(0.25turn);
     }
   }
 }
