@@ -2,13 +2,14 @@
 @import 'paymentlist';
 
 :root {
-  --body: white;
-  --content: #f8f9fa;
+  --body: #f8f9fa;
+  --content: white;
   --alt-content: var(--body);
   --content-light: rgba(69, 116, 97, 0.1);
   --content-lighter: rgba(0, 0, 0, 0.1);
   --disabled-content: rgba(0, 0, 0, 0.05);
   --text: #444444;
+  --text-secondary: #575757;
   --link-active: var(--content-light);
   --text-secondary: #4c4c4c;
   --theme: #457461;
@@ -16,6 +17,7 @@
   --negative: #ff2d55;
   --border: rgba(0, 0, 0, 0.1);
   --anchor: #007aff;
+  --scrollbar: var(--border);
 }
 
 @media (prefers-color-scheme: dark) {
