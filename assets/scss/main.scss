@@ -5,8 +5,9 @@
   --body: #f8f9fa;
   --content: white;
   --alt-content: var(--body);
-  --content-light: rgba(69, 116, 97, 0.1);
-  --content-lighter: rgba(0, 0, 0, 0.1);
+  --content-light: #edf1ef;
+  --content-lighter: #dedede;
+  --content-darker: ghostwhite;
   --disabled-content: rgba(0, 0, 0, 0.05);
   --text: #444444;
   --text-secondary: #575757;
@@ -15,7 +16,7 @@
   --theme: #457461;
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: #ff2d55;
-  --border: rgba(0, 0, 0, 0.1);
+  --border: #dedede;
   --anchor: #007aff;
   --scrollbar: var(--border);
 }
