@@ -134,7 +134,7 @@ export default {
   },
   data() {
     return {
-      user: SupabaseClient.auth.user(),
+      user: null,
       sections: [
         {
           title: 'Finances',
@@ -191,9 +191,12 @@ export default {
     }
   },
   mounted() {
+    console.log(1)
     SupabaseClient.auth.onAuthStateChange(() => {
+      console.log(2)
       this.user = SupabaseClient.auth.user()
     })
+    console.log(3)
   },
   methods: {
     capitalise(str) {
