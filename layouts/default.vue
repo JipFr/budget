@@ -71,7 +71,7 @@ hr {
 </style>
 
 <style lang="scss">
-@media (min-width: 1350px) {
+@media (min-width: 1200px) {
   .new-transaction-content {
     position: sticky !important;
     top: 4rem;

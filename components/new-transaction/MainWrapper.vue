@@ -2,62 +2,73 @@
   <overlay :open="open" :show-button="showButton" @toggle-open="toggleOpen">
     <div class="overlay-content">
       <!-- Title -->
-      <h2>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h2>
+      <h3>{{ editingData.id ? 'Edit transaction' : 'New transaction' }}</h3>
 
       <!-- Error banner -->
       <banner v-if="error">⚠️ {{ error }}</banner>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <banner v-if="message" type="message" v-html="message" />
 
-      <!-- All inputs -->
-      <app-input
-        v-model="editingData.description"
-        label="Description"
-        type="textarea"
-        placeholder="Netflix subscription"
-      />
-      <app-input v-model="editingData.date" label="Date" type="date" />
-      <app-input
-        v-model="editingData.tags"
-        label="Categories"
-        placeholder="netflix, monthly"
-        type="list"
-        @change="(e) => cleanDescription(e)"
-      />
-      <app-input
-        v-model="editingData.euros"
-        label="Euros"
-        placeholder="10,99"
-        prefix="€"
-        @change="(e) => cleanEuro(e)"
-      />
+      <card>
+        <!-- All inputs -->
+        <app-input
+          v-model="editingData.description"
+          label="Description"
+          type="textarea"
+          placeholder="Netflix subscription"
+        />
+        <app-input v-model="editingData.date" label="Date" type="date" />
+        <app-input
+          v-model="editingData.tags"
+          label="Categories"
+          placeholder="netflix, monthly"
+          type="list"
+          @change="(e) => cleanDescription(e)"
+        />
+        <app-input
+          v-model="editingData.euros"
+          label="Euros"
+          placeholder="10,99"
+          prefix="€"
+          @change="(e) => cleanEuro(e)"
+        />
 
-      <!-- Placeholders -->
-      <hr />
-      <div class="spread">
-        <div class="buttons">
-          <app-button class="primary" @click="submit">
-            {{ editingData.id ? 'Save' : 'Submit' }}
-          </app-button>
-          <app-button v-if="editingData.id" class="secondary" @click="cancel">
-            Cancel
-          </app-button>
+        <!-- Placeholders -->
+        <hr />
+        <div class="spread">
+          <div class="buttons">
+            <app-button class="primary" @click="submit">
+              {{ editingData.id ? 'Save' : 'Submit' }}
+            </app-button>
+            <app-button v-if="editingData.id" class="secondary" @click="cancel">
+              Cancel
+            </app-button>
+          </div>
+          <div class="buttons">
+            <app-button class="secondary" @click="copyCurrency">€</app-button>
+          </div>
         </div>
-        <div class="buttons">
-          <app-button class="secondary" @click="copyCurrency">€</app-button>
-        </div>
-      </div>
+      </card>
     </div>
   </overlay>
 </template>
 
 <style lang="scss" scoped>
+h3 {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+label ::v-deep span {
+  // --border: var(--content-lighter);
+  font-weight: 500;
+}
 .auto-fr {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
 }
-.overlay-content > * + * {
+.card > * + * {
   margin-top: 10px;
 }
 .spread {
@@ -68,8 +79,7 @@
 
 @media (prefers-color-scheme: dark) {
   button.primary {
-    color: var(--text-secondary);
-    background: var(--content);
+    background: var(--body);
   }
 }
 </style>
@@ -80,6 +90,7 @@ import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
 import AppButton from '~/components/util/Button'
+import Card from '~/components/layout/Card'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -98,6 +109,7 @@ export default {
     Banner,
     Overlay,
     AppButton,
+    Card,
   },
   props: {
     showButton: {

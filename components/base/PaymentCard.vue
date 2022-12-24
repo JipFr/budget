@@ -141,7 +141,6 @@
   display: flex;
   flex-wrap: nowrap;
   scroll-snap-type: x mandatory;
-  transition: box-shadow 1s;
   position: relative;
 
   .active-indicator {
@@ -154,7 +153,7 @@
     background: var(--content);
     border: 1px solid var(--border);
     animation: bob 3s infinite ease-in-out;
-    box-shadow: 0 0 8px var(--text);
+    box-shadow: 0 0 8px var(--border);
     display: flex;
     gap: 10px;
     align-items: center;
