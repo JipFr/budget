@@ -209,9 +209,9 @@ export default {
   },
   mounted() {
     SupabaseClient.auth.onAuthStateChange(() => {
-      // this.user = SupabaseClient.auth.user()
+      this.user = SupabaseClient.auth.user()
     })
-    // this.user = SupabaseClient.auth.user()
+    this.user = SupabaseClient.auth.user()
   },
   methods: {
     capitalise(str) {
