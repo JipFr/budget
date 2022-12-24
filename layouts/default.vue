@@ -7,14 +7,6 @@
         </container>
       </div>
       <div class="main">
-        <sidebar>
-          <hero :payments="getPayments" />
-          <div class="from-until">
-            <hr />
-            <from-until-picker class="padded padded-right" />
-          </div>
-        </sidebar>
-
         <div class="main-content">
           <container>
             <div class="main-content-layout">
@@ -89,11 +81,8 @@ import { PortalTarget } from 'portal-vue'
 import { getDefaultDates } from '~/util/dates'
 
 // Import components
-import Hero from '~/components/base/Hero'
-import Sidebar from '~/components/layout/Sidebar'
 import Banner from '~/components/base/Banner'
 import Container from '~/components/layout/Container'
-import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoginWrapper from '~/components/LoginWrapper'
 
 // Import Supabase
@@ -108,10 +97,7 @@ function addTrailingSlash(arr) {
 export default {
   components: {
     Banner,
-    Sidebar,
     Container,
-    Hero,
-    FromUntilPicker,
     LoginWrapper,
     PortalTarget,
   },
