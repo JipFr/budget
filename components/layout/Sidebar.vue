@@ -11,17 +11,26 @@
         </nuxt-link>
       </nav>
     </div>
-    <div v-if="user" class="bottom padded">
+    <div class="bottom padded">
       <div class="profile">
         <img
           class="profile-picture"
-          :src="user.user_metadata.avatar_url"
+          :src="
+            user?.user_metadata?.avatar_url ||
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+          "
           alt="Logged in user's profile picture"
         />
         <div class="text">
-          <h3>{{ user.user_metadata.full_name }}</h3>
-          <!-- eslint-disable-next-line no-irregular-whitespace -->
-          <p>{{ capitalise(user.app_metadata.provider) }} — {{ user.email }}</p>
+          <h3 :class="!user && 'skeleton-text'">
+            {{ user?.user_metadata?.full_name || 'Yo Mama' }}
+          </h3>
+          <p :class="!user && 'skeleton-text'">
+            <!-- eslint-disable-next-line no-irregular-whitespace -->
+            {{ capitalise(user?.app_metadata?.provider || 'HelloWorld') }} — {{
+              user?.email || 'yo@mama.org'
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -66,6 +75,14 @@ aside {
     width: 43px;
     height: 43px;
     border-radius: 4px;
+    background: var(--border);
+  }
+
+  .text .skeleton-text {
+    color: transparent;
+    user-select: none;
+    background: var(--border);
+    display: inline-block;
   }
 
   .text {
@@ -191,14 +208,10 @@ export default {
     }
   },
   mounted() {
-    console.log(1)
     SupabaseClient.auth.onAuthStateChange(() => {
-      console.log(2)
-      this.user = SupabaseClient.auth.user()
+      // this.user = SupabaseClient.auth.user()
     })
-    console.log(3)
-    this.user = SupabaseClient.auth.user()
-    console.log(4)
+    // this.user = SupabaseClient.auth.user()
   },
   methods: {
     capitalise(str) {

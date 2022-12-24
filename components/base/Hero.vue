@@ -2,8 +2,10 @@
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
       <div class="padded">
-        <subtitle>Your balance this period</subtitle>
-        <h2>
+        <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+          Your balance this period
+        </subtitle>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
           <money :cents="regularTotal" />
         </h2>
       </div>
@@ -11,8 +13,10 @@
         v-if="foodTotal !== 0 || foodSpent !== 0 || loading || isLoading"
         class="padded"
       >
-        <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
-        <h2>
+        <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+          Food remaining (of <money :cents="foodTotal" />)
+        </subtitle>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
           <money :cents="foodTotal - foodSpent" />
         </h2>
       </div>
@@ -25,6 +29,12 @@
   h2 {
     font-size: 28px;
     margin-top: 10px;
+  }
+  .skeleton-text {
+    color: transparent;
+    user-select: none;
+    background: var(--border);
+    display: inline-block;
   }
 
   & + div {
