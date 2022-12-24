@@ -11,8 +11,8 @@
         </nuxt-link>
       </nav>
     </div>
-    <div class="bottom padded">
-      <div v-if="user" class="profile">
+    <div v-if="user" class="bottom padded">
+      <div class="profile">
         <img
           class="profile-picture"
           :src="user.user_metadata.avatar_url"
@@ -197,6 +197,8 @@ export default {
       this.user = SupabaseClient.auth.user()
     })
     console.log(3)
+    this.user = SupabaseClient.auth.user()
+    console.log(4)
   },
   methods: {
     capitalise(str) {
