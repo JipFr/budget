@@ -7,7 +7,10 @@
           <money :cents="regularTotal" />
         </h2>
       </div>
-      <div v-if="foodTotal !== 0 || foodSpent !== 0" class="padded">
+      <div
+        v-if="foodTotal !== 0 || foodSpent !== 0 || loading || isLoading"
+        class="padded"
+      >
         <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
         <h2>
           <money :cents="foodTotal - foodSpent" />
@@ -57,6 +60,7 @@ export default {
       regularTotal: 0,
       foodTotal: 0,
       foodSpent: 0,
+      loading: true,
     }
   },
   computed: {
@@ -72,6 +76,7 @@ export default {
   methods: {
     setData() {
       // Re-set values
+      this.loading = true
       this.gained = 0
       this.spent = 0
       this.regularTotal = 0
@@ -120,6 +125,8 @@ export default {
           }
         }
       }
+
+      this.loading = false
     },
   },
 }
