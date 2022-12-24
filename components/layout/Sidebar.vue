@@ -177,9 +177,6 @@ export default {
       str = str.toString()
       return str.slice(0, 1).toUpperCase() + str.slice(1)
     },
-    async logout() {
-      await SupabaseClient.auth.signOut()
-    },
   },
 }
 </script>
