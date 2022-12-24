@@ -70,7 +70,13 @@
                   </span>
                 </span>
               </div>
-              <span>{{ entry.description }}</span>
+              <span>
+                {{ entry.description }}
+                <in-x-days
+                  v-if="isInXDays(payment) && i === 0"
+                  :days="payment.inXDays"
+                />
+              </span>
               <money v-if="entry.cents !== 0" :cents="entry.cents" />
             </div>
           </div>
@@ -82,13 +88,9 @@
             </div>
           </div>
         </div>
-        <span v-else class="bold usual-description">{{ description }} </span>
-        <span v-if="isInXDays(payment)" class="in-x-days">
-          <span v-if="payment.inXDays === 0"> Today </span>
-          <span v-else-if="payment.inXDays === 1"> Tomorrow </span>
-          <span v-else>
-            in {{ payment.inXDays }} {{ payment.inXDays == 1 ? 'day' : 'days' }}
-          </span>
+        <span v-else class="bold usual-description">
+          {{ description }}
+          <in-x-days v-if="isInXDays(payment)" :days="payment.inXDays" />
         </span>
       </subtitle>
       <div
@@ -439,6 +441,7 @@ import Money from '~/components/title/Money'
 import Tag from '~/components/base/Tag'
 import Dropdown from '~/components/base/util/Dropdown'
 import DropdownItem from '~/components/base/util/DropdownItem'
+import InXDays from '~/components/base/util/InXdays'
 
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
@@ -458,11 +461,12 @@ export default {
     Subtitle,
     Money,
     Tag,
-    TrashIcon,
-    EditIcon,
-    RefreshIcon,
     Dropdown,
     DropdownItem,
+    TrashIcon,
+    InXDays,
+    EditIcon,
+    RefreshIcon,
     ArrowRightIcon,
   },
   props: {
