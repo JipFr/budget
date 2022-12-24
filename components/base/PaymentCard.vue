@@ -441,7 +441,7 @@ import Money from '~/components/title/Money'
 import Tag from '~/components/base/Tag'
 import Dropdown from '~/components/base/util/Dropdown'
 import DropdownItem from '~/components/base/util/DropdownItem'
-import InXDays from '~/components/base/util/InXdays'
+import InXDays from '~/components/base/util/InXDays'
 
 // Import icons
 import TrashIcon from '~/assets/icons/trash.svg?inline'
