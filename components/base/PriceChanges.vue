@@ -60,7 +60,6 @@ hr {
   grid-template-columns: 1fr auto 1fr;
   grid-gap: 10px;
   align-items: center;
-  --content: var(--body);
 
   > *:not(svg) {
     height: 100%;
@@ -120,6 +119,12 @@ hr {
       display: block;
       color: var(--text-secondary);
     }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .comparison {
+    --content: var(--body);
   }
 }
 

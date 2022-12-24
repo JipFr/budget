@@ -105,6 +105,10 @@ aside {
     margin-left: -18px;
     border-radius: 7px;
 
+    &:hover {
+      background: var(--content-light);
+    }
+
     &.nuxt-link-exact-active {
       background: var(--link-active);
       color: var(--text);
