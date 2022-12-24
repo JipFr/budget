@@ -11,20 +11,6 @@
         </nuxt-link>
       </nav>
     </div>
-    <div class="bottom padded">
-      <div v-if="user" class="profile">
-        <img
-          class="profile-picture"
-          :src="user.user_metadata.avatar_url"
-          alt="Logged in user's profile picture"
-        />
-        <div class="text">
-          <h3>{{ user.user_metadata.full_name }}</h3>
-          <!-- eslint-disable-next-line no-irregular-whitespace -->
-          <p>{{ capitalise(user.app_metadata.provider) }} — {{ user.email }}</p>
-        </div>
-      </div>
-    </div>
   </aside>
 </template>
 
@@ -118,9 +104,6 @@ aside {
 </style>
 
 <script>
-// Import Supabase
-import SupabaseClient from '~/util/supabase'
-
 // Import components
 import Logo from '~/components/base/util/Logo'
 
@@ -188,11 +171,6 @@ export default {
         },
       ],
     }
-  },
-  computed: {
-    user() {
-      return SupabaseClient.auth.user()
-    },
   },
   methods: {
     capitalise(str) {
