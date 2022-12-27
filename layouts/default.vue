@@ -74,7 +74,7 @@ hr {
 @media (min-width: 1200px) {
   .new-transaction-content {
     position: sticky !important;
-    top: 4rem;
+    top: 55px;
 
     .content {
       padding: 0 !important;
