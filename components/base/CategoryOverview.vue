@@ -26,7 +26,7 @@
       <hr />
 
       <!-- Payment list -->
-      <payment-list :raw-payments="overlayTransactions" />
+      <payment-list :raw-payments="overlayTransactions" disable-actions />
     </overlay>
   </div>
 </template>
