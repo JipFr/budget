@@ -8,10 +8,15 @@ function toCents(euroVal) {
   return isNegative ? -total : total
 }
 
+function toNumber(str) {
+  return Number(str.replace(/[a-zA-Z]/gi, ''))
+}
+
 export default function getTransactionItemList(
   description,
   removeCount = true,
-  removeEuroString = false
+  removeEuroString = false,
+  removeMeasurements = true
 ) {
   const entries = []
 
@@ -19,7 +24,86 @@ export default function getTransactionItemList(
   if (description.includes('\n')) {
     const descriptionArray = description.split('\n').map((item) => item.trim())
 
-    for (const [i, entry] of Object.entries(descriptionArray)) {
+    // eslint-disable-next-line prefer-const
+    for (let [i, entry] of Object.entries(descriptionArray)) {
+      // Find weights and sutff
+      let weight = null
+
+      // ? Grams
+      const gramRegex = /(\d+|\.+)+gr/i
+      const kgRegex = /(\d+|\.+)+kg/i
+
+      const gramMatch = entry.match(gramRegex)
+      const kgMatch = entry.match(kgRegex)
+
+      if (gramMatch) {
+        weight = {
+          measurement: 'gr',
+          value: toNumber(gramMatch[0]),
+        }
+      }
+
+      if (kgMatch) {
+        weight = {
+          measurement: 'gr',
+          value: toNumber(kgMatch[0]) * 1e3,
+        }
+      }
+
+      // ? Liters
+
+      const literRegex = /(\d+|\.+)+l/i
+      const clRegex = /(\d+|\.+)+cl/i
+
+      const literMatch = entry.match(literRegex)
+      const clMatch = entry.match(clRegex)
+
+      if (literMatch) {
+        weight = {
+          measurement: 'cl',
+          value: toNumber(literMatch[0]) * 100,
+        }
+      }
+
+      if (clMatch) {
+        weight = {
+          measurement: 'cl',
+          value: toNumber(clMatch[0]),
+        }
+      }
+
+      // Adjust string to remove weight
+      if (weight && removeMeasurements) {
+        entry = entry
+          .replace(new RegExp(gramRegex, 'gi'), '')
+          .replace(new RegExp(kgRegex, 'gi'), '')
+          .replace(new RegExp(literRegex, 'gi'), '')
+          .replace(new RegExp(clRegex, 'gi'), '')
+          .trim()
+      }
+
+      // Add labels to weight
+      if (weight) {
+        switch (weight.measurement) {
+          case 'cl':
+            weight.label =
+              weight.value >= 100
+                ? `${weight.value / 100}li`
+                : `${weight.value}cl`
+            break
+          case 'gr':
+            weight.label =
+              weight.value >= 1000
+                ? `${weight.value / 1000}kg`
+                : `${weight.value}gr`
+            break
+          default:
+            weight.label = null
+        }
+      }
+
+      if (weight) console.log(weight)
+
       // Find item count
       const countRegex = /[\d.]+ ?x|x ?[\d.]+[ +]+?/g
       const countMatch = entry.match(countRegex) || []
@@ -60,6 +144,7 @@ export default function getTransactionItemList(
         original: entry,
         id: i,
         itemCount,
+        weight,
       })
     }
   }

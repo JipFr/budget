@@ -14,7 +14,8 @@ export function getDifferences(allPayments) {
     transactionLists[transaction.id] = getTransactionItemList(
       transaction.description,
       true,
-      true
+      true,
+      false
     )
   }
 

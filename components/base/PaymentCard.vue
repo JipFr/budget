@@ -50,33 +50,39 @@
                 i === 0 && entry.cents === 0 && 'is-store',
                 entry.itemCount === 1 &&
                   entry.centsPerEntry === entry.cents &&
+                  !entry.weight?.label &&
                   'just-one-badge',
               ]"
             >
-              <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
-                <span
-                  v-if="entry.cents !== 0"
-                  class="badge"
-                  :class="
-                    entry.itemCount === 1 &&
-                    entry.centsPerEntry === entry.cents &&
-                    'just-one'
-                  "
-                >
-                  {{ entry.itemCount }}
-                  <span v-if="entry.centsPerEntry !== entry.cents">
-                    &nbsp;x
-                    <money :cents="entry.centsPerEntry" />
+              <div class="row-left-side">
+                <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
+                  <span
+                    v-if="entry.cents !== 0"
+                    class="badge"
+                    :class="
+                      entry.itemCount === 1 &&
+                      entry.centsPerEntry === entry.cents &&
+                      !entry.weight?.label &&
+                      'just-one'
+                    "
+                  >
+                    {{
+                      entry.weight?.label ? entry.weight.label : entry.itemCount
+                    }}
+                    <span v-if="entry.centsPerEntry !== entry.cents">
+                      &nbsp;x
+                      <money :cents="entry.centsPerEntry" />
+                    </span>
                   </span>
+                </div>
+                <span>
+                  {{ entry.description }}
+                  <in-x-days
+                    v-if="isInXDays(payment) && i === 0"
+                    :days="payment.inXDays"
+                  />
                 </span>
               </div>
-              <span>
-                {{ entry.description }}
-                <in-x-days
-                  v-if="isInXDays(payment) && i === 0"
-                  :days="payment.inXDays"
-                />
-              </span>
               <money v-if="entry.cents !== 0" :cents="entry.cents" />
             </div>
           </div>
@@ -204,11 +210,22 @@
 
 .payment-row {
   display: grid;
-  grid-template-columns: 100px 1fr auto;
+  grid-template-columns: 1fr auto;
   grid-gap: 10px;
   align-items: center;
   margin: 5px 0;
   font-weight: 500;
+
+  .row-left-side {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 10px;
+  }
+
+  .badge-wrapper {
+    min-width: 100px;
+  }
 
   &.is-store {
     margin-bottom: 15px;
@@ -344,7 +361,11 @@
     display: none;
   }
   .payment-row {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
+
+    .badge-wrapper {
+      min-width: auto;
+    }
 
     &.just-one-badge {
       .badge-wrapper {
