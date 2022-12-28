@@ -1,5 +1,5 @@
 <template>
-  <div class="differences-wrapper">
+  <div v-if="differences.length > 0" class="differences-wrapper">
     <h3>Differences</h3>
     <div class="cards">
       <card
@@ -7,19 +7,22 @@
         :key="`diff-${difference.productName}`"
         :class="expanded && 'expanded'"
       >
-        <div class="card-layout">
-          <div class="left-side">
-            <p class="subtitle">{{ difference.store }}</p>
-            <h4 class="store">{{ difference.productName }}</h4>
-          </div>
-          <div class="right-side">
-            <money :cents="difference.was" />
-            <arrow-right-icon />
-            <money :cents="difference.is" />
-          </div>
-        </div>
-        <div v-if="expanded">
+        <overlay
+          v-if="expanded"
+          :show-button="false"
+          :open="
+            overlayOpen === `${difference.store}-${difference.productName}`
+          "
+          @toggle-open="toggleOpen"
+        >
+          <!-- Description -->
+          <h2>Differences</h2>
+          <p class="is-paragraph">
+            Previous and new transaction for "{{ difference.productName }}" at
+            {{ difference.store }}
+          </p>
           <hr />
+
           <div class="comparison">
             <payment-list
               :raw-payments="[difference.data.previousTransaction]"
@@ -33,9 +36,36 @@
               disable-actions
             />
           </div>
+        </overlay>
+        <div class="card-layout">
+          <div class="left-side">
+            <p class="subtitle">{{ difference.store }}</p>
+            <h4 class="store">{{ difference.productName }}</h4>
+          </div>
+          <div class="right-side">
+            <div class="money-diff">
+              <money :cents="difference.was" />
+              <arrow-right-icon />
+              <money :cents="difference.is" />
+            </div>
+            <button
+              v-if="expanded"
+              @click="
+                overlayOpen = `${difference.store}-${difference.productName}`
+              "
+            >
+              View transactions
+            </button>
+          </div>
         </div>
       </card>
     </div>
+  </div>
+  <div v-else-if="expanded" class="empty-state">
+    <p>
+      There are no differences between prices found in products you purchased in
+      the last 30 days
+    </p>
   </div>
 </template>
 
@@ -85,11 +115,7 @@ hr {
 .cards {
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-  .expanded {
-    grid-column: 1 / -1;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 .card {
   .card-layout {
@@ -111,6 +137,21 @@ hr {
 
   .right-side {
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    button {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: var(--anchor);
+    }
+  }
+
+  .money-diff {
+    display: flex;
     gap: 10px;
     align-items: center;
     font-size: 1.125rem;
@@ -122,10 +163,16 @@ hr {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .comparison {
-    --content: var(--body);
-  }
+.empty-state {
+  width: 100%;
+  background: var(--content);
+  height: 300px;
+  padding: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  text-align: center;
 }
 
 @media (max-width: 1400px) {
@@ -149,6 +196,7 @@ hr {
 import Card from '~/components/layout/Card'
 import Money from '~/components/title/Money'
 import PaymentList from '~/components/base/PaymentList'
+import Overlay from '~/components/base/util/Overlay'
 
 // Import icons
 import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
@@ -162,6 +210,7 @@ export default {
     Card,
     Money,
     PaymentList,
+    Overlay,
   },
   props: {
     allPayments: {
@@ -177,6 +226,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      overlayOpen: false,
+    }
+  },
   computed: {
     differences() {
       const differences = getDifferences(this.allPayments)
@@ -187,6 +241,11 @@ export default {
   watch: {
     allPayments() {
       this.$forceUpdate()
+    },
+  },
+  methods: {
+    toggleOpen() {
+      this.overlayOpen = !this.overlayOpen
     },
   },
 }
