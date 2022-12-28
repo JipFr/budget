@@ -59,9 +59,8 @@
                   <span
                     v-if="
                       entry.weight?.label
-                        ? entry.cents !== entry.centsPerEntry
-                        : entry.centsPerEntry == entry.cents &&
-                          entry.cents !== 0
+                        ? entry.centsPerEntry !== entry.cents
+                        : entry.cents !== 0
                     "
                     class="badge"
                     :class="
