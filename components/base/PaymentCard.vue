@@ -57,22 +57,27 @@
               <div class="row-left-side">
                 <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
                   <span
-                    v-if="entry.cents !== 0"
+                    v-if="
+                      entry.weight?.label
+                        ? entry.cents !== entry.centsPerEntry
+                        : entry.centsPerEntry == entry.cents &&
+                          entry.cents !== 0
+                    "
                     class="badge"
                     :class="
                       entry.itemCount === 1 &&
                       entry.centsPerEntry === entry.cents &&
-                      !entry.weight?.label &&
                       'just-one'
                     "
                   >
-                    {{
-                      entry.weight?.label ? entry.weight.label : entry.itemCount
-                    }}
+                    {{ entry.itemCount }}
                     <span v-if="entry.centsPerEntry !== entry.cents">
                       &nbsp;x
                       <money :cents="entry.centsPerEntry" />
                     </span>
+                  </span>
+                  <span v-if="entry.weight?.label" class="badge">
+                    {{ entry.weight.label }}
                   </span>
                 </div>
                 <span>
