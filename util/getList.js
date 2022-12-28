@@ -52,7 +52,7 @@ export default function getTransactionItemList(
 
       // ? Liters
 
-      const literRegex = /(\d+|\.+)+l/i
+      const literRegex = /(\d+|\.+)+l|(\d+|\.+)+ liter/i
       const clRegex = /(\d+|\.+)+cl/i
 
       const literMatch = entry.match(literRegex)
