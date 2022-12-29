@@ -23,6 +23,8 @@ import SupabaseClient from '~/util/supabase'
 import getTransactionItemList from '~/util/getList'
 import { clean } from '~/util/getDifferences'
 
+const unmeasured = 'unmeasured'
+
 export default {
   computed: {
     lists() {
@@ -68,7 +70,7 @@ export default {
               name: product.description,
             }
 
-          const measuringUnit = product.weight?.measurement || 'unmeasured'
+          const measuringUnit = product.weight?.measurement || unmeasured
           if (!products[productName][measuringUnit])
             products[productName][measuringUnit] = {
               count: 0,
@@ -82,8 +84,9 @@ export default {
       // Remove all counted thingies from the database
       for (const remover of this.inventory) {
         const productName = clean(remover.name)
-        if (products[productName]?.[remover.measuringUnit]) {
-          products[productName][remover.measuringUnit].count -= remover.count
+        if (products[productName]?.[remover.measuringUnit || unmeasured]) {
+          products[productName][remover.measuringUnit || unmeasured].count -=
+            remover.count
         }
       }
 
