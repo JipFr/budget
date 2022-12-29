@@ -51,7 +51,6 @@ export default function getTransactionItemList(
       }
 
       // ? Liters
-
       const literRegex = /(\d+|\.+)+l|(\d+|\.+)+ liter/i
       const clRegex = /(\d+|\.+)+cl/i
 
@@ -72,8 +71,10 @@ export default function getTransactionItemList(
         }
       }
 
-      // Adjust string to remove weight
+      if (Number.isNaN(weight?.value)) weight = null
+
       if (weight && removeMeasurements) {
+        // Adjust string to remove weight
         entry = entry
           .replace(new RegExp(gramRegex, 'gi'), '')
           .replace(new RegExp(kgRegex, 'gi'), '')
@@ -101,8 +102,6 @@ export default function getTransactionItemList(
             weight.label = null
         }
       }
-
-      if (weight) console.log(weight)
 
       // Find item count
       const countRegex = /[\d.]+ ?x|x ?[\d.]+[ +]+?/g
