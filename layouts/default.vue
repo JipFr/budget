@@ -160,6 +160,8 @@ export default {
       transactions,
     })
 
+    this.fetchInventory()
+
     this.hasFetched = true
 
     this.setLoading(false)
@@ -206,6 +208,10 @@ export default {
       if ((this.getAllPayments || []).length === 0) this.$fetch()
     })
 
+    this.$nuxt.$on('refetch-inventory', () => {
+      this.fetchInventory()
+    })
+
     SupabaseClient.from('transactions')
       .on('*', (payload) => {
         const user = this.$store.state.user.data
@@ -246,6 +252,18 @@ export default {
       setUntil: 'user/setUntil',
       setFrom: 'user/setFrom',
     }),
+    async fetchInventory() {
+      const inventory = (
+        await SupabaseClient.from('inventory')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(0, 1e3)
+      ).data
+
+      this.setPerson({
+        inventory,
+      })
+    },
   },
 }
 </script>

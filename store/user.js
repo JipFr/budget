@@ -16,6 +16,7 @@ export const state = () => {
     data: {
       transactions: [],
       transactionsInPeriod: [],
+      inventory: [],
       loading: true,
     },
     tagColors: {},
@@ -79,7 +80,8 @@ export const mutations = {
   set(state, data) {
     // We might need to add other values here later
     // Setting the entire object breaks reactivity
-    state.data.transactions = data.transactions
+    if (data.transactions) state.data.transactions = data.transactions
+    if (data.inventory) state.data.inventory = data.inventory
     state.data.loading = false
     applyFilter(state)
   },

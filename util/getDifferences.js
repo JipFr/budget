@@ -1,7 +1,7 @@
 // Import other
 import getTransactionItemList from '~/util/getList'
 
-function clean(str) {
+export function clean(str) {
   return str.trim().toLowerCase()
 }
 

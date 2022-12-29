@@ -175,6 +175,15 @@ export default {
           ],
         },
         {
+          title: 'Stock',
+          links: [
+            {
+              title: 'Inventory',
+              to: '/inventory',
+            },
+          ],
+        },
+        {
           title: 'Analysis',
           links: [
             {

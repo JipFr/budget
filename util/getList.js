@@ -12,6 +12,17 @@ function toNumber(str) {
   return Number(str.replace(/[a-zA-Z]/gi, ''))
 }
 
+export function getWeightLabel(unit, value) {
+  switch (unit) {
+    case 'cl':
+      return value >= 100 ? `${value / 100}li` : `${value}cl`
+    case 'gr':
+      return value >= 1000 ? `${value / 1000}kg` : `${value}gr`
+    default:
+      return null
+  }
+}
+
 export default function getTransactionItemList(
   description,
   removeCount = true,
@@ -84,24 +95,8 @@ export default function getTransactionItemList(
       }
 
       // Add labels to weight
-      if (weight) {
-        switch (weight.measurement) {
-          case 'cl':
-            weight.label =
-              weight.value >= 100
-                ? `${weight.value / 100}li`
-                : `${weight.value}cl`
-            break
-          case 'gr':
-            weight.label =
-              weight.value >= 1000
-                ? `${weight.value / 1000}kg`
-                : `${weight.value}gr`
-            break
-          default:
-            weight.label = null
-        }
-      }
+      if (weight)
+        weight.label = getWeightLabel(weight.measurement, weight.value)
 
       // Find item count
       const countRegex = /[\d.]+ ?x|x ?[\d.]+[ +]+?/g
