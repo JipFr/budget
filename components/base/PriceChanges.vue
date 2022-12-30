@@ -4,7 +4,7 @@
     <div class="cards">
       <card
         v-for="difference in differences"
-        :key="`diff-${difference.productName}`"
+        :key="`diff ${difference.store} ${difference.productName}`"
         :class="expanded && 'expanded'"
       >
         <overlay
