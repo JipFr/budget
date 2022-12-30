@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="section">
+      <app-input
+        v-model="filter"
+        type="text"
+        label="Filter"
+        placeholder="Macaroni"
+      />
+    </div>
     <div v-if="cards.withContent.length > 0" class="section">
       <h3>Inventory</h3>
       <div class="cards">
@@ -43,11 +51,15 @@ hr {
   margin-top: 30px;
   margin-bottom: 70px;
 }
+.section + .section {
+  margin-top: 40px;
+}
 </style>
 
 <script>
 // Import components
 import InventoryCard from '~/components/base/InventoryCard'
+import AppInput from '~/components/base/inputs/Input'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -61,6 +73,12 @@ const unmeasured = 'unmeasured'
 export default {
   components: {
     InventoryCard,
+    AppInput,
+  },
+  data() {
+    return {
+      filter: '',
+    }
   },
   computed: {
     lists() {
@@ -96,7 +114,8 @@ export default {
       const products = {}
 
       // Add up every single inventory transaction ever
-      for (const list of Object.values(this.lists)) {
+      for (const payment of this.inventoryPayments) {
+        const list = this.lists[payment.id]
         for (const product of list) {
           if (product.cents <= 0) continue
 
@@ -137,6 +156,8 @@ export default {
       let cards = []
 
       for (const value of Object.values(products)) {
+        if (!clean(value.name).includes(clean(this.filter))) continue
+
         for (const [measurementUnit, v] of Object.entries(value.weights)) {
           const actions = []
 
@@ -157,9 +178,8 @@ export default {
           if (v.count > 0 && v.count <= 5)
             actions.push(generateAction(0.1), generateAction(0.5))
           if (v.count > 1 && v.count < 10) actions.push(generateAction(1))
-          if (v.count >= 10 && v.count < 100)
-            actions.push(generateAction(5), generateAction(10))
-          if (v.count >= 50 && v.count < 300) actions.push(generateAction(10))
+          if (v.count >= 10 && v.count < 100) actions.push(generateAction(5))
+          if (v.count >= 10 && v.count < 300) actions.push(generateAction(10))
           if (v.count >= 50 && v.count < 800) actions.push(generateAction(50))
           if (v.count >= 300 && v.count < 800) actions.push(generateAction(100))
           if (v.count >= 800) actions.push(generateAction(500))
