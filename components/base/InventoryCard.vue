@@ -73,7 +73,7 @@ import AppButton from '~/components/util/Button'
 import AppInput from '~/components/base/inputs/Input'
 
 // Import icons
-import EditIcon from '~/assets/icons/edit.svg?inline'
+import EditIcon from '~/assets/icons/edit-alt.svg?inline'
 
 export default {
   components: {

@@ -47,5 +47,9 @@ button {
   &:active {
     opacity: 0.8;
   }
+
+  svg {
+    display: block;
+  }
 }
 </style>
