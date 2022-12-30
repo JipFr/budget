@@ -15,6 +15,10 @@ button {
   border: 1px solid var(--border);
   cursor: pointer;
 
+  &.small {
+    padding: 3px 10px;
+  }
+
   &.primary {
     background: var(--theme);
     color: white;

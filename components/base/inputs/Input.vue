@@ -15,6 +15,7 @@
         @input="setChange"
         @focus="doFocus"
         @blur="doBlur"
+        @keyup="onKeyUp"
       />
       <div
         v-else-if="type === 'list'"
@@ -56,6 +57,7 @@
         @input="setChange"
         @focus="doFocus"
         @blur="doBlur"
+        @keyup="onKeyUp"
       />
     </div>
   </label>
@@ -246,17 +248,22 @@ export default {
       if (evt.key === 'Enter' || evt.key === ',') {
         this.addTag()
       }
+      this.onKeyUp(evt)
+    },
+    onKeyUp(evt) {
+      this.$emit('keyup', evt)
     },
     doFocus() {
       this.isFocused = true
       this.setInputWidth()
     },
-    doBlur() {
+    doBlur(evt) {
       this.isFocused = false
 
       if (this.type === 'list') {
         this.addTag()
       }
+      this.$emit('blur', evt)
     },
     setInputWidth() {
       const input = this.$refs['adjustable-input']

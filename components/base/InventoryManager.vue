@@ -15,6 +15,7 @@
           v-for="card of cards.withContent"
           :key="card.key"
           :card="card"
+          @adjust="(count) => adjustCount(count, card)"
         />
       </div>
     </div>
@@ -26,6 +27,7 @@
           v-for="card of cards.usedUp"
           :key="card.key"
           :card="card"
+          @adjust="(count) => adjustCount(count, card)"
         />
       </div>
     </div>
@@ -153,6 +155,7 @@ export default {
             key: `${measurementUnit}-${value.name}`,
             productName: value.name,
             weightLabel: getWeightLabel(measurementUnit, v.count),
+            measurementUnit,
             count: v.count,
             actions,
           })
@@ -168,10 +171,10 @@ export default {
     },
   },
   methods: {
-    async reduceProductCount(measurementUnit, productName, quantity) {
+    async adjustProductCount(measurementUnit, productName, quantity) {
       const submitObj = {
         user_id: SupabaseClient.auth.user().id,
-        count: quantity,
+        count: -quantity,
         name: productName,
         measuringUnit: measurementUnit,
       }
@@ -180,6 +183,13 @@ export default {
       await SupabaseClient.from('inventory').insert([submitObj])
 
       this.$nuxt.$emit('refetch-inventory')
+    },
+    async adjustCount(count, card) {
+      await this.adjustProductCount(
+        card.measurementUnit,
+        card.productName,
+        count
+      )
     },
   },
 }
