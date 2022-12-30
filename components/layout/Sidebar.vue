@@ -42,13 +42,13 @@
 <style lang="scss">
 aside {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - env(safe-area-inset-top));
   background: var(--content);
   border-right: 1px solid var(--border);
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top);
 
   > .content {
     display: grid;
@@ -71,6 +71,7 @@ aside {
 
 .bottom {
   background: var(--content-darker);
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
 .profile {
