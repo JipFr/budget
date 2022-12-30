@@ -65,6 +65,10 @@ hr {
   display: none;
 }
 
+.sidebar-background {
+  display: none;
+}
+
 @media (min-width: 1200px) {
   .main-content-layout {
     display: grid;
@@ -89,20 +93,17 @@ hr {
   .main {
     grid-template-columns: 100%;
   }
-  .sidebar-background {
-    display: none;
-
-    &[open] {
-      display: block;
-      background: rgba(0, 0, 0, 0.5);
-      width: 100vw;
-      height: 100vh;
-      position: fixed;
-      z-index: 20;
-      top: 0;
-      left: 0;
-    }
+  .sidebar-background[open] {
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
   }
+
   .sidebar-toggle {
     display: block;
     width: 3rem;
