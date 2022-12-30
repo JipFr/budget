@@ -2,10 +2,11 @@
   <div class="header-wrapper">
     <header>
       <container>
-        <div>
-          <crab-icon />
-          {{ title }}
+        <div class="sidebar-toggle" @click="$emit('toggle-sidebar')">
+          <menu-icon />
         </div>
+        <logo />
+        <div></div>
       </container>
     </header>
   </div>
@@ -17,7 +18,9 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 20px 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
   z-index: 10;
   font-family: Inter, Arial;
   font-weight: bold;
@@ -26,8 +29,25 @@ header {
 
   .container {
     display: grid;
+    grid-template-columns: 32px 1fr 32px;
     justify-content: center;
+    align-items: center;
     grid-gap: 10px;
+
+    .sidebar-toggle {
+      background: var(--content);
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    svg {
+      display: block;
+    }
 
     > * {
       display: flex;
@@ -43,11 +63,8 @@ header {
     }
   }
 
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    fill: var(--text);
-    margin-right: 10px;
+  .logo {
+    font-weight: normal;
   }
 }
 
@@ -59,22 +76,32 @@ header {
     border-color: var(--content);
   }
 }
+
+@media (min-width: 701px) {
+  .header-wrapper {
+    display: none;
+  }
+}
 </style>
 
 <script>
 // Import Capacitor
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core'
+
+// Import components
 import Container from '~/components/layout/Container'
+import Logo from '~/components/base/util/Logo'
 
 // Import icons
-import CrabIcon from '~/assets/logos/crab.svg?inline'
+import MenuIcon from '~/assets/icons/menu.svg?inline'
 
 const { StatusBar } = Plugins
 
 export default {
   components: {
     Container,
-    CrabIcon,
+    Logo,
+    MenuIcon,
   },
   props: {
     title: {

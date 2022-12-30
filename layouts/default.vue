@@ -1,6 +1,7 @@
 <template>
   <login-wrapper>
     <div class="page">
+      <app-header @toggle-sidebar="sidebarOpen = !sidebarOpen" />
       <div v-if="error">
         <container class="limited-width">
           <banner>⚠️ {{ error }}</banner>
@@ -19,10 +20,6 @@
             <from-until-picker class="padded padded-right" />
           </div>
         </sidebar>
-
-        <div class="sidebar-toggle" @click="() => (sidebarOpen = !sidebarOpen)">
-          <menu-icon />
-        </div>
 
         <div class="main-content">
           <container class="limited-width">
@@ -59,10 +56,6 @@ hr {
   width: 100%;
   height: 1px;
   background: var(--border);
-}
-
-.sidebar-toggle {
-  display: none;
 }
 
 .sidebar-background {
@@ -103,22 +96,6 @@ hr {
     top: 0;
     left: 0;
   }
-
-  .sidebar-toggle {
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    position: fixed;
-    top: calc(27px + env(safe-area-inset-top));
-    left: 20px;
-    background: var(--content);
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 40;
-  }
 }
 </style>
 
@@ -141,6 +118,7 @@ import { PortalTarget } from 'portal-vue'
 import { getDefaultDates } from '~/util/dates'
 
 // Import components
+import AppHeader from '~/components/layout/Header'
 import Hero from '~/components/base/Hero'
 import Sidebar from '~/components/layout/Sidebar'
 import Banner from '~/components/base/Banner'
@@ -151,9 +129,6 @@ import LoginWrapper from '~/components/LoginWrapper'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-// Import icons
-import MenuIcon from '~/assets/icons/menu.svg?inline'
-
 function addTrailingSlash(arr) {
   return arr.flatMap((path) =>
     [path, !path.endsWith('/') ? path + '/' : null].filter(Boolean)
@@ -162,6 +137,7 @@ function addTrailingSlash(arr) {
 
 export default {
   components: {
+    AppHeader,
     Banner,
     Sidebar,
     Container,
@@ -169,7 +145,6 @@ export default {
     FromUntilPicker,
     LoginWrapper,
     PortalTarget,
-    MenuIcon,
   },
   async fetch() {
     if (!this.hasFetched) {

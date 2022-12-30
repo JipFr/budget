@@ -147,6 +147,7 @@ aside {
     max-width: 320px;
     position: fixed;
     z-index: 30;
+    top: 0;
     transform: translateX(-100%);
     transition: transform 200ms;
     height: auto;
@@ -157,7 +158,7 @@ aside {
     }
 
     .logo {
-      padding-left: 90px !important;
+      margin-top: 0;
     }
 
     > .content {
