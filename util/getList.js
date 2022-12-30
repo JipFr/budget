@@ -13,11 +13,14 @@ function toNumber(str) {
 }
 
 export function getWeightLabel(unit, value) {
+  value = Math.round(value * 100) / 100
   switch (unit) {
     case 'cl':
       return value >= 100 ? `${value / 100}li` : `${value}cl`
     case 'gr':
       return value >= 1000 ? `${value / 1000}kg` : `${value}gr`
+    case 'unmeasured':
+      return `x ${value}`
     default:
       return null
   }
