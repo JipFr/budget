@@ -109,7 +109,7 @@ hr {
     height: 3rem;
     border-radius: 50%;
     position: fixed;
-    top: 27px;
+    top: calc(27px + env(safe-area-inset-top));
     left: 20px;
     background: var(--content);
     border: 1px solid var(--border);
