@@ -156,11 +156,10 @@ export default {
       this.error = data.errors.join('\n')
     }
 
+    await this.fetchInventory()
     this.setPerson({
       transactions,
     })
-
-    this.fetchInventory()
 
     this.hasFetched = true
 

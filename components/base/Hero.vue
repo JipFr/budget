@@ -27,7 +27,7 @@
 <style lang="scss" scoped>
 .hero-layout > div {
   h2 {
-    font-size: 28px;
+    font-size: 1.5rem;
     margin-top: 10px;
   }
   .skeleton-text {
