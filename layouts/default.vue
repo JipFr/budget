@@ -48,8 +48,8 @@
   border-top: 5px solid transparent;
 }
 .main-content-layout {
-  padding: 50px 0;
   padding-top: calc(50px + env(safe-area-inset-top));
+  padding-bottom: calc(50px + env(safe-area-inset-bottom));
 }
 
 hr {
