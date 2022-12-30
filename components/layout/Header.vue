@@ -18,7 +18,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  height: 64px;
+  height: calc(64px + env(safe-area-inset-top));
   display: flex;
   align-items: center;
   z-index: 10;
