@@ -71,7 +71,7 @@ aside {
 
 .bottom {
   background: var(--content-darker);
-  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
 }
 
 .profile {
