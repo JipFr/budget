@@ -7,6 +7,11 @@
         </container>
       </div>
       <div class="main">
+        <div
+          class="sidebar-background"
+          :open="sidebarOpen"
+          @click="sidebarOpen = false"
+        />
         <sidebar :open="sidebarOpen">
           <hero :payments="getPayments" />
           <div class="from-until">
@@ -83,6 +88,20 @@ hr {
   }
   .main {
     grid-template-columns: 100%;
+  }
+  .sidebar-background {
+    display: none;
+
+    &[open] {
+      display: block;
+      background: rgba(0, 0, 0, 0.5);
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      left: 0;
+    }
   }
   .sidebar-toggle {
     display: block;
