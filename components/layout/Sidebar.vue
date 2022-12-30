@@ -42,13 +42,13 @@
 <style lang="scss">
 aside {
   width: 100%;
-  height: calc(100vh - env(safe-area-inset-top));
+  height: 100vh;
   background: var(--content);
   border-right: 1px solid var(--border);
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   position: sticky;
-  top: env(safe-area-inset-top);
+  border-top: env(safe-area-inset-top) solid var(--content);
 
   > .content {
     display: grid;
