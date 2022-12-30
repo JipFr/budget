@@ -1,6 +1,6 @@
 <template>
   <div v-if="differences.length > 0" class="differences-wrapper">
-    <h3>Differences</h3>
+    <subtitle>Differences</subtitle>
     <div class="cards">
       <card
         v-for="difference in differences"
@@ -70,13 +70,6 @@
 </template>
 
 <style lang="scss" scoped>
-h3 {
-  font-size: 1rem;
-  font-weight: normal;
-  color: var(--text);
-  margin-bottom: 5px;
-}
-
 hr {
   margin: 20px 0;
   width: 100%;
@@ -209,6 +202,7 @@ import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
 
 // Import utils
 import { getDifferences } from '~/util/getDifferences'
+import Subtitle from '~/components/title/Subtitle'
 
 export default {
   components: {
@@ -217,6 +211,7 @@ export default {
     Money,
     PaymentList,
     Overlay,
+    Subtitle,
   },
   props: {
     allPayments: {

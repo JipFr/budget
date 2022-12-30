@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- Title -->
+    <subtitle>Categories</subtitle>
     <!-- Main list of categories -->
     <div class="category-list">
       <category-progress-card
@@ -55,6 +57,7 @@ import { mapMutations } from 'vuex'
 import Overlay from '~/components/base/util/Overlay'
 import PaymentList from '~/components/base/PaymentList'
 import CategoryProgressCard from '~/components/base/CategoryProgressCard'
+import Subtitle from '~/components/title/Subtitle'
 
 // Import helpers
 import { getEntriesData } from '~/util/entries'
@@ -64,6 +67,7 @@ export default {
     Overlay,
     PaymentList,
     CategoryProgressCard,
+    Subtitle,
   },
   props: {
     payments: {

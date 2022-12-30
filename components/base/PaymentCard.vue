@@ -39,7 +39,7 @@
         </dropdown-item>
       </dropdown>
       <!-- List / title -->
-      <subtitle class="is-subtitle transaction-content">
+      <div class="transaction-content">
         <div v-if="entries.length > 0" class="sum-calculated">
           <div>
             <div
@@ -102,7 +102,7 @@
           {{ description }}
           <in-x-days v-if="isInXDays(payment)" :days="payment.inXDays" />
         </span>
-      </subtitle>
+      </div>
       <div
         v-if="payment.categories && payment.categories.length > 0"
         class="categories"
@@ -195,11 +195,6 @@
     width: 100%;
     min-width: 100%;
     scroll-snap-align: start;
-  }
-
-  .is-subtitle {
-    width: 100%;
-    margin-right: 10px;
   }
 }
 
@@ -336,6 +331,8 @@
 
   .transaction-content {
     grid-area: content;
+    width: 100%;
+    margin-right: 10px;
   }
 
   .categories {
@@ -463,7 +460,6 @@ import { mapMutations } from 'vuex'
 
 // Import components
 import Card from '~/components/layout/Card'
-import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
 import Tag from '~/components/base/Tag'
 import Dropdown from '~/components/base/util/Dropdown'
@@ -485,7 +481,6 @@ import getTransactionItemList from '~/util/getList'
 export default {
   components: {
     Card,
-    Subtitle,
     Money,
     Tag,
     Dropdown,
