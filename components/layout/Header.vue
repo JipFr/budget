@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper">
     <header>
-      <container>
+      <container class="limited-width">
         <div class="sidebar-toggle" @click="$emit('toggle-sidebar')">
           <menu-icon />
         </div>
@@ -73,7 +73,7 @@ header {
 }
 @media (prefers-color-scheme: dark) {
   header {
-    border-color: var(--content);
+    border-color: var(--body);
   }
 }
 
