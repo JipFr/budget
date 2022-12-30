@@ -189,6 +189,12 @@ hr {
     }
   }
 }
+
+@media (max-width: 700px) {
+  .differences-wrapper {
+    margin-bottom: 50px;
+  }
+}
 </style>
 
 <script>

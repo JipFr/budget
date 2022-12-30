@@ -48,7 +48,7 @@
   border-top: 5px solid transparent;
 }
 .main-content-layout {
-  padding-top: calc(50px + env(safe-area-inset-top));
+  padding-top: 50px;
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
 }
 
@@ -81,6 +81,9 @@ hr {
 }
 
 @media (max-width: 700px) {
+  .main-content-layout {
+    padding-top: 30px;
+  }
   .main {
     grid-template-columns: 100%;
   }
