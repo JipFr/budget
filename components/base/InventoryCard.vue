@@ -48,9 +48,9 @@
     padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.875rem;
-    color: var(--text-secondary);
-    background: transparent;
-    border: 1px solid var(--border);
+    color: var(--text);
+    background: var(--content-light);
+    border: 0;
     cursor: pointer;
     transition: background 100ms;
 
