@@ -81,6 +81,9 @@ hr {
 }
 
 @media (max-width: 700px) {
+  .main-content {
+    border-top: 0;
+  }
   .main-content-layout {
     padding-top: 30px;
   }
