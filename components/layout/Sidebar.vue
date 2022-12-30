@@ -48,6 +48,7 @@ aside {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   position: sticky;
+  top: 0;
   border-top: env(safe-area-inset-top) solid var(--content);
 
   > .content {

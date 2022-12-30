@@ -110,6 +110,8 @@ body::before {
   height: 8px;
 }
 
-[sidebaropen='true'] {
-  overflow-y: hidden;
+@media (max-width: 700px) {
+  [sidebaropen='true'] {
+    overflow-y: hidden;
+  }
 }
