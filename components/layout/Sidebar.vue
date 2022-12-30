@@ -1,15 +1,17 @@
 <template>
   <aside>
-    <logo class="padded" />
-    <slot />
-    <div class="nav-container padded">
-      <nav v-for="(section, i) of sections" :key="`section-${i}`">
-        <p class="section-title">{{ section.title }}</p>
-        <nuxt-link v-for="link of section.links" :key="link.to" :to="link.to">
-          <arrow-right-icon />
-          {{ link.title }}
-        </nuxt-link>
-      </nav>
+    <div class="content">
+      <logo class="padded" />
+      <slot />
+      <div class="nav-container padded">
+        <nav v-for="(section, i) of sections" :key="`section-${i}`">
+          <p class="section-title">{{ section.title }}</p>
+          <nuxt-link v-for="link of section.links" :key="link.to" :to="link.to">
+            <arrow-right-icon />
+            {{ link.title }}
+          </nuxt-link>
+        </nav>
+      </div>
     </div>
     <div class="bottom padded">
       <div class="profile">
@@ -44,9 +46,14 @@ aside {
   background: var(--content);
   border-right: 1px solid var(--border);
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   position: sticky;
   top: 0;
+
+  > .content {
+    display: grid;
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+  }
 
   .logo {
     margin: 20px 0;
@@ -129,6 +136,45 @@ aside {
     &.nuxt-link-exact-active {
       background: var(--link-active);
       color: var(--text);
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  aside {
+    width: 100%;
+    max-width: 320px;
+    position: fixed;
+    z-index: 30;
+    border-right: 0;
+    transform: translateX(-100%);
+    transition: transform 200ms;
+    height: auto;
+    max-height: 100vh;
+
+    &[open] {
+      transform: none;
+    }
+
+    .logo {
+      padding-left: 90px !important;
+    }
+
+    > .content {
+      max-height: 100%;
+      overflow-y: auto;
+      grid-template-rows: auto;
+
+      .nav-container {
+        overflow-y: initial;
+      }
+    }
+
+    .padded {
+      padding: 20px 30px;
+    }
+    .logo {
+      margin-bottom: 0;
     }
   }
 }

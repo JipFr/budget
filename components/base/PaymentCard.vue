@@ -378,6 +378,9 @@
       grid-template-columns: 1fr auto;
     }
   }
+  .payment-row .row-left-side {
+    flex-wrap: wrap;
+  }
 }
 
 [minimal] {

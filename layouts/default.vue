@@ -7,7 +7,7 @@
         </container>
       </div>
       <div class="main">
-        <sidebar>
+        <sidebar :open="sidebarOpen">
           <hero :payments="getPayments" />
           <div class="from-until">
             <hr />
@@ -15,8 +15,12 @@
           </div>
         </sidebar>
 
+        <div class="sidebar-toggle" @click="() => (sidebarOpen = !sidebarOpen)">
+          <menu-icon />
+        </div>
+
         <div class="main-content">
-          <container>
+          <container class="limited-width">
             <div class="main-content-layout">
               <div v-if="!isLoading" class="tab-wrapper">
                 <Nuxt />
@@ -52,6 +56,10 @@ hr {
   background: var(--border);
 }
 
+.sidebar-toggle {
+  display: none;
+}
+
 @media (min-width: 1200px) {
   .main-content-layout {
     display: grid;
@@ -66,6 +74,27 @@ hr {
 @media (prefers-color-scheme: light) {
   .main-content {
     border-top-color: var(--theme);
+  }
+}
+
+@media (max-width: 700px) {
+  .main {
+    grid-template-columns: 100%;
+  }
+  .sidebar-toggle {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 27px;
+    left: 20px;
+    background: var(--content);
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 40;
   }
 }
 </style>
@@ -99,6 +128,9 @@ import LoginWrapper from '~/components/LoginWrapper'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
+// Import icons
+import MenuIcon from '~/assets/icons/menu.svg?inline'
+
 function addTrailingSlash(arr) {
   return arr.flatMap((path) =>
     [path, !path.endsWith('/') ? path + '/' : null].filter(Boolean)
@@ -114,6 +146,7 @@ export default {
     FromUntilPicker,
     LoginWrapper,
     PortalTarget,
+    MenuIcon,
   },
   async fetch() {
     if (!this.hasFetched) {
@@ -172,6 +205,7 @@ export default {
       financePaths: addTrailingSlash(['/', '/categories', '/recurring']),
       chartPaths: addTrailingSlash(['/overview', '/prices', '/food']),
       hasFetched: false,
+      sidebarOpen: false,
     }
   },
   computed: {
@@ -200,6 +234,11 @@ export default {
           return categories.includes('food') || categories.includes('eten')
         }).length > 0
       )
+    },
+  },
+  watch: {
+    $route() {
+      this.sidebarOpen = false
     },
   },
   mounted() {
@@ -263,6 +302,13 @@ export default {
         inventory,
       })
     },
+  },
+  head() {
+    return {
+      bodyAttrs: {
+        sidebarOpen: this.sidebarOpen,
+      },
+    }
   },
 }
 </script>
