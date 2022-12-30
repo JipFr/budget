@@ -49,6 +49,7 @@
 }
 .main-content-layout {
   padding: 50px 0;
+  padding-top: calc(50px + env(safe-area-inset-top));
 }
 
 hr {
@@ -80,9 +81,6 @@ hr {
 }
 
 @media (max-width: 700px) {
-  .main-content-layout {
-    padding-top: calc(100px + env(safe-area-inset-top));
-  }
   .main {
     grid-template-columns: 100%;
   }
