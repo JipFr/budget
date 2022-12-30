@@ -78,6 +78,9 @@ hr {
 }
 
 @media (max-width: 700px) {
+  .main-content-layout {
+    padding-top: 100px;
+  }
   .main {
     grid-template-columns: 100%;
   }
