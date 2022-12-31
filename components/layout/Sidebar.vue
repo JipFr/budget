@@ -226,6 +226,10 @@ export default {
           title: 'Stock',
           links: [
             {
+              title: 'Recipes',
+              to: '/recipes',
+            },
+            {
               title: 'Inventory',
               to: '/inventory',
             },

@@ -30,12 +30,13 @@ export default function getTransactionItemList(
   description,
   removeCount = true,
   removeEuroString = false,
-  removeMeasurements = true
+  removeMeasurements = true,
+  forceList = false
 ) {
   const entries = []
 
   // See if description is grocery-like
-  if (description.includes('\n')) {
+  if (description.includes('\n') || forceList) {
     const descriptionArray = description.split('\n').map((item) => item.trim())
 
     // eslint-disable-next-line prefer-const
@@ -97,16 +98,20 @@ export default function getTransactionItemList(
           .trim()
       }
 
-      // Add labels to weight
-      if (weight)
-        weight.label = getWeightLabel(weight.measurement, weight.value)
-
       // Find item count
       const countRegex = /[\d.]+ ?x|x ?[\d.]+[ +]+?/g
       const countMatch = entry.match(countRegex) || []
       const itemCount = (countMatch || [])
         .map((n) => Number(n.replace(/[^\d.?]/g, '')))
         .reduce((a, b) => a * b, 1)
+
+      if (weight) {
+        // Add labels to weight
+        weight.label = getWeightLabel(weight.measurement, weight.value)
+
+        // Add "true count" to weight
+        weight.totalValue = weight.value * itemCount
+      }
 
       // Find money totals
       const moneyRegex = /€(-?\d+(?:\.\d+)?) ?\+? ?/

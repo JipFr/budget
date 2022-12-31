@@ -47,7 +47,7 @@ export function getInventory($store) {
         }
 
       products[productName].weights[measuringUnit].count +=
-        product?.weight?.value ?? product.itemCount
+        product?.weight?.totalValue ?? product.itemCount
     }
   }
 
