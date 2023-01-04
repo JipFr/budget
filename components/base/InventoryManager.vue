@@ -10,7 +10,6 @@
     </div>
     <div v-if="cards.withContent.length > 0" class="section">
       <subtitle>Inventory</subtitle>
-      {{ cards.withContent }}
       <div class="cards">
         <inventory-card
           v-for="card of cards.withContent"
