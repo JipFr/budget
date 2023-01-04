@@ -102,7 +102,7 @@ hr {
 }
 
 .differences-wrapper {
-  margin-bottom: 100px;
+  margin-bottom: 70px;
 }
 
 .cards {
