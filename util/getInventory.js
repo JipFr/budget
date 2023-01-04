@@ -61,5 +61,13 @@ export function getInventory($store) {
     }
   }
 
+  // Remove all weird decimal things
+  for (const product of Object.keys(products)) {
+    for (const measurementUnit of Object.keys(products[product].weights)) {
+      products[product].weights[measurementUnit].count =
+        Math.round(products[product].weights[measurementUnit].count * 100) / 100
+    }
+  }
+
   return products
 }

@@ -10,6 +10,7 @@
     </div>
     <div v-if="cards.withContent.length > 0" class="section">
       <subtitle>Inventory</subtitle>
+      {{ cards.withContent }}
       <div class="cards">
         <inventory-card
           v-for="card of cards.withContent"
@@ -64,7 +65,7 @@ import SupabaseClient from '~/util/supabase'
 // Import other
 import { getWeightLabel } from '~/util/getList'
 import { clean } from '~/util/getDifferences'
-import { unmeasured, getInventory } from '~/util/getInventory'
+import { getInventory } from '~/util/getInventory'
 
 export default {
   components: {
@@ -89,75 +90,12 @@ export default {
         if (!clean(value.name).includes(clean(this.filter))) continue
 
         for (const [measurementUnit, v] of Object.entries(value.weights)) {
-          const actions = []
-
-          // Various size actions
-          const generateAction = (count) => {
-            return {
-              label: `-${
-                measurementUnit === unmeasured
-                  ? count
-                  : getWeightLabel(measurementUnit, count)
-              }`,
-              onClick: () => {
-                this.reduceProductCount(measurementUnit, value.name, count)
-              },
-            }
-          }
-
-          if (v.count > 0 && v.count <= 5)
-            actions.push(generateAction(0.1), generateAction(0.5))
-          if (v.count > 1 && v.count < 10) actions.push(generateAction(1))
-          if (v.count >= 10 && v.count < 100) actions.push(generateAction(5))
-          if (v.count >= 10 && v.count < 300) actions.push(generateAction(10))
-          if (v.count >= 50 && v.count < 800) actions.push(generateAction(50))
-          if (v.count >= 300 && v.count < 800) actions.push(generateAction(100))
-          if (v.count >= 800) actions.push(generateAction(500))
-          if (v.count >= 1e3) actions.push(generateAction(1e3))
-
-          // Halve action
-          if (v.count > 0.1) {
-            actions.push(
-              {
-                label: '-1/2',
-                onClick: () => {
-                  this.reduceProductCount(
-                    measurementUnit,
-                    value.name,
-                    Math.floor((v.count / 2) * 100) / 100
-                  )
-                },
-              },
-              {
-                label: '-1/3',
-                onClick: () => {
-                  this.reduceProductCount(
-                    measurementUnit,
-                    value.name,
-                    Math.floor((v.count / 3) * 100) / 100
-                  )
-                },
-              }
-            )
-          }
-
-          // Set to zero action
-          if (v.count > 0) {
-            actions.push({
-              label: 'Set to zero',
-              onClick: () => {
-                this.reduceProductCount(measurementUnit, value.name, v.count)
-              },
-            })
-          }
-
           cards.push({
             key: `${measurementUnit}-${value.name}`,
             productName: value.name,
             weightLabel: getWeightLabel(measurementUnit, v.count),
             measurementUnit,
             count: v.count,
-            actions,
           })
         }
       }
