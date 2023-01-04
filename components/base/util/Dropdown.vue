@@ -1,6 +1,6 @@
 <template>
-  <details ref="details" @click="onElementClick">
-    <summary>
+  <details ref="details" tabindex="0" @click="onElementClick" @keyup="onKeyUp">
+    <summary tabindex="-1">
       <div class="toggle-button">
         <more-vertical-icon />
       </div>
@@ -113,6 +113,12 @@ export default {
     onElementClick() {
       if (this.$refs.details.getAttribute('open') !== null)
         nextTick(this.onClick)
+    },
+    toggleOpen() {
+      this.$refs.details.toggleAttribute('open')
+    },
+    onKeyUp(evt) {
+      if (evt.key === 'Enter') this.toggleOpen()
     },
   },
 }

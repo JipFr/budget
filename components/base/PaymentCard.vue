@@ -183,12 +183,19 @@
     top: 0;
     right: 0;
     transform: translate(30%, -30%);
-    opacity: 0;
     transition: opacity 100ms;
+
+    &:focus {
+      opacity: 1 !important;
+    }
+
+    &:not([open]) {
+      opacity: 0;
+    }
   }
 
   &:hover details {
-    opacity: 1;
+    opacity: 1 !important;
   }
 
   > * {
