@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>FAQ</h2>
     <p>
       The app is fairly unique in the landscape it serves, so an FAQ is in
       order.

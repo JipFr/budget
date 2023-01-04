@@ -1,18 +1,22 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px">
-    <div>
-      Requirements:
-      <p v-html="requirements.replace(/\n/g, '<br />')"></p>
+  <div>
+    <page-title>Recipes</page-title>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px">
+      <div>
+        Requirements:
+        <p v-html="requirements.replace(/\n/g, '<br />')"></p>
+      </div>
+      <p style="white-space: pre">
+        {{ needToPurchase }}
+      </p>
     </div>
-    <p style="white-space: pre">
-      {{ needToPurchase }}
-    </p>
   </div>
 </template>
 
 <script>
 //
+import PageTitle from '~/components/title/PageTitle'
 import getTransactionItemList from '~/util/getList'
 import { getInventory, unmeasured } from '~/util/getInventory'
 import { clean } from '~/util/getDifferences'
@@ -27,6 +31,9 @@ const requirements = `
 `.trim()
 
 export default {
+  components: {
+    PageTitle,
+  },
   computed: {
     requirementsAsList() {
       return getTransactionItemList(requirements, true, true, true, true)

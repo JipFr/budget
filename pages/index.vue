@@ -1,5 +1,6 @@
 <template>
   <div>
+    <page-title>Transactions</page-title>
     <price-changes :all-payments="getAllPayments" />
     <payment-list :raw-payments="getPayments" />
     <portal to="right-side">
@@ -23,6 +24,7 @@ import { Portal } from 'portal-vue'
 import PriceChanges from '~/components/base/PriceChanges'
 import PaymentList from '~/components/base/PaymentList'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
+import PageTitle from '~/components/title/PageTitle'
 
 export default {
   components: {
@@ -30,6 +32,7 @@ export default {
     PriceChanges,
     PaymentList,
     NewTransactionWrapper,
+    PageTitle,
   },
   computed: {
     getAllPayments() {

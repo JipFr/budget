@@ -1,5 +1,6 @@
 <template>
   <div>
+    <page-title>Price changes</page-title>
     <price-changes
       :all-payments="getAllPayments"
       :visible-count="Infinity"
@@ -10,10 +11,12 @@
 
 <script>
 import PriceChanges from '~/components/base/PriceChanges'
+import PageTitle from '~/components/title/PageTitle'
 
 export default {
   components: {
     PriceChanges,
+    PageTitle,
   },
   computed: {
     getAllPayments() {
