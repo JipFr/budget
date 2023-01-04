@@ -10,6 +10,14 @@
   </div>
 </template>
 
+<style lang="scss" scoped>
+@media (max-width: 700px) {
+  .price-changes {
+    display: none;
+  }
+}
+</style>
+
 <script>
 import { Portal } from 'portal-vue'
 import PriceChanges from '~/components/base/PriceChanges'

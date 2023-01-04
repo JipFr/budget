@@ -1,5 +1,5 @@
 <template>
-  <div v-if="differences.length > 0" class="differences-wrapper">
+  <div v-if="differences.length > 0" class="differences-wrapper price-changes">
     <subtitle>Differences</subtitle>
     <div class="cards">
       <card
