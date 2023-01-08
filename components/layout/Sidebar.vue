@@ -154,7 +154,7 @@ aside {
   }
 }
 
-@media (max-height: 780px) {
+@media (max-height: 850px) {
   aside {
     @include scrollFullHeight;
   }
