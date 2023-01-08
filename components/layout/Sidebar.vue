@@ -142,6 +142,24 @@ aside {
   }
 }
 
+@mixin scrollFullHeight {
+  > .content {
+    max-height: 100%;
+    overflow-y: auto;
+    grid-template-rows: auto;
+
+    .nav-container {
+      overflow-y: initial;
+    }
+  }
+}
+
+@media (max-height: 780px) {
+  aside {
+    @include scrollFullHeight;
+  }
+}
+
 @media (max-width: 700px) {
   aside {
     width: 100%;
@@ -162,15 +180,7 @@ aside {
       margin-top: 0;
     }
 
-    > .content {
-      max-height: 100%;
-      overflow-y: auto;
-      grid-template-rows: auto;
-
-      .nav-container {
-        overflow-y: initial;
-      }
-    }
+    @include scrollFullHeight;
 
     .padded {
       padding: 20px 30px;
