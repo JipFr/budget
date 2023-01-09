@@ -1,3 +1,5 @@
+const cache = {}
+
 // Functions
 function toCents(euroVal) {
   const euroArray = euroVal.replace(/€| |\+/g, '').split('.')
@@ -27,6 +29,13 @@ export function getWeightLabel(unit, value, doX = true) {
 }
 
 export default function getTransactionItemList(description, opts) {
+  // Check if this was run before
+  const cacheKey = `${description}-${JSON.stringify(opts)}`
+  if (cache[cacheKey]) {
+    return cache[cacheKey]
+  }
+
+  // Proceed without cache
   const entries = []
 
   const { removeCount, removeEuroString, removeMeasurements, forceList } = {
@@ -166,5 +175,6 @@ export default function getTransactionItemList(description, opts) {
     }
   }
 
+  cache[cacheKey] = entries
   return entries
 }
