@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   grid-gap: 20px;
 }
 </style>
@@ -68,6 +68,23 @@ export default {
           Andijvie
           50ml melk
           75gr zalm
+          75gr hamblokjes
+          `,
+          durationInMinutes: 8,
+          steps: `Hoi`,
+        },
+        {
+          title:
+            'Broiled Double-Thick Lamb Rib Chops With Slicked-Up Store-Bought Mint Jelly Sauce',
+          ingredients: `
+          75gr hamblokjes
+          `,
+          durationInMinutes: 8,
+          steps: `Hoi`,
+        },
+        {
+          title: 'Shorter title',
+          ingredients: `
           75gr hamblokjes
           `,
           durationInMinutes: 8,

@@ -1,104 +1,117 @@
 <template>
   <card>
-    <h4 class="title">{{ recipe.title }}</h4>
-    <hr />
+    <div>
+      <h4 class="title">{{ recipe.title }}</h4>
+    </div>
+    <div>
+      <hr />
 
-    <div class="cols">
-      <div class="icon-with-text">
-        <watch-icon />
-        <span>{{ recipe.durationInMinutes }} minutes</span>
-      </div>
-      <div class="divider"></div>
-      <div class="icon-with-text">
-        <dollar-sign-icon />
-        <span>
+      <div class="cols">
+        <div class="icon-with-text">
+          <watch-icon />
+          <span>{{ recipe.durationInMinutes }} minutes</span>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <span class="secondary">About</span>
           <money :cents="recipeInfo.approximatePriceInCents" />
-        </span>
+        </div>
       </div>
-    </div>
 
-    <hr />
+      <hr />
 
-    <div class="spread to-bottom">
-      <span> Required ingredients </span>
-      <div class="dropdown-wrapper">
-        <dropdown>
-          <div
-            v-for="requirement of recipeInfo.requirements"
-            :key="requirement.description"
-            class="requirement spread"
-          >
-            <div class="ingredient">
-              <span
-                class="dot"
-                :style="`background-color: ${getPercentageColor(
-                  (requirement.inStock / requirement.requiredTotal) * 100
-                )}`"
-              ></span>
-              {{ requirement.description }}
-            </div>
-            <span class="quantities"
-              >{{
-                getWeightLabel(
-                  requirement.measurementUnit,
-                  requirement.inStock,
-                  false
-                )
-              }}
-              /
-              {{
-                getWeightLabel(
-                  requirement.measurementUnit,
-                  requirement.requiredTotal,
-                  false
-                )
-              }}</span
+      <div class="spread to-bottom">
+        <span> Required ingredients </span>
+        <div class="dropdown-wrapper">
+          <dropdown>
+            <div
+              v-for="requirement of recipeInfo.requirements"
+              :key="requirement.description"
+              class="requirement spread"
             >
-          </div>
-        </dropdown>
+              <div class="ingredient">
+                <span
+                  class="dot"
+                  :style="`background-color: ${getPercentageColor(
+                    (requirement.inStock / requirement.requiredTotal) * 100
+                  )}`"
+                ></span>
+                {{ requirement.description }}
+              </div>
+              <span class="quantities"
+                >{{
+                  getWeightLabel(
+                    requirement.measurementUnit,
+                    requirement.inStock,
+                    false
+                  )
+                }}
+                /
+                {{
+                  getWeightLabel(
+                    requirement.measurementUnit,
+                    requirement.requiredTotal,
+                    false
+                  )
+                }}</span
+              >
+            </div>
+          </dropdown>
+        </div>
       </div>
-    </div>
 
-    <div class="spread bar-wrapper">
-      <span class="no-wrap">
-        {{ recipeInfo.requirementsPossesedPercentage }}%
-      </span>
-      <div class="progress-bar">
-        <div
-          class="progress-bar-inner"
-          :style="`width: ${
-            recipeInfo.requirementsPossesedPercentage
-          }%; background-color: ${getPercentageColor(
-            recipeInfo.requirementsPossesedPercentage
-          )}`"
-        ></div>
+      <div class="spread bar-wrapper">
+        <span class="no-wrap">
+          {{ recipeInfo.requirementsPossesedPercentage }}%
+        </span>
+        <div class="progress-bar">
+          <div
+            class="progress-bar-inner"
+            :style="`width: ${
+              recipeInfo.requirementsPossesedPercentage
+            }%; background-color: ${getPercentageColor(
+              recipeInfo.requirementsPossesedPercentage
+            )}`"
+          ></div>
+        </div>
+        <span class="no-wrap">100%</span>
       </div>
-      <span class="no-wrap">100%</span>
     </div>
   </card>
 </template>
 
 <style lang="scss" scoped>
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .title {
   font-size: 1rem;
   font-weight: 500;
 }
 hr {
-  margin: 20px 0;
+  margin: 15px 0;
   border: 0;
   width: calc(100% + 30px);
   margin-left: -15px;
   height: 1px;
   background: var(--border);
 }
+
+.secondary {
+  color: var(--text-secondary);
+}
+
 .cols {
   display: grid;
   grid-template-columns: auto 1fr auto;
+  align-items: center;
 
   .divider {
-    height: calc(100% + 40px);
-    padding: 20px 0;
-    margin: -20px auto;
+    height: calc(100% + 30px);
+    padding: 15px 0;
+    margin: -15px auto;
     width: 1px;
     background: var(--border);
   }
@@ -189,7 +202,6 @@ import Dropdown from '~/components/base/util/Dropdown'
 
 // Import icons
 import WatchIcon from '~/assets/icons/watch.svg?inline'
-import DollarSignIcon from '~/assets/icons/dollar-sign.svg?inline'
 
 // Import utility functions
 import { getRecipeInfo, getPercentageColor } from '~/util/recipeInfo'
@@ -200,7 +212,6 @@ export default {
     Card,
     Money,
     WatchIcon,
-    DollarSignIcon,
     Dropdown,
   },
   props: {
