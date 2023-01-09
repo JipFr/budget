@@ -66,11 +66,13 @@ export default function getTransactionItemList(
       }
 
       // ? Liters
-      const literRegex = /(\d+|\.+)+l|(\d+|\.+)+ liter/i
+      const literRegex = /(\d+|\.+)+li?|(\d+|\.+)+ liter/i
       const clRegex = /(\d+|\.+)+cl/i
+      const mlRegex = /(\d+|\.+)+ml/i
 
       const literMatch = entry.match(literRegex)
       const clMatch = entry.match(clRegex)
+      const mlMatch = entry.match(mlRegex)
 
       if (literMatch) {
         weight = {
@@ -86,6 +88,13 @@ export default function getTransactionItemList(
         }
       }
 
+      if (mlMatch) {
+        weight = {
+          measurement: 'cl',
+          value: toNumber(mlMatch[0]) / 10,
+        }
+      }
+
       if (Number.isNaN(weight?.value)) weight = null
 
       if (weight && removeMeasurements) {
@@ -95,6 +104,7 @@ export default function getTransactionItemList(
           .replace(new RegExp(kgRegex, 'gi'), '')
           .replace(new RegExp(literRegex, 'gi'), '')
           .replace(new RegExp(clRegex, 'gi'), '')
+          .replace(new RegExp(mlRegex, 'gi'), '')
           .trim()
       }
 
