@@ -104,6 +104,12 @@ hr {
 </style>
 
 <style lang="scss">
+[no-right] {
+  .main-content-layout {
+    grid-template-columns: 100%;
+  }
+}
+
 @media (min-width: 1200px) {
   .new-transaction-content {
     position: sticky !important;

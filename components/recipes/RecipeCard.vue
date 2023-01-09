@@ -25,10 +25,18 @@
         <dropdown>
           <div
             v-for="requirement of recipeInfo.requirements"
-            :key="requirement"
+            :key="requirement.description"
             class="requirement spread"
           >
-            <span class="ingredient">{{ requirement.description }}</span>
+            <div class="ingredient">
+              <span
+                class="dot"
+                :style="`background-color: ${getPercentageColor(
+                  (requirement.inStock / requirement.requiredTotal) * 100
+                )}`"
+              ></span>
+              {{ requirement.description }}
+            </div>
             <span class="quantities"
               >{{
                 getWeightLabel(
@@ -149,6 +157,18 @@ hr {
 
   .requirement {
     padding: 10px 12px;
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .ingredient {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
     .quantities {
       color: var(--text-secondary);

@@ -2,6 +2,13 @@ import getTransactionItemList from '~/util/getList'
 import { getInventory, unmeasured } from '~/util/getInventory'
 import { clean } from '~/util/getDifferences'
 
+export function getPercentageColor(percentage) {
+  if (percentage < 30) return 'rgb(255, 45, 85)'
+  if (percentage < 50) return 'rgb(255, 149, 0)'
+  if (percentage < 80) return 'rgb(255, 204, 0)'
+  return 'rgb(52, 199, 89)'
+}
+
 export function getRecipeInfo(recipe, $store) {
   const ingredients = getTransactionItemList(recipe.ingredients, {
     removeCount: true,
@@ -51,15 +58,10 @@ export function getRecipeInfo(recipe, $store) {
 
   return {
     ingredients,
-    requirements,
+    requirements: requirements.sort(
+      (a, b) => a.inStock / a.requiredTotal - b.inStock / b.requiredTotal
+    ),
     approximatePriceInCents: 1599,
     requirementsPossesedPercentage,
   }
-}
-
-export function getPercentageColor(percentage) {
-  if (percentage < 30) return 'rgb(255, 45, 85)'
-  if (percentage < 50) return 'rgb(255, 149, 0)'
-  if (percentage < 80) return 'rgb(255, 204, 0)'
-  return 'rgb(52, 199, 89)'
 }

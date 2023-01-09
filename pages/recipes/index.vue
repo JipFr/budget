@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   grid-gap: 20px;
 }
 </style>
@@ -61,8 +61,25 @@ export default {
           durationInMinutes: 8,
           steps: `Hoi`,
         },
+        {
+          title: 'Andijvie stamppot met zalm en romaatjes',
+          ingredients: `
+          Romaatjes
+          Andijvie
+          50ml melk
+          75gr zalm
+          75gr hamblokjes
+          `,
+          durationInMinutes: 8,
+          steps: `Hoi`,
+        },
       ],
     }
+  },
+  head: {
+    bodyAttrs: {
+      'no-right': true,
+    },
   },
 }
 </script>
