@@ -17,9 +17,7 @@
 <script>
 //
 import PageTitle from '~/components/title/PageTitle'
-import getTransactionItemList from '~/util/getList'
-import { getInventory, unmeasured } from '~/util/getInventory'
-import { clean } from '~/util/getDifferences'
+// import getTransactionItemList from '~/util/getList'
 
 const requirements = `
       300gr geraspte kaas
@@ -35,44 +33,15 @@ export default {
     PageTitle,
   },
   computed: {
-    requirementsAsList() {
-      return getTransactionItemList(requirements, {
-        removeCount: true,
-        removeEuroString: true,
-        removeMeasurements: true,
-        forceList: true,
-      })
-    },
-    needToPurchase() {
-      // Find the products the user is lacking after `requirementsAsList`
-      const inventory = getInventory(this.$store)
-
-      //
-      const requirements = []
-      for (const product of this.requirementsAsList) {
-        const name = clean(product.description)
-        const measurementUnit = product?.weight?.measurement ?? unmeasured
-        const productInInventory = inventory[name]?.weights[measurementUnit]
-
-        const inStockCount = productInInventory?.count ?? 0
-        const requiredCount = product?.weight?.totalValue ?? product.itemCount
-
-        const missing = Math.max(requiredCount - inStockCount, 0)
-
-        console.log(name, missing)
-
-        requirements.push({
-          measurementUnit,
-          description: product.description,
-          requiredTotal: requiredCount,
-          inStock: inStockCount,
-          missing,
-        })
-      }
-
-      console.log(inventory)
-      return requirements
-    },
+    // requirementsAsList() {
+    //   return getTransactionItemList(requirements, {
+    //     removeCount: true,
+    //     removeEuroString: true,
+    //     removeMeasurements: true,
+    //     forceList: true,
+    //   })
+    // },
+    // needToPurchase() {},
   },
   data() {
     return { requirements }

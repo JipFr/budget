@@ -12,7 +12,7 @@ function toNumber(str) {
   return Number(str.replace(/[a-zA-Z]/gi, ''))
 }
 
-export function getWeightLabel(unit, value) {
+export function getWeightLabel(unit, value, doX = true) {
   value = Math.round(value * 100) / 100
   switch (unit) {
     case 'cl':
@@ -20,7 +20,7 @@ export function getWeightLabel(unit, value) {
     case 'gr':
       return value >= 1000 ? `${value / 1000}kg` : `${value}gr`
     case 'unmeasured':
-      return `x ${value}`
+      return doX ? `x ${value}` : value.toString()
     default:
       return null
   }
@@ -39,7 +39,10 @@ export default function getTransactionItemList(description, opts) {
 
   // See if description is grocery-like
   if (description.includes('\n') || forceList) {
-    const descriptionArray = description.split('\n').map((item) => item.trim())
+    const descriptionArray = description
+      .split('\n')
+      .map((item) => item.trim())
+      .filter(Boolean)
 
     // eslint-disable-next-line prefer-const
     for (let [i, entry] of Object.entries(descriptionArray)) {

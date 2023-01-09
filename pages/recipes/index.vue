@@ -14,7 +14,8 @@
 <style lang="scss" scoped>
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 20px;
 }
 </style>
 
@@ -49,6 +50,17 @@ export default {
           Verhit de olie in een hapjespan en bak de shoarma 5 min. al omscheppend op middelhoog vuur. Rooster ondertussen de pitabroodjes volgens de aanwijzingen op de verpakking. Meng ⅔ van de sriracha met de mayonaise. Snijd de broodjes open en besmeer met de srirachamayonaise.
 
           Vul het broodje vervolgens met een deel van de salade en de shoarma en besprenkel met de rest van de sriracha. Serveer met de rest van de salade.`,
+        },
+        {
+          title: 'Basic macaroni',
+          ingredients: `
+          200gr macaroni
+          50ml chilisaus
+          50gr geraspte kaas
+          75gr hamblokjes
+          `,
+          durationInMinutes: 8,
+          steps: `Hoi`,
         },
       ],
     }

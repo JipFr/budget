@@ -54,7 +54,7 @@ details:not([open]) .toggle-button:hover {
 }
 
 .dropdown {
-  width: 200px;
+  width: var(--dropdown-width, 200px);
   position: absolute;
   z-index: 0;
   top: calc(100% + 15px);
