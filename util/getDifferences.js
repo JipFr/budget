@@ -13,9 +13,10 @@ export function getDifferences(allPayments) {
   for (const transaction of allPayments) {
     transactionLists[transaction.id] = getTransactionItemList(
       transaction.description,
-      true,
-      true,
-      false
+      {
+        removeEuroString: true,
+        removeMeasurements: false,
+      }
     )
   }
 

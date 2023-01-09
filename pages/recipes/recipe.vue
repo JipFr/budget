@@ -36,7 +36,12 @@ export default {
   },
   computed: {
     requirementsAsList() {
-      return getTransactionItemList(requirements, true, true, true, true)
+      return getTransactionItemList(requirements, {
+        removeCount: true,
+        removeEuroString: true,
+        removeMeasurements: true,
+        forceList: true,
+      })
     },
     needToPurchase() {
       // Find the products the user is lacking after `requirementsAsList`

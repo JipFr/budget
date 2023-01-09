@@ -137,12 +137,10 @@ export default {
       .map((transaction) => {
         return {
           ...transaction,
-          entries: getTransactionItemList(
-            transaction.description,
-            true,
-            true,
-            false
-          ),
+          entries: getTransactionItemList(transaction.description, {
+            removeEuroString: true,
+            removeMeasurements: false,
+          }),
         }
       })
       .filter((v) => v.entries.filter((item) => item.cents > 0).length > 0)

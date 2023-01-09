@@ -535,7 +535,9 @@ export default {
       return this.payment.description.replace(/\n\n/g, '\n').trim()
     },
     entries() {
-      const entries = getTransactionItemList(this.description, true, true)
+      const entries = getTransactionItemList(this.description, {
+        removeEuroString: true,
+      })
       return entries
     },
   },

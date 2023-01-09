@@ -26,14 +26,16 @@ export function getWeightLabel(unit, value) {
   }
 }
 
-export default function getTransactionItemList(
-  description,
-  removeCount = true,
-  removeEuroString = false,
-  removeMeasurements = true,
-  forceList = false
-) {
+export default function getTransactionItemList(description, opts) {
   const entries = []
+
+  const { removeCount, removeEuroString, removeMeasurements, forceList } = {
+    removeCount: true,
+    removeEuroString: false,
+    removeMeasurements: true,
+    forceList: false,
+    ...opts,
+  }
 
   // See if description is grocery-like
   if (description.includes('\n') || forceList) {

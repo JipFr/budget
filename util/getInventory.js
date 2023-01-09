@@ -17,12 +17,9 @@ export function getInventory($store) {
   const lists = {}
 
   for (const payment of inventoryPayments) {
-    lists[payment.id] = getTransactionItemList(
-      payment.description,
-      true,
-      true,
-      true
-    )
+    lists[payment.id] = getTransactionItemList(payment.description, {
+      removeEuroString: true,
+    })
   }
 
   const products = {}
