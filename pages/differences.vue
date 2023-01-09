@@ -24,5 +24,10 @@ export default {
       return user.transactions || []
     },
   },
+  head: {
+    bodyAttrs: {
+      'no-right': true,
+    },
+  },
 }
 </script>
