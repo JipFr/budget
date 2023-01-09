@@ -61,9 +61,6 @@
       </div>
 
       <div class="spread bar-wrapper">
-        <span class="no-wrap">
-          {{ recipeInfo.requirementsPossesedPercentage }}%
-        </span>
         <div class="progress-bar">
           <div
             class="progress-bar-inner"
@@ -74,7 +71,9 @@
             )}`"
           ></div>
         </div>
-        <span class="no-wrap">100%</span>
+        <span class="no-wrap">
+          {{ recipeInfo.requirementsPossesedPercentage }}%
+        </span>
       </div>
     </div>
   </card>
