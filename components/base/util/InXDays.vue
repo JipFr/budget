@@ -13,6 +13,7 @@
 <style lang="scss" scoped>
 .in-x-days {
   color: var(--text-secondary);
+  font-weight: 500;
 }
 </style>
 
