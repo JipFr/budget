@@ -33,8 +33,8 @@ details:not([open]) .toggle-button:hover {
 }
 
 .toggle-button {
-  width: 39.5px;
-  height: 39.5px;
+  width: var(--button-size, 39.5px);
+  height: var(--button-size, 39.5px);
   margin: 0;
   border: 0;
   border-radius: 6px;
@@ -67,7 +67,8 @@ details:not([open]) .toggle-button:hover {
     content: '';
     display: block;
     position: absolute;
-    right: calc((36px / 2) - (12px / 2));
+    // Center chevron: (Button size - border) - (half of width)
+    right: calc(((var(--button-size, 36px) - 2px) / 2) - (12px / 2));
     transform: rotate(45deg);
     top: -6px;
     width: 12px;

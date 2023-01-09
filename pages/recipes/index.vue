@@ -38,7 +38,6 @@ export default {
           Rode ui
           Limoen
           300gr rode kool
-          Olie
           350gr shoarma
           100ml chilisaus
           100ml mayo

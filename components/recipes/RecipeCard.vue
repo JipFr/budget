@@ -145,6 +145,7 @@ hr {
   display: flex;
   justify-content: flex-end;
   --dropdown-width: 250px;
+  --button-size: 28px;
 
   .requirement {
     padding: 10px 12px;
