@@ -16,6 +16,10 @@
 details {
   position: relative;
   z-index: 0;
+
+  &[open] {
+    z-index: 50;
+  }
 }
 details > summary {
   list-style: none;
