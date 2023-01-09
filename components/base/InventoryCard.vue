@@ -62,6 +62,12 @@
     align-items: center;
   }
 }
+
+@media (max-width: 700px) {
+  .card {
+    grid-template-columns: 1fr 50px 100px;
+  }
+}
 </style>
 
 <script>
