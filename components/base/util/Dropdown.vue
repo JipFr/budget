@@ -2,7 +2,7 @@
   <details ref="details" tabindex="0" @click="onElementClick" @keyup="onKeyUp">
     <summary tabindex="-1">
       <div class="toggle-button">
-        <more-vertical-icon />
+        <component :is="icon" />
       </div>
     </summary>
 
@@ -44,7 +44,7 @@ details:not([open]) .toggle-button:hover {
   border-radius: 6px;
   background: var(--content);
   color: var(--text-secondary);
-  border: 1px solid var(--border);
+  border: var(--button-border-width, 1px) solid var(--border);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,8 +102,11 @@ import { nextTick } from 'process'
 import MoreVerticalIcon from '~/assets/icons/more-vertical.svg?inline'
 
 export default {
-  components: {
-    MoreVerticalIcon,
+  props: {
+    icon: {
+      type: Object,
+      default: MoreVerticalIcon,
+    },
   },
   mounted() {
     window.addEventListener('click', this.onClick)

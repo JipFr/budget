@@ -1,6 +1,6 @@
 <template>
   <card>
-    <div>
+    <div class="title-wrapper">
       <h4 class="title">{{ recipe.title }}</h4>
     </div>
     <div>
@@ -23,7 +23,7 @@
       <div class="spread to-bottom">
         <span> Required ingredients </span>
         <div class="dropdown-wrapper">
-          <dropdown>
+          <dropdown :icon="MoreHorizontalIcon">
             <div
               v-for="requirement of recipeInfo.requirements"
               :key="requirement.description"
@@ -81,9 +81,13 @@
 
 <style lang="scss" scoped>
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  .title-wrapper {
+    display: flex;
+    align-items: center;
+  }
 }
 .title {
   font-size: 1rem;
@@ -166,6 +170,7 @@ hr {
   justify-content: flex-end;
   --dropdown-width: 250px;
   --button-size: 28px;
+  --button-border-width: 0;
 
   .requirement {
     padding: 10px 12px;
@@ -201,6 +206,7 @@ import Dropdown from '~/components/base/util/Dropdown'
 
 // Import icons
 import WatchIcon from '~/assets/icons/watch.svg?inline'
+import MoreHorizontalIcon from '~/assets/icons/more-horizontal.svg?inline'
 
 // Import utility functions
 import { getRecipeInfo, getPercentageColor } from '~/util/recipeInfo'
@@ -218,6 +224,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      MoreHorizontalIcon,
+    }
   },
   computed: {
     recipeInfo() {
