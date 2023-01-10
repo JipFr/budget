@@ -105,7 +105,7 @@ export default {
   props: {
     icon: {
       type: Object,
-      default: MoreVerticalIcon,
+      default: () => MoreVerticalIcon,
     },
   },
   mounted() {
