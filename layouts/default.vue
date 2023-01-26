@@ -43,10 +43,6 @@
   display: grid;
   grid-template-columns: 300px 1fr;
 }
-
-.main-content {
-  border-top: 5px solid transparent;
-}
 .main-content-layout {
   padding-top: 50px;
   padding-bottom: calc(50px + env(safe-area-inset-bottom));
@@ -71,12 +67,6 @@ hr {
   }
   .vue-portal-target {
     height: 100%;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .main-content {
-    border-top-color: var(--theme);
   }
 }
 

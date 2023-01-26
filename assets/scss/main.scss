@@ -48,7 +48,18 @@ body {
   background: var(--body);
   color: var(--text);
   word-break: break-word;
-  border-top: env(safe-area-inset-top) solid var(--theme);
+  border-top: env(safe-area-inset-top) solid transparent;
+
+  &::before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: env(safe-area-inset-top);
+    background: var(--theme);
+  }
 }
 
 html,
