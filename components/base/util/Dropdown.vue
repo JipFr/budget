@@ -18,7 +18,7 @@ details {
   z-index: 0;
 
   &[open] {
-    z-index: 50;
+    z-index: 9;
   }
 }
 details > summary {

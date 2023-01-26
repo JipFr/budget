@@ -1,6 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 @import 'paymentlist';
 
+body::before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: env(safe-area-inset-top);
+  background: var(--theme);
+  z-index: 10;
+  border-bottom: 1px solid transparent;
+}
+
 :root {
   --body: #fdfdfd;
   --content: white;
@@ -42,6 +55,11 @@
   input {
     color-scheme: dark;
   }
+
+  body::before {
+    background-color: var(--content);
+    border-bottom-color: var(--border);
+  }
 }
 
 body {
@@ -49,17 +67,6 @@ body {
   color: var(--text);
   word-break: break-word;
   border-top: env(safe-area-inset-top) solid transparent;
-
-  &::before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: env(safe-area-inset-top);
-    background: var(--theme);
-  }
 }
 
 html,
