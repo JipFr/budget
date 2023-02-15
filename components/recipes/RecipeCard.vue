@@ -1,15 +1,21 @@
 <template>
   <card>
-    <div class="title-wrapper">
-      <h4 class="title">{{ recipe.title }}</h4>
-    </div>
+    <nuxt-link :to="`/recipes/${recipe.id}`" class="link-wrapper">
+      <div class="title-wrapper">
+        <h4 class="title">{{ recipe.title }}</h4>
+      </div>
+    </nuxt-link>
     <div>
-      <hr />
+      <hr class="no-top" />
 
       <div class="cols">
         <div class="icon-with-text">
           <watch-icon />
-          <span>{{ recipe.durationInMinutes }} minutes</span>
+          <span>{{
+            recipe.durationInMinutes
+              ? `${recipe.durationInMinutes} minutes`
+              : 'Unknown length'
+          }}</span>
         </div>
         <div class="divider"></div>
         <div>
@@ -60,21 +66,7 @@
         </div>
       </div>
 
-      <div class="spread bar-wrapper">
-        <div class="progress-bar">
-          <div
-            class="progress-bar-inner"
-            :style="`width: ${
-              recipeInfo.requirementsPossesedPercentage
-            }%; background-color: ${getPercentageColor(
-              recipeInfo.requirementsPossesedPercentage
-            )}`"
-          ></div>
-        </div>
-        <span class="no-wrap">
-          {{ recipeInfo.requirementsPossesedPercentage }}%
-        </span>
-      </div>
+      <progress-bar :percentage="recipeInfo.requirementsPossesedPercentage" />
     </div>
   </card>
 </template>
@@ -83,6 +75,20 @@
 .card {
   display: grid;
   grid-template-rows: 1fr auto;
+
+  .link-wrapper {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 15px;
+    margin-left: -15px;
+    margin-top: -15px;
+    width: calc(100% + 30px);
+
+    &:hover {
+      background: var(--content-light);
+    }
+  }
 
   .title-wrapper {
     display: flex;
@@ -100,6 +106,10 @@ hr {
   margin-left: -15px;
   height: 1px;
   background: var(--border);
+
+  &.no-top {
+    margin-top: 0;
+  }
 }
 
 .secondary {
@@ -134,20 +144,8 @@ hr {
   }
 }
 
-.bar-wrapper {
-  margin: 10px 0;
-}
 .progress-bar {
-  width: 100%;
-  height: 10px;
-  background: var(--body);
-  border-radius: 100px;
-  overflow: hidden;
-
-  .progress-bar-inner {
-    height: 100%;
-    background: green;
-  }
+  margin: 10px 0;
 }
 
 .spread {
@@ -203,6 +201,7 @@ hr {
 import Card from '~/components/layout/Card'
 import Money from '~/components/title/Money'
 import Dropdown from '~/components/base/util/Dropdown'
+import ProgressBar from '~/components/util/ProgressBar'
 
 // Import icons
 import WatchIcon from '~/assets/icons/watch.svg?inline'
@@ -218,6 +217,7 @@ export default {
     Money,
     WatchIcon,
     Dropdown,
+    ProgressBar,
   },
   props: {
     recipe: {
@@ -236,8 +236,8 @@ export default {
     },
   },
   methods: {
-    getPercentageColor,
     getWeightLabel,
+    getPercentageColor,
   },
 }
 </script>

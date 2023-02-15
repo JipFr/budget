@@ -1,6 +1,8 @@
 <template>
   <div>
     <page-title>Your recipes</page-title>
+    <button @click="insertRecipe">Insert recipe</button>
+    <banner v-if="error">⚠️ {{ error }}</banner>
     <div class="cards">
       <recipe-card
         v-for="recipe in recipes"
@@ -14,84 +16,63 @@
 <style lang="scss" scoped>
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   grid-gap: 20px;
+}
+.banner {
+  margin: 20px 0;
 }
 </style>
 
 <script>
+// Import components
 import PageTitle from '~/components/title/PageTitle'
 import RecipeCard from '~/components/recipes/RecipeCard'
+import Banner from '~/components/base/Banner'
+
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
     PageTitle,
     RecipeCard,
+    Banner,
   },
   data() {
     return {
-      recipes: [
-        {
-          title: 'Pita vegan shoarma met srirachamayo',
-          ingredients: `
-          Grote pitabroodjes
-          Rode ui
-          Limoen
-          300gr rode kool
-          350gr shoarma
-          100ml chilisaus
-          100ml mayo
-          `,
-          durationInMinutes: 30,
-          steps: `
-          Snijd de rode ui in flinterdunne halve ringen. Snijd de komkommer in blokjes. Boen de limoen schoon, rasp de groene schil en pers de vrucht uit. Meng de rodekool met de rode ui, 1 tl (voor 4 personen) limoenrasp en het -sap. Breng op smaak met peper en eventueel zout. Voeg de komkommer toe en schep om.
-
-          Verhit de olie in een hapjespan en bak de shoarma 5 min. al omscheppend op middelhoog vuur. Rooster ondertussen de pitabroodjes volgens de aanwijzingen op de verpakking. Meng ⅔ van de sriracha met de mayonaise. Snijd de broodjes open en besmeer met de srirachamayonaise.
-
-          Vul het broodje vervolgens met een deel van de salade en de shoarma en besprenkel met de rest van de sriracha. Serveer met de rest van de salade.`,
-        },
-        {
-          title: 'Basic macaroni',
-          ingredients: `
-          200gr macaroni
-          50ml chilisaus
-          50gr geraspte kaas
-          75gr hamblokjes
-          `,
-          durationInMinutes: 8,
-          steps: `Hoi`,
-        },
-        {
-          title: 'Andijvie stamppot met zalm en romaatjes',
-          ingredients: `
-          Romaatjes
-          Andijvie
-          50ml melk
-          75gr zalm
-          75gr hamblokjes
-          `,
-          durationInMinutes: 8,
-          steps: `Hoi`,
-        },
-        {
-          title:
-            'Broiled Double-Thick Lamb Rib Chops With Slicked-Up Store-Bought Mint Jelly Sauce',
-          ingredients: `
-          75gr hamblokjes
-          `,
-          durationInMinutes: 8,
-          steps: `Hoi`,
-        },
-        {
-          title: 'Shorter title',
-          ingredients: `
-          75gr hamblokjes
-          `,
-          durationInMinutes: 8,
-          steps: `Hoi`,
-        },
-      ],
+      error: null,
     }
+  },
+  computed: {
+    recipes() {
+      return this.$store.state.user.data.recipes
+    },
+  },
+  methods: {
+    async insertRecipe() {
+      const submitObj = {
+        user_id: SupabaseClient.auth.user().id,
+        title: 'Mac & cheese',
+        ingredients: `
+          250gr macaroni
+          80gr hamblokjes
+          100gr geraspte kaas
+          50ml ketchup
+          `,
+        steps: 'Mac & cheese',
+        durationInMinutes: 10,
+      }
+
+      // Insert transaction
+      const data = await SupabaseClient.from('recipes').insert([submitObj])
+
+      if (data?.error?.message) {
+        this.error = data.error.message
+      }
+
+      this.$nuxt.$emit('refetch-recipes')
+    },
   },
   head: {
     bodyAttrs: {

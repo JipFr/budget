@@ -188,6 +188,7 @@ export default {
     }
 
     await this.fetchInventory()
+    await this.fetchRecipes()
     this.setPerson({
       transactions,
     })
@@ -248,6 +249,10 @@ export default {
       this.fetchInventory()
     })
 
+    this.$nuxt.$on('refetch-recipes', () => {
+      this.fetchRecipes()
+    })
+
     SupabaseClient.from('transactions')
       .on('*', (payload) => {
         const user = this.$store.state.user.data
@@ -298,6 +303,18 @@ export default {
 
       this.setPerson({
         inventory,
+      })
+    },
+    async fetchRecipes() {
+      const recipes = (
+        await SupabaseClient.from('recipes')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(0, 1e3)
+      ).data
+
+      this.setPerson({
+        recipes,
       })
     },
   },
