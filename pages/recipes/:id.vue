@@ -1,6 +1,17 @@
 <template>
   <div>
-    <page-title>{{ recipe?.title ?? 'Unknown recipe' }}</page-title>
+    <page-title>{{
+      recipe?.title ? 'Your recipe' : 'Unknown recipe'
+    }}</page-title>
+
+    <card v-if="recipe && steps">
+      <h3>{{ recipe.title }}</h3>
+      <div v-for="(step, i) of steps" :key="`${step}-${i}`" class="step">
+        <div class="index">{{ i + 1 }}</div>
+        <p>{{ step }}</p>
+      </div>
+    </card>
+
     <portal to="right-side">
       <div v-if="recipeInfo" class="ingredients">
         <card
@@ -26,13 +37,6 @@
         </card>
       </div>
     </portal>
-
-    <card v-if="recipe && steps">
-      <div v-for="(step, i) of steps" :key="`${step}-${i}`" class="step">
-        <div class="index">{{ i + 1 }}</div>
-        <p>{{ step }}</p>
-      </div>
-    </card>
   </div>
 </template>
 
@@ -46,6 +50,10 @@
   .progress-bar {
     margin-top: 5px;
   }
+}
+
+.card h3 {
+  margin-bottom: 20px;
 }
 
 .step {
