@@ -1,5 +1,19 @@
 <template>
   <div>
+    <div class="two-cols">
+      <card>
+        <subtitle>Available money today</subtitle>
+        <h2>
+          <money :cents="foodToday" />
+        </h2>
+      </card>
+      <card>
+        <subtitle>Total food budget</subtitle>
+        <h2>
+          <money :cents="totalFood" />
+        </h2>
+      </card>
+    </div>
     <p>
       This page shows your predicted usage of the food budget. The green line
       shows the accurate statistics, gray is predicted.
@@ -49,24 +63,32 @@ p {
   color: var(--text-secondary);
   margin-bottom: 40px;
 }
+h2 {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+.two-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  .two-cols {
+    grid-template-columns: 100%;
+    grid-gap: 10px;
+  }
+}
 </style>
 
 <script>
 /* eslint-disable no-unused-vars */
+import { getFoodInfo } from '~/util/food'
 import Chart from '~/components/base/util/Chart'
-
-function thisDateNextMonth(d) {
-  const date = new Date(d)
-
-  const expectedMonth = (date.getMonth() + 1) % 12
-
-  let newDate = date
-  newDate.setMonth(newDate.getMonth() + 1)
-  while (newDate.getMonth() > expectedMonth)
-    newDate = new Date(newDate.getTime() - 1e3 * 60 * 60 * 24)
-
-  return newDate
-}
+import Card from '~/components/layout/Card'
+import Subtitle from '~/components/title/Subtitle'
+import Money from '~/components/title/Money'
 
 // Config
 const months = [
@@ -107,6 +129,9 @@ function toDateString(v) {
 export default {
   components: {
     Chart,
+    Card,
+    Subtitle,
+    Money,
   },
   props: {
     payments: {
@@ -120,126 +145,15 @@ export default {
       datasets: [],
     }
 
-    const foodTransactions = this.payments
-      .filter((payment) => {
-        const categories = payment.categories.map((category) =>
-          category.toLowerCase()
-        )
-        return (
-          (categories.includes('food') ||
-            categories.includes('eten') ||
-            categories.includes('eten aanpassen') ||
-            categories.includes('adjust food')) &&
-          !categories.includes('exclude')
-        )
-      })
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
+    const { predictedTotals, realTotals, availableMoneyToday, totalBudget } =
+      getFoodInfo(this.payments)
 
-    // --
-    const positiveTransactions = foodTransactions.filter((payment) => {
-      const categories = payment.categories.map((category) =>
-        category.toLowerCase()
-      )
-      return (
-        payment.cents > 0 ||
-        categories.includes('adjust food') ||
-        categories.includes('eten aanpassen')
-      )
-    })
-
-    const d = new Date(
-      positiveTransactions[positiveTransactions.length - 1].date
-    )
-    const endDate = d.getDate() >= 23 ? thisDateNextMonth(d) : d
-    endDate.setDate(23)
-
-    // --
-
-    const startDate = new Date(positiveTransactions[0].date)
-
-    const foodPredictedTotals = []
-    let foodRealTotals = []
-    let foodDate = new Date(startDate)
-
-    while (foodDate.getTime() < endDate.getTime()) {
-      const periodEndDate =
-        foodDate.getDate() >= 23
-          ? thisDateNextMonth(foodDate)
-          : new Date(foodDate)
-      periodEndDate.setDate(23)
-
-      // Find positive transactions on date
-      const dateTransactions = positiveTransactions.filter((payment) => {
-        const d = new Date(payment.date)
-        return (
-          d.getFullYear() === foodDate.getFullYear() &&
-          d.getMonth() === foodDate.getMonth() &&
-          d.getDate() === foodDate.getDate()
-        )
-      })
-
-      // ! Expected
-      let todayPredictedBase =
-        foodPredictedTotals[foodPredictedTotals.length - 1]?.cents || 0
-
-      // Add today's transactions
-      for (const transaction of dateTransactions) {
-        todayPredictedBase += transaction.cents
-      }
-
-      // Remove neccesary amount to get to 0 before period's end
-      const daysBetween =
-        (periodEndDate.getTime() - foodDate.getTime()) / (1e3 * 60 * 60 * 24)
-      todayPredictedBase -= todayPredictedBase / daysBetween
-
-      foodPredictedTotals.push({
-        cents: todayPredictedBase,
-        date: new Date(foodDate),
-      })
-
-      foodDate.setDate(foodDate.getDate() + 1)
-    }
-
-    // Calculate real totals
-    foodDate = new Date(startDate)
-
-    while (foodDate.getTime() < endDate.getTime()) {
-      // Find all transactions on date
-      const dateTransactions = foodTransactions.filter((payment) => {
-        const d = new Date(payment.date)
-        return (
-          d.getFullYear() === foodDate.getFullYear() &&
-          d.getMonth() === foodDate.getMonth() &&
-          d.getDate() === foodDate.getDate()
-        )
-      })
-
-      // ! Expected
-      let todayBase = foodRealTotals[foodRealTotals.length - 1]?.cents || 0
-
-      // Add today's transactions
-      for (const transaction of dateTransactions) {
-        todayBase += transaction.cents
-      }
-
-      foodRealTotals.push({
-        cents: todayBase,
-        date: new Date(foodDate),
-      })
-
-      foodDate.setDate(foodDate.getDate() + 1)
-    }
-
-    // Remove excesive data from real
-    const lastFoodTransaction = foodTransactions[foodTransactions.length - 1]
-    foodRealTotals = foodRealTotals.filter(
-      (t) =>
-        t.date.getTime() <= new Date(lastFoodTransaction.date).getTime() ||
-        t.date.getTime() < Date.now()
-    )
+    // Set "money today"
+    this.foodToday = availableMoneyToday
+    this.totalFood = totalBudget
 
     // Set to chart
-    this.chartData.labels = foodPredictedTotals.map((v) => toDateString(v.date))
+    this.chartData.labels = predictedTotals.map((v) => toDateString(v.date))
 
     const expectedUsage = {
       label: 'Expected',
@@ -248,7 +162,7 @@ export default {
       borderColor: 'gray',
       pointRadius: Infinity,
       borderDash: [3, 3],
-      data: foodPredictedTotals.map((v) => Math.floor(v.cents) / 100),
+      data: predictedTotals.map((v) => Math.floor(v.cents) / 100),
     }
 
     const realUsage = {
@@ -259,18 +173,20 @@ export default {
       hoverPointRadius: 3,
       borderColor: '#457461',
       pointBackgroundColor: '#457461',
-      data: foodRealTotals.map((v) => Math.floor(v.cents) / 100),
+      data: realTotals.map((v) => Math.floor(v.cents) / 100),
     }
 
     this.chartData.datasets = [realUsage, expectedUsage]
   },
+  fetchOnServer: false,
   data() {
     return {
       chartData: {
         labels: [],
         datasets: [],
       },
-      console,
+      foodToday: 0,
+      totalFood: 0,
     }
   },
   watch: {
