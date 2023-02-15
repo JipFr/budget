@@ -39,6 +39,17 @@ export function getFoodInfo(payments) {
     )
   })
 
+  const negativeTransactions = foodTransactions.filter((payment) => {
+    const categories = payment.categories.map((category) =>
+      category.toLowerCase()
+    )
+    return (
+      payment.cents <= 0 &&
+      !categories.includes('adjust food') &&
+      !categories.includes('eten aanpassen')
+    )
+  })
+
   const d = new Date(positiveTransactions[positiveTransactions.length - 1].date)
   const endDate = d.getDate() >= 23 ? thisDateNextMonth(d) : d
   endDate.setDate(23)
@@ -138,22 +149,27 @@ export function getFoodInfo(payments) {
   )
   const availableMoneyToday =
     todayIndex !== -1
-      ? Math.round(
-          realTotals[todayIndex].cents - predictedTotals[todayIndex].cents
-        )
+      ? realTotals[todayIndex].cents - predictedTotals[todayIndex].cents
       : null
 
   // Find total food budget
   let totalBudget = 0
+  let spent = 0
   for (const payment of positiveTransactions) {
-    console.log(payment.cents)
     totalBudget += payment.cents
   }
+  for (const payment of negativeTransactions) {
+    spent += payment.cents * -1
+  }
+
+  const remainingBudget = totalBudget - spent
 
   return {
     realTotals,
     predictedTotals,
     availableMoneyToday,
     totalBudget,
+    remainingBudget,
+    spent,
   }
 }

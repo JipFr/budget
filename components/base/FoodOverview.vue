@@ -2,15 +2,21 @@
   <div>
     <div class="two-cols">
       <card>
-        <subtitle>Available money today</subtitle>
+        <subtitle>Today's budget</subtitle>
         <h2>
           <money :cents="foodToday" />
         </h2>
       </card>
       <card>
-        <subtitle>Total food budget</subtitle>
+        <subtitle>Total budget</subtitle>
         <h2>
           <money :cents="totalFood" />
+        </h2>
+      </card>
+      <card>
+        <subtitle>Remaining total</subtitle>
+        <h2>
+          <money :cents="remainingBudget" />
         </h2>
       </card>
     </div>
@@ -145,12 +151,18 @@ export default {
       datasets: [],
     }
 
-    const { predictedTotals, realTotals, availableMoneyToday, totalBudget } =
-      getFoodInfo(this.payments)
+    const {
+      predictedTotals,
+      realTotals,
+      availableMoneyToday,
+      totalBudget,
+      remainingBudget,
+    } = getFoodInfo(this.payments)
 
     // Set "money today"
     this.foodToday = availableMoneyToday
     this.totalFood = totalBudget
+    this.remainingBudget = remainingBudget
 
     // Set to chart
     this.chartData.labels = predictedTotals.map((v) => toDateString(v.date))
@@ -187,6 +199,7 @@ export default {
       },
       foodToday: 0,
       totalFood: 0,
+      remainingBudget: 0,
     }
   },
   watch: {

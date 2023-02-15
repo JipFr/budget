@@ -10,14 +10,16 @@
         </h2>
       </div>
       <div
-        v-if="foodTotal !== 0 || foodSpent !== 0 || loading || isLoading"
+        v-if="
+          (foodInfo && foodInfo.availableMoneyToday) || loading || isLoading
+        "
         class="padded"
       >
         <subtitle :class="(loading || isLoading) && 'skeleton-text'">
-          Food remaining (of <money :cents="foodTotal" />)
+          Food available today
         </subtitle>
         <h2 :class="(loading || isLoading) && 'skeleton-text'">
-          <money :cents="foodTotal - foodSpent" />
+          <money :cents="foodInfo?.availableMoneyToday || 0" />
         </h2>
       </div>
     </div>
@@ -47,6 +49,7 @@
 // Import components
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
+import { getFoodInfo } from '~/util/food'
 
 export default {
   components: {
@@ -68,14 +71,15 @@ export default {
       gained: 0,
       spent: 0,
       regularTotal: 0,
-      foodTotal: 0,
-      foodSpent: 0,
       loading: true,
     }
   },
   computed: {
     isLoading() {
       return this.$store.state.user.data.loading
+    },
+    foodInfo() {
+      return this.payments.length > 0 ? getFoodInfo(this.payments) : null
     },
   },
   watch: {
@@ -90,8 +94,6 @@ export default {
       this.gained = 0
       this.spent = 0
       this.regularTotal = 0
-      this.foodTotal = 0
-      this.foodSpent = 0
 
       // Now go over each transaction and add it to the relevant field
       for (const payment of this.payments) {
@@ -103,20 +105,10 @@ export default {
           // If it's food, keep a seperate "food total"
           // Otherwise add it to the normal total
           if (
-            lowercaseCategories.includes('eten') ||
-            lowercaseCategories.includes('food')
-          ) {
-            if (payment.cents > 0) {
-              this.foodTotal += payment.cents
-            } else {
-              this.foodSpent += payment.cents * -1
-            }
-          } else if (
             lowercaseCategories.includes('eten aanpassen') ||
             lowercaseCategories.includes('adjust food')
           ) {
             this.regularTotal -= payment.cents
-            this.foodTotal += payment.cents
           } else {
             this.regularTotal += payment.cents
           }
