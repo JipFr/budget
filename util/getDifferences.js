@@ -21,12 +21,14 @@ export function getDifferences(allPayments) {
   }
 
   // Get all payments from the last 30 days; we only want to compare those.
-  const paymentsInLastMonth = allPayments.filter((payment) => {
-    const d = new Date(payment.date)
-    const diff = now - d.getTime()
-    const days = diff / (1e3 * 60 * 60 * 24)
-    return days < 30
-  })
+  const paymentsInLastMonth = allPayments
+    .filter((payment) => {
+      const d = new Date(payment.date)
+      const diff = now - d.getTime()
+      const days = diff / (1e3 * 60 * 60 * 24)
+      return days < 30
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   const itemTracker = {}
 
