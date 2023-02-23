@@ -109,7 +109,10 @@ export default {
             lowercaseCategories.includes('adjust food')
           ) {
             this.regularTotal -= payment.cents
-          } else {
+          } else if (
+            !lowercaseCategories.includes('food') &&
+            !lowercaseCategories.includes('eten')
+          ) {
             this.regularTotal += payment.cents
           }
 
