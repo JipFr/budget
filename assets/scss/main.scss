@@ -87,6 +87,7 @@ html {
 html,
 body {
   min-height: calc(100vh - env(safe-area-inset-bottom) - 80px);
+  min-height: 100dvh;
 }
 
 *,
