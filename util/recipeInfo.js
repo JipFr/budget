@@ -1,4 +1,4 @@
-import getTransactionItemList from '~/util/getList'
+import getTransactionItemList, { moneyRegex } from '~/util/getList'
 import { getInventory, unmeasured } from '~/util/getInventory'
 import { clean } from '~/util/getDifferences'
 
@@ -7,6 +7,77 @@ export function getPercentageColor(percentage) {
   if (percentage < 50) return 'rgb(255, 149, 0)'
   if (percentage < 80) return 'rgb(255, 204, 0)'
   return 'rgb(52, 199, 89)'
+}
+
+const allVariations = {}
+
+function getVariations({ name, measurementUnit, $store }) {
+  const key = `${name}-${measurementUnit}`
+  if (allVariations[key]) return allVariations[key]
+
+  const transactions = $store.state.user.data.transactions
+
+  const lists = [...transactions]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .map((tr) =>
+      getTransactionItemList(tr.description, {
+        removeEuroString: true,
+        forceList: true,
+      })
+    )
+
+  const variationsList = {}
+
+  for (const list of lists) {
+    const store = list.find((e) => e.cents === 0)?.description
+    for (const product of list) {
+      if (
+        (product.weight?.measurement || 'unmeasured') === measurementUnit &&
+        clean(product.description) === clean(name)
+      ) {
+        const originalWithoutMoney = product.original
+          .replace(new RegExp(moneyRegex, 'gi'), '')
+          .trim()
+
+        const key = `${store} ${originalWithoutMoney}`
+        if (!variationsList[key]) {
+          variationsList[key] = {
+            ...product,
+            store,
+            originalWithoutMoney,
+          }
+        }
+      }
+    }
+  }
+
+  const variations = Object.values(variationsList)
+    .sort((a, b) => a.cents - b.cents)
+    .sort((a, b) => a.weight?.value - b.weight?.value)
+  if (variations.length > 0) allVariations[key] = variations
+  return variations
+}
+
+export function getBestProductPriceOption({
+  name,
+  measurementUnit,
+  $store,
+  minAmount,
+}) {
+  if (minAmount === 0) return
+
+  const variations = getVariations({
+    name,
+    measurementUnit,
+    $store,
+    minAmount,
+  }).filter((opt) => {
+    return (
+      (measurementUnit === 'unmeasured' ? opt.itemCount : opt.weight.value) >=
+      minAmount
+    )
+  })
+  return variations[0]
 }
 
 export function getRecipeInfo(recipe, $store) {
@@ -34,12 +105,28 @@ export function getRecipeInfo(recipe, $store) {
 
     const missing = Math.max(requiredCount - inStockCount, 0)
 
+    const cheapestOptionForMissing = getBestProductPriceOption({
+      name,
+      measurementUnit,
+      $store,
+      minAmount: missing,
+    })
+
+    const cheapestOption = getBestProductPriceOption({
+      name,
+      measurementUnit,
+      $store,
+      minAmount: requiredCount,
+    })
+
     requirements.push({
       measurementUnit,
       description: product.description,
       requiredTotal: requiredCount,
       inStock: inStockCount,
       missing,
+      cheapestOption,
+      cheapestOptionForMissing,
     })
   }
 
@@ -61,7 +148,14 @@ export function getRecipeInfo(recipe, $store) {
     requirements: requirements.sort(
       (a, b) => a.inStock / a.requiredTotal - b.inStock / b.requiredTotal
     ),
-    approximatePriceInCents: 1599,
+    approximatePriceInCents: requirements.reduce(
+      (a, b) => a + (b.cheapestOption?.cents || 0),
+      0
+    ),
+    approximateMissingItemsPriceInCents: requirements.reduce(
+      (a, b) => a + (b.cheapestOptionForMissing?.cents || 0),
+      0
+    ),
     requirementsPossesedPercentage,
   }
 

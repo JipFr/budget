@@ -1,5 +1,7 @@
 const cache = {}
 
+export const moneyRegex = /€(-?\d+(?:\.\d+)?) ?\+? ?/
+
 // Functions
 function toCents(euroVal) {
   const euroArray = euroVal.replace(/€| |\+/g, '').split('.')
@@ -55,6 +57,7 @@ export default function getTransactionItemList(description, opts) {
 
     // eslint-disable-next-line prefer-const
     for (let [i, entry] of Object.entries(descriptionArray)) {
+      const original = entry
       // Find weights and sutff
       let weight = null
 
@@ -138,7 +141,6 @@ export default function getTransactionItemList(description, opts) {
       }
 
       // Find money totals
-      const moneyRegex = /€(-?\d+(?:\.\d+)?) ?\+? ?/
       const euroArray = entry.match(new RegExp(moneyRegex, 'g'))
       const centArray = (euroArray || []).map(toCents)
       const totalCents = centArray.reduce((a, b) => a + b, 0)
@@ -167,7 +169,7 @@ export default function getTransactionItemList(description, opts) {
           newDescription.slice(0, 1).toUpperCase() + newDescription.slice(1),
         cents: totalCents,
         centsPerEntry: totalCents / itemCount,
-        original: entry,
+        original,
         id: i,
         itemCount,
         weight,

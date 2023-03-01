@@ -17,10 +17,19 @@
               : 'Unknown length'
           }}</span>
         </div>
-        <div v-if="false" class="divider"></div>
-        <div v-if="false">
-          <span class="secondary">About</span>
+      </div>
+
+      <hr />
+
+      <div class="cols">
+        <div>
+          <span class="secondary">Total:</span>
           <money :cents="recipeInfo.approximatePriceInCents" />
+        </div>
+        <div class="divider"></div>
+        <div>
+          <span class="secondary">Missing:</span>
+          <money :cents="recipeInfo.approximateMissingItemsPriceInCents" />
         </div>
       </div>
 
@@ -30,6 +39,10 @@
         <span> Required ingredients </span>
         <div class="dropdown-wrapper">
           <dropdown :icon="MoreHorizontalIcon">
+            <div class="requirement spread">
+              <span>Remaining cost:</span>
+              <money :cents="recipeInfo.approximateMissingItemsPriceInCents" />
+            </div>
             <div
               v-for="requirement of recipeInfo.requirements"
               :key="requirement.description"
@@ -232,7 +245,9 @@ export default {
   },
   computed: {
     recipeInfo() {
-      return getRecipeInfo(this.recipe, this.$store)
+      const info = getRecipeInfo(this.recipe, this.$store)
+      console.log(this.recipe.title, info)
+      return info
     },
   },
   methods: {

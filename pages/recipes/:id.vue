@@ -23,6 +23,13 @@
 
     <banner v-if="error">{{ error }}</banner>
 
+    <p class="desc">
+      The price recommendations in the ingredient list are entirely based on
+      your transaction history. It does not pull directly from the stores and
+      does not know all variations of the product. Take the suggestion with a
+      grain of salt.
+    </p>
+
     <card v-if="(recipe && steps) || editing" class="mb">
       {{/*  Title  */}}
       <div v-if="!editing" class="spread title-wrapper">
@@ -73,8 +80,29 @@
           :key="`${ingredient.description}-${i}`"
         >
           <div class="ingredient-name">
-            <div class="dot" />
             <span>{{ ingredient.description }}</span>
+          </div>
+          <div
+            v-if="
+              ingredient.inStock / ingredient.requiredTotal < 1 &&
+              ingredient.cheapestOptionForMissing
+            "
+            class="ingredient-price-option"
+          >
+            <span>
+              Best option:
+              <span class="highlight">
+                {{ ingredient.cheapestOptionForMissing.weight?.label }}
+              </span>
+              {{ ingredient.cheapestOptionForMissing.weight ? ' at ' : '' }}
+              <span class="highlight">
+                {{ ingredient.cheapestOptionForMissing.store }}
+              </span>
+              for
+              <span class="highlight">
+                <money :cents="ingredient.cheapestOptionForMissing.cents" />
+              </span>
+            </span>
           </div>
           <progress-bar
             :percentage="(ingredient.inStock / ingredient.requiredTotal) * 100"
@@ -116,6 +144,10 @@
   grid-template-columns: 1fr 100px;
   grid-gap: 10px;
 }
+.desc {
+  color: var(--text-secondary);
+  margin: 40px 0;
+}
 .ingredients {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -129,6 +161,16 @@
 
 .card .title-wrapper {
   margin-bottom: 20px;
+}
+
+.ingredient-price-option {
+  color: var(--text-secondary);
+  margin: 10px 0;
+
+  .highlight {
+    color: var(--text);
+    font-weight: normal;
+  }
 }
 
 .icon-with-text {
@@ -149,6 +191,7 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: 10px;
+  align-items: center;
 
   .index {
     width: 2rem;
@@ -192,6 +235,7 @@ import ProgressBar from '~/components/util/ProgressBar'
 import AppButton from '~/components/util/Button'
 import AppInput from '~/components/base/inputs/Input'
 import Banner from '~/components/base/Banner'
+import Money from '~/components/title/Money'
 
 // Import icons
 import WatchIcon from '~/assets/icons/watch.svg?inline'
@@ -223,6 +267,7 @@ export default {
     AppInput,
     Banner,
     WatchIcon,
+    Money,
   },
   data() {
     return {
