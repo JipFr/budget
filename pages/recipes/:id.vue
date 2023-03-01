@@ -277,7 +277,8 @@ export default {
         if (error?.message) {
           this.error = error?.message
         } else {
-          location.href = '/recipes/'
+          this.$nuxt.$emit('refetch-recipes')
+          this.$router.push('/recipes')
         }
       }
     },
@@ -314,7 +315,7 @@ export default {
         } else {
           this.$nuxt.$emit('refetch-recipes')
           this.editing = false
-          location.href = `/recipes/${data.data.find(Boolean).id}`
+          this.$router.push(`/recipes/${data.data.find(Boolean).id}`)
         }
       } else if (submitObj.id) {
         // Update
