@@ -6,6 +6,7 @@
         : ''
     "
   >
+    <div class="ribbon-wrapper"></div>
     <nuxt-link :to="`/recipes/${recipe.id}`" class="link-wrapper">
       <div class="title-wrapper">
         <h4 class="title">{{ recipe.title }}</h4>
@@ -95,27 +96,41 @@
   display: grid;
   grid-template-rows: 1fr auto;
 
+  .ribbon-wrapper {
+    display: none;
+  }
+
   &.can-afford {
     position: relative;
-    overflow: hidden;
 
-    &::before {
-      content: '';
+    .ribbon-wrapper {
+      display: block;
       position: absolute;
-      top: -10px;
-      right: -64px;
-      width: 100px;
-      height: 50px;
-      background: rgb(52, 199, 89);
-      transform: rotate(45deg);
-      opacity: 0.3;
-    }
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
 
-    &::after {
-      content: '€';
-      position: absolute;
-      top: 2px;
-      right: 5px;
+      &::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        right: -64px;
+        width: 100px;
+        height: 50px;
+        background: rgb(52, 199, 89);
+        transform: rotate(45deg);
+        opacity: 0.3;
+      }
+
+      &::after {
+        content: '€';
+        position: absolute;
+        top: 2px;
+        right: 5px;
+      }
     }
   }
 
