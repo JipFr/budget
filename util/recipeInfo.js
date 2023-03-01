@@ -56,7 +56,7 @@ export function getRecipeInfo(recipe, $store) {
     (requirementsInStock / totalRequirements) * 100
   )
 
-  return {
+  const data = {
     ingredients,
     requirements: requirements.sort(
       (a, b) => a.inStock / a.requiredTotal - b.inStock / b.requiredTotal
@@ -64,4 +64,6 @@ export function getRecipeInfo(recipe, $store) {
     approximatePriceInCents: 1599,
     requirementsPossesedPercentage,
   }
+
+  return data
 }

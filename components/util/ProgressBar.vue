@@ -19,7 +19,7 @@
 .bar {
   width: 100%;
   height: 10px;
-  background: var(--body);
+  background: var(--content-light);
   border-radius: 100px;
   overflow: hidden;
 

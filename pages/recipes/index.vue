@@ -1,7 +1,13 @@
 <template>
   <div>
-    <page-title>Your recipes</page-title>
-    <button @click="insertRecipe">Insert recipe</button>
+    <page-title>
+      <div class="spread">
+        Your recipes
+        <nuxt-link to="/recipes/create">
+          <app-button class="secondary">Create new</app-button>
+        </nuxt-link>
+      </div>
+    </page-title>
     <banner v-if="error">⚠️ {{ error }}</banner>
     <div class="cards">
       <recipe-card
@@ -22,21 +28,28 @@
 .banner {
   margin: 20px 0;
 }
+.spread {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>
 
 <script>
 // Import components
 import PageTitle from '~/components/title/PageTitle'
 import RecipeCard from '~/components/recipes/RecipeCard'
+import AppButton from '~/components/util/Button'
 import Banner from '~/components/base/Banner'
 
-// Import Supabase
-import SupabaseClient from '~/util/supabase'
+// Import util functions
+import { getRecipeInfo } from '~/util/recipeInfo'
 
 export default {
   components: {
     PageTitle,
     RecipeCard,
+    AppButton,
     Banner,
   },
   data() {
@@ -46,32 +59,17 @@ export default {
   },
   computed: {
     recipes() {
-      return this.$store.state.user.data.recipes
-    },
-  },
-  methods: {
-    async insertRecipe() {
-      const submitObj = {
-        user_id: SupabaseClient.auth.user().id,
-        title: 'Mac & cheese',
-        ingredients: `
-          250gr macaroni
-          80gr hamblokjes
-          100gr geraspte kaas
-          50ml ketchup
-          `,
-        steps: 'Mac & cheese',
-        durationInMinutes: 10,
-      }
-
-      // Insert transaction
-      const data = await SupabaseClient.from('recipes').insert([submitObj])
-
-      if (data?.error?.message) {
-        this.error = data.error.message
-      }
-
-      this.$nuxt.$emit('refetch-recipes')
+      const recipes = this.$store.state.user.data.recipes
+      const recipeInfo = recipes
+        .map((r) => ({
+          ...getRecipeInfo(r, this.$store),
+          ...r,
+        }))
+        .sort(
+          (a, b) =>
+            b.requirementsPossesedPercentage - a.requirementsPossesedPercentage
+        )
+      return recipeInfo
     },
   },
   head: {

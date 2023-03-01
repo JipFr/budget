@@ -17,8 +17,8 @@
               : 'Unknown length'
           }}</span>
         </div>
-        <div class="divider"></div>
-        <div>
+        <div v-if="false" class="divider"></div>
+        <div v-if="false">
           <span class="secondary">About</span>
           <money :cents="recipeInfo.approximatePriceInCents" />
         </div>
@@ -166,7 +166,7 @@ hr {
 .dropdown-wrapper {
   display: flex;
   justify-content: flex-end;
-  --dropdown-width: 250px;
+  --dropdown-width: 300px;
   --button-size: 28px;
   --button-border-width: 0;
 
