@@ -50,13 +50,15 @@ export function getFoodInfo(payments) {
     )
   })
 
-  const d = new Date(positiveTransactions[positiveTransactions.length - 1].date)
+  const d = new Date(
+    positiveTransactions[positiveTransactions.length - 1]?.date || Date.now()
+  )
   const endDate = d.getDate() >= 23 ? thisDateNextMonth(d) : d
   endDate.setDate(23)
 
   // --
 
-  const startDate = new Date(positiveTransactions[0].date)
+  const startDate = new Date(positiveTransactions[0]?.date || Date.now())
 
   const predictedTotals = []
   let realTotals = []
@@ -135,7 +137,8 @@ export function getFoodInfo(payments) {
   const lastFoodTransaction = foodTransactions[foodTransactions.length - 1]
   realTotals = realTotals.filter(
     (t) =>
-      t.date.getTime() <= new Date(lastFoodTransaction.date).getTime() ||
+      t.date.getTime() <=
+        new Date(lastFoodTransaction?.date || Date.now()).getTime() ||
       t.date.getTime() < Date.now()
   )
 

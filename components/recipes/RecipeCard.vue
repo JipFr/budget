@@ -1,5 +1,11 @@
 <template>
-  <card>
+  <card
+    :class="
+      recipeInfo.approximateMissingItemsPriceInCents < availableMoneyInCents
+        ? 'can-afford'
+        : ''
+    "
+  >
     <nuxt-link :to="`/recipes/${recipe.id}`" class="link-wrapper">
       <div class="title-wrapper">
         <h4 class="title">{{ recipe.title }}</h4>
@@ -88,6 +94,30 @@
 .card {
   display: grid;
   grid-template-rows: 1fr auto;
+
+  &.can-afford {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      right: -64px;
+      width: 100px;
+      height: 50px;
+      background: rgb(52, 199, 89);
+      transform: rotate(45deg);
+      opacity: 0.3;
+    }
+
+    &::after {
+      content: '€';
+      position: absolute;
+      top: 2px;
+      right: 5px;
+    }
+  }
 
   .link-wrapper {
     display: block;
@@ -237,6 +267,10 @@ export default {
       type: Object,
       required: true,
     },
+    availableMoneyInCents: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -246,7 +280,6 @@ export default {
   computed: {
     recipeInfo() {
       const info = getRecipeInfo(this.recipe, this.$store)
-      console.log(this.recipe.title, info)
       return info
     },
   },

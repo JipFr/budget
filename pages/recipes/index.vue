@@ -8,12 +8,15 @@
         </nuxt-link>
       </div>
     </page-title>
+
     <banner v-if="error">⚠️ {{ error }}</banner>
+
     <div class="cards">
       <recipe-card
         v-for="recipe in recipes"
         :key="recipe.title"
         :recipe="recipe"
+        :available-money-in-cents="foodBudgetInfo.availableMoneyToday"
       />
     </div>
   </div>
@@ -44,6 +47,7 @@ import Banner from '~/components/base/Banner'
 
 // Import util functions
 import { getRecipeInfo } from '~/util/recipeInfo'
+import { getFoodInfo } from '~/util/food'
 
 export default {
   components: {
@@ -70,6 +74,11 @@ export default {
             b.requirementsPossesedPercentage - a.requirementsPossesedPercentage
         )
       return recipeInfo
+    },
+    foodBudgetInfo() {
+      const transactions = this.$store.state.user.data.transactions
+      const foodInfo = getFoodInfo(transactions || [])
+      return foodInfo
     },
   },
   head: {
