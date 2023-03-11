@@ -2,9 +2,11 @@
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
       <div class="padded">
-        <subtitle :class="(loading || isLoading) && 'skeleton-text'">
-          Your balance this period
-        </subtitle>
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Your balance this period
+          </subtitle>
+        </div>
         <h2 :class="(loading || isLoading) && 'skeleton-text'">
           <money :cents="regularTotal" />
         </h2>
@@ -15,9 +17,11 @@
         "
         class="padded"
       >
-        <subtitle :class="(loading || isLoading) && 'skeleton-text'">
-          Food available today
-        </subtitle>
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Food available today
+          </subtitle>
+        </div>
         <h2 :class="(loading || isLoading) && 'skeleton-text'">
           <money :cents="foodInfo?.availableMoneyToday || 0" />
         </h2>
