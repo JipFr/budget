@@ -7,7 +7,7 @@
         <nav v-for="(section, i) of sections" :key="`section-${i}`">
           <p class="section-title">{{ section.title }}</p>
           <nuxt-link v-for="link of section.links" :key="link.to" :to="link.to">
-            <arrow-right-icon />
+            <component :is="link.icon ?? ArrowRightIcon" />
             {{ link.title }}
           </nuxt-link>
         </nav>
@@ -201,15 +201,20 @@ import Logo from '~/components/base/util/Logo'
 
 // Import icons
 import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
+import CalendarIcon from '~/assets/icons/calendar.svg?inline'
+import BarChartIcon from '~/assets/icons/bar-chart.svg?inline'
+import UserIcon from '~/assets/icons/user.svg?inline'
+import DollarSignIcon from '~/assets/icons/dollar-sign.svg?inline'
+import ListIcon from '~/assets/icons/list.svg?inline'
 
 export default {
   components: {
     Logo,
-    ArrowRightIcon,
   },
   data() {
     return {
       user: null,
+      ArrowRightIcon,
       sections: [
         {
           title: 'Finances',
@@ -221,19 +226,22 @@ export default {
             {
               title: 'Price differences',
               to: '/differences',
+              icon: BarChartIcon,
             },
             {
               title: 'Categories',
               to: '/categories',
+              icon: ListIcon,
             },
             {
               title: 'Recurring',
               to: '/recurring',
+              icon: CalendarIcon,
             },
           ],
         },
         {
-          title: 'Stock',
+          title: 'Inventory',
           links: [
             {
               title: 'Recipes',
@@ -242,6 +250,7 @@ export default {
             {
               title: 'Inventory',
               to: '/inventory',
+              icon: ListIcon,
             },
           ],
         },
@@ -251,6 +260,7 @@ export default {
             {
               title: 'Prices',
               to: '/prices',
+              icon: DollarSignIcon,
             },
             {
               title: 'Food',
@@ -259,6 +269,7 @@ export default {
             {
               title: 'Overview',
               to: '/overview',
+              icon: BarChartIcon,
             },
           ],
         },
@@ -268,6 +279,7 @@ export default {
             {
               title: 'Profile',
               to: '/about/',
+              icon: UserIcon,
             },
             {
               title: 'FAQ',
