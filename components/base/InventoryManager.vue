@@ -37,7 +37,24 @@
 <style lang="scss" scoped>
 .cards {
   display: grid;
-  grid-gap: 12px;
+
+  .card {
+    border-radius: 0;
+  }
+
+  .card + .card {
+    border-top: 0;
+  }
+
+  .card:first-child {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  .card:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
 }
 hr {
   width: 100%;

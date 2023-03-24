@@ -32,6 +32,7 @@
   grid-template-columns: 1fr 100px 100px;
   gap: 10px;
   align-items: center;
+  min-height: 50px;
 
   &:not(.no-padding) {
     padding-top: 5px;
