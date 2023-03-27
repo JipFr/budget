@@ -145,7 +145,8 @@ export function getFoodInfo(payments) {
   // Find how much food budget is available today
   const todayIndex = realTotals.indexOf(
     realTotals.find((d) => {
-      const a = d.date
+      const hour = 1e3 * 60 * 60
+      const a = new Date(d.date.getTime() + hour) // Stupid timezone stuff
       const b = new Date()
       return a.toISOString().split('T')[0] === b.toISOString().split('T')[0]
     })
