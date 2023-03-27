@@ -35,6 +35,9 @@
 </template>
 
 <style lang="scss" scoped>
+::v-deep .subtitle {
+  margin-bottom: 5px;
+}
 .cards {
   display: grid;
 
