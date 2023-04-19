@@ -30,7 +30,7 @@ export default {
 
   css: ['~assets/scss/main.scss'],
 
-  plugins: ['~/plugins/sw.client.js'],
+  plugins: ['./plugins/sw.client.js'],
 
   components: false,
 
