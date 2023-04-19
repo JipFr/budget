@@ -36,7 +36,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
+  modules: ['@nuxtjs/axios', '@nuxt/content'],
 
   server: {
     host: '0',
