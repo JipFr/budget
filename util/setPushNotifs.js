@@ -4,7 +4,7 @@ import SupabaseClient from '~/util/supabase'
 // Import stuff
 import { recurringTransactions } from '~/util/recurring'
 
-export const host = '//localhost:1234'
+export const host = '//push-api.jipfr.nl'
 
 export async function setPushNotifs(allPayments) {
   // Initial info
