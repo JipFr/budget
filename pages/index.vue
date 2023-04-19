@@ -1,6 +1,7 @@
 <template>
   <div>
     <page-title>Transactions</page-title>
+    <push-notif-button />
     <price-changes :all-payments="getAllPayments" />
     <payment-list :raw-payments="getPayments" />
     <portal to="right-side">
@@ -21,6 +22,7 @@
 
 <script>
 import { Portal } from 'portal-vue'
+import PushNotifButton from '~/components/base/util/PushNotifButton'
 import PriceChanges from '~/components/base/PriceChanges'
 import PaymentList from '~/components/base/PaymentList'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
@@ -33,6 +35,7 @@ export default {
     PaymentList,
     NewTransactionWrapper,
     PageTitle,
+    PushNotifButton,
   },
   computed: {
     getAllPayments() {

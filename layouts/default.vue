@@ -129,11 +129,8 @@ import LoginWrapper from '~/components/LoginWrapper'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-function addTrailingSlash(arr) {
-  return arr.flatMap((path) =>
-    [path, !path.endsWith('/') ? path + '/' : null].filter(Boolean)
-  )
-}
+// Import utils
+import { setPushNotifs } from '~/util/setPushNotifs'
 
 export default {
   components: {
@@ -193,6 +190,8 @@ export default {
       transactions,
     })
 
+    setPushNotifs(transactions)
+
     this.hasFetched = true
 
     this.setLoading(false)
@@ -201,8 +200,6 @@ export default {
   data() {
     return {
       error: '',
-      financePaths: addTrailingSlash(['/', '/categories', '/recurring']),
-      chartPaths: addTrailingSlash(['/overview', '/prices', '/food']),
       hasFetched: false,
       sidebarOpen: false,
     }
