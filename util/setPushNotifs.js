@@ -20,8 +20,8 @@ export async function setPushNotifs(allPayments) {
   await Promise.all(
     recurring.map(async (transaction) => {
       const d = new Date(transaction.newDate)
-      d.setHours(2)
-      d.setMinutes(10)
+      d.setHours(7)
+      d.setMinutes(0)
       d.setSeconds(0)
       if (d.getTime() < Date.now()) return // Don't return if date is already past
 
@@ -37,15 +37,9 @@ export async function setPushNotifs(allPayments) {
         currency: 'EUR',
       })
 
-      const euroString = formatter
-        .format(Math.abs(transaction.cents) / 100)
-        .trim()
+      const euroString = formatter.format(transaction.cents / 100).trim()
 
-      const body = encodeURIComponent(
-        `According to the previous month, you will ${
-          transaction.cents > 0 ? 'gain' : 'be losing'
-        } ${euroString} today`
-      )
+      const body = encodeURIComponent(`Happening today: ${euroString}`)
 
       await fetch(
         `${host}/send-notification?topic=${topic}&title=${title}&body=${body}&at=${d.toISOString()}`
