@@ -25,7 +25,17 @@ export default {
         media: '(prefers-color-scheme: dark)',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/icon.png' }],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/icon.png',
+      },
+      {
+        rel: 'manifest',
+        href: '/manifest.json',
+      },
+    ],
   },
 
   css: ['~assets/scss/main.scss'],
