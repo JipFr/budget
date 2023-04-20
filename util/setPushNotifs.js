@@ -4,7 +4,7 @@ import SupabaseClient from '~/util/supabase'
 // Import stuff
 import { recurringTransactions } from '~/util/recurring'
 
-export const host = '//push-api.jipfr.nl'
+export const host = 'https://push-api.jipfr.nl'
 
 export async function setPushNotifs(allPayments) {
   // Initial info
@@ -18,10 +18,10 @@ export async function setPushNotifs(allPayments) {
   const recurring = recurringTransactions(allPayments)
 
   await Promise.all(
-    recurring.slice(0, 1).map(async (transaction) => {
+    recurring.map(async (transaction) => {
       const d = new Date(transaction.newDate)
-      d.setHours(7)
-      d.setMinutes(0)
+      d.setHours(2)
+      d.setMinutes(10)
       d.setSeconds(0)
       if (d.getTime() < Date.now()) return // Don't return if date is already past
 
@@ -48,7 +48,7 @@ export async function setPushNotifs(allPayments) {
       )
 
       await fetch(
-        `${host}/send-notification?topic=${topic}&title=${title}&body=${body}` // &at=${d.toISOString()}
+        `${host}/send-notification?topic=${topic}&title=${title}&body=${body}&at=${d.toISOString()}`
       )
     })
   )
