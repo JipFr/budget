@@ -61,6 +61,11 @@ export default function getTransactionItemList(description, opts) {
       // Find weights and sutff
       let weight = null
 
+      const isAny = entry.startsWith('* ')
+      if (isAny) {
+        entry = entry.slice(2)
+      }
+
       // ? Grams
       const gramRegex = /(\d+|\.+)+gr/i
       const kgRegex = /(\d+|\.+)+kg/i
@@ -163,16 +168,22 @@ export default function getTransactionItemList(description, opts) {
           .trim()
       }
 
+      let finalDescription =
+        newDescription.slice(0, 1).toUpperCase() + newDescription.slice(1)
+      if (finalDescription.toLowerCase().startsWith('ij'))
+        finalDescription =
+          finalDescription.slice(0, 2).toUpperCase() + finalDescription.slice(2)
+
       // Add to entries
       entries.push({
-        description:
-          newDescription.slice(0, 1).toUpperCase() + newDescription.slice(1),
+        description: finalDescription,
         cents: totalCents,
         centsPerEntry: totalCents / itemCount,
         original,
         id: i,
         itemCount,
         weight,
+        isAny,
       })
     }
   }

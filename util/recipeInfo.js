@@ -98,9 +98,17 @@ export function getRecipeInfo(recipe, $store) {
   for (const product of ingredients) {
     const name = clean(product.description)
     const measurementUnit = product?.weight?.measurement ?? unmeasured
-    const productInInventory = inventory[name]?.weights[measurementUnit]
 
-    const inStockCount = productInInventory?.count ?? 0
+    const productOptions = Object.entries(inventory)
+      .filter(([n]) =>
+        product.isAny ? n.includes(clean(name)) : clean(n) === clean(name)
+      )
+      .map((t) => t[1])
+
+    const inStockCount = productOptions.reduce(
+      (acc, current) => acc + (current?.weights[measurementUnit]?.count || 0),
+      0
+    )
     const requiredCount = product?.weight?.totalValue ?? product.itemCount
 
     const missing = Math.max(requiredCount - inStockCount, 0)
@@ -127,6 +135,7 @@ export function getRecipeInfo(recipe, $store) {
       missing,
       cheapestOption,
       cheapestOptionForMissing,
+      isAny: product.isAny,
     })
   }
 

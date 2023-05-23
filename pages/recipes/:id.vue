@@ -80,7 +80,12 @@
           :key="`${ingredient.description}-${i}`"
         >
           <div class="ingredient-name">
-            <span>{{ ingredient.description }}</span>
+            <span>
+              <span v-if="ingredient.isAny" class="any-kind-of">
+                Any kind of...
+              </span>
+              {{ ingredient.description }}
+            </span>
           </div>
           <div
             v-if="
@@ -143,6 +148,12 @@
   display: grid;
   grid-template-columns: 1fr 100px;
   grid-gap: 10px;
+}
+.any-kind-of {
+  background: var(--content-light);
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
 }
 .desc {
   color: var(--text-secondary);
