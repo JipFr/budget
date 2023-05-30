@@ -10,6 +10,7 @@ body::before {
   width: 100%;
   height: env(safe-area-inset-top);
   background: var(--theme);
+  // linear-gradient(to right, black calc(100% - 1px), white calc(100% - 1px))
   z-index: 10;
 }
 
@@ -55,8 +56,11 @@ body::before {
   }
 
   body::before {
-    background-color: var(--content);
-    border-bottom-color: var(--border);
+    background: linear-gradient(
+      to bottom,
+      var(--content) calc(100% - 1px),
+      var(--border) calc(100% - 1px)
+    );
   }
 }
 
