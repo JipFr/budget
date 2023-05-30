@@ -14,21 +14,20 @@ body::before {
 }
 
 :root {
-  --body: #fdfdfd;
-  --content: white;
+  --body: var(--arc-background-simple-color, #fdfdfd);
+  --content: var(--arc-palette-foregroundPrimary, white);
   --alt-content: var(--body);
   --content-light: #edf1ef;
   --content-lighter: #dedede;
-  --content-darker: ghostwhite;
+  --content-darker: var(--arc-palette-title, ghostwhite);
   --disabled-content: rgba(0, 0, 0, 0.05);
-  --text: #444444;
-  --text-secondary: #575757;
-  --link-active: var(--content-light);
-  --text-secondary: #4c4c4c;
+  --text: var(--arc-palette-cutoutColor, #444444);
+  --link-active: var(--arc-palette-title, var(--content-light));
+  --text-secondary: var(--arc-palette-subtitle, #4c4c4c);
   --theme: #457461;
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: #ff2d55;
-  --border: #dedede;
+  --border: var(--arc-palette-hover, #dedede);
   --anchor: #007aff;
   --scrollbar: var(--border);
 }
