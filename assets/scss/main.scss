@@ -24,7 +24,7 @@ body::before {
   --text: var(--arc-palette-cutoutColor, #444444);
   --link-active: var(--arc-palette-title, var(--content-light));
   --text-secondary: var(--arc-palette-subtitle, #4c4c4c);
-  --theme: #457461;
+  --theme: var(--arc-palette-cutoutColor, #457461);
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: #ff2d55;
   --border: var(--arc-palette-hover, #dedede);
@@ -93,6 +93,7 @@ body {
 *::after {
   box-sizing: border-box;
   margin: 0;
+  transition: background-color 200ms, color 200ms, border-color 200ms;
 }
 
 ::-webkit-scrollbar-track {
