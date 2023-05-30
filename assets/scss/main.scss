@@ -68,7 +68,7 @@ body {
   background: var(--body);
   color: var(--text);
   word-break: break-word;
-  border-top: env(safe-area-inset-top) solid transparent;
+  padding-top: env(safe-area-inset-top);
 }
 
 html,
