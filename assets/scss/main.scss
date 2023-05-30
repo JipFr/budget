@@ -93,7 +93,7 @@ body {
 *::after {
   box-sizing: border-box;
   margin: 0;
-  transition: background-color 200ms, color 200ms, border-color 200ms;
+  transition: background-color 200ms, border-color 200ms;
 }
 
 ::-webkit-scrollbar-track {
