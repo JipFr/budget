@@ -17,8 +17,8 @@ body::before {
   --body: var(--arc-background-simple-color, #fdfdfd);
   --content: var(--arc-palette-foregroundPrimary, white);
   --alt-content: var(--body);
-  --content-light: #edf1ef;
-  --content-lighter: #dedede;
+  --content-light: var(--arc-palette-title, #edf1ef);
+  --content-lighter: var(--arc-palette-title, #dedede);
   --content-darker: var(--arc-palette-title, ghostwhite);
   --disabled-content: rgba(0, 0, 0, 0.05);
   --text: var(--arc-palette-cutoutColor, #444444);
