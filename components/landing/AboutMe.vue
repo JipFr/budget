@@ -96,6 +96,23 @@ aside img {
     }
   }
 }
+
+@media (max-width: 949px) {
+  .container {
+    display: block;
+
+    aside {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    img {
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+  }
+}
 </style>
 
 <script>

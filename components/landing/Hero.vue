@@ -196,4 +196,10 @@
     color: var(--text-secondary);
   }
 }
+
+@media (max-width: 949px) {
+  .image.bottom-left {
+    display: none;
+  }
+}
 </style>
