@@ -18,6 +18,10 @@
   .container {
     width: calc(100% - 90px);
     max-width: 1300px;
+
+    &.smol-boi {
+      max-width: 1100px;
+    }
   }
 }
 @media (min-width: 950px) and (max-width: 1349px) {

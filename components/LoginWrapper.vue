@@ -5,42 +5,14 @@
   </div>
   <div v-else>
     <container class="limited-width">
+      <landing-navbar />
+      <banner v-if="error">{{ error }}</banner>
       <landing-hero />
     </container>
 
-    <div style="height: 300px"></div>
+    <landing-about-me />
 
     <container class="limited-width login">
-      <h1>Krab Bij Kas</h1>
-      <p>
-        This would be a good place to put a fantastic tag line, or description.
-        Who knows what I'll come up with.
-      </p>
-
-      <hr />
-
-      <banner v-if="error">{{ error }}</banner>
-
-      <h2>Log in</h2>
-      <p>You can log in with one of the following services:</p>
-
-      <div class="logos">
-        <button data-link="github" @click="login('github')">
-          <github-logo />
-        </button>
-        <button data-link="discord" @click="login('discord')">
-          <discord-logo />
-        </button>
-        <button data-link="facebook" @click="login('facebook')">
-          <facebook-logo />
-        </button>
-        <button data-link="google" @click="login('google')">
-          <google-logo />
-        </button>
-      </div>
-
-      <hr />
-
       <faq />
     </container>
   </div>
@@ -75,74 +47,17 @@ hr {
 .banner {
   margin-bottom: 30px;
 }
-
-.logos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-gap: 10px;
-
-  button {
-    padding: 20px;
-    border-radius: 6px;
-    font-size: 1rem;
-    border: 1px solid var(--border);
-    background: var(--alt-content);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-      display: block;
-    }
-
-    &[data-link='github'] {
-      background: #24292f;
-      color: white;
-    }
-
-    &[data-link='discord'] {
-      background: #5865f2;
-      color: white;
-    }
-
-    &[data-link='google'] {
-      background: white;
-      color: white;
-    }
-
-    &[data-link='facebook'] {
-      background: #4267b2;
-      color: white;
-
-      svg {
-        width: 3rem;
-        height: 3rem;
-      }
-    }
-  }
-}
 </style>
 
 <script>
 // Import components
 import LandingHero from '~/components/landing/Hero'
+import LandingNavbar from '~/components/landing/Navbar'
+import LandingAboutMe from '~/components/landing/AboutMe'
+
 import Container from '~/components/layout/Container'
 import Banner from '~/components/base/Banner'
 import Faq from '~/components/base/Faq'
-
-// Import logo SVGs (for login buttons)
-import GithubLogo from '~/assets/logos/github.svg?inline'
-import DiscordLogo from '~/assets/logos/discord.svg?inline'
-import FacebookLogo from '~/assets/logos/facebook.svg?inline'
-import GoogleLogo from '~/assets/logos/google.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -151,12 +66,10 @@ export default {
   components: {
     Faq,
     LandingHero,
+    LandingNavbar,
+    LandingAboutMe,
     Container,
     Banner,
-    GithubLogo,
-    DiscordLogo,
-    FacebookLogo,
-    GoogleLogo,
   },
   fetch() {
     this.user = SupabaseClient.auth.user()

@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 header {
   width: 100%;
   position: fixed;

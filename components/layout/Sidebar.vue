@@ -39,7 +39,7 @@
   </aside>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 aside {
   width: 100%;
   height: 100vh;
