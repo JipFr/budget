@@ -2,8 +2,8 @@
   <header>
     <logo />
     <div class="nav-items">
-      <nuxt-link to="#faq">FAQ</nuxt-link>
-      <nuxt-link to="#features">Features</nuxt-link>
+      <a href="#faq">FAQ</a>
+      <a href="#features">Features</a>
       <div class="dropdown-wrapper">
         <div
           class="dropdown-content"
@@ -118,6 +118,12 @@ header {
         height: 1.2rem;
       }
     }
+  }
+}
+
+@media (max-width: 949px) {
+  .nav-items > a {
+    display: none;
   }
 }
 </style>

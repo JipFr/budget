@@ -88,7 +88,7 @@ export default function getTransactionItemList(description, opts) {
       }
 
       // ? Liters
-      const literRegex = /(\d+|\.+)+li?|(\d+|\.+)+ liter/i
+      const literRegex = /(\d+|\.+)+li?|(\d+|\.+)+ litr?er?/i
       const clRegex = /(\d+|\.+)+cl/i
       const mlRegex = /(\d+|\.+)+ml/i
 

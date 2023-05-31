@@ -201,5 +201,15 @@
   .image.bottom-left {
     display: none;
   }
+
+  .text-content {
+    h2 {
+      font-size: 2rem;
+    }
+    h3 {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+    }
+  }
 }
 </style>

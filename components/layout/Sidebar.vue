@@ -1,5 +1,5 @@
 <template>
-  <aside>
+  <aside class="sidebar">
     <div class="content">
       <logo class="padded" />
       <slot />
@@ -39,8 +39,8 @@
   </aside>
 </template>
 
-<style lang="scss" scoped>
-aside {
+<style lang="scss">
+aside.sidebar {
   width: 100%;
   height: 100vh;
   background: var(--content);

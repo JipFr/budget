@@ -35,8 +35,8 @@
 
 <style lang="scss" scoped>
 .about-me {
-  --about-me-bg: var(--content);
-  margin-top: 150px;
+  --about-me-bg: var(--content-light);
+  margin: 150px 0;
   padding: 80px 0;
   background: var(--about-me-bg);
 }

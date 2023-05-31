@@ -1,7 +1,7 @@
 <template>
   <card
     :class="
-      recipeInfo.approximateMissingItemsPriceInCents < availableMoneyInCents
+      recipeInfo.approximateMissingItemsPriceInCents >= availableMoneyInCents
         ? 'can-afford'
         : ''
     "

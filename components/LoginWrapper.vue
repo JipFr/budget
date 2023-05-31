@@ -10,11 +10,9 @@
       <landing-hero />
     </container>
 
-    <landing-about-me />
+    <landing-faq />
 
-    <container class="limited-width login">
-      <faq />
-    </container>
+    <landing-about-me />
   </div>
 </template>
 
@@ -51,22 +49,22 @@ hr {
 
 <script>
 // Import components
-import LandingHero from '~/components/landing/Hero'
 import LandingNavbar from '~/components/landing/Navbar'
+import LandingHero from '~/components/landing/Hero'
+import LandingFaq from '~/components/landing/Faq'
 import LandingAboutMe from '~/components/landing/AboutMe'
 
 import Container from '~/components/layout/Container'
 import Banner from '~/components/base/Banner'
-import Faq from '~/components/base/Faq'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
-    Faq,
-    LandingHero,
     LandingNavbar,
+    LandingHero,
+    LandingFaq,
     LandingAboutMe,
     Container,
     Banner,
