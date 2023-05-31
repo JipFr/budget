@@ -155,13 +155,13 @@ aside.sidebar {
 }
 
 @media (max-height: 850px) {
-  aside {
+  aside.sidebar {
     @include scrollFullHeight;
   }
 }
 
 @media (max-width: 700px) {
-  aside {
+  aside.sidebar {
     width: 100%;
     max-width: 320px;
     position: fixed;
