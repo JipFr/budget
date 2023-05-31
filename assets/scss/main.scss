@@ -11,7 +11,7 @@ body::before {
   height: env(safe-area-inset-top);
   background: var(--theme);
   // linear-gradient(to right, black calc(100% - 1px), white calc(100% - 1px))
-  z-index: 10;
+  z-index: 60;
 }
 
 :root {
