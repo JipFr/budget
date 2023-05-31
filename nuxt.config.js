@@ -59,7 +59,7 @@ export default {
       start_url: '/',
     },
     meta: {
-      theme_color: '#457461',
+      theme_color: '#4e5589',
     },
   },
 
