@@ -51,7 +51,7 @@
 
 <style lang="scss" scoped>
 .hero {
-  --blob-color: var(--border);
+  --blob-color: #bcbcbc;
   --image-border: var(--content);
 
   position: relative;
@@ -113,6 +113,7 @@
       border-radius: 15px;
       border: 5px solid var(--image-border);
       overflow: hidden;
+      background: var(--image-border);
     }
 
     &.with-gradient::after {
