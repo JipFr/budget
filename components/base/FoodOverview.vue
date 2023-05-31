@@ -183,8 +183,8 @@ export default {
       borderWidth: 2.5,
       pointRadius: 3,
       hoverPointRadius: 3,
-      borderColor: '#4e5589',
-      pointBackgroundColor: '#4e5589',
+      borderColor: '#457461',
+      pointBackgroundColor: '#457461',
       data: realTotals.map((v) => Math.floor(v.cents) / 100),
     }
 

@@ -15,20 +15,20 @@ body::before {
 }
 
 :root {
-  --body: var(--arc-background-simple-color, #f9f9fc);
-  --content: var(--arc-palette-foregroundPrimary, #f6f6fa);
+  --body: var(--arc-background-simple-color, #fdfdfd);
+  --content: var(--arc-palette-foregroundPrimary, white);
   --alt-content: var(--body);
-  --content-light: var(--arc-palette-title, #e5e6ed);
-  --content-lighter: var(--arc-palette-title, #e5e6ed);
-  --content-darker: var(--arc-palette-title, #e5e6ed);
+  --content-light: var(--arc-palette-title, #edf1ef);
+  --content-lighter: var(--arc-palette-title, #dedede);
+  --content-darker: var(--arc-palette-title, ghostwhite);
   --disabled-content: rgba(0, 0, 0, 0.05);
-  --text: var(--arc-palette-cutoutColor, #4e5589);
+  --text: var(--arc-palette-cutoutColor, #444444);
   --link-active: var(--arc-palette-title, var(--content-light));
-  --text-secondary: var(--arc-palette-subtitle, #7b7b7d);
-  --theme: var(--arc-palette-cutoutColor, #4e5589);
+  --text-secondary: var(--arc-palette-subtitle, #4c4c4c);
+  --theme: var(--arc-palette-cutoutColor, #457461);
   --overlay-color: rgba(0, 0, 0, 0.05);
   --negative: #ff2d55;
-  --border: var(--arc-palette-hover, #7e83a87a);
+  --border: var(--arc-palette-hover, #dedede);
   --anchor: #007aff;
   --scrollbar: var(--border);
 }
