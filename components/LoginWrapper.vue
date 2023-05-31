@@ -4,7 +4,12 @@
     <slot />
   </div>
   <div v-else>
-    <app-header title="Log in" />
+    <container class="limited-width">
+      <landing-hero />
+    </container>
+
+    <div style="height: 300px"></div>
+
     <container class="limited-width login">
       <h1>Krab Bij Kas</h1>
       <p>
@@ -128,7 +133,7 @@ hr {
 
 <script>
 // Import components
-import AppHeader from '~/components/layout/Header'
+import LandingHero from '~/components/landing/Hero'
 import Container from '~/components/layout/Container'
 import Banner from '~/components/base/Banner'
 import Faq from '~/components/base/Faq'
@@ -144,10 +149,10 @@ import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
-    AppHeader,
+    Faq,
+    LandingHero,
     Container,
     Banner,
-    Faq,
     GithubLogo,
     DiscordLogo,
     FacebookLogo,
