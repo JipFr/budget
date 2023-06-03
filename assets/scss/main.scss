@@ -126,6 +126,9 @@ body {
   [sidebaropen='true'] {
     overflow-y: hidden;
   }
+  body::before {
+    background: var(--content);
+  }
 }
 
 [id] {
