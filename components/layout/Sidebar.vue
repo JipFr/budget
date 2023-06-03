@@ -165,7 +165,7 @@ aside.sidebar {
     width: 100%;
     max-width: 320px;
     position: fixed;
-    z-index: 30;
+    z-index: 80;
     top: 0;
     transform: translateX(-100%);
     transition: transform 200ms;

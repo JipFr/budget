@@ -33,6 +33,7 @@ details > summary::-webkit-details-marker {
   justify-content: space-between;
   font-size: 1.25rem;
   padding: 15px 20px;
+  cursor: pointer;
 
   svg {
     display: block;
