@@ -127,7 +127,7 @@ body {
     overflow-y: hidden;
   }
   body::before {
-    background: var(--content);
+    background: var(--body);
   }
 }
 
