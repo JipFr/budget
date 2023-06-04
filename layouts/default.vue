@@ -86,7 +86,7 @@ hr {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    z-index: 20;
+    z-index: 75;
     top: 0;
     left: 0;
   }
