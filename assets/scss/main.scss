@@ -8,7 +8,7 @@ body::before {
   top: 0;
   left: 0;
   width: 100%;
-  height: env(safe-area-inset-top);
+  height: 20px;
   background: var(--theme);
   // linear-gradient(to right, black calc(100% - 1px), white calc(100% - 1px))
   z-index: 60;
@@ -128,6 +128,12 @@ body {
   }
   body::before {
     background: var(--body);
+  }
+}
+
+@media (max-width: 700px) and (prefers-color-scheme: light) {
+  body::before {
+    background: var(--theme);
   }
 }
 
