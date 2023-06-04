@@ -23,7 +23,7 @@ body::before {
   --content-darker: var(--arc-palette-hover, ghostwhite);
   --disabled-content: rgba(0, 0, 0, 0.05);
   --text: var(--arc-palette-title, #444444);
-  --link-active: var(--arc-palette-hover, var(--content-light));
+  --link-active: var(--arc-palette-simple-color, var(--content-light));
   --text-secondary: var(--arc-palette-maxContrastColor, #4c4c4c);
   --theme: var(--arc-palette-foregroundPrimary, #457461);
   --negative: #ff2d55;

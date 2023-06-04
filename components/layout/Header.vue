@@ -69,7 +69,7 @@ header {
 }
 
 .header-wrapper {
-  margin-bottom: calc(60px + env(safe-area-inset-top));
+  margin-bottom: 60px;
 }
 @media (prefers-color-scheme: dark) {
   header {
