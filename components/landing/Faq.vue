@@ -41,13 +41,13 @@
 
   h2 {
     color: var(--text);
-    font-size: 2.875rem;
+    font-size: 2.5rem;
   }
 
   p {
     color: var(--text-secondary);
     margin: 2rem 0;
-    font-size: 1.3125rem;
+    font-size: 1.1rem;
   }
 }
 

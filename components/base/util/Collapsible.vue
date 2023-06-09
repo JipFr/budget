@@ -31,7 +31,7 @@ details > summary::-webkit-details-marker {
 .summary-top {
   display: flex;
   justify-content: space-between;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   padding: 15px 20px;
   cursor: pointer;
 
@@ -59,6 +59,7 @@ details > summary::-webkit-details-marker {
 <script>
 // Import icons
 import ChevronIcon from '~/assets/icons/chevron-down.svg?inline'
+
 export default {
   components: {
     ChevronIcon,

@@ -12,6 +12,8 @@
 
     <landing-faq />
 
+    <meal-planning />
+
     <landing-about-me />
   </div>
 </template>
@@ -52,6 +54,7 @@ hr {
 import LandingNavbar from '~/components/landing/Navbar'
 import LandingHero from '~/components/landing/Hero'
 import LandingFaq from '~/components/landing/Faq'
+import MealPlanning from '~/components/landing/MealPlanning'
 import LandingAboutMe from '~/components/landing/AboutMe'
 
 import Container from '~/components/layout/Container'
@@ -65,6 +68,7 @@ export default {
     LandingNavbar,
     LandingHero,
     LandingFaq,
+    MealPlanning,
     LandingAboutMe,
     Container,
     Banner,

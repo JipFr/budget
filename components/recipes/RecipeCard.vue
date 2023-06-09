@@ -1,13 +1,19 @@
 <template>
   <card
-    :class="
+    :class="[
       recipeInfo.approximateMissingItemsPriceInCents >= availableMoneyInCents
         ? 'can-afford'
-        : ''
-    "
+        : '',
+      preview && 'preview',
+    ]"
   >
     <div class="ribbon-wrapper"></div>
-    <nuxt-link :to="`/recipes/${recipe.id}`" class="link-wrapper">
+    <div v-if="preview" :to="`/recipes/${recipe.id}`" class="link-wrapper">
+      <div class="title-wrapper">
+        <h4 class="title">{{ recipe.title }}</h4>
+      </div>
+    </div>
+    <nuxt-link v-else :to="`/recipes/${recipe.id}`" class="link-wrapper">
       <div class="title-wrapper">
         <h4 class="title">{{ recipe.title }}</h4>
       </div>
@@ -96,6 +102,12 @@
   display: grid;
   grid-template-rows: 1fr auto;
 
+  &.preview {
+    border-top: 0;
+    border-bottom: 0;
+    border-right: 0;
+  }
+
   .ribbon-wrapper {
     display: none;
   }
@@ -142,10 +154,10 @@
     margin-left: -15px;
     margin-top: -15px;
     width: calc(100% + 30px);
+  }
 
-    &:hover {
-      background: var(--content-light);
-    }
+  a.link-wrapper:hover {
+    background: var(--content-light);
   }
 
   .title-wrapper {
@@ -286,6 +298,10 @@ export default {
       type: Number,
       default: 0,
     },
+    preview: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -294,7 +310,9 @@ export default {
   },
   computed: {
     recipeInfo() {
-      const info = getRecipeInfo(this.recipe, this.$store)
+      const info = this.preview
+        ? this.recipe
+        : getRecipeInfo(this.recipe, this.$store)
       return info
     },
   },
