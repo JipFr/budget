@@ -8,6 +8,14 @@
           <img src="/landing/app.png" class="dark" alt="Landing page" />
           <img src="/landing/app-light.png" class="light" alt="Landing page" />
         </div>
+        <div class="image center-img with-gradient mobile">
+          <img src="/landing/mobile.png" class="dark" alt="Landing page" />
+          <img
+            src="/landing/mobile-light.png"
+            class="light"
+            alt="Landing page"
+          />
+        </div>
         <div class="image top-left">
           <img
             src="/landing/app-recurring.png"
@@ -103,15 +111,22 @@
     position: absolute;
     z-index: 10;
 
+    &.mobile {
+      display: none;
+    }
+
     .light {
       display: none;
+    }
+
+    &:not(.no-border) img {
+      border: 5px solid var(--image-border);
     }
 
     img {
       width: 100%;
       display: block;
       border-radius: 15px;
-      border: 5px solid var(--image-border);
       overflow: hidden;
       background: var(--image-border);
     }
@@ -136,6 +151,11 @@
       top: 65%;
       left: 50%;
       transform: translate(-50%, -50%);
+
+      &.mobile {
+        width: 80%;
+        max-width: 500px;
+      }
 
       img {
         border-width: 11px;
@@ -211,6 +231,15 @@
       margin-top: 2rem;
       font-size: 1.5rem;
     }
+  }
+}
+
+@media (max-width: 700px) {
+  .image:not(.mobile) {
+    display: none;
+  }
+  .images .image.mobile {
+    display: block;
   }
 }
 </style>
