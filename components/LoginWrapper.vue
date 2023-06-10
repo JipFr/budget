@@ -20,19 +20,6 @@
   </div>
 </template>
 
-<style lang="scss">
-:root {
-  --blob-color: #bcbcbc;
-  --image-border: var(--content);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --blob-color: #393647;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 .container.login {
   max-width: 500px;
@@ -61,6 +48,19 @@ hr {
 
 .banner {
   margin-bottom: 30px;
+}
+</style>
+
+<style lang="scss">
+:root {
+  --blob-color: #bcbcbc;
+  --image-border: var(--content);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blob-color: #393647;
+  }
 }
 </style>
 
