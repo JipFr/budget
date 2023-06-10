@@ -22,7 +22,7 @@
 <style lang="scss" scoped>
 .features {
   position: relative;
-  margin: 150px 0;
+  margin-top: 150px;
 }
 
 .container {
@@ -116,13 +116,13 @@ export default {
           icon: DollarSignIcon,
           title: 'Financial tracking',
           description:
-            "It will track your finances, giving you an overview of how much you've got in any given month",
+            "It will track your budget, giving you an overview of how much you've got this month, and show spendings for each category.",
         },
         {
           icon: BriefcaseIcon,
           title: 'Food budget tracking',
           description:
-            'You can keep separate track of your food budget, with a linear trend-down chart so you end up exactly on budget.',
+            'You can keep separate track of your food budget. It will spread it out over the month, so you always know to stay inside your budget.',
         },
         {
           icon: DollarSignIcon,
