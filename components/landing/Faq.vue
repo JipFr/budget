@@ -8,7 +8,6 @@
           this month. It'll track the prices of the products you love. It can
           help you figure out what to make for dinner.
         </p>
-        <p>It watches your family as you sleep.</p>
       </div>
       <div>
         <faq />

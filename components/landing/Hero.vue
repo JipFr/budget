@@ -59,19 +59,10 @@
 
 <style lang="scss" scoped>
 .hero {
-  --blob-color: #bcbcbc;
-  --image-border: var(--content);
-
   position: relative;
   min-height: 80vh;
   display: flex;
   align-items: flex-end;
-}
-
-@media (prefers-color-scheme: dark) {
-  .hero {
-    --blob-color: #393647;
-  }
 }
 
 .top-gradient {

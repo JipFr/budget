@@ -1,19 +1,20 @@
 <template>
-  <div id="meal-planning">
+  <div class="meal-planning">
     <container class="limited-width">
       <div class="text-content">
-        <h2 id="faq">Effortless meal planning</h2>
+        <h2 id="meal-planning">Effortless meal planning</h2>
         <h3>Your ingredients matched with your recipes.</h3>
       </div>
 
       <div class="steps">
-        <div v-for="step of steps" :key="`step-${step.title}`" class="step">
-          <div class="badge">
-            {{ step.no }}
-          </div>
-          <h4>{{ step.title }}</h4>
-          <p>{{ step.description }}</p>
-        </div>
+        <badge-and-text
+          v-for="step of steps"
+          :key="`step-${step.title}`"
+          :title="step.title"
+          :description="step.description"
+        >
+          {{ step.no }}
+        </badge-and-text>
       </div>
 
       <div class="content-card">
@@ -35,7 +36,7 @@
 </template>
 
 <style lang="scss" scoped>
-#meal-planning {
+.meal-planning {
   margin-top: 100px;
   padding-top: 100px;
   padding-bottom: 150px;
@@ -70,30 +71,6 @@
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 50px;
   margin-top: 90px;
-}
-
-.step {
-  .badge {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--content);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 1.2rem;
-  }
-  p {
-    color: var(--text-secondary);
-  }
-}
-
-h4 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-top: 22px;
-  margin-bottom: 15px;
 }
 
 .content-card {
@@ -133,7 +110,7 @@ h4 {
 }
 
 @media (prefers-color-scheme: light) {
-  #meal-planning {
+  .meal-planning {
     background-image: linear-gradient(
         180deg,
         var(--body) 0%,
@@ -170,11 +147,13 @@ h4 {
 <script>
 import Container from '~/components/layout/Container'
 import RecipeCard from '~/components/recipes/RecipeCard'
+import BadgeAndText from '~/components/landing/util/BadgeAndText'
 
 export default {
   components: {
     Container,
     RecipeCard,
+    BadgeAndText,
   },
   data() {
     return {

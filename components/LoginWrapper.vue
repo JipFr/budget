@@ -12,11 +12,26 @@
 
     <landing-faq />
 
+    <features />
+
     <meal-planning />
 
     <landing-about-me />
   </div>
 </template>
+
+<style lang="scss">
+:root {
+  --blob-color: #bcbcbc;
+  --image-border: var(--content);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --blob-color: #393647;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .container.login {
@@ -54,6 +69,7 @@ hr {
 import LandingNavbar from '~/components/landing/Navbar'
 import LandingHero from '~/components/landing/Hero'
 import LandingFaq from '~/components/landing/Faq'
+import Features from '~/components/landing/Features'
 import MealPlanning from '~/components/landing/MealPlanning'
 import LandingAboutMe from '~/components/landing/AboutMe'
 
@@ -68,6 +84,7 @@ export default {
     LandingNavbar,
     LandingHero,
     LandingFaq,
+    Features,
     MealPlanning,
     LandingAboutMe,
     Container,
