@@ -112,6 +112,22 @@ aside img {
       margin-top: 30px;
     }
   }
+
+  h2 {
+    font-size: 2rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+
+  .socials a {
+    font-size: 1rem;
+
+    .social-logo svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 </style>
 
