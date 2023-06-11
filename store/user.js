@@ -20,6 +20,7 @@ export const state = () => {
       recipes: [],
       loading: true,
     },
+    loadingPlaid: true,
     tagColors: {},
     // Get day 2 days before the start of the current month
     // Not great code, but oh well....
@@ -101,5 +102,8 @@ export const mutations = {
   },
   setViewing(state, catName) {
     state.viewingCat = catName
+  },
+  setLoadingPlaid(state, loadingState) {
+    state.loadingPlaid = loadingState
   },
 }

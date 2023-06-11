@@ -6,7 +6,9 @@
           <menu-icon />
         </div>
         <logo />
-        <div></div>
+        <div>
+          <loader v-if="plaidLoading" />
+        </div>
       </container>
     </header>
   </div>
@@ -85,23 +87,22 @@ header {
 </style>
 
 <script>
-// Import Capacitor
-import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core'
+import { plaidState } from '~/plugins/plaid-import-transactions.client'
 
 // Import components
 import Container from '~/components/layout/Container'
 import Logo from '~/components/base/util/Logo'
+import Loader from '~/components/util/Loader'
 
 // Import icons
 import MenuIcon from '~/assets/icons/menu.svg?inline'
-
-const { StatusBar } = Plugins
 
 export default {
   components: {
     Container,
     Logo,
     MenuIcon,
+    Loader,
   },
   props: {
     title: {
@@ -110,12 +111,10 @@ export default {
       default: 'No title',
     },
   },
-  beforeCreate() {
-    if (Capacitor.platform === 'ios') {
-      StatusBar.setStyle({
-        style: StatusBarStyle.Dark,
-      })
-    }
+  computed: {
+    plaidLoading() {
+      return plaidState.loading
+    },
   },
 }
 </script>

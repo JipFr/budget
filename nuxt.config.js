@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+
   head: {
     title: 'Krab Bij Kas',
     meta: [
@@ -40,7 +41,11 @@ export default {
 
   css: ['~assets/scss/main.scss'],
 
-  plugins: ['./plugins/sw.client.js'],
+  plugins: [
+    './plugins/event-bus.js',
+    './plugins/sw.client.js',
+    './plugins/plaid-import-transactions.client.js',
+  ],
 
   components: false,
 

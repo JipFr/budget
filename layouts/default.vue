@@ -115,6 +115,8 @@ hr {
 <script>
 import { mapMutations } from 'vuex'
 import { PortalTarget } from 'portal-vue'
+
+import eventBus from '../plugins/event-bus'
 import { getDefaultDates } from '~/util/dates'
 
 // Import components
@@ -240,6 +242,10 @@ export default {
   mounted() {
     this.$nuxt.$on('refetch-really', () => {
       if ((this.getAllPayments || []).length === 0) this.$fetch()
+    })
+
+    eventBus.$on('force-refetch', () => {
+      this.$fetch()
     })
 
     this.$nuxt.$on('refetch-inventory', () => {

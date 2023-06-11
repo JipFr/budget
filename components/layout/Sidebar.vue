@@ -1,7 +1,10 @@
 <template>
   <aside class="sidebar">
     <div class="content">
-      <logo class="padded" />
+      <div class="logo-and-loader">
+        <logo class="padded" />
+        <loader v-if="plaidLoading" />
+      </div>
       <slot />
       <div class="nav-container padded">
         <nav v-for="(section, i) of sections" :key="`section-${i}`">
@@ -68,6 +71,13 @@ aside.sidebar {
       padding-right: 0px;
     }
   }
+}
+
+.logo-and-loader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 25px;
 }
 
 .bottom {
@@ -193,11 +203,14 @@ aside.sidebar {
 </style>
 
 <script>
+import { plaidState } from '~/plugins/plaid-import-transactions.client'
+
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
 // Import components
 import Logo from '~/components/base/util/Logo'
+import Loader from '~/components/util/Loader'
 
 // Import icons
 import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
@@ -205,6 +218,7 @@ import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
 export default {
   components: {
     Logo,
+    Loader,
   },
   data() {
     return {
@@ -233,14 +247,14 @@ export default {
           ],
         },
         {
-          title: 'Inventory',
+          title: 'Stock',
           links: [
             {
               title: 'Recipes',
               to: '/recipes',
             },
             {
-              title: 'Inventory',
+              title: 'Pantry',
               to: '/inventory',
             },
           ],
@@ -266,6 +280,10 @@ export default {
           title: 'About',
           links: [
             {
+              title: 'Settings',
+              to: '/settings',
+            },
+            {
               title: 'Profile',
               to: '/about/',
             },
@@ -277,6 +295,11 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    plaidLoading() {
+      return plaidState.loading
+    },
   },
   mounted() {
     SupabaseClient.auth.onAuthStateChange(() => {
