@@ -2,10 +2,8 @@
   <card
     ref="card"
     class="no-padding payment-card"
-    :class="[
-      active && 'card-active',
-      payment.plaid_transaction_id && 'plaid-imported',
-    ]"
+    :class="active && 'card-active'"
+    :plaid-imported="payment.plaid_transaction_id"
     :minimal="minimal"
   >
     <div
@@ -207,13 +205,13 @@
     scroll-snap-align: start;
   }
 
-  &.plaid-imported::after {
+  &[plaid-imported]::after {
     content: '*';
     color: red;
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
-    transform: translateY(-50%);
+    transform: translateY(50%);
   }
 }
 

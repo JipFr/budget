@@ -55,7 +55,9 @@ export default function ({ store }) {
         user_id: SupabaseClient.auth.user().id,
         cents: transaction.amount * 100 * -1,
         date: transaction.date,
-        plaid_transaction_id: transaction.transaction_id,
+        plaid_transaction_id: `${transaction.amount}-${
+          transaction.date
+        }-${description.replace(/\n/g, '')}`,
         description,
         categories,
       }
