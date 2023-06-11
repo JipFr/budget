@@ -53,7 +53,7 @@ export default function ({ store }) {
 
       const submitObj = {
         user_id: SupabaseClient.auth.user().id,
-        cents: transaction.amount * 100,
+        cents: transaction.amount * 100 * -1,
         date: transaction.date,
         plaid_transaction_id: transaction.transaction_id,
         description,
