@@ -88,3 +88,6 @@ static/sw.js
 
 # Vim swap files
 *.swp
+
+# Local Netlify folder
+.netlify
