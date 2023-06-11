@@ -205,13 +205,8 @@
     scroll-snap-align: start;
   }
 
-  &[plaid-imported]::after {
-    content: '*';
-    color: red;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translateY(50%);
+  &[plaid-imported] {
+    border-left-color: var(--anchor);
   }
 }
 
