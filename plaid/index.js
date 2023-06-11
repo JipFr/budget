@@ -54,4 +54,33 @@ async function getTransactions({ ACCESS_TOKEN }) {
   return { transactions: recentlyAdded }
 }
 
-module.exports = { getTransactions }
+async function createLinkToken(configs) {
+  if (process.env.PLAID_REDIRECT_URI !== '') {
+    configs.redirect_uri = process.env.PLAID_REDIRECT_URI
+  }
+
+  console.log(configs)
+  let createTokenResponse
+  try {
+    createTokenResponse = await client.linkTokenCreate(configs)
+  } catch (err) {
+    console.log(err)
+  }
+
+  return createTokenResponse
+}
+
+async function exchangePublicToken(publicToken) {
+  let exchangeResponse
+  try {
+    exchangeResponse = await client.itemPublicTokenExchange({
+      public_token: publicToken,
+    })
+  } catch (err) {
+    console.error(err)
+  }
+
+  return exchangeResponse
+}
+
+module.exports = { getTransactions, createLinkToken, exchangePublicToken }

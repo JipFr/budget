@@ -68,6 +68,6 @@ export default {
   build: {},
 
   env: {
-    REDIRECT_URL: process.env.REDIRECT_URL || 'http://localhost:3000',
+    REDIRECT_URL: process.env.REDIRECT_URL || 'http://localhost:8888',
   },
 }
