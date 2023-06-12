@@ -65,10 +65,9 @@ export default function getTransactionItemList(description, opts) {
       if (isAny) {
         entry = entry.slice(2)
       }
-
       // ? Grams
-      const gramRegex = /(\d+|\.+)+gr/i
-      const kgRegex = /(\d+|\.+)+kg/i
+      const gramRegex = /[(\d+|.+)]+gr/i
+      const kgRegex = /[(\d+|.+)]+kg/i
 
       const gramMatch = entry.match(gramRegex)
       const kgMatch = entry.match(kgRegex)
@@ -88,9 +87,9 @@ export default function getTransactionItemList(description, opts) {
       }
 
       // ? Liters
-      const literRegex = /(\d+|\.+)+li?|(\d+|\.+)+ litr?er?/i
-      const clRegex = /(\d+|\.+)+cl/i
-      const mlRegex = /(\d+|\.+)+ml/i
+      const literRegex = /[(\d+|.+)]+li?|[(\d+|.+)]+ litr?er?/i
+      const clRegex = /[(\d+|.+)]+cl/i
+      const mlRegex = /[(\d+|.+)]+ml/i
 
       const literMatch = entry.match(literRegex)
       const clMatch = entry.match(clRegex)
