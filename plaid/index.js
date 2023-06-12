@@ -49,8 +49,8 @@ async function getTransactions({ ACCESS_TOKEN }) {
 
   const compareTxnsByDateAscending = (a, b) =>
     new Date(a.date).getTime() - new Date(b.date).getTime()
-  // Return the 8 most recent transactions
-  const recentlyAdded = [...added].sort(compareTxnsByDateAscending).slice(-8)
+  // Return the recent transactions
+  const recentlyAdded = [...added].sort(compareTxnsByDateAscending).slice(-12)
   return { transactions: recentlyAdded }
 }
 

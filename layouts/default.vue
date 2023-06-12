@@ -153,7 +153,7 @@ export default {
       this.setFrom(from.toISOString().split('T')[0])
     }
 
-    this.setLoading(true)
+    if (this.allowLoading) this.setLoading(true)
 
     const getPagination = (page, size) => {
       const limit = size ? +size : 3
@@ -204,6 +204,7 @@ export default {
       error: '',
       hasFetched: false,
       sidebarOpen: false,
+      allowLoading: true,
     }
   },
   computed: {
@@ -244,8 +245,10 @@ export default {
       if ((this.getAllPayments || []).length === 0) this.$fetch()
     })
 
-    eventBus.$on('force-refetch', () => {
-      this.$fetch()
+    eventBus.$on('force-refetch', async () => {
+      this.allowLoading = false
+      await this.$fetch()
+      this.allowLoading = true
     })
 
     this.$nuxt.$on('refetch-inventory', () => {
