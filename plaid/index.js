@@ -15,13 +15,13 @@ const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
   const week = 1e3 * 60 * 60 * 24 * 7
-  const now = new Date()
+  const future = new Date(Date.now() + week)
   const past = new Date(Date.now() - week * 3)
 
   const request = {
     access_token: ACCESS_TOKEN,
-    start_date: past.toISOString().split('T')[0],
-    end_date: now.toISOString().split('T')[0],
+    start_date: past.toLocaleDateString('en-CA'),
+    end_date: future.toLocaleDateString('en-CA'),
   }
 
   let response
@@ -33,7 +33,7 @@ async function getTransactions({ ACCESS_TOKEN }) {
   const data = response.data
 
   const compareTxnsByDateAscending = (a, b) =>
-    new Date(a.date).getTime() - new Date(b.date).getTime()
+    new Date(b.date).getTime() - new Date(a.date).getTime()
   // Return the recent transactions
   const recentlyAdded = [...data.transactions]
     .sort(compareTxnsByDateAscending)
