@@ -14,43 +14,30 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  // Set cursor to empty to receive all historical updates
-  let cursor = null
+  const week = 1e3 * 60 * 60 * 24 * 7
+  const now = new Date()
+  const past = new Date(Date.now() - week * 3)
 
-  // New transaction updates since "cursor"
-  let added = []
-  let modified = []
-  // Removed transaction ids
-  let removed = []
-  let hasMore = true
-  // Iterate through each page of new transaction updates for item
-  while (hasMore) {
-    const request = {
-      access_token: ACCESS_TOKEN,
-      cursor,
-    }
-    let response
-    try {
-      response = await client.transactionsSync(request)
-    } catch (err) {
-      console.error(err)
-      hasMore = false
-      continue
-    }
-    const data = response.data
-    // Add this page of results
-    added = added.concat(data.added)
-    modified = modified.concat(data.modified)
-    removed = removed.concat(data.removed)
-    hasMore = data.has_more
-    // Update cursor to the next cursor
-    cursor = data.next_cursor
+  const request = {
+    access_token: ACCESS_TOKEN,
+    start_date: past.toISOString().split('T')[0],
+    end_date: now.toISOString().split('T')[0],
   }
+
+  let response
+  try {
+    response = await client.transactionsGet(request)
+  } catch (err) {
+    console.error(err)
+  }
+  const data = response.data
 
   const compareTxnsByDateAscending = (a, b) =>
     new Date(a.date).getTime() - new Date(b.date).getTime()
   // Return the recent transactions
-  const recentlyAdded = [...added].sort(compareTxnsByDateAscending).slice(-12)
+  const recentlyAdded = [...data.transactions]
+    .sort(compareTxnsByDateAscending)
+    .slice(-12)
   return { transactions: recentlyAdded }
 }
 
@@ -59,7 +46,6 @@ async function createLinkToken(configs) {
     configs.redirect_uri = process.env.PLAID_REDIRECT_URI
   }
 
-  console.log(configs)
   let createTokenResponse
   try {
     createTokenResponse = await client.linkTokenCreate(configs)
