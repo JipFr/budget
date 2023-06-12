@@ -81,6 +81,12 @@
                   </span>
                 </div>
                 <span>
+                  <div
+                    v-if="payment.plaid_transaction_id && i === 0"
+                    class="imported-badge badge"
+                  >
+                    Imported
+                  </div>
                   {{ entry.description }}
                   <in-x-days
                     v-if="isInXDays(payment) && i === 0"
@@ -100,6 +106,9 @@
           </div>
         </div>
         <span v-else class="bold usual-description">
+          <div v-if="payment.plaid_transaction_id" class="imported-badge badge">
+            Imported
+          </div>
           {{ description }}
           <in-x-days v-if="isInXDays(payment)" :days="payment.inXDays" />
         </span>
@@ -253,16 +262,28 @@
       grid-column: 1 / -1;
     }
   }
+}
 
-  .badge {
-    min-width: 28px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4px;
-    border: 1px solid var(--content-lighter);
-    border-radius: 10px;
-  }
+.badge {
+  min-width: 28px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid var(--content-lighter);
+  border-radius: 10px;
+  font-weight: normal;
+}
+
+.imported-badge {
+  opacity: 0;
+  min-width: 0;
+  max-width: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin-right: 0;
+  display: block;
 }
 
 .in-x-days {
