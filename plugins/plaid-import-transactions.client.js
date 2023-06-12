@@ -14,6 +14,11 @@ export default function ({ store }) {
 
     const tokens = JSON.parse(localStorage.getItem('plaid-tokens') || '[]')
 
+    if (tokens.length === 0) {
+      plaidState.loading = false
+      return
+    }
+
     const allTransactions = []
 
     for (const token of tokens) {
