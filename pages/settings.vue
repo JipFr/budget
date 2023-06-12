@@ -1,6 +1,7 @@
 <template>
   <div>
     <page-title>Settings</page-title>
+    <banner v-if="error">{{ error }}</banner>
     <button @click="addPlaidAccount">Add Plaid account</button>
     <p v-if="loading">Loading...</p>
     <p v-else style="white-space: pre">
@@ -11,6 +12,7 @@
 
 <script>
 import PageTitle from '~/components/title/PageTitle'
+import Banner from '~/components/base/Banner'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -32,6 +34,7 @@ async function exchangeToken(publicToken) {
 export default {
   components: {
     PageTitle,
+    Banner,
   },
   async fetch() {
     this.loading = true
@@ -39,7 +42,6 @@ export default {
       const transactionRes = await fetch(
         `/.netlify/functions/get-transactions?access-token=${token}`
       ).then((d) => d.json())
-      console.log(transactionRes)
       this.transactions.push(...transactionRes.transactions)
     }
     this.loading = false
@@ -49,6 +51,7 @@ export default {
       plaidTokens: JSON.parse(localStorage.getItem('plaid-tokens') || '[]'),
       transactions: [],
       loading: true,
+      error: '',
     }
   },
   computed: {
@@ -73,14 +76,7 @@ export default {
           await exchangeToken(publicToken)
         },
         onExit: (err, metadata) => {
-          console.error(
-            `I'm all done. Error: ${JSON.stringify(
-              err
-            )} Metadata: ${JSON.stringify(metadata)}`
-          )
-        },
-        onEvent: (eventName, metadata) => {
-          console.info(`Event ${eventName}`)
+          this.error = err
         },
       })
 
