@@ -14,30 +14,49 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  const week = 1e3 * 60 * 60 * 24 * 7
-  const future = new Date(Date.now() + week)
-  const past = new Date(Date.now() - week * 3)
+  // Set cursor to empty to receive all historical updates
+  let cursor = null
 
-  const request = {
-    access_token: ACCESS_TOKEN,
-    start_date: past.toLocaleDateString('en-CA'),
-    end_date: future.toLocaleDateString('en-CA'),
-  }
+  // New transaction updates since "cursor"
+  let added = []
+  let modified = []
+  // Removed transaction ids
+  let removed = []
+  let hasMore = true
+  // Iterate through each page of new transaction updates for item
+  while (hasMore) {
+    const request = {
+      access_token: ACCESS_TOKEN,
+      cursor,
+    }
+    let response
+    try {
+      response = await client.transactionsSync(request)
+    } catch (err) {
+      console.error(err)
+      hasMore = false
+      continue
+    }
 
-  let response
-  try {
-    response = await client.transactionsGet(request)
-  } catch (err) {
-    console.error(err)
+    response.data.added = response.data.added.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+
+    const data = response.data
+    // Add this page of results
+    added = added.concat(data.added)
+    modified = modified.concat(data.modified)
+    removed = removed.concat(data.removed)
+    hasMore = data.has_more
+    // Update cursor to the next cursor
+    cursor = data.next_cursor
   }
-  const data = response.data
 
   const compareTxnsByDateAscending = (a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   // Return the recent transactions
-  const recentlyAdded = [...data.transactions]
-    .sort(compareTxnsByDateAscending)
-    .slice(-12)
+  const recentlyAdded = [...added].sort(compareTxnsByDateAscending).slice(-12)
+
   return { transactions: recentlyAdded }
 }
 
