@@ -206,6 +206,14 @@
   }
 
   &[plaid-imported] {
+    border-left-color: var(--theme);
+    border-left-width: 3px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .card[plaid-imported] {
+    border-left-width: 1px;
     border-left-color: var(--anchor);
   }
 }
