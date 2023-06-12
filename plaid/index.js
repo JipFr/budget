@@ -14,6 +14,28 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
+  // const request = {
+  //   access_token: ACCESS_TOKEN,
+  // }
+  // try {
+  //   const response = await client.itemGet(request)
+  //   console.log(response.data)
+  // } catch (error) {
+  //   // handle error
+  // }
+
+  // let refreshData
+  // try {
+  //   refreshData = await client.transactionsRefresh({
+  //     access_token: ACCESS_TOKEN,
+  //     client_id: process.env.PLAID_CLIENT_ID,
+  //     secret: process.env.PLAID_SECRET,
+  //   })
+  //   console.log(refreshData)
+  // } catch (err) {
+  //   console.log(err)
+  // }
+
   // Set cursor to empty to receive all historical updates
   let cursor = null
 
@@ -38,10 +60,6 @@ async function getTransactions({ ACCESS_TOKEN }) {
       continue
     }
 
-    response.data.added = response.data.added.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    )
-
     const data = response.data
     // Add this page of results
     added = added.concat(data.added)
@@ -52,10 +70,10 @@ async function getTransactions({ ACCESS_TOKEN }) {
     cursor = data.next_cursor
   }
 
-  const compareTxnsByDateAscending = (a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
   // Return the recent transactions
-  const recentlyAdded = [...added].sort(compareTxnsByDateAscending).slice(-12)
+  const recentlyAdded = [...added]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 12)
 
   return { transactions: recentlyAdded }
 }
