@@ -73,6 +73,7 @@ export default {
       return str.slice(0, 1).toUpperCase() + str.slice(1)
     },
     async logout() {
+      localStorage.removeItems('plaid-tokens')
       await SupabaseClient.auth.signOut()
     },
   },
