@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <crab-icon />
+    <krab-icon />
     <span>Krab Bij Kas</span>
   </div>
 </template>
@@ -22,11 +22,11 @@
 
 <script>
 // Import icons
-import CrabIcon from '~/assets/logos/crab.svg?inline'
+import KrabIcon from '~/assets/logos/krab.svg?inline'
 
 export default {
   components: {
-    CrabIcon,
+    KrabIcon,
   },
 }
 </script>
