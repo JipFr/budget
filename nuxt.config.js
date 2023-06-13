@@ -33,6 +33,10 @@ export default {
         href: '/icon-pride.png',
       },
       {
+        rel: 'apple-touch-icon',
+        href: '/icon-pride.png',
+      },
+      {
         rel: 'manifest',
         href: '/manifest.json',
       },

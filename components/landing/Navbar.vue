@@ -41,7 +41,7 @@ header {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  z-index: 30;
+  z-index: 90;
 }
 
 .logo {
@@ -62,6 +62,7 @@ header {
 
 .dropdown-wrapper {
   position: relative;
+  z-index: 90;
 
   .dropdown-content,
   .dropdown-out {
