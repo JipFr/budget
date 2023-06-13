@@ -30,11 +30,11 @@ export default {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/icon-pride.png',
+        href: '/icon-white.png',
       },
       {
         rel: 'apple-touch-icon',
-        href: '/icon-pride.png',
+        href: '/icon-white.png',
       },
       {
         rel: 'manifest',
