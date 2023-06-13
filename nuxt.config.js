@@ -30,7 +30,7 @@ export default {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/icon.png',
+        href: '/icon-pride.png',
       },
       {
         rel: 'manifest',
