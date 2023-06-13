@@ -284,10 +284,6 @@ export default {
               to: '/settings',
             },
             {
-              title: 'Profile',
-              to: '/about/',
-            },
-            {
               title: 'FAQ',
               to: '/about/faq',
             },

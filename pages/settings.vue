@@ -1,6 +1,13 @@
 <template>
   <div>
-    <page-title>Settings</page-title>
+    <!-- Profile -->
+    <page-title>Profile</page-title>
+
+    <profile />
+
+    <!-- Bank stuff-->
+    <page-title>Bank accounts</page-title>
+
     <banner v-if="error">{{ error }}</banner>
     <button @click="addPlaidAccount">Add Plaid account</button>
     <p v-if="loading">Loading...</p>
@@ -11,7 +18,9 @@
 </template>
 
 <script>
+// Import components
 import PageTitle from '~/components/title/PageTitle'
+import Profile from '~/components/base/util/Profile'
 import Banner from '~/components/base/Banner'
 
 // Import Supabase
@@ -34,6 +43,7 @@ async function exchangeToken(publicToken) {
 export default {
   components: {
     PageTitle,
+    Profile,
     Banner,
   },
   async fetch() {

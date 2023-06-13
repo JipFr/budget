@@ -1,6 +1,5 @@
 <template>
   <div>
-    <page-title>Profile</page-title>
     <div class="profile">
       <img
         class="profile-picture"
@@ -46,12 +45,11 @@
 
 .button {
   margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 </style>
 
 <script>
-// Import components
-import PageTitle from '~/components/title/PageTitle'
 import AppButton from '~/components/util/Button'
 
 // Import Supabase
@@ -59,7 +57,6 @@ import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
-    PageTitle,
     AppButton,
   },
   computed: {

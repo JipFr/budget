@@ -62,7 +62,6 @@ header {
 
 .dropdown-wrapper {
   position: relative;
-  z-index: 90;
 
   .dropdown-content,
   .dropdown-out {
