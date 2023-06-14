@@ -78,6 +78,21 @@ async function getTransactions({ ACCESS_TOKEN }) {
   return { transactions: recentlyAdded }
 }
 
+async function getInfo({ ACCESS_TOKEN }) {
+  const request = {
+    access_token: ACCESS_TOKEN,
+  }
+  let info
+  try {
+    const response = await client.itemGet(request)
+    info = response.data
+  } catch (error) {
+    // handle error
+  }
+
+  return { info }
+}
+
 async function createLinkToken(configs) {
   if (process.env.PLAID_REDIRECT_URI !== '') {
     configs.redirect_uri = process.env.PLAID_REDIRECT_URI
@@ -106,4 +121,9 @@ async function exchangePublicToken(publicToken) {
   return exchangeResponse
 }
 
-module.exports = { getTransactions, createLinkToken, exchangePublicToken }
+module.exports = {
+  getTransactions,
+  getInfo,
+  createLinkToken,
+  exchangePublicToken,
+}

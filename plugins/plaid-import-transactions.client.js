@@ -8,11 +8,13 @@ export const plaidState = Vue.observable({
   loading: true,
 })
 
-export default function ({ store }) {
+export default function () {
   const t = async () => {
     plaidState.loading = true
 
-    const tokens = JSON.parse(localStorage.getItem('plaid-tokens') || '[]')
+    const tokens = (
+      await SupabaseClient.from('plaid_access_tokens').select('*')
+    ).data.map((t) => t.access_token)
 
     if (tokens.length === 0) {
       plaidState.loading = false
