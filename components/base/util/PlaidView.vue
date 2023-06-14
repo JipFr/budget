@@ -1,6 +1,10 @@
 <template>
   <div>
     <banner v-if="error">{{ error }}</banner>
+    <p class="secondary">
+      Please note that syncing your account will mean your access token will be
+      stored in Krab Bij Kas' database.
+    </p>
     <div v-if="loading || accountsInfo.length > 0" class="cards">
       <div v-if="loading">Loading...</div>
       <card v-for="account of accountsInfo" :key="`account-${account.id}`">
@@ -35,6 +39,9 @@
 </template>
 
 <style lang="scss" scoped>
+.secondary {
+  color: var(--text-secondary);
+}
 .cards {
   margin: 40px 0;
   display: grid;
