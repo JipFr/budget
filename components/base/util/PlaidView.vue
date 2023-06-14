@@ -1,20 +1,28 @@
 <template>
   <div>
     <banner v-if="error">{{ error }}</banner>
-    <app-button @click="addPlaidAccount" class="secondary">
+    <app-button class="secondary" @click="addPlaidAccount">
       Add bank account through Plaid
     </app-button>
     <div class="cards">
-      <card v-for="account of accountsInfo" :key="account">
+      <card v-for="account of accountsInfo" :key="`account-${account.id}`">
         <h4>Account ID #{{ account.id }}</h4>
-        <p>
-          <span>Last successful update:</span>
-          {{ account.status.transactions.last_successful_update }}
-        </p>
-        <p>
-          <span>Last failed update:</span>
-          {{ account.status.transactions.last_failed_update }}
-        </p>
+        <div v-if="!account.error">
+          <p>
+            <span>Last successful update:</span>
+            {{ account.status?.transactions?.last_successful_update }}
+          </p>
+          <p>
+            <span>Last failed update:</span>
+            {{ account.status?.transactions?.last_failed_update }}
+          </p>
+        </div>
+        <div v-else>
+          <p>
+            Something went wrong with this account.
+            <span>{{ account.error.error_message }}</span>
+          </p>
+        </div>
       </card>
     </div>
   </div>
@@ -75,11 +83,10 @@ export default {
         `/.netlify/functions/get-info?access-token=${token.access_token}`
       ).then((d) => d.json())
 
-      console.log(itemInfo)
-
       accountsInfo.push({
         id: token.id,
         ...itemInfo?.info,
+        error: itemInfo.error,
       })
     }
 

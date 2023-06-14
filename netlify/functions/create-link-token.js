@@ -21,11 +21,10 @@ const handler = async (event) => {
   }
 
   const t = await createLinkToken(configs)
-  console.log(t)
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ token: t.data.link_token }),
+    body: JSON.stringify({ token: t.data.link_token, error: t.error }),
   }
 }
 

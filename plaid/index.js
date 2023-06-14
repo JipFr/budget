@@ -14,28 +14,6 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  // const request = {
-  //   access_token: ACCESS_TOKEN,
-  // }
-  // try {
-  //   const response = await client.itemGet(request)
-  //   console.log(response.data)
-  // } catch (error) {
-  //   // handle error
-  // }
-
-  // let refreshData
-  // try {
-  //   refreshData = await client.transactionsRefresh({
-  //     access_token: ACCESS_TOKEN,
-  //     client_id: process.env.PLAID_CLIENT_ID,
-  //     secret: process.env.PLAID_SECRET,
-  //   })
-  //   console.log(refreshData)
-  // } catch (err) {
-  //   console.log(err)
-  // }
-
   // Set cursor to empty to receive all historical updates
   let cursor = null
 
@@ -83,14 +61,15 @@ async function getInfo({ ACCESS_TOKEN }) {
     access_token: ACCESS_TOKEN,
   }
   let info
+  let error
   try {
     const response = await client.itemGet(request)
     info = response.data
-  } catch (error) {
-    // handle error
+  } catch (err) {
+    error = err.response.data
   }
 
-  return { info }
+  return { info, error }
 }
 
 async function createLinkToken(configs) {
@@ -99,26 +78,31 @@ async function createLinkToken(configs) {
   }
 
   let createTokenResponse
+  let error
   try {
     createTokenResponse = await client.linkTokenCreate(configs)
   } catch (err) {
-    console.log(err)
+    error = err.response.data
   }
 
-  return createTokenResponse
+  return { ...createTokenResponse, error }
 }
 
 async function exchangePublicToken(publicToken) {
   let exchangeResponse
+  let error
   try {
     exchangeResponse = await client.itemPublicTokenExchange({
       public_token: publicToken,
     })
   } catch (err) {
-    console.error(err)
+    error = err.response.data
   }
 
-  return exchangeResponse
+  return {
+    ...exchangeResponse,
+    error,
+  }
 }
 
 module.exports = {
