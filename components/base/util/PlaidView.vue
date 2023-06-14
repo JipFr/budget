@@ -1,12 +1,15 @@
 <template>
   <div>
     <banner v-if="error">{{ error }}</banner>
-    <app-button class="secondary" @click="addPlaidAccount">
-      Add bank account through Plaid
-    </app-button>
-    <div class="cards">
+    <div v-if="loading || accountsInfo.length > 0" class="cards">
+      <div v-if="loading">Loading...</div>
       <card v-for="account of accountsInfo" :key="`account-${account.id}`">
-        <h4>Account ID #{{ account.id }}</h4>
+        <div class="spread">
+          <h4>Account ID #{{ account.id }}</h4>
+          <app-button class="dangerous" @click="() => removeAcount(account.id)">
+            Remove account
+          </app-button>
+        </div>
         <div v-if="!account.error">
           <p>
             <span>Last successful update:</span>
@@ -25,18 +28,24 @@
         </div>
       </card>
     </div>
+    <app-button class="secondary" @click="addPlaidAccount">
+      Add bank account through Plaid
+    </app-button>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .cards {
-  margin-top: 40px;
+  margin: 40px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-gap: 20px;
 
-  .card h4 {
-    margin-bottom: 20px;
+  .spread {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
   }
 
   .card p {
@@ -47,6 +56,15 @@
       margin-bottom: 3px;
       color: var(--text-secondary);
     }
+  }
+
+  .card button {
+    font-size: 0.9rem;
+    text-transform: initial;
+    background: transparent;
+    color: var(--negative);
+    padding: 0;
+    border: 0;
   }
 }
 </style>
@@ -139,6 +157,24 @@ export default {
       await SupabaseClient.from('plaid_access_tokens').insert([submitObj])
 
       location.reload()
+    },
+    async removeAcount(id) {
+      if (
+        !confirm(
+          'Are you sure you want to delete this bank account from your Krab Bij Kas account?'
+        )
+      )
+        return
+
+      const { error } = await SupabaseClient.from('plaid_access_tokens')
+        .delete()
+        .match({
+          id,
+        })
+
+      if (error) this.error = error
+
+      this.$fetch()
     },
   },
 }
