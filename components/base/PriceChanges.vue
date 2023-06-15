@@ -141,6 +141,7 @@ hr {
       border: 0;
       padding: 0;
       color: var(--anchor);
+      cursor: pointer;
     }
   }
 
