@@ -1,13 +1,24 @@
 <template>
-  <div>
+  <div class="plaid-view">
+    <subtitle v-if="minimal && accountsInfo.length > 0">Bank accounts</subtitle>
     <banner v-if="error">{{ error }}</banner>
-    <p class="secondary">
+    <p v-if="!minimal" class="secondary">
       Please note that syncing your account will mean your access token will be
       stored in Krab Bij Kas' database.
     </p>
-    <div v-if="loading || accountsInfo.length > 0" class="cards">
+    <div
+      v-if="
+        (loading || accountsInfo.length > 0) &&
+        (!minimal || accountsInfo.length > 0)
+      "
+      class="cards"
+      :class="minimal && 'minimal'"
+    >
       <div v-if="loading">Loading...</div>
-      <card v-for="account of accountsInfo" :key="`account-${account.id}`">
+      <card
+        v-for="account of loading ? [] : accountsInfo"
+        :key="`account-${account.id}`"
+      >
         <div class="spread">
           <h4>Account ID #{{ account.id }}</h4>
           <app-button class="dangerous" @click="() => removeAcount(account.id)">
@@ -32,7 +43,7 @@
         </div>
       </card>
     </div>
-    <app-button class="secondary" @click="addPlaidAccount">
+    <app-button v-if="!minimal" class="secondary" @click="addPlaidAccount">
       Add bank account through Plaid
     </app-button>
   </div>
@@ -43,10 +54,13 @@
   color: var(--text-secondary);
 }
 .cards {
-  margin: 40px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 10px;
+
+  &:not(.minimal) {
+    margin: 40px 0;
+  }
 
   .spread {
     display: flex;
@@ -78,6 +92,7 @@
 
 <script>
 // Import components
+import Subtitle from '~/components/title/Subtitle'
 import Banner from '~/components/base/Banner'
 import Card from '~/components/layout/Card'
 import AppButton from '~/components/util/Button'
@@ -87,9 +102,20 @@ import SupabaseClient from '~/util/supabase'
 
 export default {
   components: {
+    Subtitle,
     AppButton,
     Banner,
     Card,
+  },
+  props: {
+    minimal: {
+      type: Boolean,
+      default: false,
+    },
+    onlyErrors: {
+      type: Boolean,
+      default: false,
+    },
   },
   async fetch() {
     this.loading = true
@@ -115,7 +141,9 @@ export default {
       })
     }
 
-    this.accountsInfo = accountsInfo
+    this.accountsInfo = this.onlyErrors
+      ? accountsInfo.filter((info) => info.error)
+      : accountsInfo
 
     this.loading = false
   },
