@@ -23,6 +23,8 @@ export function getWeightLabel(unit, value, doX = true) {
       return value >= 100 ? `${value / 100}li` : `${value}cl`
     case 'gr':
       return value >= 1000 ? `${value / 1000}kg` : `${value}gr`
+    case 'x':
+      return doX ? `x ${value}` : value.toString()
     case 'unmeasured':
       return doX ? `x ${value}` : value.toString()
     default:
@@ -116,6 +118,19 @@ export default function getTransactionItemList(description, opts) {
         }
       }
 
+      // ? Others
+
+      const stRegex = /[(\d+|.+)]+st/i
+
+      const stMatch = entry.match(stRegex)
+
+      if (stMatch) {
+        weight = {
+          measurement: 'x', // "x" for "times"
+          value: toNumber(stMatch[0]),
+        }
+      }
+
       if (Number.isNaN(weight?.value)) weight = null
 
       if (weight && removeMeasurements) {
@@ -126,6 +141,7 @@ export default function getTransactionItemList(description, opts) {
           .replace(new RegExp(literRegex, 'gi'), '')
           .replace(new RegExp(clRegex, 'gi'), '')
           .replace(new RegExp(mlRegex, 'gi'), '')
+          .replace(new RegExp(stMatch, 'gi'), '')
           .trim()
       }
 
