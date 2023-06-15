@@ -42,21 +42,31 @@ export default function () {
         .filter(Boolean)
         .map((s) => s.trim())
       const description = [...new Set(descriptionArr)].join('\n')
+      const lowercaseName = name.toLowerCase()
 
-      const categories = [
-        ...new Set(
-          transaction.category
-            .flatMap((category) => {
-              const c = category.toLowerCase()
+      let categories = []
+      if (
+        lowercaseName.includes('albert heijn') ||
+        lowercaseName.includes('lidl') ||
+        lowercaseName.includes('jumbo')
+      ) {
+        categories = ['Boodschappen', 'Eten', 'Stock']
+      } else {
+        categories = [
+          ...new Set(
+            transaction.category
+              .flatMap((category) => {
+                const c = category.toLowerCase()
 
-              if (c.includes('food') || c.includes('groceries'))
-                return ['Groceries', 'Food']
+                if (c.includes('food') || c.includes('groceries'))
+                  return ['Groceries', 'Food']
 
-              return category
-            })
-            .filter(Boolean)
-        ),
-      ]
+                return category
+              })
+              .filter(Boolean)
+          ),
+        ]
+      }
 
       const submitObj = {
         user_id: SupabaseClient.auth.user().id,
