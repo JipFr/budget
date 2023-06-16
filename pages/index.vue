@@ -21,6 +21,9 @@
   .price-changes {
     display: none;
   }
+  .plaid-view {
+    margin-bottom: 40px;
+  }
 }
 </style>
 

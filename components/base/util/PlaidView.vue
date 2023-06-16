@@ -1,5 +1,8 @@
 <template>
-  <div class="plaid-view">
+  <div
+    v-if="(minimal && accountsInfo.length > 0) || !minimal"
+    class="plaid-view"
+  >
     <subtitle v-if="minimal && accountsInfo.length > 0">Bank accounts</subtitle>
     <banner v-if="error">{{ error }}</banner>
     <p v-if="!minimal" class="secondary">
