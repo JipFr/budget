@@ -91,6 +91,8 @@
   .card {
     border-top-right-radius: 11px;
     border-bottom-right-radius: 11px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   h4 {
