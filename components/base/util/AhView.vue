@@ -27,7 +27,7 @@
         </div>
         <div v-if="!account.error">
           <p>
-            <span>{{ account.info }}</span>
+            <span>{{ account.info.length }} receipts</span>
           </p>
         </div>
         <div v-else>
@@ -37,6 +37,11 @@
           </p>
         </div>
       </card>
+      <payment-card
+        v-for="(transaction, i) of transactions"
+        :key="`payment-${i}`"
+        :payment="transaction"
+      />
     </div>
   </div>
 </template>
@@ -88,6 +93,8 @@ import Subtitle from '~/components/title/Subtitle'
 import Banner from '~/components/base/Banner'
 import Card from '~/components/layout/Card'
 import AppButton from '~/components/util/Button'
+
+import PaymentCard from '~/components/base/PaymentCard'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -170,6 +177,7 @@ export default {
     AppButton,
     Banner,
     Card,
+    PaymentCard,
   },
   props: {
     minimal: {
@@ -211,7 +219,12 @@ export default {
             },
           }
         )
-        receiptToDescription(receiptDetails)
+        const description = receiptToDescription(receiptDetails)
+        this.transactions.push({
+          description,
+          cents: 1,
+          categories: ['Boodschappen', 'Eten'],
+        })
       }
 
       accountsInfo.push({
@@ -233,6 +246,7 @@ export default {
       error: '',
       tokens: [],
       accountsInfo: [],
+      transactions: [],
     }
   },
   methods: {
