@@ -1,4 +1,4 @@
-import { Configuration, PlaidApi, PlaidEnvironments } from 'plaid'
+const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid')
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments[process.env.PLAID_ENV],
@@ -13,7 +13,7 @@ const configuration = new Configuration({
 
 const client = new PlaidApi(configuration)
 
-export async function getTransactions({ ACCESS_TOKEN }) {
+async function getTransactions({ ACCESS_TOKEN }) {
   // Set cursor to empty to receive all historical updates
   let cursor = null
 
@@ -55,7 +55,7 @@ export async function getTransactions({ ACCESS_TOKEN }) {
   return { transactions: recentlyAdded }
 }
 
-export async function getInfo({ ACCESS_TOKEN }) {
+async function getInfo({ ACCESS_TOKEN }) {
   const request = {
     access_token: ACCESS_TOKEN,
   }
@@ -71,7 +71,7 @@ export async function getInfo({ ACCESS_TOKEN }) {
   return { info, error }
 }
 
-export async function createLinkToken(configs) {
+async function createLinkToken(configs) {
   if (process.env.PLAID_REDIRECT_URI !== '') {
     configs.redirect_uri = process.env.PLAID_REDIRECT_URI
   }
@@ -87,7 +87,7 @@ export async function createLinkToken(configs) {
   return { ...createTokenResponse, error }
 }
 
-export async function exchangePublicToken(publicToken) {
+async function exchangePublicToken(publicToken) {
   let exchangeResponse
   let error
   try {
@@ -102,4 +102,11 @@ export async function exchangePublicToken(publicToken) {
     ...exchangeResponse,
     error,
   }
+}
+
+module.exports = {
+  exchangePublicToken,
+  createLinkToken,
+  getInfo,
+  getTransactions,
 }

@@ -1,7 +1,7 @@
-import { getInfo } from '../../plaid'
+const { getInfo } = require('../../plaid')
 
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
-export const handler = async (event) => {
+const handler = async (event) => {
   if (!event.queryStringParameters['access-token']) {
     return {
       statusCode: 400,
@@ -18,3 +18,5 @@ export const handler = async (event) => {
     body: JSON.stringify(info),
   }
 }
+
+module.exports = { handler }

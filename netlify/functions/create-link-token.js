@@ -1,7 +1,7 @@
-import { createLinkToken } from '../../plaid'
+const { createLinkToken } = require('../../plaid')
 
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
-export const handler = async (event) => {
+const handler = async (event) => {
   if (!event.queryStringParameters['user-id']) {
     return {
       statusCode: 400,
@@ -27,3 +27,5 @@ export const handler = async (event) => {
     body: JSON.stringify({ token: t.data.link_token, error: t.error }),
   }
 }
+
+module.exports = { handler }

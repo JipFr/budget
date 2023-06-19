@@ -1,7 +1,5 @@
-import got from 'got'
-
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
-export const handler = async (event) => {
+const handler = async (event) => {
   if (!event.queryStringParameters.path) {
     return {
       statusCode: 400,
@@ -21,6 +19,7 @@ export const handler = async (event) => {
   let data
   try {
     const method = event.httpMethod.toLowerCase()
+    const { got } = await import('got')
     if (method === 'post') {
       data = await got[method](url, {
         headers,
@@ -35,6 +34,7 @@ export const handler = async (event) => {
       }).json()
     }
   } catch (err) {
+    console.log(err)
     return {
       statusCode: 400,
       body: JSON.stringify({ error: 'Invalid request' }),
@@ -46,3 +46,5 @@ export const handler = async (event) => {
     body: JSON.stringify(data),
   }
 }
+
+module.exports = { handler }
