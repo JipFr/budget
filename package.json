@@ -2,6 +2,7 @@
   "name": "krabbijkas",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -24,6 +25,7 @@
     "chart.js": "^2.9.4",
     "cordova-res": "^0.15.3",
     "core-js": "^3.18.0",
+    "got": "^13.0.0",
     "nuxt": "^2.15.8",
     "plaid": "^14.0.0",
     "portal-vue": "^2.1.7",

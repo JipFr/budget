@@ -1,7 +1,7 @@
-const { getTransactions } = require('../../plaid')
+import { getTransactions } from '../../plaid'
 
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
-const handler = async (event) => {
+export const handler = async (event) => {
   if (!event.queryStringParameters['access-token']) {
     return {
       statusCode: 400,
@@ -18,5 +18,3 @@ const handler = async (event) => {
     body: JSON.stringify({ transactions }),
   }
 }
-
-module.exports = { handler }
