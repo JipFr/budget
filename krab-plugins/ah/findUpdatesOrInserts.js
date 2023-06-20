@@ -20,14 +20,19 @@ export function findUpdatesOrInserts() {
 
   // Map each transaction to a list
   const list = {}
+  const listMoneySums = {}
   for (const transaction of transactionsInPeriod) {
     list[transaction.id] = getTransactionItemList(transaction.description)
+    listMoneySums[transaction.id] = list[transaction.id].reduce(
+      (sum, item) => sum + item.cents,
+      0
+    )
   }
 
   // Find transactions to MODIFY, not INSERT
   const modifyTransactions = []
   for (const receipt of receipts) {
-    const relevantTransaction = transactionsInPeriod.find((transaction) => {
+    const transactionToUpdate = transactionsInPeriod.find((transaction) => {
       return (
         // Check if it's on the same date
         receipt.transactionMoment.startsWith(transaction.date) &&
@@ -36,18 +41,20 @@ export function findUpdatesOrInserts() {
         // Make sure the plugin hasn't already done this one
         !(transaction.plugins_unleashed || '').includes('ah') &&
         // Only find transactions that don't already have a list.
-        !list[transaction.id].find((t) => t.cents !== 0)
-        // TODO add price checking, but be careful about statiegeld because that's not subtracted from total
+        !list[transaction.id].find((t) => t.cents !== 0) &&
+        // Check if price is the same as that of the transaction or the list
+        (receipt.total.amount.amount * 100 === listMoneySums[transaction.id] ||
+          receipt.total.amount.amount * 100 === transaction.cents * -1)
       )
     })
-    if (relevantTransaction) {
-      const unleashed = (relevantTransaction.plugins_unleashed || '')
+    if (transactionToUpdate) {
+      const unleashed = (transactionToUpdate.plugins_unleashed || '')
         .split(',')
         .filter(Boolean)
       unleashed.push('ah')
 
       modifyTransactions.push({
-        id: relevantTransaction.id,
+        id: transactionToUpdate.id,
         data: {
           description: receiptToDescription(receipt.receipt),
           plugins_unleashed: unleashed.join(','),
