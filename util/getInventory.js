@@ -9,9 +9,14 @@ export function getInventory($store) {
   const inventory = user.inventory
 
   // Get all relevant payments
-  const inventoryPayments = transactions.filter(
-    (t) => t.categories.includes('stock') || t.categories.includes('inventory')
-  )
+  const inventoryPayments = transactions.filter((t) => {
+    const cats = t.categories.map((t) => t.toLowerCase())
+    return (
+      cats.includes('stock') ||
+      cats.includes('inventory') ||
+      cats.includes('pantry')
+    )
+  })
 
   // Generate list for every single transaction
   const lists = {}
