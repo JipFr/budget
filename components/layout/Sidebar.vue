@@ -3,7 +3,7 @@
     <div class="content">
       <div class="logo-and-loader">
         <logo class="padded" />
-        <loader />
+        <plugin-loader />
       </div>
       <slot />
       <div class="nav-container padded">
@@ -208,7 +208,7 @@ import SupabaseClient from '~/util/supabase'
 
 // Import components
 import Logo from '~/components/base/util/Logo'
-import Loader from '~/components/util/Loader'
+import PluginLoader from '~/components/util/PluginLoader'
 
 // Import icons
 import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
@@ -216,7 +216,7 @@ import ArrowRightIcon from '~/assets/icons/arrow-right.svg?inline'
 export default {
   components: {
     Logo,
-    Loader,
+    PluginLoader,
   },
   data() {
     return {

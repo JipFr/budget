@@ -7,7 +7,7 @@
         </div>
         <logo />
         <div>
-          <loader />
+          <plugin-loader />
         </div>
       </container>
     </header>
@@ -90,7 +90,7 @@ header {
 // Import components
 import Container from '~/components/layout/Container'
 import Logo from '~/components/base/util/Logo'
-import Loader from '~/components/util/Loader'
+import PluginLoader from '~/components/util/PluginLoader'
 
 // Import icons
 import MenuIcon from '~/assets/icons/menu.svg?inline'
@@ -100,7 +100,7 @@ export default {
     Container,
     Logo,
     MenuIcon,
-    Loader,
+    PluginLoader,
   },
   props: {
     title: {
