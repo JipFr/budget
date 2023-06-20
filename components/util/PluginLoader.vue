@@ -5,10 +5,11 @@
         :is="plugin.icon"
         v-for="(plugin, i) of plugins"
         :key="plugin.id"
+        :class="i === pluginsState.pluginsLoaded && 'currently-loading'"
+      />
+      <check-icon
         :class="
-          (i === pluginsState.pluginsLoaded ||
-            (i === pluginsState.pluginCount - 1 &&
-              pluginsState.pluginsLoaded === pluginsState.pluginCount)) &&
+          pluginsState.pluginsLoaded === pluginsState.pluginCount &&
           'currently-loading'
         "
       />
@@ -66,11 +67,18 @@
     &:not(.currently-loading) {
       opacity: 0;
     }
+
+    &.feather-check {
+      color: #34c759;
+    }
   }
 }
 
 .plugin-loader:not(.visible) {
   animation: fadeOutAfterABit 1s linear forwards;
+}
+.plugin-loader:not(.visilbe) .feather-check {
+  animation: jiggleHi 1.5s linear infinite;
 }
 
 @keyframes fadeOutAfterABit {
@@ -84,12 +92,35 @@
     opacity: 0;
   }
 }
+@keyframes jiggleHi {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 </style>
 
 <script>
 import { plugins, pluginsState } from '~/krab-plugins'
 
+// Import icons
+import CheckIcon from '~/assets/icons/check.svg?inline'
+
 export default {
+  components: {
+    CheckIcon,
+  },
   data() {
     return {
       plugins,
