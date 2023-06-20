@@ -99,14 +99,56 @@ import PaymentCard from '~/components/base/PaymentCard'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-export function ahFetch(path, opts) {
+export async function refreshAhToken(tokens) {
+  alert('Refreshing')
+  console.log('Refreshing', tokens)
+  const refreshData = await fetch(
+    `/.netlify/functions/ah-proxy?path=${encodeURIComponent(
+      '/mobile-auth/v1/auth/token/refresh'
+    )}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        clientId: 'appie',
+        refreshToken: tokens.refresh_token,
+      }),
+    }
+  ).then((d) => d.json())
+
+  console.log(refreshData)
+  if (refreshData.error) return refreshData
+
+  // Store new access & refresh tokens in DB
+  const { error } = await SupabaseClient.from('plugin_access_tokens')
+    .update({
+      ...refreshData,
+      updated_at: new Date().toISOString(),
+    })
+    .match({
+      access_token: tokens.access_token,
+    })
+
+  if (error) console.error(error)
+  return {
+    ...refreshData,
+    ...tokens,
+  }
+}
+
+export function ahFetch(path, opts, tokens) {
   return fetch(
     `/.netlify/functions/ah-proxy?path=${encodeURIComponent(path)}`,
     {
       ...opts,
+      headers: {
+        ...(opts.headers || {}),
+        Authorization: tokens ? `Bearer ${tokens.access_token}` : undefined,
+      },
       body: JSON.stringify(opts.body),
     }
-  ).then((d) => d.json())
+  ).then((d) => {
+    return d.json()
+  })
 }
 
 function formatEur(str, between = '') {
@@ -193,38 +235,43 @@ export default {
     this.loading = true
 
     // Fetch tokens
-    const tokens = (
-      await SupabaseClient.from('plugin_access_tokens').select('*')
-    ).data
-
-    this.tokens = tokens
+    await this.fetchTokens()
 
     // Fetch account info
     const accountsInfo = []
-    for (const token of tokens) {
-      const itemInfo = await ahFetch('/mobile-services/v1/receipts', {
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-        },
-      })
+    for (let token of this.tokens) {
+      const tokenExpirationDate = new Date(
+        new Date(token.created_at).getTime() + token.expires_in * 1e3
+      )
+
+      const fiveMinutes = 1e3 * 60 * 5
+      // Five minutes gives us some leeway
+      if (Date.now() > tokenExpirationDate.getTime() - fiveMinutes) {
+        const refreshData = await refreshAhToken(token)
+        if (!refreshData.error) {
+          continue
+        }
+        token = { ...refreshData, ...token }
+      }
+
+      const itemInfo = await ahFetch('/mobile-services/v1/receipts', {}, token)
 
       // ! THIS IS TEMPORARY!
-      const receipts = itemInfo.slice(0, 10)
-      for (const receipt of receipts) {
-        const receiptDetails = await ahFetch(
-          `/mobile-services/v1/receipts/${receipt.transactionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token.access_token}`,
-            },
-          }
-        )
-        const description = receiptToDescription(receiptDetails)
-        this.transactions.push({
-          description,
-          cents: 1,
-          categories: ['Boodschappen', 'Eten'],
-        })
+      if (Array.isArray(itemInfo)) {
+        const receipts = itemInfo.slice(0, 10)
+        for (const receipt of receipts) {
+          const receiptDetails = await ahFetch(
+            `/mobile-services/v1/receipts/${receipt.transactionId}`,
+            {},
+            token
+          )
+          const description = receiptToDescription(receiptDetails)
+          this.transactions.push({
+            description,
+            cents: receipt.total.amount.amount * -100,
+            categories: ['Boodschappen', 'Eten'],
+          })
+        }
       }
 
       accountsInfo.push({
@@ -250,6 +297,15 @@ export default {
     }
   },
   methods: {
+    async fetchTokens() {
+      const tokens = (
+        await SupabaseClient.from('plugin_access_tokens')
+          .select('*')
+          .match({ plugin: 'ah' })
+      ).data
+
+      this.tokens = tokens
+    },
     async removeAcount(id) {
       if (
         !confirm(

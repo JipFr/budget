@@ -34,7 +34,7 @@ const handler = async (event) => {
       }).json()
     }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return {
       statusCode: 400,
       body: JSON.stringify({ error: 'Invalid request' }),

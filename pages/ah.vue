@@ -13,7 +13,7 @@
     <p>{{ data || 'No data' }}</p>
     <p>{{ data2 || 'No data' }}</p>
 
-    <ah-view minimal />
+    <ah-view />
   </div>
 </template>
 
@@ -63,6 +63,8 @@ export default {
         access_token: res.access_token,
         refresh_token: res.refresh_token,
         expires_in: res.expires_in,
+        plugin: 'ah',
+        updated_at: new Date().toISOString(),
       }
 
       // Insert access token
