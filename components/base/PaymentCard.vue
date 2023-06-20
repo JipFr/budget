@@ -22,6 +22,20 @@
       </div>
       <!-- Actions -->
       <dropdown v-if="!disableActions || showReaddButton">
+        <div
+          v-if="modifiedBy.length > 0"
+          class="modified-by fake-dropdown-item"
+        >
+          <p>Modified by:</p>
+          <div
+            v-for="plugin of modifiedBy"
+            :key="`plugin-${plugin.id}`"
+            class="plugin"
+          >
+            <component :is="plugin.icon" class="logo" />
+            <span>{{ plugin.displayName }}</span>
+          </div>
+        </div>
         <dropdown-item
           v-if="!disableActions"
           :icon="TrashIcon"
@@ -467,6 +481,32 @@
   }
 }
 
+.fake-dropdown-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+
+  p {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
+}
+
+.plugin {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+  align-items: center;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  & + .plugin {
+    margin-top: 10px;
+  }
+}
+
 @media (max-width: 1350px) {
   .card {
     @include minimal;
@@ -506,6 +546,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { plugins } from '~/krab-plugins'
 
 // Import components
 import Card from '~/components/layout/Card'
@@ -581,6 +622,20 @@ export default {
         removeEuroString: true,
       })
       return entries
+    },
+    modifiedBy() {
+      const modifiedBy = (this.payment.plugins_unleashed || '')
+        .split(',')
+        .filter(Boolean)
+
+      if (this.payment.plaid_transaction_id && !modifiedBy.includes('plaid')) {
+        modifiedBy.push('plaid')
+      }
+
+      const relevantPlugins = modifiedBy
+        .map((id) => plugins.find((plugin) => plugin.id === id))
+        .sort((a, b) => a.priority - b.priority)
+      return relevantPlugins
     },
   },
   watch: {

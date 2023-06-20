@@ -2,8 +2,6 @@
 import SupabaseClient from '~/util/supabase'
 
 export async function refreshAhToken(tokens) {
-  alert('Refreshing')
-  console.log('Refreshing', tokens)
   const refreshData = await fetch(
     `/.netlify/functions/ah-proxy?path=${encodeURIComponent(
       '/mobile-auth/v1/auth/token/refresh'

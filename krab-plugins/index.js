@@ -2,9 +2,10 @@ import Vue from 'vue'
 import { modifyTransactions, insertTransactions } from './actions'
 
 import { plugin as ah } from './ah'
+import { plugin as plaid } from './plaid'
 
 // Define plugins
-export const plugins = [ah].sort((a, b) => a.priority - b.priority)
+export const plugins = [ah, plaid].sort((a, b) => a.priority - b.priority)
 
 // Init plugin state
 export const pluginsState = Vue.observable({

@@ -1,5 +1,10 @@
+import AhLogo from '~/assets/logos/ah.svg?inline'
+
 export const plugin = {
   priority: 10, // Position in queueu
+  id: 'example',
+  displayName: 'Example plugin',
+  icon: AhLogo,
   async init() {
     // Get all required async state here, like tokens
   },
@@ -14,5 +19,8 @@ export const plugin = {
         },
       ],
     }
+  },
+  verifyToken(_token) {
+    // ... See AH plugin for example
   },
 }

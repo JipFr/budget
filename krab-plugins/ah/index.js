@@ -4,6 +4,8 @@ import { fetchTokens } from '../util'
 import { getReceipts, getReceipt, refreshAhToken } from './fetch'
 import { findUpdatesOrInserts } from './findUpdatesOrInserts'
 
+import AhLogo from '~/assets/logos/ah.svg?inline'
+
 export * from './receiptToDescription'
 export * from './fetch'
 
@@ -18,6 +20,8 @@ export const state = Vue.observable({
 export const plugin = {
   priority: 10,
   id: 'ah',
+  displayName: 'Albert Heijn',
+  icon: AhLogo,
   async init() {
     const tokens = await fetchTokens(this.id)
     state.token = tokens[0]
