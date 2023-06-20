@@ -124,6 +124,7 @@ export default {
       error: '',
       tokens: [],
       transactions: [],
+      AhState,
     }
   },
   computed: {
@@ -132,13 +133,15 @@ export default {
     },
     accountsInfo() {
       console.log(AhState)
-      return [
-        {
-          error: AhState.error,
-          info: AhState.receipts,
-          id: AhState.token.id,
-        },
-      ]
+      return AhState.token
+        ? [
+            {
+              error: AhState.error,
+              info: AhState.receipts,
+              id: AhState.token.id,
+            },
+          ]
+        : []
     },
   },
   methods: {
