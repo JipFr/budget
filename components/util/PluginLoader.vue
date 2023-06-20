@@ -78,7 +78,7 @@
   animation: fadeOutAfterABit 1s linear forwards;
 }
 .plugin-loader:not(.visilbe) .feather-check {
-  animation: jiggleHi 1.5s linear infinite;
+  animation: jiggle 1.5s linear infinite;
 }
 
 @keyframes fadeOutAfterABit {
@@ -92,7 +92,7 @@
     opacity: 0;
   }
 }
-@keyframes jiggleHi {
+@keyframes jiggle {
   0% {
     transform: rotate(0deg);
   }
