@@ -134,19 +134,19 @@ export default {
           icon: BookmarkIcon,
           title: 'Pantry',
           description:
-            'Using your lists, Krab bij Kas can keep track of what you have in the house.',
+            'Using your lists, Krab Bij Kas can keep track of what you have in the house.',
         },
         {
           icon: CalendarIcon,
           title: 'Recurring payments',
           description:
-            'Using the "monthly" category, Krab bij Kas can remind you when a recurring payment is about to occur.',
+            'Using the "monthly" category, Krab Bij Kas can remind you when a recurring payment is about to occur.',
         },
         {
           icon: FileTextIcon,
           title: 'Recipes',
           description:
-            "Using what's in your pantry, Krab bij Kas can show you what you can cook right now, even showing you how much a recipe costs.",
+            "Using what's in your pantry, Krab Bij Kas can show you what you can cook right now, even showing you how much a recipe costs.",
         },
       ],
     }

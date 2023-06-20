@@ -3,8 +3,9 @@
     ref="card"
     class="no-padding payment-card"
     :class="active && 'card-active'"
-    :plaid-imported="payment.plaid_transaction_id"
+    :imported="payment.plaid_transaction_id || payment.plugin_transaction_id"
     :minimal="minimal"
+    :data-id="payment.id"
   >
     <div
       class="card-core card-sect"
@@ -82,7 +83,11 @@
                 </div>
                 <span>
                   <div
-                    v-if="payment.plaid_transaction_id && i === 0"
+                    v-if="
+                      (payment.plaid_transaction_id ||
+                        payment.plugin_transaction_id) &&
+                      i === 0
+                    "
                     class="imported-badge badge"
                   >
                     Imported
@@ -106,7 +111,10 @@
           </div>
         </div>
         <span v-else class="bold usual-description">
-          <div v-if="payment.plaid_transaction_id" class="imported-badge badge">
+          <div
+            v-if="payment.plaid_transaction_id || payment.plugin_transaction_id"
+            class="imported-badge badge"
+          >
             Imported
           </div>
           {{ description }}
@@ -214,14 +222,14 @@
     scroll-snap-align: start;
   }
 
-  &[plaid-imported] {
+  &[imported] {
     border-left-color: var(--theme);
     border-left-width: 3px;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .card[plaid-imported] {
+  .card[imported] {
     border-left-width: 1px;
     border-left-color: var(--anchor);
   }

@@ -14,7 +14,7 @@ const handler = async (event) => {
       // This should correspond to a unique id for the current user.
       client_user_id: event.queryStringParameters['user-id'],
     },
-    client_name: 'Krab bij Kas',
+    client_name: 'Krab Bij Kas',
     products: ['auth', 'transactions'],
     country_codes: ['US', 'CA', 'NL'],
     language: 'en',

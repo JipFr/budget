@@ -4,7 +4,7 @@
       <div class="text-content">
         <h2 id="faq">It knows all</h2>
         <p>
-          Krab bij Kas will help you keep track of how much money you have left
+          Krab Bij Kas will help you keep track of how much money you have left
           this month. It'll track the prices of the products you love. It can
           help you figure out what to make for dinner.
         </p>

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { modifyTransactions } from './actions'
+import { modifyTransactions, insertTransactions } from './actions'
 
 import { plugin as ah } from './ah'
 
@@ -31,6 +31,8 @@ export async function main() {
 
     if (data.transactions?.modify)
       await modifyTransactions(data.transactions.modify)
+    if (data.transactions?.insert)
+      await insertTransactions(data.transactions.insert)
   }
   pluginsState.loading = false
 }

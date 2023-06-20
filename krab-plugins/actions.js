@@ -19,3 +19,21 @@ export async function modifyTransactions(modify) {
 
   return { errors, successes }
 }
+
+export async function insertTransactions(insert) {
+  const errors = []
+  const successes = []
+  for (const toInsert of insert) {
+    const data = await SupabaseClient.from('transactions').insert([
+      toInsert.data,
+    ])
+
+    if (data.error) {
+      errors.push(data.error)
+    } else {
+      successes.push(data)
+    }
+  }
+
+  return { errors, successes }
+}
