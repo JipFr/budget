@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="settings">
     <!-- Profile -->
     <page-title>Profile</page-title>
 
@@ -17,6 +17,9 @@
 </template>
 
 <style lang="scss" scoped>
+.settings {
+  margin-bottom: 30vh;
+}
 .mt {
   margin-top: 70px;
 }

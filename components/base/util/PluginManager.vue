@@ -1,16 +1,32 @@
 <template>
   <div>
     <div v-for="plugin of plugins" :key="`plugin-${plugin.id}`">
-      <subtitle>{{ plugin.displayName }}</subtitle>
+      <subtitle
+        v-if="
+          (!loading &&
+            minimal &&
+            (plugin.accountCards || []).filter((t) =>
+              onlyErrors ? t.error : true
+            ).length > 0) ||
+          !minimal
+        "
+      >
+        {{ plugin.displayName }}
+      </subtitle>
 
-      <div v-if="plugin.state?.loading || plugin.loading" class="secondary">
+      <div
+        v-if="(plugin.state?.loading || plugin.loading) && !minimal"
+        class="secondary"
+      >
         <card class="loading-card">
           <loader />
         </card>
       </div>
       <div v-else class="cards">
         <card
-          v-for="(account, i) of plugin.accountCards || []"
+          v-for="(account, i) of (plugin.accountCards || []).filter((t) =>
+            onlyErrors ? t.error : true
+          )"
           :key="`${plugin.id}-account-${i}`"
         >
           <div class="spread">
@@ -30,7 +46,8 @@
         v-if="
           !(plugin.state?.loading || plugin.loading) &&
           plugin.addAccount &&
-          (plugin.accountCards || []).length < (plugin.accountLimit || 10)
+          (plugin.accountCards || []).length < (plugin.accountLimit || 10) &&
+          !minimal
         "
         class="secondary add-account"
         @click="addAccount(plugin)"
@@ -112,6 +129,16 @@ export default {
     Card,
     AppButton,
     Loader,
+  },
+  props: {
+    minimal: {
+      type: Boolean,
+      default: false,
+    },
+    onlyErrors: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

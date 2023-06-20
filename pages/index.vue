@@ -2,9 +2,7 @@
   <div>
     <page-title>Transactions</page-title>
     <push-notif-button />
-
-    <!-- TODO RE-ADD PLUGIN ERRORS-->
-
+    <plugin-manager class="plugin-manager" minimal only-errors />
     <price-changes :all-payments="getAllPayments" />
     <payment-list :raw-payments="getPayments" />
     <portal to="right-side">
@@ -17,6 +15,9 @@
 
 <style lang="scss" scoped>
 .plaid-view {
+  margin-bottom: 70px;
+}
+.plugin-manager ::v-deep(.cards:last-child .card:last-child) {
   margin-bottom: 70px;
 }
 @media (max-width: 700px) {
@@ -36,6 +37,7 @@ import PriceChanges from '~/components/base/PriceChanges'
 import PaymentList from '~/components/base/PaymentList'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 import PageTitle from '~/components/title/PageTitle'
+import PluginManager from '~/components/base/util/PluginManager'
 
 export default {
   components: {
@@ -45,6 +47,7 @@ export default {
     NewTransactionWrapper,
     PageTitle,
     PushNotifButton,
+    PluginManager,
   },
   computed: {
     getAllPayments() {
