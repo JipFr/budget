@@ -1,3 +1,5 @@
+import { main as pluginsMain, pluginsState } from '../krab-plugins'
+
 // Fixed colors
 export const colors = [
   'rgb(0, 122, 255)',
@@ -86,6 +88,13 @@ export const mutations = {
     if (data.transactions) state.data.transactions = data.transactions
     if (data.inventory) state.data.inventory = data.inventory
     if (data.recipes) state.data.recipes = data.recipes
+
+    if (typeof data.transactions !== 'undefined') {
+      // Init plugins
+      pluginsState.transactions = data.transactions
+      pluginsMain()
+    }
+
     state.data.loading = false
     applyFilter(state)
   },

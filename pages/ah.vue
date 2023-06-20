@@ -26,10 +26,8 @@ p {
 <script>
 // Import components
 import PageTitle from '~/components/title/PageTitle'
-import AhView, { ahFetch } from '~/components/base/util/AhView'
-
-// Import Supabase
-import SupabaseClient from '~/util/supabase'
+import AhView from '~/components/base/util/AhView'
+import { addAccessFromCode } from '~/krab-plugins/ah'
 
 export default {
   components: {
@@ -47,30 +45,9 @@ export default {
     async sendCode() {
       const code = this.url.split('?code=').pop()
 
-      const res = await ahFetch('/mobile-auth/v1/auth/token', {
-        method: 'POST',
-        body: {
-          code,
-        },
-      })
+      const { res, insert } = await addAccessFromCode(code)
+
       this.data = res
-
-      // Now logged in
-      if (res.error) return
-
-      const submitObj = {
-        user_id: SupabaseClient.auth.user().id,
-        access_token: res.access_token,
-        refresh_token: res.refresh_token,
-        expires_in: res.expires_in,
-        plugin: 'ah',
-        updated_at: new Date().toISOString(),
-      }
-
-      // Insert access token
-      const insert = await SupabaseClient.from('plugin_access_tokens').insert([
-        submitObj,
-      ])
       this.data2 = insert
     },
   },

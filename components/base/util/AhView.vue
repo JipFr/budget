@@ -27,7 +27,7 @@
         </div>
         <div v-if="!account.error">
           <p>
-            <span>{{ account.info.length }} receipts</span>
+            <span>{{ account?.info?.length }} receipts</span>
           </p>
         </div>
         <div v-else>
@@ -99,119 +99,7 @@ import PaymentCard from '~/components/base/PaymentCard'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-export async function refreshAhToken(tokens) {
-  alert('Refreshing')
-  console.log('Refreshing', tokens)
-  const refreshData = await fetch(
-    `/.netlify/functions/ah-proxy?path=${encodeURIComponent(
-      '/mobile-auth/v1/auth/token/refresh'
-    )}`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        clientId: 'appie',
-        refreshToken: tokens.refresh_token,
-      }),
-    }
-  ).then((d) => d.json())
-
-  console.log(refreshData)
-  if (refreshData.error) return refreshData
-
-  // Store new access & refresh tokens in DB
-  const { error } = await SupabaseClient.from('plugin_access_tokens')
-    .update({
-      ...refreshData,
-      updated_at: new Date().toISOString(),
-    })
-    .match({
-      access_token: tokens.access_token,
-    })
-
-  if (error) console.error(error)
-  return {
-    ...refreshData,
-    ...tokens,
-  }
-}
-
-export function ahFetch(path, opts, tokens) {
-  return fetch(
-    `/.netlify/functions/ah-proxy?path=${encodeURIComponent(path)}`,
-    {
-      ...opts,
-      headers: {
-        ...(opts.headers || {}),
-        Authorization: tokens ? `Bearer ${tokens.access_token}` : undefined,
-      },
-      body: JSON.stringify(opts.body),
-    }
-  ).then((d) => {
-    return d.json()
-  })
-}
-
-function formatEur(str, between = '') {
-  return `€${between}${str.replace(/,/g, '.')}`
-}
-
-function receiptToDescription(receipt) {
-  const storeName = receipt
-    .find((t) => t.type === 'text')
-    .value.replace(/\d+/g, '')
-
-  const description = [storeName]
-
-  // Products
-  let productRange = receipt.slice(
-    receipt.findIndex((t) => t.type === 'products-header') + 2
-  ) // Starting from after the divider
-  productRange = productRange.slice(
-    0,
-    productRange.findIndex((t) => t.type === 'divider')
-  )
-  productRange = productRange.filter(
-    (t) =>
-      t.type === 'product' &&
-      !t.description.toLowerCase().includes('bonuskaart')
-  )
-
-  for (const product of productRange) {
-    const desc = product.description.toLowerCase()
-    const eur = formatEur(product.amount)
-
-    if (desc.startsWith('+')) {
-      description[description.length - 1] =
-        description[description.length - 1] + ` + ${eur}`
-    } else {
-      const descText = `${
-        product.quantity && Number(product.quantity) !== 1
-          ? product.quantity
-          : ''
-      } ${desc} ${eur}`.trim()
-      description.push(descText)
-    }
-  }
-
-  // Add "money removed" (statiegeld, bonus box)
-
-  const bonusLines = receipt.filter((t) => t.quantity === 'BONUS')
-  for (const bonusLine of bonusLines) {
-    description.push(
-      `${bonusLine.description.toLowerCase()} bonus ${formatEur(
-        bonusLine.amount
-      )}`
-    )
-  }
-
-  // Statiegeld
-  const deposit = receipt.find((t) => t.description === 'EMBALLAGE')
-  if (deposit) {
-    description.push(`Statiegeld ${formatEur(deposit.amount, '-')}`)
-  }
-
-  return description.map((t) => t.trim().replace(/ {2}/g, ' ')).join('\n')
-}
+import { state as AhState } from '~/krab-plugins/ah/'
 
 export default {
   components: {
@@ -231,81 +119,29 @@ export default {
       default: false,
     },
   },
-  async fetch() {
-    this.loading = true
-
-    // Fetch tokens
-    await this.fetchTokens()
-
-    // Fetch account info
-    const accountsInfo = []
-    for (let token of this.tokens) {
-      const tokenExpirationDate = new Date(
-        new Date(token.created_at).getTime() + token.expires_in * 1e3
-      )
-
-      const fiveMinutes = 1e3 * 60 * 5
-      // Five minutes gives us some leeway
-      if (Date.now() > tokenExpirationDate.getTime() - fiveMinutes) {
-        const refreshData = await refreshAhToken(token)
-        if (!refreshData.error) {
-          continue
-        }
-        token = { ...refreshData, ...token }
-      }
-
-      const itemInfo = await ahFetch('/mobile-services/v1/receipts', {}, token)
-
-      // ! THIS IS TEMPORARY!
-      if (Array.isArray(itemInfo)) {
-        const receipts = itemInfo.slice(0, 10)
-        for (const receipt of receipts) {
-          const receiptDetails = await ahFetch(
-            `/mobile-services/v1/receipts/${receipt.transactionId}`,
-            {},
-            token
-          )
-          const description = receiptToDescription(receiptDetails)
-          this.transactions.push({
-            description,
-            cents: receipt.total.amount.amount * -100,
-            categories: ['Boodschappen', 'Eten'],
-          })
-        }
-      }
-
-      accountsInfo.push({
-        id: token.id,
-        info: itemInfo,
-        error: itemInfo.error,
-      })
-    }
-
-    this.accountsInfo = this.onlyErrors
-      ? accountsInfo.filter((info) => info.error)
-      : accountsInfo
-
-    this.loading = false
-  },
   data() {
     return {
-      loading: true,
       error: '',
       tokens: [],
-      accountsInfo: [],
       transactions: [],
     }
   },
-  methods: {
-    async fetchTokens() {
-      const tokens = (
-        await SupabaseClient.from('plugin_access_tokens')
-          .select('*')
-          .match({ plugin: 'ah' })
-      ).data
-
-      this.tokens = tokens
+  computed: {
+    loading() {
+      return AhState.loading
     },
+    accountsInfo() {
+      console.log(AhState)
+      return [
+        {
+          error: AhState.error,
+          info: AhState.receipts,
+          id: AhState.token.id,
+        },
+      ]
+    },
+  },
+  methods: {
     async removeAcount(id) {
       if (
         !confirm(
@@ -322,7 +158,7 @@ export default {
 
       if (error) this.error = error
 
-      this.$fetch()
+      // location.reload()
     },
   },
 }
