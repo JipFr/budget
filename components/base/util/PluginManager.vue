@@ -8,13 +8,6 @@
           <loader />
         </card>
       </div>
-      <div v-else-if="(plugin.accountCards || []).length === 0">
-        <card class="loading-card">
-          <a href="https://youtu.be/qD03TYxWaRw" target="_blank">
-            https://youtu.be/qD03TYxWaRw
-          </a>
-        </card>
-      </div>
       <div v-else class="cards">
         <card
           v-for="(account, i) of plugin.accountCards || []"
@@ -32,19 +25,18 @@
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="card-content" v-html="account.html" />
         </card>
-
-        <app-button
-          v-if="
-            !(plugin.state?.loading || plugin.loading) &&
-            plugin.addAccount &&
-            (plugin.accountCards || []).length < plugin.accountLimit
-          "
-          class="secondary"
-          @click="addAccount(plugin)"
-        >
-          Add account
-        </app-button>
       </div>
+      <app-button
+        v-if="
+          !(plugin.state?.loading || plugin.loading) &&
+          plugin.addAccount &&
+          (plugin.accountCards || []).length < (plugin.accountLimit || 10)
+        "
+        class="secondary add-account"
+        @click="addAccount(plugin)"
+      >
+        Add account
+      </app-button>
     </div>
   </div>
 </template>
@@ -55,6 +47,9 @@
 }
 .subtitle {
   margin-top: 2rem;
+}
+.button.add-account {
+  margin-top: 1rem;
 }
 
 .spread {
@@ -84,6 +79,10 @@
 
   ::v-deep(span) {
     color: var(--text-secondary);
+  }
+
+  ::v-deep(.mt) {
+    margin-top: 1rem;
   }
 }
 

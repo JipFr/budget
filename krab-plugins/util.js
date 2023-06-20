@@ -9,12 +9,14 @@ export async function fetchTokens(pluginKey) {
       .select('*')
       .match({ plugin: pluginKey })
   ).data
+  console.log(JSON.stringify(tokens), 12)
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]
 
     const plugin = plugins.find((p) => p.id === token.plugin)
-    if (plugin) tokens[i] = await plugin.verifyToken(token)
+    if (plugin && plugin.verifyToken)
+      tokens[i] = await plugin.verifyToken(token)
   }
 
   return tokens
