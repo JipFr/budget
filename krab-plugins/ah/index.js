@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { fetchTokens } from '../util'
-import { getReceipts, getReceipt } from './fetch'
+import { getReceipts, getReceipt, refreshAhToken } from './fetch'
 import { findUpdatesOrInserts } from './findUpdatesOrInserts'
 
 export * from './receiptToDescription'
@@ -18,6 +18,23 @@ export const state = Vue.observable({
 export const plugin = {
   priority: 10,
   id: 'ah',
+  async verifyToken(token) {
+    const endDate = new Date(
+      new Date(token.updated_at || token.created_at).getTime() +
+        token.expires_in * 1e3
+    )
+
+    const tenMinutes = 1e3 * 60 * 10
+    if (Date.now() > endDate.getTime() - tenMinutes) {
+      // Refresh token
+      const refreshed = await refreshAhToken(token)
+      return {
+        ...token,
+        refreshed,
+      }
+    }
+    return token
+  },
   async init() {
     const tokens = await fetchTokens(this.id)
     state.token = tokens[0]

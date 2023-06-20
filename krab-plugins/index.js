@@ -4,7 +4,7 @@ import { modifyTransactions } from './actions'
 import { plugin as ah } from './ah'
 
 // Define plugins
-const plugins = [ah].sort((a, b) => a.priority - b.priority)
+export const plugins = [ah].sort((a, b) => a.priority - b.priority)
 
 // Init plugin state
 export const pluginsState = Vue.observable({

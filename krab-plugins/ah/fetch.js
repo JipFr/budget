@@ -23,6 +23,7 @@ export async function refreshAhToken(tokens) {
   // Store new access & refresh tokens in DB
   const { error } = await SupabaseClient.from('plugin_access_tokens')
     .update({
+      id: tokens.id,
       ...refreshData,
       updated_at: new Date().toISOString(),
     })
