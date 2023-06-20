@@ -45,11 +45,7 @@ export default {
 
   css: ['~assets/scss/main.scss'],
 
-  plugins: [
-    './plugins/event-bus.js',
-    './plugins/sw.client.js',
-    './plugins/plaid-import-transactions.client.js',
-  ],
+  plugins: ['./plugins/event-bus.js', './plugins/sw.client.js'],
 
   components: false,
 

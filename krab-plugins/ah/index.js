@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import { fetchTokens } from '../util'
-import { getReceipts, getReceipt, refreshAhToken, removeAccount } from './fetch'
+import { fetchTokens, removeAccount } from '../util'
+import { getReceipts, getReceipt, refreshAhToken } from './fetch'
 import { findUpdatesOrInserts } from './findUpdatesOrInserts'
 
 import AhLogo from '~/assets/logos/ah.svg?inline'
@@ -54,7 +54,7 @@ export const plugin = {
       {
         id: state.token.id,
         title: 'Your Albert Heijn account',
-        html: `<span>${state.receipts.length} transactions</span>`,
+        html: `<span>${state.receipts.length} receipts</span>`,
       },
     ]
 

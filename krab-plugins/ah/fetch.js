@@ -94,18 +94,3 @@ export async function getReceipt(token, receiptId) {
   )
   return receiptDetails
 }
-
-export async function removeAccount(id) {
-  if (
-    !confirm('Are you sure you want to disconnect this Albert Heijn account?')
-  )
-    return
-
-  const { error } = await SupabaseClient.from('plugin_access_tokens')
-    .delete()
-    .match({
-      id,
-    })
-
-  if (error) this.error = error
-}

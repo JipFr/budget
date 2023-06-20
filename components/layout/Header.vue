@@ -7,7 +7,7 @@
         </div>
         <logo />
         <div>
-          <loader v-if="plaidLoading" />
+          <loader />
         </div>
       </container>
     </header>
@@ -87,8 +87,6 @@ header {
 </style>
 
 <script>
-import { plaidState } from '~/plugins/plaid-import-transactions.client'
-
 // Import components
 import Container from '~/components/layout/Container'
 import Logo from '~/components/base/util/Logo'
@@ -109,11 +107,6 @@ export default {
       type: String,
       required: false,
       default: 'No title',
-    },
-  },
-  computed: {
-    plaidLoading() {
-      return plaidState.loading
     },
   },
 }

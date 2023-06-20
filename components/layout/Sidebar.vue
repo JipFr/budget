@@ -3,7 +3,7 @@
     <div class="content">
       <div class="logo-and-loader">
         <logo class="padded" />
-        <loader v-if="plaidLoading" />
+        <loader />
       </div>
       <slot />
       <div class="nav-container padded">
@@ -203,8 +203,6 @@ aside.sidebar {
 </style>
 
 <script>
-import { plaidState } from '~/plugins/plaid-import-transactions.client'
-
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
@@ -291,11 +289,6 @@ export default {
         },
       ],
     }
-  },
-  computed: {
-    plaidLoading() {
-      return plaidState.loading
-    },
   },
   mounted() {
     SupabaseClient.auth.onAuthStateChange(() => {

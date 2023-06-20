@@ -5,15 +5,14 @@
 
     <profile />
 
-    <!-- Bank stuff-->
-    <page-title>Bank accounts</page-title>
+    <page-title>Plugins</page-title>
 
-    <plaid-view />
+    <p class="secondary">
+      Please note that syncing your account will mean your access token will be
+      stored in Krab Bij Kas' database.
+    </p>
 
-    <div class="mt">
-      <page-title>Plugins</page-title>
-      <plugin-manager />
-    </div>
+    <plugin-manager />
   </div>
 </template>
 
@@ -21,20 +20,21 @@
 .mt {
   margin-top: 70px;
 }
+.secondary {
+  color: var(--text-secondary);
+}
 </style>
 
 <script>
 // Import components
 import PageTitle from '~/components/title/PageTitle'
 import Profile from '~/components/base/util/Profile'
-import PlaidView from '~/components/base/util/PlaidView'
 import PluginManager from '~/components/base/util/PluginManager'
 
 export default {
   components: {
     PageTitle,
     Profile,
-    PlaidView,
     PluginManager,
   },
 }

@@ -9,7 +9,6 @@ export async function fetchTokens(pluginKey) {
       .select('*')
       .match({ plugin: pluginKey })
   ).data
-  console.log(JSON.stringify(tokens), 12)
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]
@@ -20,4 +19,19 @@ export async function fetchTokens(pluginKey) {
   }
 
   return tokens
+}
+
+export async function removeAccount(
+  id,
+  confirmationMessage = 'Are you sure you want to disconnect this Albert Heijn account?'
+) {
+  if (!confirm(confirmationMessage)) return
+
+  const { error } = await SupabaseClient.from('plugin_access_tokens')
+    .delete()
+    .match({
+      id,
+    })
+
+  if (error) this.error = error
 }

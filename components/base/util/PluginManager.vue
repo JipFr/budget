@@ -52,6 +52,12 @@
   margin-top: 1rem;
 }
 
+.cards {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
 .spread {
   display: flex;
   justify-content: space-between;

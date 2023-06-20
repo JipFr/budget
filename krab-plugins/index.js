@@ -30,6 +30,8 @@ export async function main() {
       continue
     }
 
+    console.log(data)
+
     if (data.transactions?.modify)
       await modifyTransactions(data.transactions.modify)
     if (data.transactions?.insert)

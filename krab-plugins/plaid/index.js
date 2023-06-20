@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import { fetchTokens } from '../util'
-import { addPlaidAccount } from './util'
+import { fetchTokens, removeAccount } from '../util'
+import { addPlaidAccount, getPlaidImports } from './util'
 
 import PlaidLogo from '~/assets/logos/plaid.svg?inline'
 
@@ -19,18 +19,16 @@ export const plugin = {
   state,
   async init() {
     state.loading = true
+    state.accounts = []
 
     // Fetch tokens
     state.tokens = await fetchTokens('plaid')
-    console.log(state.tokens)
 
     // Fetch account info
     for (const token of state.tokens) {
       const itemInfo = await fetch(
         `/.netlify/functions/get-info?access-token=${token.access_token}`
       ).then((d) => d.json())
-
-      console.log(itemInfo)
 
       state.accounts.push({
         id: token.id,
@@ -58,16 +56,25 @@ export const plugin = {
 
     state.loading = false
   },
-  main() {
+  async main() {
     state.loading = true
 
-    console.log(state.accounts)
+    const data = await getPlaidImports()
 
     state.loading = false
-    return {}
+    return data
   },
   async addAccount() {
     await addPlaidAccount()
+
+    await this.init()
+    await this.main()
+  },
+  async removeAccount(id) {
+    await removeAccount(
+      id,
+      'Are you sure you want to remove this bank connection?'
+    )
 
     await this.init()
     await this.main()

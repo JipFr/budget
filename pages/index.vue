@@ -2,7 +2,9 @@
   <div>
     <page-title>Transactions</page-title>
     <push-notif-button />
-    <plaid-view minimal only-errors />
+
+    <!-- TODO RE-ADD PLUGIN ERRORS-->
+
     <price-changes :all-payments="getAllPayments" />
     <payment-list :raw-payments="getPayments" />
     <portal to="right-side">
@@ -31,7 +33,6 @@
 import { Portal } from 'portal-vue'
 import PushNotifButton from '~/components/base/util/PushNotifButton'
 import PriceChanges from '~/components/base/PriceChanges'
-import PlaidView from '~/components/base/util/PlaidView'
 import PaymentList from '~/components/base/PaymentList'
 import NewTransactionWrapper from '~/components/new-transaction/MainWrapper'
 import PageTitle from '~/components/title/PageTitle'
@@ -40,7 +41,6 @@ export default {
   components: {
     Portal,
     PriceChanges,
-    PlaidView,
     PaymentList,
     NewTransactionWrapper,
     PageTitle,
