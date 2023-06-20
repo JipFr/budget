@@ -129,7 +129,6 @@ export default {
       return AhState.loading
     },
     accountsInfo() {
-      console.log(AhState)
       return AhState.token
         ? [
             {

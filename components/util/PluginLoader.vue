@@ -5,7 +5,12 @@
         :is="plugin.icon"
         v-for="(plugin, i) of plugins"
         :key="plugin.id"
-        :class="i <= pluginsState.pluginsLoaded && 'currently-loading'"
+        :class="
+          (i === pluginsState.pluginsLoaded ||
+            (i === pluginsState.pluginCount - 1 &&
+              pluginsState.pluginsLoaded === pluginsState.pluginCount)) &&
+          'currently-loading'
+        "
       />
     </div>
     <div class="bar">
@@ -57,7 +62,6 @@
     width: 100%;
     height: 100%;
     transition: opacity 300ms;
-    background: var(--content);
 
     &:not(.currently-loading) {
       opacity: 0;
