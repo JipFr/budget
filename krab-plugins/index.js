@@ -18,8 +18,8 @@ export const pluginsState = Vue.observable({
 
 // Main function, called after transactions are set
 export async function main() {
-  console.log('Starting plugins')
   if (pluginsState.inited) return
+  pluginsState.inited = true
 
   for (const plugin of plugins) {
     if (plugin.init) await plugin.init()
@@ -34,6 +34,7 @@ export async function main() {
       await modifyTransactions(data.transactions.modify)
     if (data.transactions?.insert)
       await insertTransactions(data.transactions.insert)
+    pluginsState.pluginsLoaded++
   }
   pluginsState.loading = false
 }

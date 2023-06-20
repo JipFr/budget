@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { fetchTokens } from '../util'
-import { getReceipts, getReceipt, refreshAhToken } from './fetch'
+import { getReceipts, getReceipt, refreshAhToken, removeAccount } from './fetch'
 import { findUpdatesOrInserts } from './findUpdatesOrInserts'
 
 import AhLogo from '~/assets/logos/ah.svg?inline'
@@ -22,16 +22,22 @@ export const plugin = {
   id: 'ah',
   displayName: 'Albert Heijn',
   icon: AhLogo,
+  accountLimit: 1,
+  accountCards: [],
+  state,
   async init() {
+    this.accountCards = []
     const tokens = await fetchTokens(this.id)
     state.token = tokens[0]
   },
   async main() {
     if (!state.token) {
+      this.accountCards = []
       state.loading = false
       return
     }
 
+    this.accountCards = []
     state.loading = true
 
     const receiptsRes = await getReceipts(state.token)
@@ -39,9 +45,18 @@ export const plugin = {
       state.error = receiptsRes.error
       state.loading = false
       return
-    } else {
-      state.receipts = receiptsRes
     }
+
+    state.receipts = receiptsRes
+
+    // Set account cards for plugin manager
+    this.accountCards = [
+      {
+        id: state.token.id,
+        title: 'Your Albert Heijn account',
+        html: `<span>${state.receipts.length} transactions</span>`,
+      },
+    ]
 
     // Get latest receipts
     const receipts = (state.receipts || []).slice(0, 10)
@@ -76,5 +91,16 @@ export const plugin = {
       }
     }
     return token
+  },
+  addAccount() {
+    location.href = '/plugins/ah'
+  },
+  async removeAccount(id) {
+    await removeAccount(id)
+
+    state.loading = true
+
+    await this.init()
+    await this.main()
   },
 }

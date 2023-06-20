@@ -8,8 +8,10 @@
       https://login.ah.nl/secure/oauth/authorize?client_id=appie&redirect_uri=appie://login-exit&response_type=code
     </a>
     <p>Open your devtools when it fails to redirect and take the URL.</p>
+
     <input v-model="url" type="text" />
     <button @click="sendCode()">Verify code</button>
+
     <p>{{ data || 'No data' }}</p>
     <p>{{ data2 || 'No data' }}</p>
 

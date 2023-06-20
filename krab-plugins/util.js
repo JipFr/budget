@@ -16,7 +16,6 @@ export async function fetchTokens(pluginKey) {
     const plugin = plugins.find((p) => p.id === token.plugin)
     if (plugin) tokens[i] = await plugin.verifyToken(token)
   }
-  console.log(tokens)
 
   return tokens
 }

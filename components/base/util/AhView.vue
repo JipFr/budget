@@ -96,9 +96,6 @@ import AppButton from '~/components/util/Button'
 
 import PaymentCard from '~/components/base/PaymentCard'
 
-// Import Supabase
-import SupabaseClient from '~/util/supabase'
-
 import { state as AhState } from '~/krab-plugins/ah/'
 
 export default {
@@ -142,26 +139,6 @@ export default {
             },
           ]
         : []
-    },
-  },
-  methods: {
-    async removeAcount(id) {
-      if (
-        !confirm(
-          'Are you sure you want to disconnect this Albert Heijn account?'
-        )
-      )
-        return
-
-      const { error } = await SupabaseClient.from('plugin_access_tokens')
-        .delete()
-        .match({
-          id,
-        })
-
-      if (error) this.error = error
-
-      // location.reload()
     },
   },
 }
