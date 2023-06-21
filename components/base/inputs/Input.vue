@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label class="app-input">
     <span v-if="label">{{ label }}</span>
     <div :class="['wrapper', prefix ? 'auto-fr' : '']">
       <span v-if="prefix" class="prefix">{{ prefix }}</span>
