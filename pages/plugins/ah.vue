@@ -6,8 +6,12 @@
       <strong>Heads up!</strong> Advanced masters of computers only!
     </banner>
 
+    <banner v-if="error">
+      {{ error }}
+    </banner>
+
     <p>
-      To connect your Albert Heijn account, check your (non-Safari) DevTools
+      To connect your Albert Heijn account, check your (non-WebKit) DevTools
       after trying to log in. The console will show a failed network request
       <!-- eslint-disable-next-line no-irregular-whitespace -->
       — copy that url and paste it in below.
@@ -20,7 +24,7 @@
       Open Albert Heijn
     </a>
 
-    <div class="input-wrapper">
+    <div v-if="!data" class="input-wrapper">
       <app-input v-model="url" placeholder="appie://login-exit..." />
       <app-button class="secondary small" @click="sendCode()">
         Verify code
@@ -89,20 +93,28 @@ export default {
       url: '',
       data: null,
       data2: null,
+      error: '',
     }
   },
   methods: {
     async sendCode() {
       const code = this.url.split('?code=').pop()
 
-      const { res, insert } = await addAccessFromCode(code)
+      const response = await addAccessFromCode(code)
 
-      this.data = res
-      this.data2 = insert
+      console.log(response)
+      if (!response) {
+        this.error =
+          'Something went wrong. This was likely not a valid code. Are you perhaps not a master of computers, hm?'
+        return
+      }
+
+      this.data = response.res
+      this.data2 = response.insert
 
       setTimeout(() => {
-        this.$route.push('/settings')
-      }, 2e3)
+        location.href = '/settings'
+      }, 5e3)
     },
   },
 }
