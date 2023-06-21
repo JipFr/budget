@@ -18,7 +18,7 @@ export function receiptToDescription(receipt) {
     productRange.findIndex((t) => t.type === 'divider')
   )
   productRange = productRange.filter(
-    (t) => t.type === 'product' && !t.amount.toString().startsWith('xx')
+    (t) => t && t.type === 'product' && !t.amount.toString().startsWith('xx')
   )
 
   for (const product of productRange) {

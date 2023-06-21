@@ -51,6 +51,13 @@
     }
   }
 }
+
+@media (prefers-color-scheme: light) {
+  .plugin-loader .bar .block {
+    background: var(--content-darker);
+  }
+}
+
 .logos {
   position: relative;
   width: 1.5rem;
