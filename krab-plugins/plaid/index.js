@@ -17,6 +17,7 @@ export const plugin = {
   displayName: 'Plaid',
   description: 'automatic bank imports',
   icon: PlaidLogo,
+  accountCards: [],
   state,
   async init() {
     state.loading = true
@@ -27,15 +28,24 @@ export const plugin = {
 
     // Fetch account info
     for (const token of state.tokens) {
-      const itemInfo = await fetch(
-        `/.netlify/functions/get-info?access-token=${token.access_token}`
-      ).then((d) => d.json())
+      try {
+        const res = await fetch(
+          `/.netlify/functions/get-info?access-token=${token.access_token}`
+        )
+        if (!res.ok) throw new Error(await res.text())
+        const itemInfo = await res.json()
 
-      state.accounts.push({
-        id: token.id,
-        ...itemInfo?.info,
-        error: itemInfo.error,
-      })
+        state.accounts.push({
+          id: token.id,
+          ...itemInfo?.info,
+          error: itemInfo.error,
+        })
+      } catch (err) {
+        state.accounts.push({
+          id: token.id,
+          error: err.split('\n')[0],
+        })
+      }
     }
 
     this.accountCards = state.accounts.map((account) => {
@@ -60,6 +70,11 @@ export const plugin = {
   },
   async main() {
     state.loading = true
+
+    if (this.accountCards.find((account) => !account.error)) {
+      state.loading = false
+      return
+    }
 
     const data = await getPlaidImports()
 
