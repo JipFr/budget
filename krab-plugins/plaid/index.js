@@ -73,11 +73,6 @@ export const plugin = {
   async main() {
     state.loading = true
 
-    if (this.accountCards.find((account) => !account.error)) {
-      state.loading = false
-      return
-    }
-
     const data = await getPlaidImports()
 
     state.loading = false
