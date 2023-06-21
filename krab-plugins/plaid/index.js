@@ -15,6 +15,7 @@ export const plugin = {
   priority: 1, // Position in queueu
   id: 'plaid',
   displayName: 'Plaid',
+  description: 'automatic bank imports',
   icon: PlaidLogo,
   state,
   async init() {

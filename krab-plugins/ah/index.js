@@ -21,6 +21,7 @@ export const plugin = {
   priority: 10,
   id: 'ah',
   displayName: 'Albert Heijn',
+  description: 'automatic receipts imports',
   icon: AhLogo,
   accountLimit: 1,
   accountCards: [],

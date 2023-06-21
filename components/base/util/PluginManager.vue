@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="plugin of plugins" :key="`plugin-${plugin.id}`">
-      <subtitle
+      <div
         v-if="
           (!loading &&
             minimal &&
@@ -10,9 +10,17 @@
             ).length > 0) ||
           !minimal
         "
+        class="subtitle-wrapper"
       >
-        {{ plugin.displayName }}
-      </subtitle>
+        <component :is="plugin.icon" />
+        <subtitle>
+          {{ plugin.displayName }}
+          <span v-if="plugin.description" class="secondary">
+            <!-- eslint-disable-next-line no-irregular-whitespace -->
+            — {{ plugin.description }}
+          </span>
+        </subtitle>
+      </div>
 
       <div
         v-if="(plugin.state?.loading || plugin.loading) && !minimal"
@@ -95,6 +103,22 @@
   color: var(--negative);
   padding: 0;
   border: 0;
+}
+
+.subtitle-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 10px;
+
+  .subtitle {
+    margin: 0;
+  }
+  svg {
+    display: block;
+  }
 }
 
 .card-content {
