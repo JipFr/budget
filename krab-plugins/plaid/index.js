@@ -43,7 +43,7 @@ export const plugin = {
       } catch (err) {
         state.accounts.push({
           id: token.id,
-          error: err.split('\n')[0],
+          error: err.toString().split('\n')[0],
         })
       }
     }
