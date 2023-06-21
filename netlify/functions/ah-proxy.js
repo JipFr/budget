@@ -29,15 +29,12 @@ const handler = async (event) => {
         },
       }).json()
     } else {
-      data = await got[method](url, {
-        headers,
-      }).json()
+      data = await got[method](url, { headers }).json()
     }
   } catch (err) {
-    console.error(err)
     return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'Invalid request' }),
+      statusCode: 500,
+      body: JSON.stringify({ error: err.toString() || 'Invalid request' }),
     }
   }
 

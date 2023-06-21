@@ -42,9 +42,17 @@ export const plugin = {
     state.loading = true
 
     const receiptsRes = await getReceipts(state.token)
+    console.log(receiptsRes)
     if (receiptsRes.error) {
       state.error = receiptsRes.error
       state.loading = false
+      this.accountCards = [
+        {
+          id: state.token.id,
+          title: 'Your Albert Heijn account',
+          html: `<p>Something went wrong with this account:</p><p><span>${receiptsRes.error}</span></p>`,
+        },
+      ]
       return
     }
 
