@@ -42,7 +42,6 @@ export const plugin = {
     state.loading = true
 
     const receiptsRes = await getReceipts(state.token)
-    console.log(receiptsRes)
     if (receiptsRes.error) {
       state.error = receiptsRes.error
       state.loading = false
