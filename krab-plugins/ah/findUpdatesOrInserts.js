@@ -32,11 +32,16 @@ export function findUpdatesOrInserts() {
     )
   }
 
-  const checkReceiptBasic = (receipt, transaction) => {
-    const pinTotal =
+  const getReceiptPinTotal = (receipt) => {
+    return (
       (Array.isArray(receipt.receipt) ? receipt.receipt : [])
-        .find((t) => (t.description || '').toLowerCase() === 'pinnen')
+        .find((line) => (line.description || '').toLowerCase() === 'pinnen')
         ?.amount.replace(/,/g, '.') * 100
+    )
+  }
+
+  const checkReceiptBasic = (receipt, transaction) => {
+    const pinTotal = getReceiptPinTotal(receipt)
 
     return (
       (transaction.plugin_transaction_id || '').includes(
@@ -94,7 +99,7 @@ export function findUpdatesOrInserts() {
       insertTransactions.push({
         data: {
           date: receipt.transactionMoment.split('T')[0],
-          cents: receipt.total.amount.amount * 100 * -1,
+          cents: getReceiptPinTotal(receipt),
           description: receiptToDescription(receipt.receipt),
           plugins_unleashed: 'ah',
           plugin_transaction_id: receipt.transactionId,
