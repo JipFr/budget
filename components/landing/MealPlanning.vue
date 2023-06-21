@@ -97,6 +97,8 @@
 
   h4 {
     margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
   }
 }
 
