@@ -34,7 +34,7 @@ export function findUpdatesOrInserts() {
 
   const checkReceiptBasic = (receipt, transaction) => {
     const pinTotal =
-      receipt.receipt
+      (receipt.receipt || '')
         .find((t) => (t.description || '').toLowerCase() === 'pinnen')
         ?.amount.replace(/,/g, '.') * 100
 

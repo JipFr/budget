@@ -3,7 +3,7 @@
     <div v-for="plugin of plugins" :key="`plugin-${plugin.id}`">
       <div
         v-if="
-          (!loading &&
+          (!(plugin.state?.loading || plugin.loading) &&
             minimal &&
             (plugin.accountCards || []).filter((t) =>
               onlyErrors ? t.error : true
