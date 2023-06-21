@@ -29,6 +29,9 @@ header {
   background: var(--body);
   border-top: env(safe-area-inset-top) solid var(--theme);
 
+  --content-darker: rgba(0, 0, 0, 0.2); // For the plugin loader
+  --theme: #457461;
+
   .container {
     display: grid;
     grid-template-columns: 32px 1fr 32px;
