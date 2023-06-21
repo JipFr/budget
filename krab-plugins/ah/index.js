@@ -49,7 +49,17 @@ export const plugin = {
         {
           id: state.token.id,
           title: 'Your Albert Heijn account',
-          html: `<p>Something went wrong with this account:</p><p><span>${receiptsRes.error}</span></p>`,
+          html: `
+          <p>Something went wrong with this account:</p>
+          <p><span>${receiptsRes.error}</span></p>
+          <p class="mt">
+            <span>
+              Please note that Albert Heijn appears to be very finnicky.
+              It's possible it will just start working again at some
+              point in the future. Try waiting a bit before attempting
+              to re-add your account.
+            </span>
+          </p>`,
         },
       ]
       return
