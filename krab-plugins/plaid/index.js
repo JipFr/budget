@@ -54,7 +54,9 @@ export const plugin = {
         title: `Account #${account.id}`,
         error: !!account.error,
         html: account.error
-          ? `<p>Something went wrong with this account:</p><p><span>${account.error.error_message}</span></p>`
+          ? `<p>Something went wrong with this account:</p><p><span>${
+              account.error.error_message || account.error
+            }</span></p>`
           : `<div>
                 <p><span>Last successful update:</span></p>
                 <p>${account.status?.transactions?.last_successful_update}</p>
