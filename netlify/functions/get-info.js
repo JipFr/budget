@@ -1,4 +1,4 @@
-const { getInfo } = require('../../plaid')
+const { getInfo } = require('../../krab-plugins/plaid/plaid')
 
 // Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
 const handler = async (event) => {
