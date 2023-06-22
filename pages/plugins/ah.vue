@@ -102,7 +102,6 @@ export default {
 
       const response = await addAccessFromCode(code)
 
-      console.log(response)
       if (!response) {
         this.error =
           'Something went wrong. This was likely not a valid code. Are you perhaps not a master of computers, hm?'
