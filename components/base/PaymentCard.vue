@@ -304,7 +304,8 @@
   max-height: 0;
   overflow: hidden;
   padding: 0;
-  margin-right: 0;
+  margin: 0;
+  border: 0;
   display: block;
 }
 

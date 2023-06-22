@@ -17,7 +17,7 @@
 .plaid-view {
   margin-bottom: 70px;
 }
-.plugin-manager ::v-deep(.cards:last-child .card:last-child) {
+.plugin-manager ::v-deep(.cards:last-child) {
   margin-bottom: 70px;
 }
 @media (max-width: 700px) {

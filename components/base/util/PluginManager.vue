@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div v-for="plugin of plugins" :key="`plugin-${plugin.id}`">
+    <div v-for="plugin of pluginsFiltered" :key="`plugin-${plugin.id}`">
       <div
         v-if="
-          (!(plugin.state?.loading || plugin.loading) &&
-            minimal &&
-            (plugin.accountCards || []).filter((t) =>
-              onlyErrors ? t.error : true
-            ).length > 0) ||
+          // NOT loading, and either: minimal and has accounts, or not minimal
+          (minimal && plugin.accountCards.length > 0) ||
+          // If it's not minimal, always show title
           !minimal
         "
         class="subtitle-wrapper"
@@ -30,11 +28,12 @@
           <loader />
         </card>
       </div>
-      <div v-else class="cards">
+      <div
+        v-else-if="(plugin.accountCards.length > 0 && minimal) || !minimal"
+        class="cards"
+      >
         <card
-          v-for="(account, i) of (plugin.accountCards || []).filter((t) =>
-            onlyErrors ? t.error : true
-          )"
+          v-for="(account, i) of plugin.accountCards"
           :key="`${plugin.id}-account-${i}`"
         >
           <div class="spread">
@@ -168,6 +167,18 @@ export default {
     return {
       plugins,
     }
+  },
+  computed: {
+    pluginsFiltered() {
+      return plugins.map((p) => {
+        return {
+          ...p,
+          accountCards: p.accountCards.filter((a) => {
+            return this.onlyErrors ? a.error : true
+          }),
+        }
+      })
+    },
   },
   methods: {
     async addAccount(plugin) {
