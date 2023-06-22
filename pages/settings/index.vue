@@ -147,6 +147,13 @@
     background: var(--content);
   }
 }
+
+@media (max-width: 1000px) {
+  .setting {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
 </style>
 
 <script>
