@@ -1,10 +1,5 @@
 <template>
-  <div class="settings">
-    <!-- Profile -->
-    <page-title>Profile</page-title>
-
-    <profile />
-
+  <div class="plugins-page">
     <page-title>Plugins</page-title>
 
     <p class="secondary">
@@ -17,7 +12,7 @@
 </template>
 
 <style lang="scss" scoped>
-.settings {
+.plugins-page {
   margin-bottom: 30vh;
 }
 .mt {
@@ -31,13 +26,11 @@
 <script>
 // Import components
 import PageTitle from '~/components/title/PageTitle'
-import Profile from '~/components/base/util/Profile'
 import PluginManager from '~/components/base/util/PluginManager'
 
 export default {
   components: {
     PageTitle,
-    Profile,
     PluginManager,
   },
 }

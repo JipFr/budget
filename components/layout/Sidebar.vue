@@ -275,11 +275,15 @@ export default {
           ],
         },
         {
-          title: 'About',
+          title: 'Settings',
           links: [
             {
-              title: 'Settings',
-              to: '/settings',
+              title: 'Profile',
+              to: '/settings/profile',
+            },
+            {
+              title: 'Plugins',
+              to: '/settings/plugins',
             },
             {
               title: 'FAQ',
