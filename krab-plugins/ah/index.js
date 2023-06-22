@@ -49,6 +49,7 @@ export const plugin = {
         {
           id: state.token.id,
           title: 'Your Albert Heijn account',
+          error: true,
           html: `
           <p>Something went wrong with this account:</p>
           <p><span>${receiptsRes.error}</span></p>
