@@ -1,5 +1,6 @@
 <script>
 import { Scatter } from 'vue-chartjs'
+import { state as settingsState } from '~/util/settings'
 
 // Config
 const months = [
@@ -57,7 +58,7 @@ export default {
               {
                 ticks: {
                   // Include a dollar sign in the ticks
-                  callback: (v) => `€ ${v}`,
+                  callback: (v) => `${settingsState.currency.symbol} ${v}`,
                 },
               },
             ],
@@ -78,9 +79,9 @@ export default {
               label: (tooltipItem, data) => {
                 const label =
                   data.datasets[tooltipItem.datasetIndex].label || 'No label'
-                return `${label}: €${tooltipItem.yLabel} on ${toDateString(
-                  tooltipItem.xLabel
-                )}`
+                return `${label}: ${settingsState.currency.symbol}${
+                  tooltipItem.yLabel
+                } on ${toDateString(tooltipItem.xLabel)}`
               },
             },
           },

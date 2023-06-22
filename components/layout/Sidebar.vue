@@ -278,6 +278,10 @@ export default {
           title: 'Settings',
           links: [
             {
+              title: 'Settings',
+              to: '/settings',
+            },
+            {
               title: 'Profile',
               to: '/settings/profile',
             },

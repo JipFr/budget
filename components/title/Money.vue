@@ -1,5 +1,11 @@
 <template>
-  <span class="money" :class="classes" @click="toggleBlur">{{ getValue }}</span>
+  <span
+    class="money"
+    :class="classes"
+    :data-symbol="settingsState.currency.symbol"
+    @click="toggleBlur"
+    >{{ getValue }}</span
+  >
 </template>
 
 <style lang="scss" scoped>
@@ -16,13 +22,15 @@ span {
   }
 }
 span:not(.raw-string)::before {
-  content: '€';
+  content: attr(data-symbol);
   display: inline-block;
   margin-right: 0.3em;
 }
 </style>
 
 <script>
+import { state as settingsState } from '~/util/settings'
+
 export default {
   props: {
     cents: {
@@ -38,18 +46,24 @@ export default {
   data() {
     return {
       blurred: false,
+      settingsState,
     }
   },
   computed: {
     getValue() {
-      const formatter = new Intl.NumberFormat('nl-NL', {
-        style: 'currency',
-        currency: 'EUR',
-      })
+      const formatter = new Intl.NumberFormat(
+        settingsState.currency.countryCode ?? 'en-US',
+        {
+          style: 'currency',
+          currency: settingsState.currency.code,
+        }
+      )
 
       const str = formatter.format(this.cents / 100).trim()
 
-      return this.rawString ? str : str.replace(/€/g, '').trim()
+      return this.rawString
+        ? str
+        : str.replace(settingsState.currency.symbol, '').trim()
     },
     classes() {
       const classes = []

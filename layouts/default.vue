@@ -147,7 +147,7 @@ export default {
   },
   async fetch() {
     if (!this.hasFetched) {
-      const { from, until } = getDefaultDates()
+      const { from, until } = await getDefaultDates()
 
       this.setUntil(until.toISOString().split('T')[0])
       this.setFrom(from.toISOString().split('T')[0])

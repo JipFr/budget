@@ -1,14 +1,25 @@
+import { currencies } from '~/util/settings'
+
 const cache = {}
 
-export const moneyRegex = /€(-?\d+(?:\.\d+)?) ?\+? ?/
+export const moneyRegex = new RegExp(
+  `${currencies}(-?\\d+(?:\\.\\d+)?) ?\\+? ?`
+)
 
 // Functions
 function toCents(euroVal) {
-  const euroArray = euroVal.replace(/€| |\+/g, '').split('.')
-  const isNegative = Number(euroVal.replace(/€/g, '')) < 0
+  const euroArray = euroVal
+    .replace(new RegExp(`${currencies}| |\\+`, 'g'), '')
+    .split('.')
+    .flatMap((t) => t.split(','))
+
+  const isNegative =
+    Number(euroVal.replace(new RegExp(currencies, 'g'), '')) < 0
+
   const eurosInCents = Math.abs(euroArray[0] * 100)
   const cents = euroArray[1]
   const total = (Number(eurosInCents) || 0) + (Number(cents) || 0)
+
   return isNegative ? -total : total
 }
 

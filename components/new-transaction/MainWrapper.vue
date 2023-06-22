@@ -27,9 +27,9 @@
         />
         <app-input
           v-model="editingData.euros"
-          label="Euros"
+          :label="settingsState.currency.name"
+          :prefix="settingsState.currency.symbol"
           placeholder="10,99"
-          prefix="€"
           @change="(e) => cleanEuro(e)"
         />
 
@@ -45,7 +45,9 @@
             </app-button>
           </div>
           <div class="buttons">
-            <app-button class="secondary" @click="copyCurrency">€</app-button>
+            <app-button class="secondary" @click="copyCurrency">
+              {{ settingsState.currency.symbol }}
+            </app-button>
           </div>
         </div>
       </card>
@@ -95,6 +97,8 @@ import Card from '~/components/layout/Card'
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
+import { state as settingsState } from '~/util/settings'
+
 // Other values
 const editingData = {
   description: '',
@@ -124,6 +128,7 @@ export default {
       editingData: Object.assign({}, editingData),
       error: '',
       message: '',
+      settingsState,
     }
   },
   mounted() {
@@ -251,8 +256,9 @@ export default {
       this.$nuxt.$emit('cancel-transaction-edit')
     },
     copyCurrency() {
-      navigator.clipboard.writeText('€')
-      this.message = 'Copied <strong>€</strong> to your clipboard'
+      const symbol = settingsState.currency.symbol
+      navigator.clipboard.writeText(symbol)
+      this.message = `Copied <strong>${symbol}</strong> to your clipboard`
     },
     close() {
       this.open = false

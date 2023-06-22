@@ -35,7 +35,7 @@
             {
               ticks: {
                 // Include a dollar sign in the ticks
-                callback: (v) => `€ ${v}`,
+                callback: (v) => `${settingsState.currency.symbol} ${v}`,
               },
             },
           ],
@@ -89,12 +89,13 @@ h2 {
 </style>
 
 <script>
-/* eslint-disable no-unused-vars */
 import { getFoodInfo } from '~/util/food'
 import Chart from '~/components/base/util/Chart'
 import Card from '~/components/layout/Card'
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
+
+import { state as settingsState } from '~/util/settings'
 
 // Config
 const months = [
@@ -200,6 +201,7 @@ export default {
       foodToday: 0,
       totalFood: 0,
       remainingBudget: 0,
+      settingsState,
     }
   },
   watch: {

@@ -1,3 +1,5 @@
+import { state as settingsState } from './settings'
+
 function thisDateNextMonth(d) {
   const date = new Date(d)
 
@@ -53,8 +55,10 @@ export function getFoodInfo(payments) {
   const d = new Date(
     positiveTransactions[positiveTransactions.length - 1]?.date || Date.now()
   )
-  const endDate = d.getDate() >= 23 ? thisDateNextMonth(d) : d
-  endDate.setDate(23)
+
+  const endDate =
+    d.getDate() >= settingsState.startDate ? thisDateNextMonth(d) : d
+  endDate.setDate(settingsState.startDate)
 
   // --
 
@@ -66,10 +70,10 @@ export function getFoodInfo(payments) {
 
   while (foodDate.getTime() < endDate.getTime()) {
     const periodEndDate =
-      foodDate.getDate() >= 23
+      foodDate.getDate() >= settingsState.startDate
         ? thisDateNextMonth(foodDate)
         : new Date(foodDate)
-    periodEndDate.setDate(23)
+    periodEndDate.setDate(settingsState.startDate)
 
     // Find positive transactions on date
     const dateTransactions = positiveTransactions.filter((payment) => {

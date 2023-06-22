@@ -128,20 +128,13 @@
       &::before {
         content: '';
         position: absolute;
-        top: -10px;
-        right: -64px;
-        width: 100px;
-        height: 50px;
+        top: 10px;
+        right: 8px;
+        width: 0.75rem;
+        height: 0.75rem;
         background: rgb(52, 199, 89);
-        transform: rotate(45deg);
         opacity: 0.3;
-      }
-
-      &::after {
-        content: '€';
-        position: absolute;
-        top: 2px;
-        right: 5px;
+        border-radius: 50%;
       }
     }
   }
