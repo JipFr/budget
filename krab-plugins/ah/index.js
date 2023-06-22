@@ -55,9 +55,8 @@ export const plugin = {
           <p><span>${receiptsRes.error}</span></p>
           <p class="mt">
             <span>
-              Please note that Albert Heijn appears to be very finnicky.
-              It's possible it will just start working again at some
-              point in the future. Try waiting a bit before attempting
+              Please note that Albert Heijn just ✨gets like that✨ sometimes.
+              It's possible it will start working again soon Try reloading and waiting a bit before attempting
               to re-add your account.
             </span>
           </p>`,
