@@ -100,6 +100,7 @@
     color: inherit;
     border: 0;
     font-size: 1rem;
+    padding: 0;
   }
 
   .day:not(.fake-day) {
