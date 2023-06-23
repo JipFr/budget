@@ -29,8 +29,8 @@ export async function refreshAhToken(tokens) {
     })
 
   return {
-    ...refreshData,
     ...tokens,
+    ...refreshData,
   }
 }
 
