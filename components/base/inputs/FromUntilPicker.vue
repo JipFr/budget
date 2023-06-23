@@ -86,9 +86,9 @@ export default {
       setFrom: 'user/setFrom',
       setUntil: 'user/setUntil',
     }),
-    resetDates() {
+    async resetDates() {
       // TODO: this lmao
-      const { from, until } = getDefaultDates()
+      const { from, until } = await getDefaultDates()
 
       this.setUntil(until.toISOString().split('T')[0])
       this.setFrom(from.toISOString().split('T')[0])
@@ -97,8 +97,8 @@ export default {
       this.setFrom(new Date('1 jan 2000 00:00').toISOString().split('T')[0])
       this.setUntil(new Date('1 jan 3000 00:00').toISOString().split('T')[0])
     },
-    setEndOfTime() {
-      this.resetDates()
+    async setEndOfTime() {
+      await this.resetDates()
       this.setUntil(new Date('1 jan 3000 00:00').toISOString().split('T')[0])
     },
   },
