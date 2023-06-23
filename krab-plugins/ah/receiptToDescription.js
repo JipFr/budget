@@ -1,7 +1,5 @@
-import { state as settingsState } from '~/util/settings'
-
 function formatEur(str, between = '') {
-  return `${settingsState.currency.symbol}${between}${str.replace(/,/g, '.')}`
+  return `€${between}${str.replace(/,/g, '.')}`
 }
 
 export function receiptToDescription(receipt) {
