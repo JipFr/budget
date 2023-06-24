@@ -343,7 +343,7 @@
   grid-template-rows: 1fr auto;
 
   .modified-by {
-    margin-top: 1rem;
+    margin-top: 10px;
     border-radius: 4px;
     border: 1px solid var(--border);
     padding: 0.5rem;
