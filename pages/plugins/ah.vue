@@ -6,9 +6,8 @@
       <strong>Heads up!</strong> Advanced masters of computers only!
     </banner>
 
-    <banner v-if="error">
-      {{ error }}
-    </banner>
+    <!-- eslint-disable-next-line vue/no-v-html -->
+    <banner v-if="error" v-html="error" />
 
     <p>
       To connect your Albert Heijn account, check your (non-WebKit) DevTools
@@ -102,9 +101,12 @@ export default {
 
       const response = await addAccessFromCode(code)
 
-      if (!response) {
-        this.error =
-          'Something went wrong. This was likely not a valid code. Are you perhaps not a master of computers, hm?'
+      console.log(response)
+      if (!response || response.error) {
+        this.error = `
+          <span>Something went wrong. This was likely not a valid code. Are you perhaps not a master of computers, hm?</span>
+          <div style="margin-top: .5rem;">Error: ${response.error}</div>
+          `
         return
       }
 

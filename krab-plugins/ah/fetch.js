@@ -43,7 +43,7 @@ export async function addAccessFromCode(code) {
   })
 
   // Now logged in
-  if (res.error) return
+  if (res.error) return { error: res.error }
 
   const submitObj = {
     user_id: SupabaseClient.auth.user().id,
