@@ -176,17 +176,6 @@
           <edit-icon />
         </button>
       </div>
-      <div v-if="modifiedBy.length > 0" class="modified-by">
-        <p>Modified by:</p>
-        <div
-          v-for="plugin of modifiedBy"
-          :key="`plugin-${plugin.id}`"
-          class="plugin"
-        >
-          <component :is="plugin.icon" class="logo" />
-          <span>{{ plugin.displayName }}</span>
-        </div>
-      </div>
     </div>
   </card>
 </template>
@@ -341,17 +330,6 @@
 .card-actions {
   display: grid;
   grid-template-rows: 1fr auto;
-
-  .modified-by {
-    margin-top: 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    padding: 0.5rem;
-
-    p {
-      margin-bottom: 0.3rem;
-    }
-  }
 }
 
 .action-wrapper {
