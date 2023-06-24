@@ -514,19 +514,23 @@
   }
 }
 
-@media (max-width: 700px) {
-  .card {
-    overflow-x: auto;
+.card {
+  overflow-x: auto;
 
-    details {
-      display: none;
-    }
+  details {
+    display: none;
   }
 }
 
-@media (min-width: 701px) {
-  .card > .card-sect:not(:first-child) {
-    display: none;
+@media (hover: hover) {
+  .card {
+    overflow-x: initial;
+    > .card-sect:not(:first-child) {
+      display: none;
+    }
+    details {
+      display: block;
+    }
   }
 }
 </style>
