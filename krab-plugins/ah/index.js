@@ -105,7 +105,7 @@ export const plugin = {
       const refreshed = await refreshAhToken(token)
       return {
         ...token,
-        refreshed,
+        ...refreshed,
       }
     }
     return token
