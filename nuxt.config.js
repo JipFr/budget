@@ -51,7 +51,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
 
-  modules: ['@nuxtjs/axios', '@nuxt/content'],
+  modules: ['@nuxtjs/axios'],
 
   server: {
     host: '0',
@@ -67,8 +67,6 @@ export default {
       theme_color: '#457461',
     },
   },
-
-  content: {},
 
   build: {},
 
