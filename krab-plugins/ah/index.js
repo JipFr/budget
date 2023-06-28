@@ -54,11 +54,7 @@ export const plugin = {
           <p>Something went wrong with this account:</p>
           <p><span>${receiptsRes.error}</span></p>
           <p class="mt">
-            <span>
-              Please note that Albert Heijn just ✨gets like that✨ sometimes.
-              It's possible it will start working again soon Try reloading and waiting a bit before attempting
-              to re-add your account.
-            </span>
+            <span>It's possible your token failed to refresh. If this keeps happening, please remove and re-add your account.</span>
           </p>`,
         },
       ]
