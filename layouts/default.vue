@@ -116,7 +116,7 @@ hr {
 import { mapMutations } from 'vuex'
 import { PortalTarget } from 'portal-vue'
 
-import eventBus from '../plugins/event-bus'
+import eventBus from '~/plugins/event-bus'
 import { getDefaultDates } from '~/util/dates'
 
 // Import components
@@ -144,6 +144,14 @@ export default {
     FromUntilPicker,
     LoginWrapper,
     PortalTarget,
+  },
+  data() {
+    return {
+      error: '',
+      hasFetched: false,
+      sidebarOpen: false,
+      allowLoading: true,
+    }
   },
   async fetch() {
     if (!this.hasFetched) {
@@ -199,12 +207,16 @@ export default {
     this.setLoading(false)
   },
   fetchOnServer: false,
-  data() {
+  head() {
     return {
-      error: '',
-      hasFetched: false,
-      sidebarOpen: false,
-      allowLoading: true,
+      bodyAttrs: {
+        sidebarOpen: this.sidebarOpen,
+      },
+      script: [
+        {
+          src: 'https://cdn.plaid.com/link/v2/stable/link-initialize.js',
+        },
+      ],
     }
   },
   computed: {
@@ -249,6 +261,7 @@ export default {
       this.allowLoading = false
       await this.$fetch()
       this.allowLoading = true
+      alert('fetched')
     })
 
     this.$nuxt.$on('refetch-inventory', () => {
@@ -323,18 +336,6 @@ export default {
         recipes,
       })
     },
-  },
-  head() {
-    return {
-      bodyAttrs: {
-        sidebarOpen: this.sidebarOpen,
-      },
-      script: [
-        {
-          src: 'https://cdn.plaid.com/link/v2/stable/link-initialize.js',
-        },
-      ],
-    }
   },
 }
 </script>

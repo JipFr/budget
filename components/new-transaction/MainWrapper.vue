@@ -87,6 +87,8 @@ label ::v-deep span {
 </style>
 
 <script>
+import eventBus from '~/plugins/event-bus'
+
 // Import components
 import Overlay from '~/components/base/util/Overlay'
 import AppInput from '~/components/base/inputs/Input'
@@ -245,6 +247,8 @@ export default {
           this.$nuxt.$emit('refetch')
         }
       }
+
+      eventBus.$emit('force-refetch')
     },
     cancel() {
       // The "cancel" button was clicked. Only shows up on desktop
