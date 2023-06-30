@@ -261,7 +261,6 @@ export default {
       this.allowLoading = false
       await this.$fetch()
       this.allowLoading = true
-      alert('fetched')
     })
 
     this.$nuxt.$on('refetch-inventory', () => {
