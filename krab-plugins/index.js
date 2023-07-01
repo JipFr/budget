@@ -22,8 +22,13 @@ export async function main() {
   pluginsState.inited = true
 
   for (const plugin of plugins) {
-    if (plugin.init) await plugin.init()
-    const data = await plugin.main()
+    let data
+    try {
+      if (plugin.init) await plugin.init()
+      data = await plugin.main()
+    } catch {
+      // TODO error handling
+    }
 
     if (!data) {
       pluginsState.pluginsLoaded++

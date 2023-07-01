@@ -33,7 +33,7 @@ export function findUpdatesOrInserts() {
   }
 
   const getReceiptPinTotal = (receipt) => {
-    return (
+    return Math.floor(
       (Array.isArray(receipt.receipt) ? receipt.receipt : [])
         .find((line) => (line.description || '').toLowerCase() === 'pinnen')
         ?.amount.replace(/,/g, '.') * 100
