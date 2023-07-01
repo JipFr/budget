@@ -681,6 +681,16 @@ export default {
             id: this.payment.id,
           })
 
+        // Insert transaction
+        await SupabaseClient.from('deleted_transaction_ids').insert([
+          {
+            user_id: SupabaseClient.auth.user().id,
+            transaction_id: this.payment.id,
+            plaid_transaction_id: this.payment.plaid_transaction_id,
+            plugin_transaction_id: this.payment.plugin_transaction_id,
+          },
+        ])
+
         if (error) {
           alert(error.message)
         } else {
