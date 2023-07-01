@@ -35,7 +35,7 @@ export function getWeightLabel(unit, value, doX = true) {
     case 'gr':
       return value >= 1000 ? `${value / 1000}kg` : `${value}gr`
     case 'x':
-      return doX ? `x ${value}` : value.toString()
+      return doX ? `${value} st` : value.toString()
     case 'unmeasured':
       return doX ? `x ${value}` : value.toString()
     default:
