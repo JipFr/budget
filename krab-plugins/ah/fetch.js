@@ -1,8 +1,6 @@
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-const ahCache = JSON.parse(localStorage.getItem('ah-receipts') || '{}')
-
 export async function refreshAhToken(tokens) {
   const refreshData = await fetch(
     `/.netlify/functions/ah-proxy?path=${encodeURIComponent(
@@ -87,6 +85,7 @@ export async function getReceipts(token) {
 }
 
 export async function getReceipt(token, receiptId) {
+  let ahCache = JSON.parse(localStorage.getItem('ah-receipts') || '{}')
   if (ahCache[receiptId]) return ahCache[receiptId]
 
   const receiptDetails = await ahFetch(
@@ -95,6 +94,7 @@ export async function getReceipt(token, receiptId) {
     token
   )
 
+  ahCache = JSON.parse(localStorage.getItem('ah-receipts') || '{}')
   ahCache[receiptId] = receiptDetails
   localStorage.setItem('ah-receipts', JSON.stringify(ahCache))
 
