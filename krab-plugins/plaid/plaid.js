@@ -14,6 +14,8 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
+  const maxTransactions = 12
+
   // Set cursor to empty to receive all historical updates
   let cursor = null
 
@@ -50,7 +52,7 @@ async function getTransactions({ ACCESS_TOKEN }) {
   // Return the recent transactions
   const recentlyAdded = [...added]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 12)
+    .slice(0, maxTransactions)
 
   return { transactions: recentlyAdded }
 }
