@@ -25,11 +25,17 @@ export async function main() {
   if (pluginsState.inited) return
   pluginsState.inited = true
 
+  // Get previously-deleted transactions
+  const deleted = (
+    await SupabaseClient.from('deleted_transaction_ids').select('*')
+  ).data
+
+  // Run all plugins
   for (const plugin of plugins) {
     let data
     try {
       if (plugin.init) await plugin.init()
-      data = await plugin.main()
+      data = await plugin.main(deleted)
     } catch {
       // TODO error handling
     }
@@ -38,11 +44,6 @@ export async function main() {
       pluginsState.pluginsLoaded++
       continue
     }
-
-    // Get previously-deleted transactions
-    const deleted = (
-      await SupabaseClient.from('deleted_transaction_ids').select('*')
-    ).data
 
     if (data.transactions?.modify)
       await modifyTransactions(removeDeleted(data.transactions.modify, deleted))

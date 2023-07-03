@@ -37,7 +37,7 @@ export async function removeAccount(
 }
 
 export function removeDeleted(arr, deleted) {
-  return arr.filter((t) => wasDeleted(t.data, deleted))
+  return arr.filter((t) => !wasDeleted(t.data, deleted))
 }
 
 export function wasDeleted(transaction, deleted) {
@@ -48,5 +48,5 @@ export function wasDeleted(transaction, deleted) {
       deleted.plugin_transaction_id === pluginTransactionId ||
       deleted.plaid_transaction_id === plaidTransactionId
   )
-  return !wasDeleted
+  return wasDeleted
 }

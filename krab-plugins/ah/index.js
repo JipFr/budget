@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { fetchTokens, removeAccount } from '../util'
+import { fetchTokens, removeAccount, wasDeleted } from '../util'
 import { getReceipts, getReceipt, refreshAhToken } from './fetch'
 import { findUpdatesOrInserts } from './findUpdatesOrInserts'
 
@@ -31,7 +31,7 @@ export const plugin = {
     const tokens = await fetchTokens(this.id)
     state.token = tokens[0]
   },
-  async main() {
+  async main(deleted) {
     if (!state.token) {
       this.accountCards = []
       state.loading = false
@@ -74,14 +74,21 @@ export const plugin = {
 
     // Get latest receipts
     const receipts = (state.receipts || []).slice(0, 10)
-    const receiptsWithInfo = await Promise.all(
-      receipts.map(async (r) => {
-        return {
-          ...r,
-          receipt: await getReceipt(state.token, r.transactionId),
-        }
-      })
-    )
+    const receiptsWithInfo = (
+      await Promise.all(
+        receipts.map(async (r) => {
+          // Make sure it's not already deleted, don't waste requests
+          if (wasDeleted({ plugin_transaction_id: r.transactionId }, deleted))
+            return null
+
+          // Return receipt with extra info
+          return {
+            ...r,
+            receipt: await getReceipt(state.token, r.transactionId),
+          }
+        })
+      )
+    ).filter((t) => t !== null)
     state.receiptsWithInfo = receiptsWithInfo
 
     const data = findUpdatesOrInserts()
