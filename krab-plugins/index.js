@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import { modifyTransactions, insertTransactions } from './actions'
+import { removeDeleted } from './util'
 
 import { plugin as ah } from './ah'
 import { plugin as plaid } from './plaid'
+
+// Import Supabase
+import SupabaseClient from '~/util/supabase'
 
 // Define plugins
 export const plugins = [ah, plaid].sort((a, b) => a.priority - b.priority)
@@ -35,10 +39,15 @@ export async function main() {
       continue
     }
 
+    // Get previously-deleted transactions
+    const deleted = (
+      await SupabaseClient.from('deleted_transaction_ids').select('*')
+    ).data
+
     if (data.transactions?.modify)
-      await modifyTransactions(data.transactions.modify)
+      await modifyTransactions(removeDeleted(data.transactions.modify, deleted))
     if (data.transactions?.insert)
-      await insertTransactions(data.transactions.insert)
+      await insertTransactions(removeDeleted(data.transactions.insert, deleted))
     pluginsState.pluginsLoaded++
   }
   pluginsState.loading = false

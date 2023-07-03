@@ -35,3 +35,18 @@ export async function removeAccount(
 
   if (error) this.error = error
 }
+
+export function removeDeleted(arr, deleted) {
+  return arr.filter((t) => wasDeleted(t.data, deleted))
+}
+
+export function wasDeleted(transaction, deleted) {
+  const pluginTransactionId = transaction.plugin_transaction_id
+  const plaidTransactionId = transaction.plaid_transaction_id
+  const wasDeleted = deleted.find(
+    (deleted) =>
+      deleted.plugin_transaction_id === pluginTransactionId ||
+      deleted.plaid_transaction_id === plaidTransactionId
+  )
+  return !wasDeleted
+}
