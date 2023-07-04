@@ -61,6 +61,11 @@ export default {
       error: null,
     }
   },
+  head: {
+    bodyAttrs: {
+      'no-right': true,
+    },
+  },
   computed: {
     recipes() {
       const recipes = this.$store.state.user.data.recipes
@@ -79,11 +84,6 @@ export default {
       const transactions = this.$store.state.user.data.transactions
       const foodInfo = getFoodInfo(transactions || [])
       return foodInfo
-    },
-  },
-  head: {
-    bodyAttrs: {
-      'no-right': true,
     },
   },
 }

@@ -146,6 +146,18 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      chartData: {
+        labels: [],
+        datasets: [],
+      },
+      foodToday: 0,
+      totalFood: 0,
+      remainingBudget: 0,
+      settingsState,
+    }
+  },
   fetch() {
     this.chartData = {
       labels: [],
@@ -192,18 +204,6 @@ export default {
     this.chartData.datasets = [realUsage, expectedUsage]
   },
   fetchOnServer: false,
-  data() {
-    return {
-      chartData: {
-        labels: [],
-        datasets: [],
-      },
-      foodToday: 0,
-      totalFood: 0,
-      remainingBudget: 0,
-      settingsState,
-    }
-  },
   watch: {
     payments() {
       this.$fetch()

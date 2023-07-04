@@ -66,10 +66,6 @@ export default {
       required: true,
     },
   },
-  fetch() {
-    this.setData()
-  },
-  fetchOnServer: false,
   data() {
     return {
       gained: 0,
@@ -78,6 +74,10 @@ export default {
       loading: true,
     }
   },
+  fetch() {
+    this.setData()
+  },
+  fetchOnServer: false,
   computed: {
     isLoading() {
       return this.$store.state.user.data.loading
