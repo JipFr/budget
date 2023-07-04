@@ -109,12 +109,25 @@ hr {
       padding: 0 !important;
     }
   }
+  .new-transaction-wrapper > div {
+    height: 100%;
+  }
+}
+</style>
+
+<style lang="scss">
+@media (min-width: 1350px) {
+  .new-transaction-content {
+    position: sticky !important;
+    top: 60px;
+  }
 }
 </style>
 
 <script>
 import { mapMutations } from 'vuex'
 import { PortalTarget } from 'portal-vue'
+import { getDefaultDates } from '~/util/dates'
 
 import eventBus from '~/plugins/event-bus'
 import { getDefaultDates } from '~/util/dates'

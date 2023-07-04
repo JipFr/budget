@@ -59,7 +59,6 @@ details > summary::-webkit-details-marker {
 <script>
 // Import icons
 import ChevronIcon from '~/assets/icons/chevron-down.svg?inline'
-
 export default {
   components: {
     ChevronIcon,
