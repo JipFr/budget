@@ -22,8 +22,27 @@ export default {
       // <meta name="theme-color" content="#872e4e" media="(prefers-color-scheme: dark)">
       {
         name: 'theme-color',
+        content: '#457461',
+      },
+      {
+        name: 'theme-color',
         content: '#000000',
         media: '(prefers-color-scheme: dark)',
+      },
+      // <meta property="og:title" content="Your Title"/>
+      // <meta property="og:description" content="A full description of the page."/>
+      // <meta property="og:image" content="https://mywebsite.net/assets/opengraph/theogimage.jpg"/
+      {
+        property: 'og:title',
+        content: 'Krab Bij Kas',
+      },
+      {
+        property: 'og:description',
+        content: "A finance tracker that's not just for the bank.",
+      },
+      {
+        property: 'og:image',
+        content: 'https://krabbijkas.nl/icon-pride.png',
       },
     ],
     link: [
