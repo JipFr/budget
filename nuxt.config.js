@@ -22,6 +22,10 @@ export default {
       // <meta name="theme-color" content="#872e4e" media="(prefers-color-scheme: dark)">
       {
         name: 'theme-color',
+        content: '#457461',
+      },
+      {
+        name: 'theme-color',
         content: '#000000',
         media: '(prefers-color-scheme: dark)',
       },
