@@ -81,10 +81,13 @@ dist
 .idea
 
 # Service worker
-sw.*
+static/sw.js
 
 # macOS
 .DS_Store
 
 # Vim swap files
 *.swp
+
+# Local Netlify folder
+.netlify

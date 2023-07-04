@@ -16,18 +16,18 @@
 }
 @media screen and (min-width: 1350px) {
   .container {
-    width: calc(100% - 40px);
+    width: calc(100% - 90px);
+    max-width: 1300px;
+
+    &.smol-boi {
+      max-width: 1100px;
+    }
   }
 }
 @media (min-width: 950px) and (max-width: 1349px) {
   .container {
+    width: 90%;
     max-width: 930px;
-  }
-}
-
-@media (min-width: 1350px) {
-  .container {
-    max-width: 1300px;
   }
 }
 </style>

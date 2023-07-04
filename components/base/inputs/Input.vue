@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label class="app-input">
     <span v-if="label">{{ label }}</span>
     <div :class="['wrapper', prefix ? 'auto-fr' : '']">
       <span v-if="prefix" class="prefix">{{ prefix }}</span>
@@ -15,6 +15,7 @@
         @input="setChange"
         @focus="doFocus"
         @blur="doBlur"
+        @keyup="onKeyUp"
       />
       <div
         v-else-if="type === 'list'"
@@ -56,6 +57,7 @@
         @input="setChange"
         @focus="doFocus"
         @blur="doBlur"
+        @keyup="onKeyUp"
       />
     </div>
   </label>
@@ -76,6 +78,7 @@ label {
   padding: 8px;
   border-radius: 6px;
   background: var(--content);
+  border: 1px solid var(--border);
   color: var(--text);
   display: block;
   width: 100%;
@@ -245,17 +248,22 @@ export default {
       if (evt.key === 'Enter' || evt.key === ',') {
         this.addTag()
       }
+      this.onKeyUp(evt)
+    },
+    onKeyUp(evt) {
+      this.$emit('keyup', evt)
     },
     doFocus() {
       this.isFocused = true
       this.setInputWidth()
     },
-    doBlur() {
+    doBlur(evt) {
       this.isFocused = false
 
       if (this.type === 'list') {
         this.addTag()
       }
+      this.$emit('blur', evt)
     },
     setInputWidth() {
       const input = this.$refs['adjustable-input']

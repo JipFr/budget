@@ -18,7 +18,7 @@
 <style lang="scss" scoped>
 .toggle-button {
   background: var(--content);
-  border: 2px solid var(--body);
+  border: 2px solid var(--border);
   box-sizing: content-box;
   padding: 20px;
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
@@ -89,7 +89,7 @@
   }
 }
 
-@media (min-width: 1350px) {
+@media (min-width: 1200px) {
   .overlay-top-wrapper.no-desktop-bg.open {
     background: transparent;
   }

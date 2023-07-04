@@ -1,5 +1,6 @@
 export default {
   target: 'static',
+
   head: {
     title: 'Krab Bij Kas',
     meta: [
@@ -25,18 +26,32 @@ export default {
         media: '(prefers-color-scheme: dark)',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/icon-white.png',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/icon-white.png',
+      },
+      {
+        rel: 'manifest',
+        href: '/manifest.json',
+      },
+    ],
   },
 
   css: ['~assets/scss/main.scss'],
 
-  plugins: [],
+  plugins: ['./plugins/event-bus.js', './plugins/sw.client.js'],
 
   components: false,
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxt/content'],
+  modules: ['@nuxtjs/axios'],
 
   server: {
     host: '0',
@@ -53,11 +68,9 @@ export default {
     },
   },
 
-  content: {},
-
   build: {},
 
   env: {
-    REDIRECT_URL: process.env.REDIRECT_URL || 'http://localhost:3000',
+    REDIRECT_URL: process.env.REDIRECT_URL || 'http://localhost:8888',
   },
 }

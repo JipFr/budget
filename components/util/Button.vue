@@ -15,6 +15,10 @@ button {
   border: 1px solid var(--border);
   cursor: pointer;
 
+  &.small {
+    padding: 3px 10px;
+  }
+
   &.primary {
     background: var(--theme);
     color: white;
@@ -42,6 +46,10 @@ button {
   }
   &:active {
     opacity: 0.8;
+  }
+
+  svg {
+    display: block;
   }
 }
 </style>

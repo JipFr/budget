@@ -1,5 +1,6 @@
 <script>
 import { Line } from 'vue-chartjs'
+import { state as settingsState } from '~/util/settings'
 
 export default {
   extends: Line,
@@ -21,7 +22,7 @@ export default {
               {
                 ticks: {
                   // Include a dollar sign in the ticks
-                  callback: (v) => `€ ${v}`,
+                  callback: (v) => `${settingsState.currency.symbol} ${v}`,
                 },
               },
             ],

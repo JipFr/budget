@@ -1,11 +1,5 @@
 <template>
   <div>
-    <h2>FAQ</h2>
-    <p>
-      The app is fairly unique in the landscape it serves, so an FAQ is in
-      order.
-    </p>
-
     <collapsible title="Can I automatically import my transactions?">
       <p>
         No. The app is not designed to automatically import your transactions.
@@ -99,7 +93,50 @@
           <strong>"yearly" or "jaarlijks"</strong>: show on recurring page, this
           date next year
         </li>
+        <li>
+          <!-- eslint-disable-next-line no-irregular-whitespace -->
+          <strong>"stock"</strong>: add items in payment to inventory — see
+          question below.
+        </li>
       </ul>
+    </collapsible>
+    <collapsible title="How can I make use of the inventory?">
+      <p>
+        If you add the "stock" category to your transaction, it will take every
+        item from that transaction and place it in the inventory. If you include
+        a measurement in the item line, it will add that quantity to the
+        inventory.
+      </p>
+      <p>Supported quantities are as follows:</p>
+      <ul>
+        <li><strong>"gr"</strong> and <strong>"kg"</strong>: grams/kilos.</li>
+        <li>
+          <strong>"li"</strong>, <strong>"liter"</strong>,
+          <strong>"cl"</strong>, and <strong>"ml"</strong>: litres, centilitres,
+          and millilitres.
+        </li>
+      </ul>
+      <p>You can also combine "times" and measurements, like so:</p>
+      <code>
+        My Local store<br />
+        2 x 1l water €10
+      </code>
+      <payment-card :payment="beerPayment" disable-actions />
+      <p>You do not need quantities. By default it will just count as "one".</p>
+      <p>
+        If you include the "stock" category, it will add it to the inventory
+        page. From there, you can ajdust the inventory — like when you use a
+        product.
+      </p>
+    </collapsible>
+    <collapsible title="How can I make use of the recipes feature?">
+      <p>
+        If you make proper use of the inventory (see question above), you can
+        make use of the recipes feature. The recipes feature will show you which
+        recipes you can make with what is currently in your inventory, how much
+        it will cost to purchase the remaining items (assuming you have
+        purchased them before), and the total cost.
+      </p>
     </collapsible>
     <collapsible title="Can I use a currency that isn't euros?">
       <p>
@@ -132,9 +169,6 @@ p {
 .collapsible {
   margin-top: 20px;
 }
-.collapsible[open] {
-  margin-bottom: 50px;
-}
 
 code {
   display: block;
@@ -162,7 +196,7 @@ export default {
   data() {
     return {
       examplePayment: {
-        cents: -100,
+        cents: -2750,
         categories: ['Groceries', 'food'],
         description: `My Local store\nItem one €5.50\n2x Item two €11\nItem three x 5 €11`,
       },
@@ -171,6 +205,11 @@ export default {
         categories: ['Monthly', 'entertainment'],
         description: 'Netflix',
         inXDays: 10,
+      },
+      beerPayment: {
+        cents: -1000,
+        categories: ['Groceries', 'Stock'],
+        description: `My Local store\n2 x 1l water €10`,
       },
     }
   },

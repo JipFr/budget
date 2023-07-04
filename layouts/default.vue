@@ -1,241 +1,113 @@
 <template>
   <login-wrapper>
-    <app-header title="Krab Bij Kas" />
     <div class="page">
+      <app-header @toggle-sidebar="sidebarOpen = !sidebarOpen" />
       <div v-if="error">
         <container class="limited-width">
           <banner>⚠️ {{ error }}</banner>
         </container>
       </div>
-      <div>
-        <container class="limited-width is-main-wrapper">
-          <div class="core-info">
-            <div class="info-content">
-              <!-- Hero -->
-              <hero :payments="getPayments" />
-
-              <!-- "From" and "until" picker -->
-              <from-until-picker />
-            </div>
+      <div class="main">
+        <div
+          class="sidebar-background"
+          :open="sidebarOpen"
+          @click="sidebarOpen = false"
+        />
+        <sidebar :open="sidebarOpen">
+          <hero :payments="getPayments" />
+          <div class="from-until">
+            <hr />
+            <from-until-picker class="padded padded-right" />
           </div>
+        </sidebar>
 
-          <div class="main">
-            <!-- Navigation -->
-            <div class="nav">
-              <nav>
-                <nuxt-link
-                  class="link"
-                  to="/"
-                  :class="
-                    financePaths.includes(path) ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  Finances
-                </nuxt-link>
-
-                <nuxt-link
-                  class="link"
-                  to="/prices"
-                  :class="
-                    chartPaths.includes(path) ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  Analysis
-                </nuxt-link>
-
-                <nuxt-link
-                  class="link"
-                  to="/about"
-                  :class="
-                    path.startsWith('/about') ? 'nuxt-link-exact-active' : ''
-                  "
-                >
-                  About
-                </nuxt-link>
-              </nav>
-              <nav v-if="financePaths.includes(path)" class="with-badges">
-                <nuxt-link class="badge" to="/">Payments</nuxt-link>
-                <nuxt-link class="badge" to="/categories">Categories</nuxt-link>
-                <nuxt-link class="badge" to="/recurring">Recurring</nuxt-link>
-              </nav>
-
-              <nav v-if="chartPaths.includes(path)" class="with-badges">
-                <nuxt-link class="badge" to="/prices">Prices</nuxt-link>
-                <nuxt-link v-if="hasFoodTransactions" class="badge" to="/food">
-                  Food
-                </nuxt-link>
-                <nuxt-link class="badge" to="/overview">Overview</nuxt-link>
-              </nav>
-
-              <nav v-if="path.startsWith('/about')" class="with-badges">
-                <nuxt-link class="badge" to="/about/"> Profile </nuxt-link>
-                <nuxt-link class="badge" to="/about/faq"> FAQ </nuxt-link>
-              </nav>
+        <div class="main-content">
+          <container class="limited-width">
+            <div class="main-content-layout">
+              <div v-if="!isLoading" class="tab-wrapper">
+                <Nuxt />
+              </div>
+              <div class="new-transaction-wrapper">
+                <portal-target name="right-side" />
+              </div>
             </div>
-
-            <!-- Wrapper or loading state -->
-            <div v-if="!isLoading" class="tab-wrapper">
-              <Nuxt />
-            </div>
-
-            <div v-else class="loading-wrapper">
-              <loading-icon />
-            </div>
-          </div>
-
-          <!-- (Fixed position) new transaction wrapper -->
-          <div class="new-transaction-wrapper">
-            <portal-target name="right-side" />
-          </div>
-        </container>
+          </container>
+        </div>
       </div>
     </div>
   </login-wrapper>
 </template>
 
 <style lang="scss" scoped>
-.page {
-  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+.main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+.main-content-layout {
+  padding-top: 50px;
+  padding-bottom: calc(50px + env(safe-area-inset-bottom));
 }
 
-h2 {
-  display: flex;
-  align-items: center;
+hr {
+  border: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
 
-  > * + * {
-    margin-left: 20px;
+.sidebar-background {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .main-content-layout {
+    display: grid;
+    grid-template-columns: 1fr 316px;
+    grid-gap: 50px;
+  }
+  .vue-portal-target {
+    height: 100%;
   }
 }
-.is-main-wrapper {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-areas: 'info' 'main' 'right';
 
-  .core-info {
-    grid-area: info;
+@media (max-width: 700px) {
+  .main-content {
+    border-top: 0;
+  }
+  .main-content-layout {
+    padding-top: 30px;
   }
   .main {
-    grid-area: main;
+    grid-template-columns: 100%;
   }
-  > *:nth-child(3) {
-    grid-area: right;
-  }
-}
-.from-until-picker {
-  margin-bottom: 40px;
-}
-.tab-wrapper {
-  margin-top: 20px;
-}
-.tab-wrapper > *:not(.no-min-height) {
-  min-height: calc(
-    100vh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-  );
-}
-.loading-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 150px;
-}
-
-nav {
-  margin-left: -5vw;
-  padding-left: 5vw;
-  margin-right: -5vw;
-  padding-right: 5vw;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  word-break: normal;
-
-  &::after {
-    content: '';
+  .sidebar-background[open] {
     display: block;
-    min-width: 5vw;
-    height: 1px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 75;
+    top: 0;
+    left: 0;
   }
+}
+</style>
 
-  &.with-badges {
-    margin-left: calc(-5vw - 3px);
-  }
-
-  & + nav {
-    margin-top: 10px;
+<style lang="scss">
+[no-right] {
+  .main-content-layout {
+    grid-template-columns: 100%;
   }
 }
 
-nav .link {
-  color: inherit;
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 20px;
-  border-bottom: 3px solid transparent;
-  font-size: 1rem;
-  font-weight: normal;
-
-  &.nuxt-link-exact-active {
-    border-bottom-color: var(--text);
-  }
-}
-
-nav .badge {
-  padding: 8px 15px;
-  background: var(--content);
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 6px;
-  margin: 3px;
-
-  &:hover {
-    background: var(--alt-content);
-  }
-
-  &.nuxt-link-exact-active {
-    background: var(--theme);
-    color: white;
-  }
-}
-
-.new-transaction-wrapper {
-  margin-top: 4px;
-}
-
-@media (prefers-color-scheme: dark) {
-  nav .badge.nuxt-link-exact-active {
-    background: var(--alt-content);
-  }
-}
-
-@media screen and (min-width: 950px) {
-  nav {
-    // Wrap on desktop to stop annoying layout issues
-    flex-wrap: wrap;
-  }
-  nav::after {
-    display: none;
-  }
-}
-
-@media (min-width: 950px) and (max-width: 1349px) {
-  .is-main-wrapper {
-    grid-template-columns: 1fr 1.5fr;
-    grid-gap: 0 40px;
-    grid-template-areas: 'info main' 'info right';
-  }
-}
-
-@media (min-width: 1350px) {
-  .is-main-wrapper {
-    grid-template-columns: 1fr 1.5fr 1fr;
-    grid-gap: 40px;
-    grid-template-areas: 'info main right';
-  }
-  .info-content,
+@media (min-width: 1200px) {
   .new-transaction-content {
-    position: sticky;
-    top: 60px;
+    position: sticky !important;
+    top: 55px;
+
+    .content {
+      padding: 0 !important;
+    }
   }
   .new-transaction-wrapper > div {
     height: 100%;
@@ -255,48 +127,53 @@ nav .badge {
 <script>
 import { mapMutations } from 'vuex'
 import { PortalTarget } from 'portal-vue'
+
+import eventBus from '~/plugins/event-bus'
 import { getDefaultDates } from '~/util/dates'
 
 // Import components
-import Hero from '~/components/base/Hero'
-import Banner from '~/components/base/Banner'
 import AppHeader from '~/components/layout/Header'
+import Hero from '~/components/base/Hero'
+import Sidebar from '~/components/layout/Sidebar'
+import Banner from '~/components/base/Banner'
 import Container from '~/components/layout/Container'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoginWrapper from '~/components/LoginWrapper'
 
-// Import icons
-import LoadingIcon from '~/components/base/LoadingIcon'
-
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-function addTrailingSlash(arr) {
-  return arr.flatMap((path) =>
-    [path, !path.endsWith('/') ? path + '/' : null].filter(Boolean)
-  )
-}
+// Import utils
+import { setPushNotifs } from '~/util/setPushNotifs'
 
 export default {
   components: {
     AppHeader,
     Banner,
+    Sidebar,
     Container,
     Hero,
     FromUntilPicker,
-    LoadingIcon,
     LoginWrapper,
     PortalTarget,
   },
+  data() {
+    return {
+      error: '',
+      hasFetched: false,
+      sidebarOpen: false,
+      allowLoading: true,
+    }
+  },
   async fetch() {
     if (!this.hasFetched) {
-      const { from, until } = getDefaultDates()
+      const { from, until } = await getDefaultDates()
 
       this.setUntil(until.toISOString().split('T')[0])
       this.setFrom(from.toISOString().split('T')[0])
     }
 
-    this.setLoading(true)
+    if (this.allowLoading) this.setLoading(true)
 
     const getPagination = (page, size) => {
       const limit = size ? +size : 3
@@ -329,21 +206,29 @@ export default {
       this.error = data.errors.join('\n')
     }
 
+    await this.fetchInventory()
+    await this.fetchRecipes()
     this.setPerson({
       transactions,
     })
+
+    setPushNotifs(transactions)
 
     this.hasFetched = true
 
     this.setLoading(false)
   },
   fetchOnServer: false,
-  data() {
+  head() {
     return {
-      error: '',
-      financePaths: addTrailingSlash(['/', '/categories', '/recurring']),
-      chartPaths: addTrailingSlash(['/overview', '/prices', '/food']),
-      hasFetched: false,
+      bodyAttrs: {
+        sidebarOpen: this.sidebarOpen,
+      },
+      script: [
+        {
+          src: 'https://cdn.plaid.com/link/v2/stable/link-initialize.js',
+        },
+      ],
     }
   },
   computed: {
@@ -374,9 +259,28 @@ export default {
       )
     },
   },
+  watch: {
+    $route() {
+      this.sidebarOpen = false
+    },
+  },
   mounted() {
     this.$nuxt.$on('refetch-really', () => {
       if ((this.getAllPayments || []).length === 0) this.$fetch()
+    })
+
+    eventBus.$on('force-refetch', async () => {
+      this.allowLoading = false
+      await this.$fetch()
+      this.allowLoading = true
+    })
+
+    this.$nuxt.$on('refetch-inventory', () => {
+      this.fetchInventory()
+    })
+
+    this.$nuxt.$on('refetch-recipes', () => {
+      this.fetchRecipes()
     })
 
     SupabaseClient.from('transactions')
@@ -419,6 +323,30 @@ export default {
       setUntil: 'user/setUntil',
       setFrom: 'user/setFrom',
     }),
+    async fetchInventory() {
+      const inventory = (
+        await SupabaseClient.from('inventory')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(0, 1e3)
+      ).data
+
+      this.setPerson({
+        inventory,
+      })
+    },
+    async fetchRecipes() {
+      const recipes = (
+        await SupabaseClient.from('recipes')
+          .select('*', { count: 'exact' })
+          .order('id', { ascending: true })
+          .range(0, 1e3)
+      ).data
+
+      this.setPerson({
+        recipes,
+      })
+    },
   },
 }
 </script>

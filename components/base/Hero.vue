@@ -1,83 +1,62 @@
 <template>
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
-      <card
-        class="highlight"
-        :class="foodTotal === 0 && foodSpent === 0 ? 'fw' : ''"
-      >
-        <subtitle>In this period...</subtitle>
-        <h2>
+      <div class="padded">
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Your balance this period
+          </subtitle>
+        </div>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
           <money :cents="regularTotal" />
         </h2>
-      </card>
-      <card v-if="foodTotal !== 0 || foodSpent !== 0">
-        <subtitle>Total in period</subtitle>
-        <h2>
-          <money :cents="gained - spent" />
+      </div>
+      <div
+        v-if="
+          (foodInfo && foodInfo.availableMoneyToday) || loading || isLoading
+        "
+        class="padded"
+      >
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Food available today
+          </subtitle>
+        </div>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
+          <money :cents="foodInfo?.availableMoneyToday || 0" />
         </h2>
-      </card>
-      <card v-if="foodTotal !== 0 || foodSpent !== 0" class="fw">
-        <subtitle>Food remaining (of <money :cents="foodTotal" />)</subtitle>
-        <h2>
-          <money :cents="foodTotal - foodSpent" />
-        </h2>
-      </card>
-
-      <card v-if="foodTotal === 0 && foodSpent === 0">
-        <subtitle>Gained</subtitle>
-        <h2>
-          <money :cents="gained" />
-        </h2>
-      </card>
-      <card v-if="foodTotal === 0 && foodSpent === 0">
-        <subtitle>Spent</subtitle>
-        <h2>
-          <money :cents="spent" />
-        </h2>
-      </card>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.hero {
-  padding: 40px 0;
-
-  h1,
-  h2 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-
+.hero-layout > div {
   h2 {
     font-size: 1.5rem;
+    margin-top: 10px;
   }
-
-  &.loading .money {
-    background: var(--overlay-color);
+  .skeleton-text {
     color: transparent;
+    user-select: none;
+    background: var(--border);
+    display: inline-block;
   }
-}
-.hero-layout {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
 
-  .fw {
-    grid-column: 1 / -1;
+  & + div {
+    border-top: 1px solid var(--border);
   }
 }
 </style>
 
 <script>
 // Import components
-import Card from '~/components/layout/Card'
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
+import { getFoodInfo } from '~/util/food'
 
 export default {
   components: {
-    Card,
     Subtitle,
     Money,
   },
@@ -96,13 +75,15 @@ export default {
       gained: 0,
       spent: 0,
       regularTotal: 0,
-      foodTotal: 0,
-      foodSpent: 0,
+      loading: true,
     }
   },
   computed: {
     isLoading() {
       return this.$store.state.user.data.loading
+    },
+    foodInfo() {
+      return this.payments.length > 0 ? getFoodInfo(this.payments) : null
     },
   },
   watch: {
@@ -113,11 +94,10 @@ export default {
   methods: {
     setData() {
       // Re-set values
+      this.loading = true
       this.gained = 0
       this.spent = 0
       this.regularTotal = 0
-      this.foodTotal = 0
-      this.foodSpent = 0
 
       // Now go over each transaction and add it to the relevant field
       for (const payment of this.payments) {
@@ -129,21 +109,14 @@ export default {
           // If it's food, keep a seperate "food total"
           // Otherwise add it to the normal total
           if (
-            lowercaseCategories.includes('eten') ||
-            lowercaseCategories.includes('food')
-          ) {
-            if (payment.cents > 0) {
-              this.foodTotal += payment.cents
-            } else {
-              this.foodSpent += payment.cents * -1
-            }
-          } else if (
             lowercaseCategories.includes('eten aanpassen') ||
             lowercaseCategories.includes('adjust food')
           ) {
             this.regularTotal -= payment.cents
-            this.foodTotal += payment.cents
-          } else {
+          } else if (
+            !lowercaseCategories.includes('food') &&
+            !lowercaseCategories.includes('eten')
+          ) {
             this.regularTotal += payment.cents
           }
 
@@ -161,6 +134,8 @@ export default {
           }
         }
       }
+
+      this.loading = false
     },
   },
 }

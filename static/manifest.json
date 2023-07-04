@@ -1,0 +1,16 @@
+{
+  "name": "Krab Bij Kas",
+  "short_name": "Krab",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#457461",
+  "lang": "en"
+}

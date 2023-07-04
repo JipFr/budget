@@ -1,3 +1,5 @@
+import { main as pluginsMain, pluginsState } from '../krab-plugins'
+
 // Fixed colors
 export const colors = [
   'rgb(0, 122, 255)',
@@ -16,8 +18,11 @@ export const state = () => {
     data: {
       transactions: [],
       transactionsInPeriod: [],
+      inventory: [],
+      recipes: [],
       loading: true,
     },
+    loadingPlaid: true,
     tagColors: {},
     // Get day 2 days before the start of the current month
     // Not great code, but oh well....
@@ -63,6 +68,7 @@ function applyFilter(state) {
       'food',
       'monthly',
       'entertainment',
+      'stock',
     ]),
   ] // Remove duplicates, also include 'other'
 
@@ -79,7 +85,16 @@ export const mutations = {
   set(state, data) {
     // We might need to add other values here later
     // Setting the entire object breaks reactivity
-    state.data.transactions = data.transactions
+    if (data.transactions) state.data.transactions = data.transactions
+    if (data.inventory) state.data.inventory = data.inventory
+    if (data.recipes) state.data.recipes = data.recipes
+
+    if (typeof data.transactions !== 'undefined') {
+      // Init plugins
+      pluginsState.transactions = data.transactions
+      pluginsMain()
+    }
+
     state.data.loading = false
     applyFilter(state)
   },
@@ -96,5 +111,8 @@ export const mutations = {
   },
   setViewing(state, catName) {
     state.viewingCat = catName
+  },
+  setLoadingPlaid(state, loadingState) {
+    state.loadingPlaid = loadingState
   },
 }
