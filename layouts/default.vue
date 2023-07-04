@@ -127,7 +127,6 @@ hr {
 <script>
 import { mapMutations } from 'vuex'
 import { PortalTarget } from 'portal-vue'
-import { getDefaultDates } from '~/util/dates'
 
 import eventBus from '~/plugins/event-bus'
 import { getDefaultDates } from '~/util/dates'
