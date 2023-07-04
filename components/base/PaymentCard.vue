@@ -680,38 +680,6 @@ export default {
       }, delay)
     },
   },
-  watch: {
-    active() {
-      const el = this.$refs.card.$el
-      const isDesktop = window.innerWidth >= 1350
-      let delay = 300
-      if (isDesktop) {
-        delay = 0
-      }
-      setTimeout(() => {
-        if (this.active) {
-          el.scrollTo({
-            left: 0,
-          })
-
-          setTimeout(() => {
-            // Do it again, just in case; Chrome sometimes doesn't do it
-            el.scrollTo({
-              left: 0,
-            })
-          }, 300)
-
-          if (isDesktop) {
-            // Only scroll the card to the top on desktop, not mobile
-            el.scrollIntoView()
-            window.scrollTo({
-              top: window.pageYOffset - 100,
-            })
-          }
-        }
-      }, delay)
-    },
-  },
   methods: {
     async doDelete() {
       if (confirm(`Delete transaction '${this.payment.description}'?`)) {

@@ -90,16 +90,16 @@ export default {
     Container,
     Banner,
   },
-  fetch() {
-    this.user = SupabaseClient.auth.user()
-  },
-  fetchOnServer: false,
   data() {
     return {
       user: null,
       error: '',
     }
   },
+  fetch() {
+    this.user = SupabaseClient.auth.user()
+  },
+  fetchOnServer: false,
   mounted() {
     SupabaseClient.auth.onAuthStateChange(() => {
       this.user = SupabaseClient.auth.user()

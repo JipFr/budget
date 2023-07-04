@@ -175,14 +175,19 @@ export default {
     PageTitle,
     Card,
   },
-  async fetch() {
-    await loadSettings()
-  },
   data() {
     return {
       settingsState,
       currenciesArray,
     }
+  },
+  async fetch() {
+    await loadSettings()
+  },
+  head: {
+    bodyAttrs: {
+      'no-right': true,
+    },
   },
   methods: {
     async setStartDate(date) {
@@ -190,11 +195,6 @@ export default {
     },
     async setCurrency(currencyCode) {
       await setSetting('currency', currencyCode)
-    },
-  },
-  head: {
-    bodyAttrs: {
-      'no-right': true,
     },
   },
 }

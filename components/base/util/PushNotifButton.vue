@@ -26,11 +26,6 @@ import SupabaseClient from '~/util/supabase'
 import { host } from '~/util/setPushNotifs'
 
 export default {
-  fetch() {
-    this.user = SupabaseClient.auth.user()
-    this.permission = Notification.permission
-  },
-  fetchOnServer: false,
   data() {
     return {
       user: SupabaseClient.auth.user(),
@@ -40,6 +35,11 @@ export default {
       buttonLabelInitial: 'Want push notifications?',
     }
   },
+  fetch() {
+    this.user = SupabaseClient.auth.user()
+    this.permission = Notification.permission
+  },
+  fetchOnServer: false,
   methods: {
     async subscribeToPush() {
       if (window.Notification) {

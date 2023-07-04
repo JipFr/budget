@@ -126,6 +126,17 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      selectedStore: null,
+      stores: {},
+      storesLoaded: false,
+      enabledItems: [],
+      chartData: {
+        datasets: [],
+      },
+    }
+  },
   fetch() {
     const stores = {}
 
@@ -231,17 +242,6 @@ export default {
     this.storesLoaded = true
 
     this.setChartData()
-  },
-  data() {
-    return {
-      selectedStore: null,
-      stores: {},
-      storesLoaded: false,
-      enabledItems: [],
-      chartData: {
-        datasets: [],
-      },
-    }
   },
   fetchOnServer: false,
   methods: {

@@ -18,15 +18,15 @@ export default {
     PriceChanges,
     PageTitle,
   },
+  head: {
+    bodyAttrs: {
+      'no-right': true,
+    },
+  },
   computed: {
     getAllPayments() {
       const user = this.$store.state.user.data
       return user.transactions || []
-    },
-  },
-  head: {
-    bodyAttrs: {
-      'no-right': true,
     },
   },
 }
