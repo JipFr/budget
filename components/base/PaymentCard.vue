@@ -565,6 +565,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { plugins } from '~/krab-plugins'
+import eventBus from '~/plugins/event-bus'
 
 // Import components
 import Card from '~/components/layout/Card'
@@ -703,6 +704,7 @@ export default {
           alert(error.message)
         } else {
           this.$nuxt.$emit('refetch')
+          eventBus.$emit('force-refetch')
         }
       }
     },
