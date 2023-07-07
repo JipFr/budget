@@ -3,15 +3,14 @@ import { currencies } from '~/util/settings'
 const cache = {}
 
 export const moneyRegex = new RegExp(
-  `${currencies}(-?\\d+(?:\\.\\d+)?) ?\\+? ?`
+  `${currencies}(-?\\d+(?:[\\.|,]\\d+)?) ?\\+? ?`
 )
 
 // Functions
 function toCents(euroVal) {
   const euroArray = euroVal
     .replace(new RegExp(`${currencies}| |\\+`, 'g'), '')
-    .split('.')
-    .flatMap((t) => t.split(','))
+    .split(/\.|,/)
 
   const isNegative =
     Number(euroVal.replace(new RegExp(currencies, 'g'), '')) < 0
