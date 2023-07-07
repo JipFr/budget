@@ -160,7 +160,7 @@ export default {
 
       // Euros
       const cents = relevantTransaction.cents.toString()
-      const euros = `${cents.slice(0, -2)},${cents.slice(-2)}`
+      const euros = `${cents.slice(0, -2)}${this.splitter}${cents.slice(-2)}`
 
       // Other fields
       const tags = relevantTransaction.categories.join(', ')
@@ -202,11 +202,8 @@ export default {
         .split(this.splitter)
         .slice(0, 2) // Only allow 1 period in the whole thing
 
-      // Make sure only 2 decimal points are allowed and that it's not "10.0" but "10.00"
-      if (newValue[1])
-        newValue[1] = newValue[1].slice(0, 2).toString().padEnd(2, '0')
-
-      if (newValue[0].length === 0) newValue[0] = '0'
+      // Make sure only 2 decimal points are allowed
+      if (newValue[1]) newValue[1] = newValue[1].slice(0, 2)
 
       // String it back together
       newValue = newValue.join(this.splitter)
@@ -223,9 +220,15 @@ export default {
     async submit() {
       const submitObj = {}
 
-      // Add cents field
-      if (!this.editingData.euros.includes(',')) this.editingData.euros += ',00'
-      submitObj.cents = Number(this.editingData.euros.replace(/,/g, ''))
+      // Parse cents from '9.32' or '9.3' or '9,3' to '930'
+      if (this.editingData.euros.includes(this.splitter)) {
+        const [euros, cents] = this.editingData.euros.split(this.splitter)
+        submitObj.cents = Number(`${euros}${cents.padEnd(2, '0')}`)
+      } else {
+        submitObj.cents = Number(this.editingData.euros.replace(/,|\./g, ''))
+      }
+
+      console.log(submitObj.cents)
 
       // Add other fields
       submitObj.description = this.editingData.description
