@@ -104,7 +104,7 @@ import { state as settingsState } from '~/util/settings'
 // Other values
 const editingData = {
   description: '',
-  euros: '0,00',
+  euros: '0.00',
   tags: '',
   date: new Date().toISOString().split('T')[0],
 }
@@ -131,12 +131,26 @@ export default {
       error: '',
       message: '',
       settingsState,
+      splitter: '.',
     }
   },
   mounted() {
-    /**
-     * On this event, open the pop-over to edit a transaction
-     */
+    // Find out if preferred split is comma or period
+    const formatter = new Intl.NumberFormat(
+      settingsState.currency.countryCode ?? 'en-US',
+      {
+        style: 'currency',
+        currency: settingsState.currency.code,
+      }
+    )
+    const str = formatter.format(0).trim()
+    const splitter = str.includes('.') ? '.' : ','
+
+    editingData.euros = editingData.euros.replace('.', splitter)
+    this.editingData.euros = this.editingData.euros.replace('.', splitter)
+    this.splitter = splitter
+
+    // On this event, open the pop-over to edit a transaction
     this.$nuxt.$on('edit-transaction', (id) => {
       // Get all transactions and find relevant ones
       const allTransactions = this.$store.state.user.data.transactions
@@ -181,18 +195,21 @@ export default {
       evt.currentTarget.value = newValue
     },
     cleanEuro(evt) {
-      const allowedCharacters = '-0987654321,'
+      const allowedCharacters = `-0987654321${this.splitter}`
 
       let newValue = evt.currentTarget.value
-        .replace(/\./g, ',') // Replace dots with commas to prevent errors
-        .split(',')
-        .slice(0, 2) // Only allow 1 comma in the whole thing
+        .replace(/,|\./g, this.splitter) // Replace commas and periods with the preferred splitter
+        .split(this.splitter)
+        .slice(0, 2) // Only allow 1 period in the whole thing
 
-      // Make sure only 2 decimal points are allowed
-      if (newValue[1]) newValue[1] = newValue[1].slice(0, 2)
+      // Make sure only 2 decimal points are allowed and that it's not "10.0" but "10.00"
+      if (newValue[1])
+        newValue[1] = newValue[1].slice(0, 2).toString().padEnd(2, '0')
+
+      if (newValue[0].length === 0) newValue[0] = '0'
 
       // String it back together
-      newValue = newValue.join(',')
+      newValue = newValue.join(this.splitter)
 
       // Remove disallowed characters
       newValue = newValue
