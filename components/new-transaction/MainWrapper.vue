@@ -205,6 +205,13 @@ export default {
       // Make sure only 2 decimal points are allowed
       if (newValue[1]) newValue[1] = newValue[1].slice(0, 2)
 
+      // Make sure newValue 0 is not empty or just a negative sign
+      if (
+        newValue.length === 0 ||
+        (newValue[0] === '-' && newValue[0].length === 1 && newValue.length > 1)
+      )
+        newValue[0] += '0'
+
       // String it back together
       newValue = newValue.join(this.splitter)
 
@@ -227,8 +234,6 @@ export default {
       } else {
         submitObj.cents = Number(this.editingData.euros.replace(/,|\./g, ''))
       }
-
-      console.log(submitObj.cents)
 
       // Add other fields
       submitObj.description = this.editingData.description
