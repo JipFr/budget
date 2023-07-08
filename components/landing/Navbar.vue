@@ -142,6 +142,7 @@ import GoogleLogo from '~/assets/logos/google.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
+import { getRedirectUrl } from '~/util/redirectUrl'
 
 export default {
   components: {
@@ -166,10 +167,7 @@ export default {
           provider,
         },
         {
-          redirectTo:
-            process.env.NODE_ENV === 'production'
-              ? 'https://krabbijkas.nl/'
-              : process.env.REDIRECT_URL || 'http://localhost:8888/',
+          redirectTo: getRedirectUrl(),
         }
       )
     },
