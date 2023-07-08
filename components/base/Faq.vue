@@ -2,15 +2,17 @@
   <div>
     <collapsible title="Can I automatically import my transactions?">
       <p>
-        No. The app is not designed to automatically import your transactions.
-        This was done for a reason: specificity. Bank transactions almost never
-        tell you what you actually spent money on, and only tells you the store
-        or brand.
+        You can! There are plugins to help you with this. There's Plaid so you
+        can import transactions from your bank, and there's a plugin for the
+        Dutch supermarket Albert Heijn to import your receipts.
       </p>
       <p>
-        By adding everything yourself, you can be descriptive and precise. By
-        using the format the app optionally lets you to use, it can help you
-        analyse your purchases by showing price trends.
+        I would recommend editing the transactions yourself to add more detail.
+      </p>
+      <p>
+        By editing it yourself, you can be descriptive and precise. By using the
+        format the app optionally lets you to use, it can help you analyse your
+        purchases by showing price trends, and Krab can add it to your pantry.
       </p>
     </collapsible>
     <collapsible title="How can I make full use of the app's features?">
@@ -30,28 +32,18 @@
         My Local store<br />
         Item one €5.50<br />
         2x Item two €11<br />
-        Item three x 5 €11
+        500gr item three x 5 €11
       </code>
       <payment-card :payment="examplePayment" disable-actions />
     </collapsible>
     <collapsible title="How do the dates work?">
       <p>
-        The way I see it, the app works with "periods". These start on the 23rd
-        of each month, and end 22nd of the next.
-      </p>
-      <p>
-        The 23rd is a remnant from when I was paid on that date. I no longer get
-        paid then, but assigning all your payments to a single day in the month
-        (especially if you're not paid monthly) helps massively with
-        orginisation.
+        The way I see it, the app works with "periods". By default, these start
+        on the 23rd of each month, and end 22nd of the next.
       </p>
       <p>
         Note that while I see the app as using periods, you can set any "start"
         and "end" date manually inside the app.
-      </p>
-      <p>
-        I will likely make it possible to change the default date away from the
-        23rd at some point, but I don't know when.
       </p>
     </collapsible>
     <collapsible title="How do the categories work?">
@@ -139,14 +131,7 @@
       </p>
     </collapsible>
     <collapsible title="Can I use a currency that isn't euros?">
-      <p>
-        Currently there's no setting to change the symbol, but you can just
-        pretend it's whatever currency you like.
-      </p>
-      <p>
-        If you really need this,
-        <a href="mailto:jip@frij.link">send me a message</a>.
-      </p>
+      <p>Yes. Go to the settings page.</p>
     </collapsible>
   </div>
 </template>
@@ -198,7 +183,7 @@ export default {
       examplePayment: {
         cents: -2750,
         categories: ['Groceries', 'food'],
-        description: `My Local store\nItem one €5.50\n2x Item two €11\nItem three x 5 €11`,
+        description: `My Local store\nItem one €5.50\n2x Item two €11\n500gr item three x 5 €11`,
       },
       recurringPayment: {
         cents: -1499,

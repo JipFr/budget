@@ -6,4 +6,9 @@ A finance tracker that's not just for the bank.
 
 ## Developing
 
-Clone it, install the packages, `netlify dev`
+- Clone the repo
+- Install NPM packages
+- Install netlify-cli globally (`npm i -g netlify-cli`)
+- `netlify dev`
+- Add ``
+- Profit

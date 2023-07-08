@@ -78,6 +78,7 @@ import Banner from '~/components/base/Banner'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
+import { getRedirectUrl } from '~/util/redirectUrl'
 
 export default {
   components: {
@@ -123,10 +124,7 @@ export default {
           provider,
         },
         {
-          redirectTo:
-            process.env.NODE_ENV === 'production'
-              ? 'https://krabbijkas.nl'
-              : process.env.REDIRECT_URL,
+          redirectTo: getRedirectUrl(),
         }
       )
     },

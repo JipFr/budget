@@ -14,19 +14,29 @@
           <chevron-down-icon />
         </div>
         <div v-if="dropdownOpen" class="dropdown-out">
-          <div class="logos">
-            <button data-link="github" @click="login('github')">
-              <github-logo />
-              Log in with GitHub
-            </button>
-            <button data-link="discord" @click="login('discord')">
-              <discord-logo />
-              Log in with Discord
-            </button>
-            <button data-link="google" @click="login('google')">
-              <google-logo />
-              Log in with Google
-            </button>
+          <div v-if="canLogin">
+            <div class="logos">
+              <button data-link="github" @click="login('github')">
+                <github-logo />
+                Log in with GitHub
+              </button>
+              <button data-link="discord" @click="login('discord')">
+                <discord-logo />
+                Log in with Discord
+              </button>
+              <button data-link="google" @click="login('google')">
+                <google-logo />
+                Log in with Google
+              </button>
+            </div>
+          </div>
+          <div v-else>
+            <app-input
+              v-model="password"
+              type="password"
+              placeholder="krab1sc00l"
+              label="What's the magic word?"
+            />
           </div>
         </div>
       </div>
@@ -131,6 +141,7 @@ header {
 <script>
 // Import components
 import Logo from '~/components/base/util/Logo'
+import AppInput from '~/components/base/inputs/Input'
 
 // Import icons
 import ChevronDownIcon from '~/assets/icons/chevron-down.svg?inline'
@@ -142,10 +153,12 @@ import GoogleLogo from '~/assets/logos/google.svg?inline'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
+import { getRedirectUrl } from '~/util/redirectUrl'
 
 export default {
   components: {
     Logo,
+    AppInput,
     ChevronDownIcon,
     GithubLogo,
     DiscordLogo,
@@ -154,7 +167,14 @@ export default {
   data() {
     return {
       dropdownOpen: false,
+      password: '',
     }
+  },
+  computed: {
+    canLogin() {
+      // Yes, this is client-side verifcation. I only care about the surface-level randos.
+      return this.password === 'prescience' // (I like Dune)
+    },
   },
   methods: {
     toggleDropdown() {
@@ -166,10 +186,7 @@ export default {
           provider,
         },
         {
-          redirectTo:
-            process.env.NODE_ENV === 'production'
-              ? 'https://krabbijkas.nl/'
-              : process.env.REDIRECT_URL,
+          redirectTo: getRedirectUrl(),
         }
       )
     },
