@@ -169,7 +169,7 @@ export default {
           redirectTo:
             process.env.NODE_ENV === 'production'
               ? 'https://krabbijkas.nl/'
-              : process.env.REDIRECT_URL,
+              : process.env.REDIRECT_URL || 'http://localhost:8888/',
         }
       )
     },
