@@ -36,7 +36,7 @@ export const currencies = `[${currenciesArray.map((t) => t.symbol).join('|')}}]`
 
 export const state = Vue.observable({
   loaded: false,
-  startDate: 10,
+  startDate: 1,
   // currency: {
   //   symbol: '€',
   //   code: 'EUR',
