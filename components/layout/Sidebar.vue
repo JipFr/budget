@@ -279,19 +279,19 @@ export default {
           links: [
             {
               title: 'Settings',
-              to: '/about',
+              to: '/settings',
             },
             {
               title: 'Profile',
-              to: '/about/profile',
+              to: '/settings/profile',
             },
             {
               title: 'Plugins',
-              to: '/about/plugins',
+              to: '/settings/plugins',
             },
             {
               title: 'FAQ',
-              to: '/about/faq',
+              to: '/settings/faq',
             },
           ],
         },
