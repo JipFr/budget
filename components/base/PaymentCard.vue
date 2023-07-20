@@ -72,6 +72,7 @@
             >
               <div class="row-left-side">
                 <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
+                  <!-- Count -->
                   <span
                     v-if="
                       entry.weight?.label
@@ -91,11 +92,30 @@
                       <money :cents="entry.centsPerEntry" />
                     </span>
                   </span>
+
+                  <!-- Weight label-->
                   <span v-if="entry.weight?.label" class="badge">
+                    <span v-if="entry.cents === 0 && entry.itemCount !== 0">
+                      {{ entry.itemCount }} x&nbsp;
+                    </span>
                     {{ entry.weight.label }}
                   </span>
+
+                  <!-- When there's no weight or money, only count -->
+                  <span
+                    v-if="
+                      entry.itemCount !== 0 &&
+                      entry.cents === 0 &&
+                      !entry.weight?.label
+                    "
+                    class="badge"
+                  >
+                    {{ entry.itemCount }}
+                  </span>
                 </div>
+
                 <span>
+                  <!-- Hidden "imported" badge for CMD + F -->
                   <div
                     v-if="
                       (payment.plaid_transaction_id ||
@@ -106,13 +126,19 @@
                   >
                     Imported
                   </div>
+
+                  <!-- Description -->
                   {{ entry.description }}
+
+                  <!-- In X days -->
                   <in-x-days
                     v-if="isInXDays(payment) && i === 0"
                     :days="payment.inXDays"
                   />
                 </span>
               </div>
+
+              <!-- Sum -->
               <money v-if="entry.cents !== 0" :cents="entry.cents" />
             </div>
           </div>
