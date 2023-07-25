@@ -232,7 +232,7 @@ export default {
         const [euros, cents] = this.editingData.euros.split(this.splitter)
         submitObj.cents = Number(`${euros}${cents.padEnd(2, '0')}`)
       } else {
-        submitObj.cents = Number(this.editingData.euros.replace(/,|\./g, ''))
+        submitObj.cents = Number(this.editingData.euros) * 100
       }
 
       // Add other fields
