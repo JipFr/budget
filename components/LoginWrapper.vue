@@ -53,7 +53,7 @@ hr {
 
 <style lang="scss">
 :root {
-  --blob-color: #9dffd7;
+  --blob-color: var(--border);
   --image-border: var(--content);
 }
 
