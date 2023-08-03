@@ -99,14 +99,17 @@ export default {
   },
   methods: {
     toDateString(dateString) {
+      const [year, month, day] = dateString.split('-')
       const d = new Date(dateString)
+      d.setFullYear(year)
+      d.setMonth(month - 1)
+      d.setDate(day)
 
-      const day = days[d.getDay()]
+      const dayName = days[d.getDay()]
       const date = d.getDate().toString()
-      const month = months[d.getMonth()].slice(0, 3)
-      const year = d.getFullYear()
+      const monthName = months[d.getMonth()].slice(0, 3)
 
-      return `${day}, ${month} ${date} ${year}`
+      return `${dayName}, ${monthName} ${date} ${year}`
     },
     updatePayments() {
       // Map payments to dates
