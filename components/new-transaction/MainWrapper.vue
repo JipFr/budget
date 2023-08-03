@@ -175,6 +175,13 @@ export default {
         description,
       }
 
+      this.cleanEuro(
+        { currentTarget: { value: euros } },
+        {
+          forceLeadingZero: true,
+        }
+      )
+
       this.open = true
     })
   },
@@ -194,7 +201,12 @@ export default {
       this.editingData.categories = newValue
       evt.currentTarget.value = newValue
     },
-    cleanEuro(evt) {
+    cleanEuro(evt, paramOptions) {
+      const options = {
+        forceLeadingZero: false,
+        ...paramOptions,
+      }
+
       const allowedCharacters = `-0987654321${this.splitter}`
 
       let newValue = evt.currentTarget.value
@@ -202,13 +214,20 @@ export default {
         .split(this.splitter)
         .slice(0, 2) // Only allow 1 period in the whole thing
 
+      // Make sure that if there's a decimal value, there's a leading 0
+      if (options.forceLeadingZero && newValue[1] && newValue[0].length === 0)
+        newValue[0] = '0'
+
       // Make sure only 2 decimal points are allowed
       if (newValue[1]) newValue[1] = newValue[1].slice(0, 2)
 
       // Make sure newValue 0 is not empty or just a negative sign
       if (
         newValue.length === 0 ||
-        (newValue[0] === '-' && newValue[0].length === 1 && newValue.length > 1)
+        (newValue[0] === '-' &&
+          newValue[0].length === 1 &&
+          newValue.length > 1 &&
+          options.forceLeadingZero)
       )
         newValue[0] += '0'
 
