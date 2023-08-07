@@ -1,8 +1,5 @@
 <template>
-  <div class="big-loader">
-    <krab-icon class="icon" />
-    Loading...
-  </div>
+  <div class="big-loader">Loading...</div>
 </template>
 
 <style lang="scss" scoped>
@@ -18,8 +15,6 @@
   width: 8rem;
   height: 8rem;
   border-radius: 6px;
-  filter: grayscale(0.2);
-  // animation: 3s slowJiggle infinite;
 }
 
 @keyframes slowJiggle {
@@ -34,13 +29,3 @@
   }
 }
 </style>
-
-<script>
-import KrabIcon from '~/assets/logos/krab-full-pride.svg?inline'
-
-export default {
-  components: {
-    KrabIcon,
-  },
-}
-</script>
