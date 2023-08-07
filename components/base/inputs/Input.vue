@@ -253,6 +253,11 @@ export default {
       this.$emit('keyup', evt)
     },
     doFocus() {
+      // Clear input when focusing on 0,00
+      // Should this be in the generic input component? No, but sue me
+      if (this.value.replace(/,|\.|0/g, '').trim().length === 0)
+        this.$emit('input', '')
+
       this.isFocused = true
       this.setInputWidth()
     },

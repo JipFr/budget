@@ -88,6 +88,7 @@ label ::v-deep span {
 
 <script>
 import eventBus from '~/plugins/event-bus'
+import { getSplitter } from '~/util/currency'
 
 // Import components
 import Overlay from '~/components/base/util/Overlay'
@@ -136,15 +137,7 @@ export default {
   },
   mounted() {
     // Find out if preferred split is comma or period
-    const formatter = new Intl.NumberFormat(
-      settingsState.currency.countryCode ?? 'en-US',
-      {
-        style: 'currency',
-        currency: settingsState.currency.code,
-      }
-    )
-    const str = formatter.format(0).trim()
-    const splitter = str.includes('.') ? '.' : ','
+    const splitter = getSplitter()
 
     editingData.euros = editingData.euros.replace('.', splitter)
     this.editingData.euros = this.editingData.euros.replace('.', splitter)
