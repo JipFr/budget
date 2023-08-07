@@ -1,3 +1,5 @@
+const icon = process.env.BRANCH === 'dev' ? '/icon-dev.png' : '/icon-white.png'
+
 export default {
   target: 'static',
 
@@ -50,11 +52,11 @@ export default {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/icon-white.png',
+        href: icon,
       },
       {
         rel: 'apple-touch-icon',
-        href: '/icon-white.png',
+        href: icon,
       },
       {
         rel: 'manifest',

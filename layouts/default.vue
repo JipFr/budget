@@ -27,6 +27,9 @@
               <div v-if="!isLoading" class="tab-wrapper">
                 <Nuxt />
               </div>
+              <div v-else>
+                <big-loader />
+              </div>
               <div class="new-transaction-wrapper">
                 <portal-target name="right-side" />
               </div>
@@ -139,6 +142,7 @@ import Banner from '~/components/base/Banner'
 import Container from '~/components/layout/Container'
 import FromUntilPicker from '~/components/base/inputs/FromUntilPicker'
 import LoginWrapper from '~/components/LoginWrapper'
+import BigLoader from '~/components/util/BigLoader'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -156,6 +160,7 @@ export default {
     FromUntilPicker,
     LoginWrapper,
     PortalTarget,
+    BigLoader,
   },
   data() {
     return {

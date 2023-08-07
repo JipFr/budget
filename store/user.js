@@ -95,7 +95,6 @@ export const mutations = {
       pluginsMain()
     }
 
-    state.data.loading = false
     applyFilter(state)
   },
   setLoading(state, bool) {
