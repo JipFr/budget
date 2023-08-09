@@ -58,6 +58,29 @@
           </div>
         </aside>
       </div>
+      <div class="setting">
+        <div>
+          <h3>Enabled sidebar items</h3>
+          <p>Features shown in the sidebar</p>
+        </div>
+        <aside>
+          <div class="currencies-grid">
+            <card
+              v-for="sidebarOption of sidebarOptions"
+              :key="`sidebar-${sidebarOption.name}`"
+              :class="
+                settingsState.enabledSidebarItems
+                  .split(',')
+                  .includes(sidebarOption.value) && 'highlight'
+              "
+              @click="() => toggleSidebarItem(sidebarOption.value)"
+            >
+              <component :is="sidebarOption.icon" />
+              <p>{{ sidebarOption.name }}</p>
+            </card>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 </template>
@@ -170,6 +193,9 @@ import {
   currenciesArray,
 } from '~/util/settings'
 
+// Import icons
+import DollarSignIcon from '~/assets/icons/dollar-sign.svg?inline'
+
 export default {
   components: {
     PageTitle,
@@ -179,6 +205,23 @@ export default {
     return {
       settingsState,
       currenciesArray,
+      sidebarOptions: [
+        {
+          icon: DollarSignIcon,
+          name: 'Balance',
+          value: 'total',
+        },
+        {
+          icon: DollarSignIcon,
+          name: 'Food today',
+          value: 'foodtoday',
+        },
+        {
+          icon: DollarSignIcon,
+          name: 'Food total',
+          value: 'foodtotal',
+        },
+      ],
     }
   },
   async fetch() {
@@ -195,6 +238,15 @@ export default {
     },
     async setCurrency(currencyCode) {
       await setSetting('currency', currencyCode)
+    },
+    toggleSidebarItem(value) {
+      const enabledSidebarItems = settingsState.enabledSidebarItems.split(',')
+      if (enabledSidebarItems.includes(value)) {
+        enabledSidebarItems.splice(enabledSidebarItems.indexOf(value), 1)
+      } else {
+        enabledSidebarItems.push(value)
+      }
+      setSetting('enabledSidebarItems', enabledSidebarItems.join(','))
     },
   },
 }

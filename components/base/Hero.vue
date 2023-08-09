@@ -1,7 +1,8 @@
 <template>
   <div class="hero" :class="isLoading ? 'loading' : ''">
     <div class="hero-layout">
-      <div class="padded">
+      <!-- Balance this month -->
+      <div v-if="enabledSidebarItems.includes('total')" class="padded">
         <div>
           <subtitle :class="(loading || isLoading) && 'skeleton-text'">
             Your balance this period
@@ -11,9 +12,33 @@
           <money :cents="regularTotal" />
         </h2>
       </div>
+
+      <!-- Food budget in total this month -->
       <div
         v-if="
-          (foodInfo && foodInfo.availableMoneyToday) || loading || isLoading
+          foodInfo &&
+          foodInfo.remainingBudget &&
+          enabledSidebarItems.includes('foodtotal')
+        "
+        class="padded"
+      >
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Food (of <money :cents="foodInfo?.totalBudget || 0" />)
+          </subtitle>
+        </div>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
+          <money :cents="foodInfo?.remainingBudget || 0" />
+        </h2>
+      </div>
+
+      <!-- Food today -->
+      <div
+        v-if="
+          ((foodInfo && foodInfo.availableMoneyToday) ||
+            loading ||
+            isLoading) &&
+          enabledSidebarItems.includes('foodtoday')
         "
         class="padded"
       >
@@ -53,7 +78,10 @@
 // Import components
 import Subtitle from '~/components/title/Subtitle'
 import Money from '~/components/title/Money'
+
+// Import utils
 import { getFoodInfo } from '~/util/food'
+import { state as settingsState } from '~/util/settings'
 
 export default {
   components: {
@@ -84,6 +112,9 @@ export default {
     },
     foodInfo() {
       return this.payments.length > 0 ? getFoodInfo(this.payments) : null
+    },
+    enabledSidebarItems() {
+      return settingsState.enabledSidebarItems.split(',')
     },
   },
   watch: {
