@@ -25,7 +25,11 @@ export function findUpdatesOrInserts() {
   const list = {}
   const listMoneySums = {}
   for (const transaction of transactionsInPeriod) {
-    list[transaction.id] = getTransactionItemList(transaction.description)
+    list[transaction.id] = getTransactionItemList(
+      transaction.description,
+      {},
+      transaction
+    )
     listMoneySums[transaction.id] = list[transaction.id].reduce(
       (sum, item) => sum + item.cents,
       0

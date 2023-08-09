@@ -20,10 +20,14 @@ function getVariations({ name, measurementUnit, $store }) {
   const lists = [...transactions]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map((tr) =>
-      getTransactionItemList(tr.description, {
-        removeEuroString: true,
-        forceList: true,
-      })
+      getTransactionItemList(
+        tr.description,
+        {
+          removeEuroString: true,
+          forceList: true,
+        },
+        tr
+      )
     )
 
   const variationsList = {}
