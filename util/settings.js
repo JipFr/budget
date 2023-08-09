@@ -38,7 +38,7 @@ export const state = Vue.observable({
   loaded: false,
   startDate: 1,
   currency: currenciesArray[1],
-  enabledSidebarItems: 'total,foodtotal,foodtoday',
+  enabledSidebarItems: 'total,foodtoday',
 })
 
 export async function loadSettings() {
