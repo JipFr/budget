@@ -42,9 +42,15 @@ export function getWeightLabel(unit, value, doX = true) {
   }
 }
 
-export default function getTransactionItemList(description, opts) {
+export default function getTransactionItemList(
+  description,
+  opts,
+  payment = { cents: 0 }
+) {
   // Check if this was run before
-  const cacheKey = `${description}-${JSON.stringify(opts)}`
+  const cacheKey = `${description}-${JSON.stringify(opts)}-${payment.cents}-${
+    payment.id
+  }}`
   if (cache[cacheKey]) {
     return cache[cacheKey]
   }
@@ -210,6 +216,18 @@ export default function getTransactionItemList(description, opts) {
         weight,
         isAny,
       })
+    }
+
+    // When it's a list with only 1 item, add the $$$ value to the one item
+    if (
+      entries.length === 2 &&
+      !entries.find((t) => t.cents !== 0) &&
+      payment &&
+      payment.cents !== 0
+    ) {
+      entries[1].cents = -payment.cents
+      entries[1].centsPerEntry = payment.cents
+      entries[1].automaticallyFilledInCents = true
     }
   }
 

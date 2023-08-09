@@ -139,10 +139,13 @@
               </div>
 
               <!-- Sum -->
-              <money v-if="entry.cents !== 0" :cents="entry.cents" />
+              <money
+                v-if="entry.cents !== 0 && !entry.automaticallyFilledInCents"
+                :cents="entry.cents"
+              />
             </div>
           </div>
-          <div>
+          <div v-if="hasMoreThanOneNonZeroEntry">
             <hr />
             <div class="spread">
               <span></span>
@@ -663,9 +666,13 @@ export default {
       return this.payment.description.replace(/\n\n/g, '\n').trim()
     },
     entries() {
-      const entries = getTransactionItemList(this.description, {
-        removeEuroString: true,
-      })
+      const entries = getTransactionItemList(
+        this.description,
+        {
+          removeEuroString: true,
+        },
+        this.payment
+      )
       return entries
     },
     modifiedBy() {
@@ -681,6 +688,9 @@ export default {
         .map((id) => plugins.find((plugin) => plugin.id === id))
         .sort((a, b) => a.priority - b.priority)
       return relevantPlugins
+    },
+    hasMoreThanOneNonZeroEntry() {
+      return this.entries.filter((entry) => entry.cents !== 0).length > 1
     },
   },
   watch: {

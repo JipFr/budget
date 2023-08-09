@@ -146,12 +146,17 @@ export default {
         (transaction) => !transaction.categories.includes('exclude pricing')
       )
       .map((transaction) => {
-        return {
-          ...transaction,
-          entries: getTransactionItemList(transaction.description, {
+        const entries = getTransactionItemList(
+          transaction.description,
+          {
             removeEuroString: true,
             removeMeasurements: false,
-          }),
+          },
+          transaction
+        )
+        return {
+          ...transaction,
+          entries,
         }
       })
       .filter((v) => v.entries.filter((item) => item.cents > 0).length > 0)

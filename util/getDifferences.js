@@ -16,7 +16,8 @@ export function getDifferences(allPayments) {
       {
         removeEuroString: true,
         removeMeasurements: false,
-      }
+      },
+      transaction
     )
   }
 
