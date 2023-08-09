@@ -142,7 +142,7 @@
               <money v-if="entry.cents !== 0" :cents="entry.cents" />
             </div>
           </div>
-          <div>
+          <div v-if="hasNonZeroEntry">
             <hr />
             <div class="spread">
               <span></span>
@@ -681,6 +681,9 @@ export default {
         .map((id) => plugins.find((plugin) => plugin.id === id))
         .sort((a, b) => a.priority - b.priority)
       return relevantPlugins
+    },
+    hasNonZeroEntry() {
+      return this.entries.find((entry) => entry.cents !== 0)
     },
   },
   watch: {
