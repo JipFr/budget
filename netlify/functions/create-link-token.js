@@ -15,7 +15,7 @@ const handler = async (event) => {
       client_user_id: event.queryStringParameters['user-id'],
     },
     client_name: 'Krab Bij Kas',
-    products: ['auth', 'transactions'],
+    products: ['transactions'],
     country_codes: ['US', 'CA', 'NL'],
     language: 'en',
   }
