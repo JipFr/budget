@@ -1,18 +1,35 @@
 <template>
-  <div>
-    <button
-      :class="permission !== 'default' ? 'hidden' : ''"
-      @click="subscribeToPush"
-    >
-      {{ buttonLabel }}
-    </button>
-  </div>
+  <card class="notif-wrapper" :class="permission !== 'default' ? 'hidden' : ''">
+    <p>Want push notifications?</p>
+
+    <p class="secondary">
+      Krab can send you push notifications for recurring transactions. When it's
+      that time of the month again, you won't be caught by surprise!
+    </p>
+
+    <div class="button-wrapper">
+      <app-button class="secondary medium" @click="subscribeToPush">
+        {{ buttonLabel }}
+      </app-button>
+    </div>
+  </card>
 </template>
 
 <style lang="scss" scoped>
-button {
+.notif-wrapper {
   margin-bottom: 50px;
+
+  p.secondary {
+    margin: 15px 0;
+    color: var(--text-secondary);
+  }
+
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
+
 .hidden {
   display: none;
 }
@@ -22,17 +39,25 @@ button {
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
-// Stuff
+// Import components
+import AppButton from '~/components/util/Button'
+import Card from '~/components/layout/Card'
+
+// Utils
 import { host } from '~/util/setPushNotifs'
 
 export default {
+  components: {
+    AppButton,
+    Card,
+  },
   data() {
     return {
       user: SupabaseClient.auth.user(),
       permission: 'default',
       host,
-      buttonLabel: 'Want push notifications?',
-      buttonLabelInitial: 'Want push notifications?',
+      buttonLabel: 'Enter your preference',
+      buttonLabelInitial: 'Enter your preference',
     }
   },
   fetch() {
@@ -54,8 +79,6 @@ export default {
         }
         if (Notification.permission === 'granted') {
           this.doSubscribe()
-        } else {
-          alert(Notification.permission)
         }
         this.permission = Notification.permission
         this.buttonLabel = this.buttonLabelInitial
