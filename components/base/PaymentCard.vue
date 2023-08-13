@@ -104,7 +104,7 @@
                   <!-- When there's no weight or money, only count -->
                   <span
                     v-if="
-                      entry.itemCount !== 0 &&
+                      entry.itemCount > 1 &&
                       entry.cents === 0 &&
                       !entry.weight?.label
                     "
