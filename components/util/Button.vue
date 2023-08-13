@@ -10,13 +10,20 @@ button {
   padding: 12px 22px;
   border-radius: 6px;
   border: 0;
-  text-transform: uppercase;
   box-sizing: border-box;
   border: 1px solid var(--border);
   cursor: pointer;
 
+  &:not(.small):not(.medium) {
+    text-transform: uppercase;
+  }
+
   &.small {
     padding: 3px 10px;
+  }
+
+  &.medium {
+    padding: 8px 10px;
   }
 
   &.primary {
