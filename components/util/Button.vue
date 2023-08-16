@@ -14,7 +14,7 @@ button {
   border: 1px solid var(--border);
   cursor: pointer;
 
-  &:not(.small):not(.medium) {
+  &:not(.small):not(.medium):not(.no-uppercase) {
     text-transform: uppercase;
   }
 
