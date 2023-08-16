@@ -39,7 +39,7 @@
           <div class="spread">
             <h4>{{ account.title }}</h4>
             <app-button
-              class="dangerous"
+              class="dangerous no-uppercase"
               @click="() => removeAccount(plugin, account.id)"
             >
               Remove account
