@@ -56,7 +56,11 @@
       </dropdown>
       <!-- List / title -->
       <div class="transaction-content">
-        <div v-if="entries.length > 0" class="sum-calculated">
+        <div
+          v-if="entries.length > 0"
+          class="sum-calculated"
+          :data-entries="entries.length"
+        >
           <div>
             <div
               v-for="(entry, i) in entries"
@@ -321,6 +325,10 @@
       grid-column: 1 / -1;
     }
   }
+}
+
+[data-entries='2'] .is-store {
+  margin-bottom: 5px;
 }
 
 .badge {
