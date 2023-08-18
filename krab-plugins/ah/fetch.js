@@ -15,7 +15,7 @@ export async function refreshAhToken(tokens) {
     }
   ).then((d) => d.json())
 
-  if (refreshData.error) return refreshData
+  if (refreshData.error || !refreshData.access_token) return refreshData
 
   // Store new access & refresh tokens in DB
   await SupabaseClient.from('plugin_access_tokens')
