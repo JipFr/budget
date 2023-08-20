@@ -16,38 +16,12 @@ const client = new PlaidApi(configuration)
 async function getTransactions({ ACCESS_TOKEN }) {
   const maxTransactions = 12
 
-  // Set cursor to empty to receive all historical updates
-  let cursor = null
-
-  // New transaction updates since "cursor"
-  let added = []
-  let modified = []
-  // Removed transaction ids
-  let removed = []
-  let hasMore = true
   // Iterate through each page of new transaction updates for item
-  while (hasMore) {
-    const request = {
+  const added = (
+    await client.transactionsSync({
       access_token: ACCESS_TOKEN,
-      cursor,
-    }
-    let response
-    try {
-      response = await client.transactionsSync(request)
-    } catch (err) {
-      hasMore = false
-      continue
-    }
-
-    const data = response.data
-    // Add this page of results
-    added = added.concat(data.added)
-    modified = modified.concat(data.modified)
-    removed = removed.concat(data.removed)
-    hasMore = data.has_more
-    // Update cursor to the next cursor
-    cursor = data.next_cursor
-  }
+    })
+  ).data.added
 
   // Return the recent transactions
   const recentlyAdded = [...added]
