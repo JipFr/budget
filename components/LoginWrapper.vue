@@ -17,6 +17,8 @@
     <meal-planning />
 
     <landing-about-me />
+
+    <ready-to-try />
   </div>
 </template>
 
@@ -72,6 +74,7 @@ import LandingFaq from '~/components/landing/Faq'
 import Features from '~/components/landing/Features'
 import MealPlanning from '~/components/landing/MealPlanning'
 import LandingAboutMe from '~/components/landing/AboutMe'
+import ReadyToTry from '~/components/landing/ReadyToTry'
 
 import Container from '~/components/layout/Container'
 import Banner from '~/components/base/Banner'
@@ -90,6 +93,7 @@ export default {
     LandingAboutMe,
     Container,
     Banner,
+    ReadyToTry,
   },
   data() {
     return {
