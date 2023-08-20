@@ -5,7 +5,7 @@
     <div v-if="!settingsState.loaded">Loading...</div>
     <div v-else class="settings">
       <div class="setting">
-        <div>
+        <div class="left-side">
           <h3>Month starting date</h3>
           <p>
             The month starting date is used to calculate the month's budget. For
@@ -33,7 +33,7 @@
         </aside>
       </div>
       <div class="setting">
-        <div>
+        <div class="left-side">
           <h3>Symbol</h3>
           <p>
             Currency (symbol) shown in the app. This is only a cosmetic change,
@@ -59,7 +59,7 @@
         </aside>
       </div>
       <div class="setting">
-        <div>
+        <div class="left-side">
           <h3>Enabled sidebar items</h3>
           <p>Features shown in the sidebar</p>
         </div>
@@ -81,6 +81,35 @@
           </div>
         </aside>
       </div>
+      <div class="setting">
+        <div class="left-side">
+          <h3>Import pending transactions in Plaid</h3>
+          <p>
+            Sometimes, transactions will remain pending. Would you like to
+            import pending transactions, or not? :)
+          </p>
+        </div>
+        <aside>
+          <div class="currencies-grid">
+            <card
+              :class="
+                settingsState.importPendingTransactions === 'yes' && 'highlight'
+              "
+              @click="() => setSetting('importPendingTransactions', 'yes')"
+            >
+              <p>Yes</p>
+            </card>
+            <card
+              :class="
+                settingsState.importPendingTransactions === 'no' && 'highlight'
+              "
+              @click="() => setSetting('importPendingTransactions', 'no')"
+            >
+              <p>No</p>
+            </card>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +118,12 @@
 .settings-page {
   max-width: 900px;
 }
+
+.left-side p {
+  margin-top: 1rem;
+  color: var(--text-secondary);
+}
+
 .setting {
   padding: 40px 0;
   border-bottom: 1px solid var(--border);
@@ -101,7 +136,7 @@
     font-size: 1.5rem;
   }
 
-  p {
+  svg + p {
     margin-top: 1rem;
     color: var(--text-secondary);
   }
@@ -248,6 +283,7 @@ export default {
       }
       setSetting('enabledSidebarItems', enabledSidebarItems.join(','))
     },
+    setSetting,
   },
 }
 </script>
