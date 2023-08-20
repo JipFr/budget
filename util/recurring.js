@@ -57,7 +57,9 @@ export function recurringTransactions(allPayments) {
       const diff = newDate.getTime() - now.getTime()
       const inXDays = Math.round(diff / (1e3 * 60 * 60 * 24))
 
-      p.date = newDate
+      p.date = `${newDate.getFullYear()}-${(newDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${newDate.getDate().toString().padStart(2, '0')}`
 
       return {
         ...p,
