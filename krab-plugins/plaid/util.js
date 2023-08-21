@@ -1,5 +1,7 @@
 import { pluginsState } from '../'
+import { loadSettings } from '../../util/settings'
 import { state } from './'
+import { state as settingsState } from '~/util/settings'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
@@ -56,8 +58,12 @@ export async function getPlaidImports() {
   }
 
   // Generate transactions objects
+  await loadSettings()
+  const importPendingTransactions = settingsState.importPendingTransactions
   const transactions = []
-  for (const transaction of allTransactions) {
+  for (const transaction of allTransactions.filter(
+    (t) => importPendingTransactions === 'yes' || t.pending === false
+  )) {
     const name = transaction.merchant_name || transaction.name.split(' ')[0]
 
     const descriptionArr = [

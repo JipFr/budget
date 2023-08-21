@@ -24,7 +24,8 @@ body::before {
   --disabled-content: rgba(0, 0, 0, 0.05);
   --text: var(--arc-palette-title, #444444);
   --link-active: var(--arc-palette-simple-color, var(--content-light));
-  --text-secondary: var(--arc-palette-maxContrastColor, #4c4c4c);
+  --text-secondary: var(--arc-palette-maxContrastColor, #6c6c6c);
+  --text-tertiary: #6c6c6c;
   --theme: var(--arc-palette-foregroundPrimary, #457461);
   --negative: #ff2d55;
   --border: var(--arc-palette-hover, #dedede);
@@ -43,6 +44,7 @@ body::before {
     --disabled-content: rgba(255, 255, 255, 0.01);
     --text: #fff;
     --text-secondary: #898696;
+    --text-tertiary: #a9a9a9;
     --negative: rgb(255, 69, 58);
     --border: var(--content-light);
     --anchor: #5ac8fa;

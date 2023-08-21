@@ -39,6 +39,7 @@ export const state = Vue.observable({
   startDate: 1,
   currency: currenciesArray[1],
   enabledSidebarItems: 'total,foodtoday',
+  importPendingTransactions: 'no',
 })
 
 export async function loadSettings() {
@@ -59,6 +60,12 @@ export async function loadSettings() {
   )
   if (enabledSidebarItems)
     state.enabledSidebarItems = enabledSidebarItems.settings_value
+
+  const importPendingTransactions = settings.find(
+    (s) => s.settings_key === 'importPendingTransactions'
+  )
+  if (importPendingTransactions)
+    state.importPendingTransactions = importPendingTransactions.settings_value
 
   state.loaded = true
 }

@@ -113,7 +113,7 @@ export default {
       this.data2 = response.insert
 
       setTimeout(() => {
-        location.href = '/settings'
+        location.href = '/settings/plugins/'
       }, 5e3)
     },
   },
