@@ -14,8 +14,6 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  const maxTransactions = 12
-
   // Iterate through each page of new transaction updates for item
   const added = (
     await client.transactionsSync({
@@ -24,9 +22,9 @@ async function getTransactions({ ACCESS_TOKEN }) {
   ).data.added
 
   // Return the recent transactions
-  const recentlyAdded = [...added]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, maxTransactions)
+  const recentlyAdded = [...added].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
 
   return { transactions: recentlyAdded }
 }
