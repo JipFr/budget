@@ -11,6 +11,12 @@ export const state = Vue.observable({
   accounts: [],
 })
 
+function makeErrorHtml(error) {
+  return `<p>Something went wrong with this account:</p><p><span>${
+    error.error_message || error
+  }</span></p>`
+}
+
 export const plugin = {
   priority: 1, // Position in queueu
   id: 'plaid',
@@ -54,9 +60,7 @@ export const plugin = {
         title: `Account #${account.id}`,
         error: !!account.error,
         html: account.error
-          ? `<p>Something went wrong with this account:</p><p><span>${
-              account.error.error_message || account.error
-            }</span></p>`
+          ? makeErrorHtml(account.error)
           : `<div>
                 <p><span>Last successful update:</span></p>
                 <p>${account.status?.transactions?.last_successful_update}</p>
@@ -74,6 +78,14 @@ export const plugin = {
     state.loading = true
 
     const data = await getPlaidImports()
+
+    // Insert errors
+    for (const error of data.errors) {
+      const account = this.accountCards.find((a) => a.id === error.id)
+      if (!account) continue
+      account.error = error.error
+      account.html = makeErrorHtml(error.error)
+    }
 
     state.loading = false
     return data

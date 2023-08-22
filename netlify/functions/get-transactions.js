@@ -9,13 +9,13 @@ const handler = async (event) => {
     }
   }
 
-  const { transactions } = await getTransactions({
+  const { transactions, error } = await getTransactions({
     ACCESS_TOKEN: event.queryStringParameters['access-token'],
   })
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ transactions }),
+    body: JSON.stringify({ transactions, error }),
   }
 }
 
