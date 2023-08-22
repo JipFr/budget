@@ -14,19 +14,26 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  // Iterate through each page of new transaction updates for item
-  const added = (
-    await client.transactionsSync({
+  let recentlyAdded
+  let error
+
+  try {
+    // Iterate through each page of new transaction updates for item
+    const data = await client.transactionsSync({
       access_token: ACCESS_TOKEN,
     })
-  ).data.added
 
-  // Return the recent transactions
-  const recentlyAdded = [...added].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+    const added = data.data.added
 
-  return { transactions: recentlyAdded }
+    // Return the recent transactions
+    recentlyAdded = [...added].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    )
+  } catch (err) {
+    error = err.response.data
+  }
+
+  return { transactions: recentlyAdded, error }
 }
 
 async function getInfo({ ACCESS_TOKEN }) {
