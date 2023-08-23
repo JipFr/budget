@@ -144,7 +144,11 @@
 
               <!-- Sum -->
               <money
-                v-if="entry.cents !== 0 && !entry.automaticallyFilledInCents"
+                v-if="
+                  entry.cents !== 0 &&
+                  !entry.automaticallyFilledInCents &&
+                  hasMoreThanOneNonZeroEntry
+                "
                 :cents="entry.cents"
               />
             </div>
