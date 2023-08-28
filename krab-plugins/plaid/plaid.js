@@ -14,26 +14,50 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration)
 
 async function getTransactions({ ACCESS_TOKEN }) {
-  let recentlyAdded
+  let transactions
   let error
+  let meta
+
+  const day = 24 * 60 * 60 * 1e3
+
+  function pad(num) {
+    return num.toString().padStart(2, '0')
+  }
 
   try {
-    // Iterate through each page of new transaction updates for item
-    const data = await client.transactionsSync({
-      access_token: ACCESS_TOKEN,
-    })
+    const now = new Date()
+    const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+      now.getDate()
+    )}`
+    const monthAgo = new Date(now.getTime() - 30 * day)
+    const thirtyDaysAgo = `${monthAgo.getFullYear()}-${pad(
+      monthAgo.getMonth() + 1
+    )}-${pad(monthAgo.getDate())}`
 
-    const added = data.data.added
+    const data = (
+      await client.transactionsGet({
+        access_token: ACCESS_TOKEN,
+        start_date: thirtyDaysAgo,
+        end_date: today,
+      })
+    ).data
+
+    // Return the account name
+    meta = {
+      accountName:
+        data.accounts?.[0]?.official_name || data.accounts?.[0]?.name,
+      balance: data.accounts?.[0]?.balances?.current,
+    }
 
     // Return the recent transactions
-    recentlyAdded = [...added].sort(
+    transactions = [...data.transactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )
   } catch (err) {
     error = err.response.data
   }
 
-  return { transactions: recentlyAdded, error }
+  return { transactions, error, meta }
 }
 
 async function getInfo({ ACCESS_TOKEN }) {

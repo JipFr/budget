@@ -51,6 +51,7 @@ export function addPlaidAccount() {
 export async function getPlaidImports() {
   const errors = []
   const allTransactions = []
+  const metas = []
   for (const token of state.tokens) {
     const transactionRes = await fetch(
       `/.netlify/functions/get-transactions?access-token=${token.access_token}`
@@ -62,6 +63,10 @@ export async function getPlaidImports() {
       })
       continue
     }
+    metas.push({
+      id: token.id,
+      meta: transactionRes.meta,
+    })
     allTransactions.push(...transactionRes.transactions)
   }
 
@@ -134,5 +139,6 @@ export async function getPlaidImports() {
   return {
     transactions: { insert },
     errors,
+    metas,
   }
 }
