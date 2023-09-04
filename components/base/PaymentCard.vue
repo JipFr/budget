@@ -702,7 +702,7 @@ export default {
       return relevantPlugins
     },
     hasMoreThanOneNonZeroEntry() {
-      return this.entries.filter((entry) => entry.cents !== 0).length > 1
+      return this.entries.length !== 2
     },
   },
   watch: {
