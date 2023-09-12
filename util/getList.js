@@ -226,7 +226,7 @@ export default function getTransactionItemList(
       payment.cents !== 0
     ) {
       entries[1].cents = -payment.cents
-      entries[1].centsPerEntry = entries[1].cents
+      entries[1].centsPerEntry = entries[1].cents / entries[1].itemCount
       entries[1].automaticallyFilledInCents = true
     }
   }
