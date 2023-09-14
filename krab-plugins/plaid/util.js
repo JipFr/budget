@@ -85,7 +85,7 @@ export async function getPlaidImports() {
     ]
       .filter(Boolean)
       .map((s) => s.trim())
-    const description = [...new Set(descriptionArr)].join('\n')
+    const description = [...new Set(descriptionArr)].join('\n') + ' (imported)'
     const lowercaseName = name.toLowerCase()
 
     let categories = []

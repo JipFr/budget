@@ -86,7 +86,10 @@ export function findUpdatesOrInserts() {
       modifyTransactions.push({
         id: transactionToUpdate.id,
         data: {
-          description: receiptToDescription(receipt.receipt),
+          description: [
+            receiptToDescription(receipt.receipt),
+            '(imported)',
+          ].join(' '),
           plugins_unleashed: unleashed.join(','),
           plugin_transaction_id: receipt.transactionId,
         },
@@ -104,7 +107,10 @@ export function findUpdatesOrInserts() {
         data: {
           date: receipt.transactionMoment.split('T')[0],
           cents: getReceiptPinTotal(receipt) * -1,
-          description: receiptToDescription(receipt.receipt),
+          description: [
+            receiptToDescription(receipt.receipt),
+            '(imported)',
+          ].join(' '),
           plugins_unleashed: 'ah',
           plugin_transaction_id: receipt.transactionId,
           user_id: SupabaseClient.auth.user().id,
