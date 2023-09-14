@@ -119,7 +119,10 @@ export async function getPlaidImports() {
       plugins_unleashed: 'plaid',
       plaid_transaction_id: `${transaction.amount}-${
         transaction.date
-      }-${description.replace(/\n/g, '')}`,
+      }-${description
+        .replace(/\n/g, '')
+        .replace(/\(imported\)/g, '')
+        .trim()}`,
       description,
       categories,
     })
