@@ -3,23 +3,7 @@
   <div v-if="user || $fetchState.pending">
     <slot />
   </div>
-  <div v-else>
-    <container class="limited-width">
-      <landing-navbar />
-      <banner v-if="error">{{ error }}</banner>
-      <landing-hero />
-    </container>
-
-    <landing-faq />
-
-    <features />
-
-    <meal-planning />
-
-    <landing-about-me />
-
-    <ready-to-try />
-  </div>
+  <landing-page v-else :error="error" />
 </template>
 
 <style lang="scss" scoped>
@@ -68,32 +52,14 @@ hr {
 
 <script>
 // Import components
-import LandingNavbar from '~/components/landing/Navbar'
-import LandingHero from '~/components/landing/Hero'
-import LandingFaq from '~/components/landing/Faq'
-import Features from '~/components/landing/Features'
-import MealPlanning from '~/components/landing/MealPlanning'
-import LandingAboutMe from '~/components/landing/AboutMe'
-import ReadyToTry from '~/components/landing/ReadyToTry'
-
-import Container from '~/components/layout/Container'
-import Banner from '~/components/base/Banner'
+import LandingPage from '~/components/LandingPage'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
-import { getRedirectUrl } from '~/util/redirectUrl'
 
 export default {
   components: {
-    LandingNavbar,
-    LandingHero,
-    LandingFaq,
-    Features,
-    MealPlanning,
-    LandingAboutMe,
-    Container,
-    Banner,
-    ReadyToTry,
+    LandingPage,
   },
   data() {
     return {
@@ -120,18 +86,6 @@ export default {
     if (query.error_description) {
       this.error = query.error_description
     }
-  },
-  methods: {
-    async login(provider) {
-      await SupabaseClient.auth.signIn(
-        {
-          provider,
-        },
-        {
-          redirectTo: getRedirectUrl(),
-        }
-      )
-    },
   },
 }
 </script>
