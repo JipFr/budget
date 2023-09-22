@@ -779,7 +779,7 @@ export default {
         this.setUntil(submitObj.date)
         window.scrollTo(0, 0)
         this.$nuxt.$emit('refetch')
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/dashboard' })
       }
     },
     isInXDays(payment) {
