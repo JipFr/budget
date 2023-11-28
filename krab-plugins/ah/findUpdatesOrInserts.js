@@ -88,7 +88,7 @@ export function findUpdatesOrInserts() {
         data: {
           description: [
             receiptToDescription(receipt.receipt),
-            '(imported)',
+            '\n(imported)',
           ].join(' '),
           plugins_unleashed: unleashed.join(','),
           plugin_transaction_id: receipt.transactionId,
@@ -109,7 +109,7 @@ export function findUpdatesOrInserts() {
           cents: getReceiptPinTotal(receipt) * -1,
           description: [
             receiptToDescription(receipt.receipt),
-            '(imported)',
+            '\n(imported)',
           ].join(' '),
           plugins_unleashed: 'ah',
           plugin_transaction_id: receipt.transactionId,

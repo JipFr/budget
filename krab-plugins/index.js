@@ -36,7 +36,9 @@ export async function main() {
     try {
       if (plugin.init) await plugin.init()
       data = await plugin.main(deleted)
-    } catch {
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
       // TODO error handling
     }
 
@@ -49,6 +51,7 @@ export async function main() {
       await modifyTransactions(removeDeleted(data.transactions.modify, deleted))
     if (data.transactions?.insert)
       await insertTransactions(removeDeleted(data.transactions.insert, deleted))
+
     pluginsState.pluginsLoaded++
   }
   pluginsState.loading = false
