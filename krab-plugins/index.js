@@ -22,7 +22,7 @@ export const pluginsState = Vue.observable({
 
 // Main function, called after transactions are set
 export async function main() {
-  if (pluginsState.inited) return
+  if (pluginsState.inited || pluginsState.transactions.length === 0) return
   pluginsState.inited = true
 
   // Get previously-deleted transactions
