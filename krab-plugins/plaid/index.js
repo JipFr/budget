@@ -86,7 +86,14 @@ export const plugin = {
       account.error = error.error
       account.html = makeErrorHtml(error.error)
     }
-
+    
+    // Adjust card titles to use meta
+    for (const meta of data.metas) {
+      const account = this.accountCards.find((a) => a.id === meta.id)
+      if (!account) continue
+      account.title = meta.meta.accountName
+    }
+    
     state.loading = false
     return data
   },

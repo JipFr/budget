@@ -25,7 +25,7 @@ export const pluginsState = Vue.observable({
 
 // Main function, called after transactions are set
 export async function main() {
-  if (pluginsState.inited) return
+  if (pluginsState.inited || pluginsState.transactions.length === 0) return
   pluginsState.inited = true
 
   // Get previously-deleted transactions
@@ -40,6 +40,8 @@ export async function main() {
       if (plugin.init) await plugin.init()
       data = await plugin.main(deleted)
     } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
       // TODO error handling
     }
 
@@ -52,6 +54,7 @@ export async function main() {
       await modifyTransactions(removeDeleted(data.transactions.modify, deleted))
     if (data.transactions?.insert)
       await insertTransactions(removeDeleted(data.transactions.insert, deleted))
+
     pluginsState.pluginsLoaded++
   }
   pluginsState.loading = false

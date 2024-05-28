@@ -228,7 +228,7 @@ export default {
           links: [
             {
               title: 'Payments',
-              to: '/',
+              to: '/dashboard',
             },
             {
               title: 'Price differences',

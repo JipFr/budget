@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title>Inventory</page-title>
+    <page-title>Pantry</page-title>
     <inventory-manager />
   </div>
 </template>

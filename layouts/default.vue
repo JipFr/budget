@@ -150,6 +150,14 @@ import SupabaseClient from '~/util/supabase'
 // Import utils
 import { setPushNotifs } from '~/util/setPushNotifs'
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3
+  const from = page ? page * limit : 0
+  const to = page ? from + size - 1 : size - 1
+
+  return { from, to }
+}
+
 export default {
   components: {
     AppHeader,
@@ -179,14 +187,6 @@ export default {
     }
 
     if (this.allowLoading) this.setLoading(true)
-
-    const getPagination = (page, size) => {
-      const limit = size ? +size : 3
-      const from = page ? page * limit : 0
-      const to = page ? from + size - 1 : size - 1
-
-      return { from, to }
-    }
 
     const transactions = []
     let page = 0
@@ -329,12 +329,24 @@ export default {
       setFrom: 'user/setFrom',
     }),
     async fetchInventory() {
-      const inventory = (
-        await SupabaseClient.from('inventory')
+      const inventory = []
+      let page = 0
+      let data = {
+        data: [],
+        count: Infinity,
+      }
+
+      while (inventory.length < data.count) {
+        const { from, to } = getPagination(page, 1e3)
+
+        data = await SupabaseClient.from('inventory')
           .select('*', { count: 'exact' })
           .order('id', { ascending: true })
-          .range(0, 1e3)
-      ).data
+          .range(from, to)
+
+        inventory.push(...data.data)
+        page++
+      }
 
       this.setPerson({
         inventory,

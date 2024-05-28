@@ -221,12 +221,13 @@ export default function getTransactionItemList(
     // When it's a list with only 1 item, add the $$$ value to the one item
     if (
       entries.length === 2 &&
-      !entries.find((t) => t.cents !== 0) &&
+      !entries.find((p) => p.cents !== 0) &&
       payment &&
-      payment.cents !== 0
+      payment.cents !== 0 &&
+      !entries.find((p) => p.description.includes('(imported)'))
     ) {
       entries[1].cents = -payment.cents
-      entries[1].centsPerEntry = entries[1].cents
+      entries[1].centsPerEntry = entries[1].cents / entries[1].itemCount
       entries[1].automaticallyFilledInCents = true
     }
   }

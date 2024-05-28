@@ -144,7 +144,11 @@
 
               <!-- Sum -->
               <money
-                v-if="entry.cents !== 0 && !entry.automaticallyFilledInCents"
+                v-if="
+                  entry.cents !== 0 &&
+                  !entry.automaticallyFilledInCents &&
+                  hasMoreThanOneNonZeroEntry
+                "
                 :cents="entry.cents"
               />
             </div>
@@ -698,7 +702,7 @@ export default {
       return relevantPlugins
     },
     hasMoreThanOneNonZeroEntry() {
-      return this.entries.filter((entry) => entry.cents !== 0).length > 1
+      return this.entries.length !== 2
     },
   },
   watch: {
@@ -772,10 +776,10 @@ export default {
       if (error) {
         alert(error.message)
       } else {
-        this.setUntil(submitObj.date.toISOString().split('T')[0])
+        this.setUntil(submitObj.date)
         window.scrollTo(0, 0)
         this.$nuxt.$emit('refetch')
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/dashboard' })
       }
     },
     isInXDays(payment) {
