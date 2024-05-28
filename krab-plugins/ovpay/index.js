@@ -81,10 +81,9 @@ export const plugin = {
         ]
       }
     }
-    console.log(123)
+
     // Fetch transactions
     const data = await findUpdatesOrInserts()
-    console.log(456)
     state.loading = false
 
     return data
