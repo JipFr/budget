@@ -4,12 +4,15 @@ import { removeDeleted } from './util'
 
 import { plugin as ah } from './ah'
 import { plugin as plaid } from './plaid'
+import { plugin as ovpay } from './ovpay'
 
 // Import Supabase
 import SupabaseClient from '~/util/supabase'
 
 // Define plugins
-export const plugins = [ah, plaid].sort((a, b) => a.priority - b.priority)
+export const plugins = [ah, plaid, ovpay].sort(
+  (a, b) => a.priority - b.priority
+)
 
 // Init plugin state
 export const pluginsState = Vue.observable({
@@ -36,7 +39,7 @@ export async function main() {
     try {
       if (plugin.init) await plugin.init()
       data = await plugin.main(deleted)
-    } catch {
+    } catch (err) {
       // TODO error handling
     }
 
