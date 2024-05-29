@@ -38,7 +38,7 @@ async function getAccounts(authorization) {
 }
 
 export async function findUpdatesOrInserts() {
-  const allTrips = []
+  let allTrips = []
   const insert = []
   const modify = []
 
@@ -53,6 +53,12 @@ export async function findUpdatesOrInserts() {
         })
       )
     })
+  )
+
+  allTrips = allTrips.sort(
+    (a, b) =>
+      new Date(a.trip.checkInTimestamp).getTime() -
+      new Date(b.trip.checkInTimestamp).getTime()
   )
 
   if (allTrips.length === 0) return { transactions: { insert, modify } }
@@ -121,8 +127,9 @@ export async function findUpdatesOrInserts() {
       const unleashedString = Array.from(new Set(unleashed)).join(',')
 
       if (
-        (ovPayTransaction.description === transactionString ||
-          ovPayTransaction.description === transactionStringClean) &&
+        (ovPayTransaction.description.trim() === transactionString.trim() ||
+          ovPayTransaction.description.trim() ===
+            transactionStringClean.trim()) &&
         ovPayTransaction.cents === price
       ) {
         // Add OV if it isn't there yet
