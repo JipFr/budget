@@ -112,8 +112,6 @@ export async function findUpdatesOrInserts() {
       const isDayAfter =
         dayAfterOv.toISOString().split('T')[0] === transaction.date
 
-      console.log(isDayAfter, isOnSameDay, transaction.date, date)
-
       return (
         (isDayAfter && // Only allow day after for un-editeds
           transaction.description.toLowerCase().includes('www.ovpay')) ||
@@ -125,8 +123,6 @@ export async function findUpdatesOrInserts() {
         t.description.toLowerCase().includes('ovpay') ||
         t.description.toLowerCase().includes('nlov')
     )
-
-    console.log(ovPayTransaction, transactionsOnDate)
 
     const price = transactions.reduce((sum, t) => sum + t.trip.fare, 0) * -1
     if (ovPayTransaction) {
