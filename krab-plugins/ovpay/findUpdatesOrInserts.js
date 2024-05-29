@@ -63,7 +63,7 @@ export async function findUpdatesOrInserts() {
 
   if (allTrips.length === 0) return { transactions: { insert, modify } }
 
-  const oldestTrip = allTrips[allTrips.length - 1]
+  const oldestTrip = allTrips[0]
   const oldestTripDate = new Date(oldestTrip.trip.checkInTimestamp)
 
   // Find transactions that came AFTER the oldest receipt so we
@@ -106,10 +106,18 @@ export async function findUpdatesOrInserts() {
       // Add 1 day to it, because OVPay only charges a day later
       const day = 1e3 * 60 * 60 * 24
       const dayAfterOv = new Date(new Date(date).getTime() + day)
-      return (
-        (dayAfterOv.toISOString().split('T')[0] === transaction.date && // Only allow day after for un-editeds
-          transaction.description.toLowerCase().includes('www.ovpay')) ||
+
+      const isOnSameDay =
         new Date(date).toISOString().split('T')[0] === transaction.date
+      const isDayAfter =
+        dayAfterOv.toISOString().split('T')[0] === transaction.date
+
+      console.log(isDayAfter, isOnSameDay, transaction.date, date)
+
+      return (
+        (isDayAfter && // Only allow day after for un-editeds
+          transaction.description.toLowerCase().includes('www.ovpay')) ||
+        isOnSameDay
       )
     })
     const ovPayTransaction = transactionsOnDate.find(
@@ -117,6 +125,8 @@ export async function findUpdatesOrInserts() {
         t.description.toLowerCase().includes('ovpay') ||
         t.description.toLowerCase().includes('nlov')
     )
+
+    console.log(ovPayTransaction, transactionsOnDate)
 
     const price = transactions.reduce((sum, t) => sum + t.trip.fare, 0) * -1
     if (ovPayTransaction) {
