@@ -100,9 +100,7 @@ export async function findUpdatesOrInserts() {
       )
     }
 
-    transactionBuilder.push('(imported)')
     const transactionString = transactionBuilder.join('\n')
-    const transactionStringClean = transactionBuilder.slice(0, -1).join('\n')
 
     const transactionsOnDate = transactionsInPeriod.filter((transaction) => {
       // Add 1 day to it, because OVPay only charges a day later
@@ -127,9 +125,7 @@ export async function findUpdatesOrInserts() {
       const unleashedString = Array.from(new Set(unleashed)).join(',')
 
       if (
-        (ovPayTransaction.description.trim() === transactionString.trim() ||
-          ovPayTransaction.description.trim() ===
-            transactionStringClean.trim()) &&
+        ovPayTransaction.description.trim() === transactionString.trim() &&
         ovPayTransaction.cents === price
       ) {
         // Add OV if it isn't there yet
