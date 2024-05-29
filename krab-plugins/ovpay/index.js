@@ -42,8 +42,11 @@ export const plugin = {
     for (const token of state.tokens) {
       const authentication = `Bearer ${token.access_token}`
       try {
-        const nameData = await getName(authentication)
-        const accountsUnderToken = await getAccounts(authentication)
+        const [nameData, accountsUnderToken] = await Promise.all([
+          getName(authentication),
+          getAccounts(authentication),
+        ])
+
         this.accountCards = [
           ...this.accountCards,
           {

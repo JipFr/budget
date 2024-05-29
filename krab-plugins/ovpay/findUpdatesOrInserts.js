@@ -42,14 +42,18 @@ export async function findUpdatesOrInserts() {
   const insert = []
   const modify = []
 
-  for (const token of ovPayState.tokens) {
-    const authString = `Bearer ${token.access_token}`
-    const accounts = await getAccounts(authString)
-    for (const account of accounts) {
-      const trips = await getTrips(account.xtat, authString)
-      allTrips.push(...trips.items)
-    }
-  }
+  await Promise.all(
+    ovPayState.tokens.map(async (token) => {
+      const authString = `Bearer ${token.access_token}`
+      const accounts = await getAccounts(authString)
+      await Promise.all(
+        accounts.map(async (account) => {
+          const trips = await getTrips(account.xtat, authString)
+          allTrips.push(...trips.items)
+        })
+      )
+    })
+  )
 
   if (allTrips.length === 0) return { transactions: { insert, modify } }
 
