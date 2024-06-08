@@ -37,6 +37,14 @@ async function getAccounts(authorization) {
   return data
 }
 
+function getTransportModeEmoji(transportMode) {
+  if (transportMode === 'BUS') return '🚌'
+  if (transportMode === 'TRAIN') return '🚅'
+  if (transportMode === 'TRAM') return '🚋'
+  if (transportMode === 'METRO') return '🚇'
+  return transportMode
+}
+
 export async function findUpdatesOrInserts() {
   let allTrips = []
   const insert = []
@@ -91,7 +99,7 @@ export async function findUpdatesOrInserts() {
       const checkInLocation = prettifyLocationName(trip.checkInLocation)
       const checkOutLocation = prettifyLocationName(trip.checkOutLocation)
 
-      const transport = trip.transport === 'BUS' ? '🚌' : '🚅'
+      const transport = getTransportModeEmoji(trip.transport)
 
       transactionBuilder.push(
         `${transport} ${checkInLocation} > ${checkOutLocation} €${(
