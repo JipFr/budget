@@ -70,7 +70,5 @@ export function receiptToDescription(receipt) {
     )
   }
 
-  console.log(description)
-
   return description.map((t) => t.trim().replace(/ {2}/g, ' ')).join('\n')
 }
