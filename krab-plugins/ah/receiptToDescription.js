@@ -45,7 +45,6 @@ export function receiptToDescription(receipt) {
   }
 
   // Add "money removed" (statiegeld, bonus box)
-
   const bonusLines = receipt.filter((t) => t.quantity === 'BONUS')
   for (const bonusLine of bonusLines) {
     description.push(
@@ -60,6 +59,18 @@ export function receiptToDescription(receipt) {
   if (deposit) {
     description.push(`Statiegeld ${formatEur(deposit.amount, '-')}`)
   }
+
+  // Koopzegels
+  const koopzegels = receipt.find((t) =>
+    (t.description || '').includes('KOOPZEGELS')
+  )
+  if (koopzegels) {
+    description.push(
+      `${koopzegels.description.toLowerCase()} ${formatEur(koopzegels.amount)}`
+    )
+  }
+
+  console.log(description)
 
   return description.map((t) => t.trim().replace(/ {2}/g, ' ')).join('\n')
 }

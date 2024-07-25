@@ -106,7 +106,7 @@ export function findUpdatesOrInserts() {
       insertTransactions.push({
         data: {
           date: receipt.transactionMoment.split('T')[0],
-          cents: getReceiptPinTotal(receipt) * -1,
+          cents: getReceiptPinTotal(receipt) * -1 || 0,
           description: [
             receiptToDescription(receipt.receipt),
             '\n(imported)',
