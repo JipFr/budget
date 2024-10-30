@@ -11,6 +11,7 @@ function prettifyLocationName(string) {
     .map((t) => t.trim())
     .reverse()
     .join(', ')
+    .replace(/ ([A-Z]) /g, '$1')
 }
 
 async function getTrips(id, authorization) {
