@@ -62,95 +62,100 @@
           :data-entries="entries.length"
         >
           <div>
-            <div
-              v-for="(entry, i) in entries"
-              :key="entry.id"
-              class="payment-row"
-              :class="[
-                i === 0 && entry.cents === 0 && 'is-store',
-                entry.itemCount === 1 &&
-                  entry.centsPerEntry === entry.cents &&
-                  !entry.weight?.label &&
-                  'just-one-badge',
-              ]"
-            >
-              <div class="row-left-side">
-                <div v-if="entry.cents !== 0 || i !== 0" class="badge-wrapper">
-                  <!-- Count -->
-                  <span
-                    v-if="
-                      entry.weight?.label
-                        ? entry.centsPerEntry !== entry.cents
-                        : entry.cents !== 0
-                    "
-                    class="badge"
-                    :class="
-                      entry.itemCount === 1 &&
-                      entry.centsPerEntry === entry.cents &&
-                      'just-one'
-                    "
+            <div v-for="(entry, i) in entries" :key="entry.id">
+              <hr v-if="entry.description === '---'" class="h-divider" />
+              <div
+                v-else
+                class="payment-row"
+                :class="[
+                  i === 0 && entry.cents === 0 && 'is-store',
+                  entry.itemCount === 1 &&
+                    entry.centsPerEntry === entry.cents &&
+                    !entry.weight?.label &&
+                    'just-one-badge',
+                ]"
+              >
+                <div class="row-left-side">
+                  <div
+                    v-if="entry.cents !== 0 || i !== 0"
+                    class="badge-wrapper"
                   >
-                    {{ entry.itemCount }}
-                    <span v-if="entry.centsPerEntry !== entry.cents">
-                      &nbsp;x
-                      <money :cents="entry.centsPerEntry" />
+                    <!-- Count -->
+                    <span
+                      v-if="
+                        entry.weight?.label
+                          ? entry.centsPerEntry !== entry.cents
+                          : entry.cents !== 0
+                      "
+                      class="badge"
+                      :class="
+                        entry.itemCount === 1 &&
+                        entry.centsPerEntry === entry.cents &&
+                        'just-one'
+                      "
+                    >
+                      {{ entry.itemCount }}
+                      <span v-if="entry.centsPerEntry !== entry.cents">
+                        &nbsp;x
+                        <money :cents="entry.centsPerEntry" />
+                      </span>
                     </span>
-                  </span>
 
-                  <!-- Weight label-->
-                  <span v-if="entry.weight?.label" class="badge">
-                    <span v-if="entry.cents === 0 && entry.itemCount !== 0">
-                      {{ entry.itemCount }} x&nbsp;
+                    <!-- Weight label-->
+                    <span v-if="entry.weight?.label" class="badge">
+                      <span v-if="entry.cents === 0 && entry.itemCount !== 0">
+                        {{ entry.itemCount }} x&nbsp;
+                      </span>
+                      {{ entry.weight.label }}
                     </span>
-                    {{ entry.weight.label }}
-                  </span>
 
-                  <!-- When there's no weight or money, only count -->
-                  <span
-                    v-if="
-                      entry.itemCount > 1 &&
-                      entry.cents === 0 &&
-                      !entry.weight?.label
-                    "
-                    class="badge"
-                  >
-                    {{ entry.itemCount }}
+                    <!-- When there's no weight or money, only count -->
+                    <span
+                      v-if="
+                        entry.itemCount > 1 &&
+                        entry.cents === 0 &&
+                        !entry.weight?.label
+                      "
+                      class="badge"
+                    >
+                      {{ entry.itemCount }}
+                    </span>
+                  </div>
+
+                  <span>
+                    <!-- Hidden "imported" badge for CMD + F -->
+                    <div
+                      v-if="
+                        (payment.plaid_transaction_id ||
+                          payment.plugin_transaction_id) &&
+                        i === 0
+                      "
+                      class="imported-badge badge"
+                    >
+                      Imported
+                    </div>
+
+                    <!-- Description -->
+                    {{ entry.description }}
+
+                    <!-- In X days -->
+                    <in-x-days
+                      v-if="isInXDays(payment) && i === 0"
+                      :days="payment.inXDays"
+                    />
                   </span>
                 </div>
 
-                <span>
-                  <!-- Hidden "imported" badge for CMD + F -->
-                  <div
-                    v-if="
-                      (payment.plaid_transaction_id ||
-                        payment.plugin_transaction_id) &&
-                      i === 0
-                    "
-                    class="imported-badge badge"
-                  >
-                    Imported
-                  </div>
-
-                  <!-- Description -->
-                  {{ entry.description }}
-
-                  <!-- In X days -->
-                  <in-x-days
-                    v-if="isInXDays(payment) && i === 0"
-                    :days="payment.inXDays"
-                  />
-                </span>
+                <!-- Sum -->
+                <money
+                  v-if="
+                    entry.cents !== 0 &&
+                    !entry.automaticallyFilledInCents &&
+                    hasMoreThanOneNonZeroEntry
+                  "
+                  :cents="entry.cents"
+                />
               </div>
-
-              <!-- Sum -->
-              <money
-                v-if="
-                  entry.cents !== 0 &&
-                  !entry.automaticallyFilledInCents &&
-                  hasMoreThanOneNonZeroEntry
-                "
-                :cents="entry.cents"
-              />
             </div>
           </div>
           <div v-if="hasMoreThanOneNonZeroEntry">
@@ -366,14 +371,14 @@
   display: grid;
   height: 100%;
   grid-template-rows: 1fr auto;
+}
 
-  hr {
-    margin: 10px 0;
-    border: 0;
-    background: var(--border);
-    width: 100%;
-    height: 1px;
-  }
+hr {
+  margin: 10px 0;
+  border: 0;
+  background: var(--border);
+  width: 100%;
+  height: 1px;
 }
 
 .card-actions {
