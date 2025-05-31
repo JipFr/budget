@@ -32,6 +32,42 @@
         </h2>
       </div>
 
+      <!-- Total spent this month -->
+      <div
+        v-if="
+          enabledSidebarItems.includes('spenttotal') &&
+          (allSpent || loading || isLoading)
+        "
+        class="padded"
+      >
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Total spent (- savings)
+          </subtitle>
+        </div>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
+          <money :cents="allSpent" />
+        </h2>
+      </div>
+
+      <!-- Total gained this month -->
+      <div
+        v-if="
+          enabledSidebarItems.includes('gainedtotal') &&
+          (allGained || loading || isLoading)
+        "
+        class="padded"
+      >
+        <div>
+          <subtitle :class="(loading || isLoading) && 'skeleton-text'">
+            Total gained (- savings)
+          </subtitle>
+        </div>
+        <h2 :class="(loading || isLoading) && 'skeleton-text'">
+          <money :cents="allGained" />
+        </h2>
+      </div>
+
       <!-- Food today -->
       <div
         v-if="
@@ -128,6 +164,8 @@ export default {
       this.loading = true
       this.gained = 0
       this.spent = 0
+      this.allSpent = 0
+      this.allGained = 0
       this.regularTotal = 0
 
       // Now go over each transaction and add it to the relevant field
@@ -136,9 +174,21 @@ export default {
           category.toLowerCase()
         )
 
+        if (
+          !lowercaseCategories.includes('exclude') &&
+          !payment.categories.includes('sparen')
+        ) {
+          if (payment.cents > 0) {
+            this.allGained += payment.cents
+          } else {
+            this.allSpent += payment.cents * -1
+          }
+        }
+
         if (!lowercaseCategories.includes('exclude')) {
           // If it's food, keep a seperate "food total"
           // Otherwise add it to the normal total
+
           if (
             lowercaseCategories.includes('eten aanpassen') ||
             lowercaseCategories.includes('adjust food')

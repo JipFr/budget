@@ -256,6 +256,16 @@ export default {
           name: 'Food total',
           value: 'foodtotal',
         },
+        {
+          icon: DollarSignIcon,
+          name: 'Spent total',
+          value: 'spenttotal',
+        },
+        {
+          icon: DollarSignIcon,
+          name: 'Gained total',
+          value: 'gainedtotal',
+        },
       ],
     }
   },
